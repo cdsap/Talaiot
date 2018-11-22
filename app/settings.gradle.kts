@@ -6,3 +6,4 @@ pluginManagement {
         jcenter()
         mavenCentral()
     }
+}

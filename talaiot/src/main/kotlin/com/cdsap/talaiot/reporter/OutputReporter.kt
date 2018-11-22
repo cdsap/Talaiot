@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.reporter
 
-import com.agoda.gradle.tracking.entities.TaskLenght
-import com.agoda.gradle.tracking.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 
 
 class OutputReporter : Reporter {

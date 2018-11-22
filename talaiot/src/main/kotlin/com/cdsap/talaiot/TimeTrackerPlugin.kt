@@ -1,8 +1,8 @@
 package com.cdsap.talaiot
 
-import com.agoda.gradle.tracking.entities.TaskLenght
-import com.agoda.gradle.tracking.reporter.HTTPReporter
-import com.agoda.gradle.tracking.reporter.OutputReporter
+import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.reporter.HTTPReporter
+import com.cdsap.talaiot.reporter.OutputReporter
 import org.gradle.BuildResult
 import org.gradle.api.Plugin
 import org.gradle.api.Project

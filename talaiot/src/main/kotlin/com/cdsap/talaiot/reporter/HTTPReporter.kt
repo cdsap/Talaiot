@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.reporter
 
-import com.agoda.gradle.tracking.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter

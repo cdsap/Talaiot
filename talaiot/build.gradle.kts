@@ -22,7 +22,12 @@ buildscript {
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
+    `maven-publish`
 }
+
+group = "cdsap"
+version = "0.1"
+
 
 repositories {
     mavenLocal()
@@ -53,9 +58,21 @@ gradlePlugin {
     }
 
     dependencies {
-        implementation("com.android.tools.build:gradle:3.2.1")
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 
+    plugins {
+        register("Talaiot") {
+            id = "talaiot"
+            implementationClass = "com.cdsap.talaiot.TimeTrackerPlugin"
+        }
+    }
 
+}
+
+publishing {
+    repositories {
+        maven(url = "build/repository")
+        mavenLocal()
+    }
 }

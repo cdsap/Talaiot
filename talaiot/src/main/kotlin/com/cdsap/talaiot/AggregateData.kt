@@ -1,7 +1,7 @@
 package com.cdsap.talaiot
 
-import com.agoda.gradle.tracking.entities.TaskLenght
-import com.agoda.gradle.tracking.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import org.gradle.BuildResult
 import org.gradle.internal.os.OperatingSystem
 import java.io.BufferedReader
