@@ -1,4 +1,4 @@
-package com.agoda.gradle.tracking
+package com.cdsap.talaiot.entities
 
 data class TaskMeasurementAggregated(
         val user: String,
@@ -9,5 +9,6 @@ data class TaskMeasurementAggregated(
         val freeMemory: Long,
         val maxMemory: Long,
         val availableProcessors: Int,
+        val project: String,
         val taskMeasurment: List<TaskLenght>
 )

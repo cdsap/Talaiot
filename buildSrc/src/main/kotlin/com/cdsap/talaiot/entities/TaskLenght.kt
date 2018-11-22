@@ -1,4 +1,4 @@
-package com.agoda.gradle.tracking
+package com.cdsap.talaiot.entities
 
 data class TaskLenght(
         val ms: Long,

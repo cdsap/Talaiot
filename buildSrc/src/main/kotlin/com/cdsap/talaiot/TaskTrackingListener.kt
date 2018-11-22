@@ -1,7 +1,8 @@
-package com.agoda.gradle.tracking
+package com.cdsap.talaiot
 
 
-import org.codehaus.groovy.runtime.DefaultGroovyMethods.hasProperty
+import com.agoda.gradle.tracking.entities.Clock
+import com.agoda.gradle.tracking.entities.TaskLenght
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Task
@@ -9,15 +10,9 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
-import org.gradle.internal.os.OperatingSystem
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
 
 
-class TrackingRecored(val buildTimeTrackerPluginCustom: BuildTimeTrackerPluginCustom)
+class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin)
     : BuildListener, TaskExecutionListener {
     val timing = mutableListOf<TaskLenght>()
     val clock: Clock = Clock()

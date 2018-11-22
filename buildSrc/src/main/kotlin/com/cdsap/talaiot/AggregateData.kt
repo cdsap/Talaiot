@@ -1,5 +1,7 @@
-package com.agoda.gradle.tracking
+package com.cdsap.talaiot
 
+import com.agoda.gradle.tracking.entities.TaskLenght
+import com.agoda.gradle.tracking.entities.TaskMeasurementAggregated
 import org.gradle.BuildResult
 import org.gradle.internal.os.OperatingSystem
 import java.io.BufferedReader
@@ -16,8 +18,9 @@ class AggregateData(val result: BuildResult, val timing: MutableList<TaskLenght>
         val maxMemory = runtime.maxMemory()
         val availableProcessors = runtime.availableProcessors()
         val user = System.getProperty("user.name")
+        val project = result.gradle?.rootProject?.name ?: ""
         val branch = process.readLine()
-        val version = result.gradle!!.gradleVersion
+        val version = result.gradle?.gradleVersion ?: ""
         val os = "${OperatingSystem.current().name}-${OperatingSystem.current().version}"
 
         return TaskMeasurementAggregated(user = user,
@@ -28,6 +31,7 @@ class AggregateData(val result: BuildResult, val timing: MutableList<TaskLenght>
                 branch = branch,
                 gradleVersion = version,
                 os = os,
+                project = project,
                 taskMeasurment = timing)
     }
 }

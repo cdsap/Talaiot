@@ -1,13 +1,14 @@
-package com.agoda.gradle.tracking
+package com.cdsap.talaiot.reporter
 
+import com.agoda.gradle.tracking.entities.TaskMeasurementAggregated
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 
-
-class HTTPStrategy : ReportingStrategy {
+@Suppress("UnsafeCast", "ThrowRuntimeException")
+class HTTPReporter : Reporter {
 
     val url = URL(PROMETEHUS)
 
@@ -18,10 +19,11 @@ class HTTPStrategy : ReportingStrategy {
             this.taskMeasurment.forEach {
                 content += "taskMeasurement{task=\"${it.path}\", " +
                         "user=\"${this.user}\"," +
-                        "totalMemory=${this.totalMemory}," +
-                        "freeMemory=${this.freeMemory}," +
-                        "maxMemory=${this.maxMemory}," +
-                        "availableProcessors=${this.availableProcessors}," +
+                        "totalMemory=\"${this.totalMemory}\"," +
+                        "freeMemory=\"${this.freeMemory}\"," +
+                        "project=\"${this.project}\"," +
+                        "maxMemory=\"${this.maxMemory}\"," +
+                        "availableProcessors=\"${this.availableProcessors}\"," +
                         "branch=\"${this.branch}\"," +
                         "gradleVerion=\"${this.gradleVersion}\" ," +
                         "os=\"${this.os}\"}${it.ms}\n"
@@ -29,6 +31,7 @@ class HTTPStrategy : ReportingStrategy {
         }
 
         try {
+            println(content)
             with(url.openConnection() as HttpURLConnection) {
                 requestMethod = "POST"
                 doOutput = true
