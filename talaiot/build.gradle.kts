@@ -1,20 +1,21 @@
 import org.gradle.kotlin.dsl.`kotlin-dsl`
 
-val kotlinVersion = "1.2.61"
-val playPublisher = System.getenv("PUBLISHER_VERSION") ?: "2.0.0-beta2"
+val kotlinVersion = "1.3.0"
 
 buildscript {
-    val kotlinVersion = "1.2.61"
+    val kotlinVersion = "1.3.0"
 
     repositories {
         jcenter()
         mavenCentral()
         google()
+        maven(url = "https://dl.bintray.com/kotlin/ktor")
         maven { url = uri("https://maven.fabric.io/public") }
     }
 
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("io.ktor:ktor-client:1.0.0")
     }
 }
 
@@ -34,20 +35,13 @@ repositories {
     google()
     jcenter()
     gradlePluginPortal()
+    maven(url = "https://dl.bintray.com/kotlin/ktor")
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-}
-
-configurations.all {
-    resolutionStrategy {
-        force("org.codehaus.groovy:groovy-all:2.4.15")
-    }
+    compile("io.ktor:ktor-client:1.0.0")
+    compile("com.squareup.okhttp3:okhttp:3.12.0")
 }
 
 gradlePlugin {
@@ -55,10 +49,13 @@ gradlePlugin {
         google()
         jcenter()
         gradlePluginPortal()
+        maven(url = "https://dl.bintray.com/kotlin/ktor")
     }
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        compile("io.ktor:ktor-client:1.0.0")
+        compile ("io.ktor:ktor-client-okhttp:1.0.0")
     }
 
     plugins {

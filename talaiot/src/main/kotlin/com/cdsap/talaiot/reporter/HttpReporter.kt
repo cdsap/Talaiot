@@ -1,6 +1,8 @@
 package com.cdsap.talaiot.reporter
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
@@ -8,12 +10,12 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 @Suppress("UnsafeCast", "ThrowRuntimeException")
-class HTTPReporter : Reporter {
+class HttpReporter : Reporter {
 
     val url = URL(PROMETEHUS)
 
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
-
+        val client = HttpClient(OkHttp)
         var content = ""
         measurementAggregated.apply {
             this.taskMeasurment.forEach {
