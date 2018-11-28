@@ -27,7 +27,7 @@ plugins {
 }
 
 group = "cdsap"
-version = "0.1"
+version = "0.1.1"
 
 
 repositories {
@@ -40,8 +40,6 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-    compile("io.ktor:ktor-client:1.0.0")
-    compile("com.squareup.okhttp3:okhttp:3.12.0")
 }
 
 gradlePlugin {
@@ -56,6 +54,7 @@ gradlePlugin {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         compile("io.ktor:ktor-client:1.0.0")
         compile ("io.ktor:ktor-client-okhttp:1.0.0")
+        compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
     }
 
     plugins {

@@ -2,16 +2,17 @@ package com.cdsap.talaiot.reporter
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import io.ktor.client.HttpClient
+import io.ktor.client.call.call
 import io.ktor.client.engine.okhttp.OkHttp
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.post
+import io.ktor.client.request.url
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.net.URL
 
 @Suppress("UnsafeCast", "ThrowRuntimeException")
 class HttpReporter : Reporter {
-
     val url = URL(PROMETEHUS)
 
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
@@ -31,29 +32,16 @@ class HttpReporter : Reporter {
                         "os=\"${this.os}\"}${it.ms}\n"
             }
         }
-
         try {
-            println(content)
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "POST"
-                doOutput = true
-                val wr = OutputStreamWriter(getOutputStream());
-                wr.write(content);
-                wr.appendln()
-                wr.flush();
 
-                BufferedReader(InputStreamReader(inputStream)).use {
-                    val response = StringBuffer()
-
-                    var inputLine = it.readLine()
-                    while (inputLine != null) {
-                        response.append(inputLine)
-                        inputLine = it.readLine()
-                    }
-                    it.close()
-                    println("Response : $response")
+            GlobalScope.launch {
+                client.post<Unit> {
+                    url(URL(PROMETEHUS))
+                    body = content
                 }
+                client.call(HttpRequestBuilder())
             }
+
         } catch (e: Exception) {
             println("HTTPReporting failed: " + e.message)
         }
