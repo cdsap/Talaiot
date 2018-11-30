@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.reporter
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.logger.LogTracking
 import io.ktor.client.HttpClient
 import io.ktor.client.call.call
 import io.ktor.client.engine.okhttp.OkHttp
@@ -14,6 +15,7 @@ import java.net.URL
 @Suppress("UnsafeCast", "ThrowRuntimeException")
 class HttpReporter : Reporter {
     val url = URL(PROMETEHUS)
+    override var logTracker = LogTracking(LogTracking.Mode.SILENT)
 
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
         val client = HttpClient(OkHttp)
@@ -25,6 +27,7 @@ class HttpReporter : Reporter {
                         "totalMemory=\"${this.totalMemory}\"," +
                         "freeMemory=\"${this.freeMemory}\"," +
                         "project=\"${this.project}\"," +
+                        "state=\"${it.state}\"," +
                         "maxMemory=\"${this.maxMemory}\"," +
                         "availableProcessors=\"${this.availableProcessors}\"," +
                         "branch=\"${this.branch}\"," +
@@ -43,7 +46,7 @@ class HttpReporter : Reporter {
             }
 
         } catch (e: Exception) {
-            println("HTTPReporting failed: " + e.message)
+            logTracker.log("HTTPReporting failed: ${e.message} ")
         }
     }
 
