@@ -3,6 +3,7 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.Clock
 import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskMessageState
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Task
@@ -37,11 +38,17 @@ class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin) 
 
     override fun afterExecute(task: Task, state: TaskState) {
         timing.add(
-            TaskLenght(
-                ms = clock.getTimeInMs(),
-                path = task.path
-            )
+                TaskLenght(
+                        ms = clock.getTimeInMs(),
+                        path = task.path,
+                        state = when (state.skipMessage) {
+                            "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
+                            "FROM-CACHE" -> TaskMessageState.FROM_CACHE
+                            "NO-SOURCE" -> TaskMessageState.NO_SOURCE
+                            else -> TaskMessageState.NO_MESSAGE_STATE
+                        })
         )
+
     }
 }
 

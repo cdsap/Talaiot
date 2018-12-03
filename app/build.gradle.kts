@@ -3,12 +3,11 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("talaiot")
-
 }
 android {
     compileSdkVersion(28)
     defaultConfig {
-        applicationId = "com.cdsap.talaiot"
+        applicationId = "com.cdsap.talaiot.x"
         minSdkVersion(21)
         targetSdkVersion(28)
         versionCode = 1
