@@ -23,7 +23,7 @@ plugins {
     `maven-publish`
 }
 
-group = "cdsap"
+group = "com.cdsap"
 version = "0.1.3"
 
 kotlin {
@@ -73,5 +73,6 @@ publishing {
     repositories {
         maven(url = "build/repository")
         mavenLocal()
+
     }
 }

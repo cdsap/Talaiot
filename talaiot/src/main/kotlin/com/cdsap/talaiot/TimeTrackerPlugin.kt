@@ -11,6 +11,8 @@ class TimeTrackerPlugin : Plugin<Project> {
 
     private val reporterList = listOf(HttpReporter(), OutputReporter())
     override fun apply(target: Project) {
+
+        val extension: TalaiotExtension  = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
         target.gradle.addBuildListener(TaskTrackingListener(this))
     }
 
