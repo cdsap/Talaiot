@@ -71,7 +71,6 @@ gradlePlugin {
 //
 publishing {
     repositories {
-        maven(url = "build/repository")
         mavenLocal()
 
     }

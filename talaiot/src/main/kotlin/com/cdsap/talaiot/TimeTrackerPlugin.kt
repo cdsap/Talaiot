@@ -9,16 +9,18 @@ import org.gradle.api.Project
 
 class TimeTrackerPlugin : Plugin<Project> {
 
-    private val reporterList = listOf(HttpReporter(), OutputReporter())
     override fun apply(target: Project) {
 
-        val extension: TalaiotExtension  = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-        target.gradle.addBuildListener(TaskTrackingListener(this))
+        val extension: TalaiotExtension  = target.extensions.create("talaiot", TalaiotExtension::class.java, target)
+        println(extension.track)
+        target.gradle.addBuildListener(TaskTrackingListener(this
+            ,extension))
     }
 
-    fun onFinished(result: BuildResult, timing: MutableList<TaskLenght>) {
+    fun onFinished(result: BuildResult, timing: MutableList<TaskLenght>, talaiotExtension: TalaiotExtension) {
         val a = AggregateData(result, timing).build()
-        reporterList.forEach {
+        listOf(HttpReporter(talaiotExtension),OutputReporter())
+        .forEach {
             it.send(a)
         }
     }

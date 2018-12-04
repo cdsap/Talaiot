@@ -2,17 +2,14 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.reporter.Reporter
 import org.gradle.api.Project
+import org.gradle.api.tasks.Internal
 
 
-class TalaiotExtension @JvmOverloads constructor(
-        @get:Internal internal val name: String = "default" // Needed for Gradle
-) {
+open class TalaiotExtension (val project: Project) {
 
-    @get:Input
-    var track
-        get() = trackOrDefault.publishedName
-        set(value) {
-            _track = validatedTrack(value)
-        }
+
+    var track = ""
+    var urlGraphana = ""
+    var metric = ""
 
 }

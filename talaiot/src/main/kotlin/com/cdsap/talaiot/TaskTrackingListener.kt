@@ -13,7 +13,8 @@ import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
 
 
-class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin) : BuildListener, TaskExecutionListener {
+class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin,
+                           val talaiotExtension: TalaiotExtension) : BuildListener, TaskExecutionListener {
     val timing = mutableListOf<TaskLenght>()
     val clock: Clock = Clock()
 
@@ -21,7 +22,7 @@ class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin) 
     }
 
     override fun buildFinished(result: BuildResult) {
-        buildTimeTrackerPluginCustom.onFinished(result, timing)
+        buildTimeTrackerPluginCustom.onFinished(result, timing,talaiotExtension)
     }
 
     override fun projectsLoaded(gradle: Gradle) {

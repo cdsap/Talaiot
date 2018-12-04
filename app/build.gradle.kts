@@ -19,6 +19,12 @@ android {
     }
 }
 
+talaiot{
+    track = "fuck you "
+    urlGraphana = "http://localhost:3003/"
+    metric = "alo"
+}
+
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.61")
     implementation ("com.android.support:appcompat-v7:28.0.0")
