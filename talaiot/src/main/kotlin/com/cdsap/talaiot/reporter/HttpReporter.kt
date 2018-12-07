@@ -40,7 +40,10 @@ class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
             this.taskMeasurment.forEach {
 
                 //taskMeasurement,task=s value=4443 1434055562000000000
-                var time = System.currentTimeMillis()//TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis())
+                val time1 = System.currentTimeMillis()
+                var time = Instant.ofEpochMilli(System.currentTimeMillis()).plusNanos(System.nanoTime() % 1000_000L)
+                time
+                System.currentTimeMillis()//TimeUnit.MILLISECONDS.toMicros(System.currentTimeMillis())
                 content += "taskMeasurement,task=\"${it.path}\"," +
                         "user=\"${this.user}\"," +
                         "totalMemory=\"${this.totalMemory}\"," +
@@ -51,7 +54,7 @@ class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
                         "availableProcessors=\"${this.availableProcessors}\"," +
                         "branch=\"${this.branch}\"," +
                         "gradleVerion=\"${this.gradleVersion}\"," +
-                        "os=\"${this.os}\" value=${it.ms} $time  \n"
+                        "os=\"${this.os}\" value=${it.ms}   \n"
              //   1434055562000000000
              //   1543919400647000000
                 //1434055562000000000
