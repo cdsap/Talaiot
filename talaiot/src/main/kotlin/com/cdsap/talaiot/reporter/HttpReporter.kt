@@ -22,7 +22,7 @@ class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
 
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
         //HttpCl
-         val METRIC = talaiotExtension.metric
+         val METRIC =""// talaiotExtension.metric
          val PROMETEHUS = "http://localhost:8086/write?db=influxdb"
         val client = HttpClient(OkHttp)
         var content = ""
