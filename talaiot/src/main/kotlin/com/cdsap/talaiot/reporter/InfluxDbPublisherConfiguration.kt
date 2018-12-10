@@ -2,18 +2,15 @@ package com.cdsap.talaiot.reporter
 
 class InfluxDbPublisherConfiguration : ReporterConfiguration {
     override var name: String = "influxDb"
-    var influcxDb: InfuxDbExtension? = null
-    // var dbName: String = ""
-    // var url: String = ""
-    // var urlMetric: String = ""
-    fun xx() {
+    var dbName: String = ""
+    var url: String = ""
+    var urlMetric: String = ""
 
+    var influxDb: InfuxDbExtension? = null
+
+    fun influxDb(block: InfuxDbExtension.() -> Unit) {
+        influxDb = InfuxDbExtension().also(block)
     }
-
-    fun influcxDb(block: InfuxDbExtension.() -> Unit) {
-        influcxDb = InfuxDbExtension().also(block)
-    }
-
 }
 
 class InfuxDbExtension {

@@ -1,5 +1,5 @@
 import com.cdsap.talaiot.reporter.ReporterConfiguration
-import com.cdsap.talaiot.reporter.InfluxDbReporterConfiguration
+//import com.cdsap.talaiot.reporter.InfluxDbReporterConfiguration
 
 plugins {
     id("com.android.application")
@@ -22,6 +22,12 @@ android {
     }
 }
 
+
+talaiot{
+    reporters{
+
+    }
+}
 
 
 

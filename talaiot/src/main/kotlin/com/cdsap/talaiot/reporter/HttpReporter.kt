@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.reporter
 
-import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracking
 import io.ktor.client.HttpClient
@@ -12,8 +11,8 @@ import kotlinx.coroutines.experimental.async
 import java.net.URL
 import java.time.Instant
 
-class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
-    override var logTracker = LogTracking(LogTracking.Mode.INFO)
+class HttpReporter(val talaiotExtension: InfluxDbPublisherConfiguration?) : Reporter {
+    override var logTracker = LogTracking(talaiotExtension.logger)
 
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
         //HttpCl
