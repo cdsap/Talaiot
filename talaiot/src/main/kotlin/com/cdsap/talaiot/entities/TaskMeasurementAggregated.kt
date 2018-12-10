@@ -10,5 +10,5 @@ data class TaskMeasurementAggregated(
         val maxMemory: Long,
         val availableProcessors: Int,
         val project: String,
-        val taskMeasurment: List<TaskLenght>
+        val taskMeasurement: List<TaskLength>
 )

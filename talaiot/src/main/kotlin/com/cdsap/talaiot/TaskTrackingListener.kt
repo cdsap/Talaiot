@@ -2,7 +2,7 @@ package com.cdsap.talaiot
 
 
 import com.cdsap.talaiot.entities.Clock
-import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import org.gradle.BuildListener
 import org.gradle.BuildResult
@@ -15,7 +15,7 @@ import org.gradle.api.tasks.TaskState
 
 class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin,
                            val talaiotExtension: TalaiotExtension) : BuildListener, TaskExecutionListener {
-    val timing = mutableListOf<TaskLenght>()
+    val timing = mutableListOf<TaskLength>()
     val clock: Clock = Clock()
 
     override fun settingsEvaluated(settings: Settings) {
@@ -39,7 +39,7 @@ class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin,
 
     override fun afterExecute(task: Task, state: TaskState) {
         timing.add(
-                TaskLenght(
+                TaskLength(
                         ms = clock.getTimeInMs(),
                         path = task.path,
                         state = when (state.skipMessage) {

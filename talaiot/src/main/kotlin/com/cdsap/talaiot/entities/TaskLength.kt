@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.entities
 
-data class TaskLenght(
+data class TaskLength(
     val ms: Long,
     val path: String,
     val state: TaskMessageState

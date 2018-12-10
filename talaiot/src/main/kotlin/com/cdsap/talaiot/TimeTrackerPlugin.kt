@@ -1,8 +1,8 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.reporter.HttpReporter
-import com.cdsap.talaiot.reporter.OutputReporter
+import com.cdsap.talaiot.reporter.OutputPublisher
 import org.gradle.BuildResult
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,9 +17,9 @@ class TimeTrackerPlugin : Plugin<Project> {
             ,extension))
     }
 
-    fun onFinished(result: BuildResult, timing: MutableList<TaskLenght>, talaiotExtension: TalaiotExtension) {
+    fun onFinished(result: BuildResult, timing: MutableList<TaskLength>, talaiotExtension: TalaiotExtension) {
         val a = AggregateData(result, timing).build()
-        listOf(HttpReporter(talaiotExtension),OutputReporter())
+        listOf(HttpReporter(talaiotExtension),OutputPublisher())
         .forEach {
             it.send(a)
         }

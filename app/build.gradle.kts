@@ -1,4 +1,5 @@
 import com.cdsap.talaiot.reporter.ReporterConfiguration
+import com.cdsap.talaiot.reporter.InfluxDbReporterConfiguration
 
 plugins {
     id("com.android.application")
@@ -22,20 +23,7 @@ android {
 }
 
 
-talaiot {
-    track = "fuck you "
-    reporters {
 
-        ask = "sddssd"
-        mutableListOf<ReporterConfiguration>()
-
-        // influxDb {
-        //       dbName = "askkask"
-        // }
-    }
-    //   urlGraphana = "http://localhost:3003/"
-    //  metric = "alo"
-}
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.61")

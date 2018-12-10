@@ -1,13 +1,13 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import org.gradle.BuildResult
 import org.gradle.internal.os.OperatingSystem
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class AggregateData(val result: BuildResult, val timing: MutableList<TaskLenght>) {
+class AggregateData(val result: BuildResult, val timing: MutableList<TaskLength>) {
 
     fun build(): TaskMeasurementAggregated {
         val runtime = Runtime.getRuntime()
@@ -32,6 +32,6 @@ class AggregateData(val result: BuildResult, val timing: MutableList<TaskLenght>
                 gradleVersion = version,
                 os = os,
                 project = project,
-                taskMeasurment = timing)
+                taskMeasurement = timing)
     }
 }

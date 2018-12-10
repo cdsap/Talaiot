@@ -6,16 +6,11 @@ import com.cdsap.talaiot.logger.LogTracking
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.post
-import io.ktor.client.request.url
-import io.ktor.http.URLBuilder
 import kotlinx.coroutines.experimental.async
 
 
-import kotlinx.coroutines.experimental.launch
-
 import java.net.URL
 import java.time.Instant
-import java.util.concurrent.TimeUnit
 
 class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
     override var logTracker = LogTracking(LogTracking.Mode.INFO)
@@ -37,7 +32,7 @@ class HttpReporter(val talaiotExtension: TalaiotExtension) : Reporter {
             logTracker.log("Project ${this.project}")
             logTracker.log("Gradle Version ${this.gradleVersion}")
 
-            this.taskMeasurment.forEach {
+            this.taskMeasurement.forEach {
 
                 //taskMeasurement,task=s value=4443 1434055562000000000
                 val time1 = System.currentTimeMillis()
