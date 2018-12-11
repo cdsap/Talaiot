@@ -8,8 +8,8 @@ import com.cdsap.talaiot.logger.LogTracking
 class OutputPublisher : Reporter {
     override var logTracker = LogTracking(LogTracking.Mode.INFO)
 
-
     override fun send(measurementAggregated: TaskMeasurementAggregated) {
+
         measurementAggregated.apply {
             logTracker.log("================")
             logTracker.log("OutputReporting")
@@ -32,7 +32,7 @@ class OutputPublisher : Reporter {
         }
     }
 
-    fun sort(items: List<TaskLength>): List<TaskLength> {
+    private fun sort(items: List<TaskLength>): List<TaskLength> {
         if (items.count() < 2) {
             return items
         }

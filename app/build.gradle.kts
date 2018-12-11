@@ -1,6 +1,3 @@
-import com.cdsap.talaiot.reporter.ReporterConfiguration
-//import com.cdsap.talaiot.reporter.InfluxDbReporterConfiguration
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -22,13 +19,19 @@ android {
     }
 }
 
+talaiot {
+    reporters {
+        outputPublisher {
 
-talaiot{
-    reporters{
+        }
+        influxDbPublisher {
+             dbName= "tracking"
+             url = "http://localhost:8086"
+             urlMetric= "tracking"
+        }
 
     }
 }
-
 
 
 dependencies {

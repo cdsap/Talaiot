@@ -17,11 +17,11 @@ class AggregateData(val result: BuildResult, val timing: MutableList<TaskLength>
         val freeMemory = runtime.freeMemory()
         val maxMemory = runtime.maxMemory()
         val availableProcessors = runtime.availableProcessors()
-        val user = System.getProperty("user.name")
-        val project = result.gradle?.rootProject?.name ?: ""
-        val branch = process.readLine()
+        val user = System.getProperty("user.name").trimSpaces()
+        val project = (result.gradle?.rootProject?.name ?: "").trimSpaces()
+        val branch = process.readLine().trimSpaces()
         val version = result.gradle?.gradleVersion ?: ""
-        val os = "${OperatingSystem.current().name}-${OperatingSystem.current().version}"
+        val os = "${OperatingSystem.current().name}-${OperatingSystem.current().version}".trimSpaces()
 
         return TaskMeasurementAggregated(user = user,
                 totalMemory = totalMemory,
@@ -35,3 +35,5 @@ class AggregateData(val result: BuildResult, val timing: MutableList<TaskLength>
                 taskMeasurement = timing)
     }
 }
+
+fun String.trimSpaces() = this.replace("\\s".toRegex(), "")
