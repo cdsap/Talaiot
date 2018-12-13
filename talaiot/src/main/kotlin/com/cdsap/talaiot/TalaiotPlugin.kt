@@ -1,9 +1,8 @@
 package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.metrics.BaseMetrics
-import com.cdsap.talaiot.metrics.CustomMetrics
 import com.cdsap.talaiot.metrics.MetricsProvider
+import com.cdsap.talaiot.metrics.MetricsParser
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import com.cdsap.talaiot.publisher.output.OutputPublisher
 import org.gradle.BuildResult
@@ -32,11 +31,11 @@ class TalaiotPlugin : Plugin<Project> {
             it != null
         }?.outputPublisher
 
+
+        val availableMetrics = MetricsProvider(talaiotExtension, result).get()
+
         val a = AggregateData(
-            timing, MetricsProvider(
-                BaseMetrics(result),
-                CustomMetrics(talaiotExtension)
-            )
+            timing, MetricsParser(availableMetrics)
         ).build()
 
         if (outputPublisher != null) {
