@@ -8,7 +8,7 @@ import com.cdsap.talaiot.publisher.Publisher
 
 class OutputPublisher : Publisher {
     override var logTracker = LogTracking(LogTracking.Mode.INFO)
-    override fun send(measurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
 
         measurementAggregated.apply {
             logTracker.log("================")

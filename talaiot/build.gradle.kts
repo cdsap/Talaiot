@@ -63,7 +63,7 @@ gradlePlugin {
     plugins {
         register("Talaiot") {
             id = "talaiot"
-            implementationClass = "com.cdsap.talaiot.TimeTrackerPlugin"
+            implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
     }
 

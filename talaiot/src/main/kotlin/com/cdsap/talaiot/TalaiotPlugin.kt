@@ -10,14 +10,14 @@ import org.gradle.BuildResult
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class TimeTrackerPlugin : Plugin<Project> {
+class TalaiotPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
 
         val extension: TalaiotExtension = target.extensions.create("talaiot", TalaiotExtension::class.java)
 
         target.gradle.addBuildListener(
-            TaskTrackingListener(
+            TalaiotListener(
                 this
                 , extension
             )
@@ -40,11 +40,11 @@ class TimeTrackerPlugin : Plugin<Project> {
         ).build()
 
         if (outputPublisher != null) {
-            OutputPublisher().send(a)
+            OutputPublisher().publish(a)
         }
 
         if (influxDbPublisher != null) {
-            InfluxDbPublisher(influxDbPublisher).send(a)
+            InfluxDbPublisher(influxDbPublisher).publish(a)
         }
     }
 }

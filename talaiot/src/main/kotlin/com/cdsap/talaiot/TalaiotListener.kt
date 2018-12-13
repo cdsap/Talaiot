@@ -13,16 +13,18 @@ import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
 
 
-class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin,
-                           val talaiotExtension: TalaiotExtension) : BuildListener, TaskExecutionListener {
-    val timing = mutableListOf<TaskLength>()
-    val clock: Clock = Clock()
+class TalaiotListener(
+    private val buildTimeTrackerPluginCustom: TalaiotPlugin,
+    private val talaiotExtension: TalaiotExtension
+) : BuildListener, TaskExecutionListener {
+    private val timing = mutableListOf<TaskLength>()
+    private val clock: Clock = Clock()
 
     override fun settingsEvaluated(settings: Settings) {
     }
 
     override fun buildFinished(result: BuildResult) {
-        buildTimeTrackerPluginCustom.onFinished(result, timing,talaiotExtension)
+        buildTimeTrackerPluginCustom.onFinished(result, timing, talaiotExtension)
     }
 
     override fun projectsLoaded(gradle: Gradle) {
@@ -39,15 +41,16 @@ class TaskTrackingListener(val buildTimeTrackerPluginCustom: TimeTrackerPlugin,
 
     override fun afterExecute(task: Task, state: TaskState) {
         timing.add(
-                TaskLength(
-                        ms = clock.getTimeInMs(),
-                        path = task.path,
-                        state = when (state.skipMessage) {
-                            "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
-                            "FROM-CACHE" -> TaskMessageState.FROM_CACHE
-                            "NO-SOURCE" -> TaskMessageState.NO_SOURCE
-                            else -> TaskMessageState.NO_MESSAGE_STATE
-                        })
+            TaskLength(
+                ms = clock.getTimeInMs(),
+                path = task.path,
+                state = when (state.skipMessage) {
+                    "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
+                    "FROM-CACHE" -> TaskMessageState.FROM_CACHE
+                    "NO-SOURCE" -> TaskMessageState.NO_SOURCE
+                    else -> TaskMessageState.NO_MESSAGE_STATE
+                }
+            )
         )
 
     }

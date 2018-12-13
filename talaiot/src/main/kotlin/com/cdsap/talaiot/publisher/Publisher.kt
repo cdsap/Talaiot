@@ -6,5 +6,5 @@ import com.cdsap.talaiot.metrics.MetricsProvider
 
 interface Publisher {
     var logTracker: LogTracking
-    fun send(measurementAggregated: TaskMeasurementAggregated)
+    fun publish(measurementAggregated: TaskMeasurementAggregated)
 }

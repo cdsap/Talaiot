@@ -6,7 +6,7 @@ import org.gradle.internal.os.OperatingSystem
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class BaseMetrics(val result: BuildResult) : Metrics {
+class BaseMetrics(private val result: BuildResult) : Metrics {
 
     override fun get(): MutableMap<String, String> {
         val nas = mutableMapOf<String, String>()

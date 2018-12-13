@@ -2,7 +2,7 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracking
-import com.cdsap.talaiot.publisher.Call
+import com.cdsap.talaiot.request.Request
 import com.cdsap.talaiot.publisher.Publisher
 
 
@@ -12,7 +12,7 @@ class InfluxDbPublisher(
     Publisher {
     override var logTracker = LogTracking(LogTracking.Mode.INFO)
 
-    override fun send(measurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
         val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
         var content = ""
 
@@ -30,7 +30,7 @@ class InfluxDbPublisher(
             }
             logTracker.log("$content")
         }
-        Call(url, content, logTracker)
+        Request(url, content, logTracker)
     }
 
 }
