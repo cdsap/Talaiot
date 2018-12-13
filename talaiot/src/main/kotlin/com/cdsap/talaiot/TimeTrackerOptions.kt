@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.apply
 object TimeTrackerOptions {
     fun Project.applyTimeTrackerOptions() = this.run {
         if (System.getenv("TEAMCITY_VERSION") == null) {
-            plugins.apply(TimeTrackerPlugin::class)
+            plugins.apply(TalaiotPlugin::class)
 
         }
     }

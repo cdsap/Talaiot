@@ -1,29 +1,24 @@
-package com.cdsap.talaiot.reporter
+package com.cdsap.talaiot.publisher.output
 
-import com.cdsap.talaiot.entities.TaskLenght
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracking
+import com.cdsap.talaiot.publisher.Publisher
 
 
-class OutputReporter : Reporter {
+class OutputPublisher : Publisher {
     override var logTracker = LogTracking(LogTracking.Mode.INFO)
+    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
 
-
-    override fun send(measurementAggregated: TaskMeasurementAggregated) {
         measurementAggregated.apply {
             logTracker.log("================")
             logTracker.log("OutputReporting")
             logTracker.log("================")
-            logTracker.log("User ${this.user}")
-            logTracker.log("Branch ${this.branch}")
-            logTracker.log("Os ${this.os}")
-            logTracker.log("Project ${this.project}")
-            logTracker.log("Gradle Version ${this.gradleVersion}")
-            val orderedTiming = sort(taskMeasurment)
-            if(!orderedTiming.isEmpty()) {
+            val orderedTiming = sort(taskMeasurement)
+            if (!orderedTiming.isEmpty()) {
                 val max = orderedTiming.last().ms
                 MAX_UNIT.length
-                sort(taskMeasurment).forEach {
+                sort(taskMeasurement).forEach {
                     val x = (it.ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
                     logTracker.log("$s ${it.path} ---- ${it.ms}")
@@ -32,7 +27,7 @@ class OutputReporter : Reporter {
         }
     }
 
-    fun sort(items: List<TaskLenght>): List<TaskLenght> {
+    private fun sort(items: List<TaskLength>): List<TaskLength> {
         if (items.count() < 2) {
             return items
         }

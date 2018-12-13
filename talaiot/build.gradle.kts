@@ -23,7 +23,7 @@ plugins {
     `maven-publish`
 }
 
-group = "cdsap"
+group = "com.cdsap"
 version = "0.1.3"
 
 kotlin {
@@ -63,7 +63,7 @@ gradlePlugin {
     plugins {
         register("Talaiot") {
             id = "talaiot"
-            implementationClass = "com.cdsap.talaiot.TimeTrackerPlugin"
+            implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
     }
 
@@ -71,7 +71,7 @@ gradlePlugin {
 //
 publishing {
     repositories {
-        maven(url = "build/repository")
         mavenLocal()
+
     }
 }
