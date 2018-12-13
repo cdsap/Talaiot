@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.reporter
+package com.cdsap.talaiot.publisher
 
 interface ReporterConfiguration {
     var name: String

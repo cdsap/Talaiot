@@ -20,7 +20,8 @@ android {
 }
 
 talaiot {
-    reporters {
+
+    publisher {
         outputPublisher {
 
         }
@@ -29,8 +30,12 @@ talaiot {
              url = "http://localhost:8086"
              urlMetric= "tracking"
         }
-
     }
+
+    customMetrics(
+        "sds" to "dddd",
+        "sssasa" to "assasa"
+    )
 }
 
 

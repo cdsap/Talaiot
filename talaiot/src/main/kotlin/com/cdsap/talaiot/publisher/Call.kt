@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.reporter
+package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.logger.LogTracking
 import io.ktor.client.HttpClient

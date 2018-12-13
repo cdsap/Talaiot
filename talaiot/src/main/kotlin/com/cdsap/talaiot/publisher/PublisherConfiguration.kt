@@ -1,8 +1,12 @@
-package com.cdsap.talaiot.reporter
+package com.cdsap.talaiot.publisher
+
+import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.publisher.output.OutputPublisher
 
 class PublisherConfiguration {
     var influxDbPublisher: InfluxDbPublisherConfiguration? = null
-    var outputPublisher: OutputPublisher = OutputPublisher()
+    var outputPublisher: OutputPublisher =
+        OutputPublisher()
 
 
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {

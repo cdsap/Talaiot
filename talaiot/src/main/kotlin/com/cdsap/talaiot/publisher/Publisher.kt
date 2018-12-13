@@ -1,9 +1,10 @@
-package com.cdsap.talaiot.reporter
+package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracking
+import com.cdsap.talaiot.metrics.MetricsProvider
 
-interface Reporter {
+interface Publisher {
     var logTracker: LogTracking
     fun send(measurementAggregated: TaskMeasurementAggregated)
 }
