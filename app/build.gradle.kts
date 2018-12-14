@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("talaiot")
+ //   id("talaiot")
 }
 android {
     compileSdkVersion(28)
@@ -19,24 +19,39 @@ android {
     }
 }
 
-talaiot {
+//class Cuso : Publisher {
+//    override var logTracker = LogTracking(LogTracking.Mode.INFO)
+//
+//    fun publish(measurementAggregated: TaskMeasurementAggregated){
+//        println "fdkfdkfkdkdfkdfk"
+//    }
+//}
+//talaiot {
 
-    publisher {
-        outputPublisher {
+   // publishers {
+     //   customPublisher = Cuso()
 
-        }
-        influxDbPublisher {
-            dbName = "tracking"
-            url = "http://localhost:8086"
-            urlMetric = "tracking"
-        }
-    }
+        //  outputPublishers {
 
-    customMetrics(
-        "sds" to "dddd",
-        "sssasa" to "assasa"
-    )
-}
+//     }
+        //outputPublishers{
+
+        // }
+        //  outputPublisher {
+
+        //  }
+//        influxDbPublisher {
+//            dbName = "tracking"
+//            url = "http://localhost:8086"
+//            urlMetric = "tracking"
+//        }
+   // }
+
+//    customMetrics(
+//        "sds" to "dddd",
+//        "sssasa" to "assasa"
+//    )
+//}
 
 
 dependencies {

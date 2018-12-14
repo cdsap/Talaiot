@@ -18,7 +18,7 @@ class GitMetrics : Metrics {
             )
             val user = bufferUserName.readLine()
             val branch = bufferBranch.readLine()
-            return mutableMapOf("gitUser" to user, "branch" to branch)
+            return mapOf("gitUser" to user, "branch" to branch)
         } catch (e: IllegalStateException) {
             throw IllegalArgumentException(
                 "Error getting information about the Git Repository. In case " +

@@ -24,26 +24,23 @@ class TalaiotPlugin : Plugin<Project> {
     }
 
     fun onFinished(result: BuildResult, timing: MutableList<TaskLength>, talaiotExtension: TalaiotExtension) {
-        val influxDbPublisher = talaiotExtension.publisher.takeIf {
-            it != null
-        }?.influxDbPublisher
-        val outputPublisher = talaiotExtension.publisher.takeIf {
-            it != null
-        }?.outputPublisher
-
 
         val availableMetrics = MetricsProvider(talaiotExtension, result).get()
 
-        val a = AggregateData(
+        val aggregatedData = AggregateData(
             timing, MetricsParser(availableMetrics)
         ).build()
 
-        if (outputPublisher != null) {
-            OutputPublisher().publish(a)
-        }
-
-        if (influxDbPublisher != null) {
-            InfluxDbPublisher(influxDbPublisher).publish(a)
+        talaiotExtension.publishers?.apply {
+            this.outputPublisher.let { OutputPublisher().publish(aggregatedData) }
+            this.influxDbPublisher?.let {
+                it.let {
+                    InfluxDbPublisher(it).publish(aggregatedData)
+                }
+            }
+            this.customPublisher?.apply {
+                this.publish(aggregatedData)
+            }
         }
     }
 }

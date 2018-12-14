@@ -16,5 +16,3 @@ class AggregateData(
         )
     }
 }
-
-fun String.trimSpaces() = this.replace("\\s".toRegex(), "")
