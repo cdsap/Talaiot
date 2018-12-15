@@ -24,7 +24,7 @@ plugins {
 }
 
 group = "com.cdsap"
-version = "0.1.3"
+version = "0.1.5"
 
 kotlin {
     experimental {

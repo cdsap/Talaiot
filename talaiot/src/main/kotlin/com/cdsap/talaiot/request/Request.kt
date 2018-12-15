@@ -1,10 +1,12 @@
 package com.cdsap.talaiot.request
 
-import com.cdsap.talaiot.logger.LogTracking
+import com.cdsap.talaiot.logger.LogTracker
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.post
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 
 import java.net.URL
@@ -12,23 +14,18 @@ import java.net.URL
 class Request(
     private val url: String,
     private val content: String,
-    logTracker: LogTracking
+    logTracker: LogTracker
 ) {
     init {
-        try {
-            val client = HttpClient(OkHttp)
-
-            async {
-
-                client.post<String>(URL(url)) {
-                    body = content
-                    build()
-
-                }
+        val client = HttpClient(OkHttp)
+        GlobalScope.launch {
+            val response = client.post<String>(URL(url)) {
+                body = content
+                build()
             }
-            logTracker.log(url)
-        } catch (e: Exception) {
-            logTracker.log("HTTPReporting failed: ${e.message} ")
+            println(response)
         }
+        logTracker.log(url)
+
     }
 }

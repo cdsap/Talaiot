@@ -2,12 +2,11 @@ package com.cdsap.talaiot.publisher.output
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.logger.LogTracking
+import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.Publisher
 
 
-class OutputPublisher : Publisher {
-    override var logTracker = LogTracking(LogTracking.Mode.INFO)
+class OutputPublisher(private val logTracker: LogTracker) : Publisher {
     override fun publish(measurementAggregated: TaskMeasurementAggregated) {
 
         measurementAggregated.apply {

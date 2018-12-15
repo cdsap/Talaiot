@@ -11,7 +11,6 @@ class BaseMetrics(private val result: BuildResult) : Metrics {
         "version" to (result.gradle?.gradleVersion ?: ""),
         "os" to "${OperatingSystem.current().name}-${OperatingSystem.current().version}".trimSpaces()
     )
-
 }
 
 fun String.trimSpaces() = this.replace("\\s".toRegex(), "")

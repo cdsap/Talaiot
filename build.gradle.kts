@@ -10,7 +10,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:3.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
-        classpath ("com.cdsap:talaiot:0.1.3")
+        classpath ("com.cdsap:talaiot:0.1.5")
  }
 }
 

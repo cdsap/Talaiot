@@ -1,12 +1,11 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.logger.LogTracking
+import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.PublisherExtension
-import org.gradle.api.Project
 
 
-open class TalaiotExtension(val name: String, val project: Project) {
-    var logger = LogTracking.Mode.INFO
+open class TalaiotExtension {
+    var logger = LogTracker.Mode.INFO
     var publishers: PublisherExtension? = null
     var gitMetrics: Boolean = true
     var performanceMetrics: Boolean = true
@@ -23,10 +22,15 @@ open class TalaiotExtension(val name: String, val project: Project) {
         }
     }
 
-    // Example using Groovy
-    //fun publishers(closure: Closure<*>) {
-    //    publishers = PublisherConfiguration()
-    //    closure.delegate = publishers
-    //    closure.call()
-    //}
+    fun customMetrics(pair: Pair<String, String>) {
+        customMetrics[pair.first] = pair.second
+    }
+
+
+// Example using Groovy
+//fun publishers(closure: Closure<*>) {
+//    publishers = PublisherConfiguration()
+//    closure.delegate = publishers
+//    closure.call()
+//}
 }

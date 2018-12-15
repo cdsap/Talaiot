@@ -17,14 +17,14 @@ class TalaiotListener(
     private val buildTimeTrackerPluginCustom: TalaiotPlugin,
     private val talaiotExtension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
-    private val timing = mutableListOf<TaskLength>()
+    private val taskLenghtList = mutableListOf<TaskLength>()
     private val clock: Clock = Clock()
 
     override fun settingsEvaluated(settings: Settings) {
     }
 
     override fun buildFinished(result: BuildResult) {
-        buildTimeTrackerPluginCustom.onFinished(result, timing, talaiotExtension)
+        buildTimeTrackerPluginCustom.onFinished(result, taskLenghtList, talaiotExtension)
     }
 
     override fun projectsLoaded(gradle: Gradle) {
@@ -40,7 +40,7 @@ class TalaiotListener(
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
-        timing.add(
+        taskLenghtList.add(
             TaskLength(
                 ms = clock.getTimeInMs(),
                 path = task.path,

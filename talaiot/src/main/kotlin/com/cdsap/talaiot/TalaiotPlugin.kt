@@ -1,6 +1,7 @@
 package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.TaskLength
+import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.MetricsProvider
 import com.cdsap.talaiot.metrics.MetricsParser
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
@@ -17,25 +18,25 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.gradle.addBuildListener(
             TalaiotListener(
-                this
-                , extension
+                this, extension
             )
         )
     }
 
-    fun onFinished(result: BuildResult, timing: MutableList<TaskLength>, talaiotExtension: TalaiotExtension) {
+    fun onFinished(result: BuildResult, taskLenghtList: MutableList<TaskLength>, talaiotExtension: TalaiotExtension) {
+        val logger = LogTracker(talaiotExtension.logger)
 
         val availableMetrics = MetricsProvider(talaiotExtension, result).get()
 
         val aggregatedData = AggregateData(
-            timing, MetricsParser(availableMetrics)
+            taskLenghtList, MetricsParser(availableMetrics)
         ).build()
 
         talaiotExtension.publishers?.apply {
-            this.outputPublisher.let { OutputPublisher().publish(aggregatedData) }
+            this.outputPublisher.let { OutputPublisher(logger).publish(aggregatedData) }
             this.influxDbPublisher?.let {
                 it.let {
-                    InfluxDbPublisher(it).publish(aggregatedData)
+                    InfluxDbPublisher(it, logger).publish(aggregatedData)
                 }
             }
             this.customPublisher?.apply {

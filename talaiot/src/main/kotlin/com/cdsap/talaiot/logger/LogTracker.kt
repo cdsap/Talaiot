@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.logger
 
-class LogTracking(val mode: Mode) {
+class LogTracker(private val mode: Mode) {
 
     enum class Mode {
         SILENT,
