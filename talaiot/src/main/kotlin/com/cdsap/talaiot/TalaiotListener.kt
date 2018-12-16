@@ -1,9 +1,9 @@
 package com.cdsap.talaiot
 
 
-import com.cdsap.talaiot.entities.Clock
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
+import com.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Task
@@ -14,17 +14,18 @@ import org.gradle.api.tasks.TaskState
 
 
 class TalaiotListener(
-    private val buildTimeTrackerPluginCustom: TalaiotPlugin,
     private val talaiotExtension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
     private val taskLenghtList = mutableListOf<TaskLength>()
-    private val clock: Clock = Clock()
+    private var listOfTasks: HashMap<String, Long> = hashMapOf()
 
     override fun settingsEvaluated(settings: Settings) {
     }
 
     override fun buildFinished(result: BuildResult) {
-        buildTimeTrackerPluginCustom.onFinished(result, taskLenghtList, talaiotExtension)
+        if (talaiotExtension.ci?.executeOnCi() != false) {
+            TalaiotPublisher(result, taskLenghtList, talaiotExtension)
+        }
     }
 
     override fun projectsLoaded(gradle: Gradle) {
@@ -37,12 +38,14 @@ class TalaiotListener(
     }
 
     override fun beforeExecute(task: Task) {
+        listOfTasks.put(task.path, System.currentTimeMillis())
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
+        val time = System.currentTimeMillis() - (listOfTasks[task.path] as Long)
         taskLenghtList.add(
             TaskLength(
-                ms = clock.getTimeInMs(),
+                ms = time,
                 path = task.path,
                 state = when (state.skipMessage) {
                     "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
@@ -52,7 +55,6 @@ class TalaiotListener(
                 }
             )
         )
-
     }
 }
 

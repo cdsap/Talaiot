@@ -26,9 +26,15 @@ android {
 
 talaiot {
 
-    gitMetrics = false
+    gitMetrics = true
     performanceMetrics = false
 
+  ci {
+        ignored = false
+//       envName = "CI"
+//       envValue = "false"
+//
+   }
     publishers {
 
         outputPublisher
@@ -38,7 +44,7 @@ talaiot {
             url = "http://localhost:8086"
             urlMetric = "tracking"
         }
-      //  customPublisher = CustomPublisher()
+        //  customPublisher = CustomPublisher()
 
     }
 

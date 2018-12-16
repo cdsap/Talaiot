@@ -18,7 +18,7 @@ class OutputPublisher(private val logTracker: LogTracker) : Publisher {
                 val max = orderedTiming.last().ms
                 MAX_UNIT.length
                 sort(taskMeasurement).forEach {
-                    val x = (it.ms * MAX_UNIT.length) / max
+                    val x = if (max == 0L) 0 else (it.ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
                     logTracker.log("$s ${it.path} ---- ${it.ms}")
                 }
