@@ -1,9 +1,9 @@
-package com.cdsap.talaiot.publisher.influxdb
+package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
-import com.cdsap.talaiot.publisher.Publisher
 
 
 class InfluxDbPublisher(

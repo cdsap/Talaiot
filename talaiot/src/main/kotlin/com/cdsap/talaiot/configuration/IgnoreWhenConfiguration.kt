@@ -1,8 +1,8 @@
-package com.cdsap.talaiot.ci
+package com.cdsap.talaiot.configuration
 
 import org.gradle.api.Project
 
-class IgnoreWhen(private val project: Project) {
+class IgnoreWhenConfiguration(private val project: Project) {
     var envName: String = ""
     var envValue: String = ""
 

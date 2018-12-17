@@ -6,8 +6,6 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.MetricsParser
 import com.cdsap.talaiot.metrics.MetricsProvider
-import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
-import com.cdsap.talaiot.publisher.output.OutputPublisher
 import org.gradle.BuildResult
 
 

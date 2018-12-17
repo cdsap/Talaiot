@@ -1,6 +1,6 @@
-package com.cdsap.talaiot.publisher.output
+package com.cdsap.talaiot.configuration
 
-import com.cdsap.talaiot.publisher.PublisherConfiguration
+import com.cdsap.talaiot.configuration.PublisherConfiguration
 
 class OutputPublisherConfiguration : PublisherConfiguration {
     override var name: String = "output"

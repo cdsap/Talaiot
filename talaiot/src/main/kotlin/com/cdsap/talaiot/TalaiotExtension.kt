@@ -1,24 +1,24 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.ci.IgnoreWhen
+import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.MetricsConfiguration
-import com.cdsap.talaiot.publisher.PublisherExtension
+import com.cdsap.talaiot.configuration.PublishersConfiguration
 import org.gradle.api.Project
 
 
 open class TalaiotExtension(val project: Project) {
     var logger = LogTracker.Mode.INFO
-    var publishers: PublisherExtension? = null
-    var ignoreWhen: IgnoreWhen? = null
+    var publishers: PublishersConfiguration? = null
+    var ignoreWhen: IgnoreWhenConfiguration? = null
     var metrics: MetricsConfiguration = MetricsConfiguration()
 
-    fun ignoreWhen(block: IgnoreWhen.() -> Unit) {
-        ignoreWhen = IgnoreWhen(project).also(block)
+    fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
+        ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }
 
-    fun publishers(block: PublisherExtension.() -> Unit) {
-        publishers = PublisherExtension().also(block)
+    fun publishers(block: PublishersConfiguration.() -> Unit) {
+        publishers = PublishersConfiguration().also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {

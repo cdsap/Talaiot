@@ -1,5 +1,6 @@
-package com.cdsap.talaiot.ci
+package com.cdsap.talaiot.configuration
 
+import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.internal.impldep.junit.framework.Assert.assertFalse
@@ -8,28 +9,28 @@ import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
 
 
-class IgnoreWhenTest : BehaviorSpec({
-    given("IgnoreWhen configuration") {
+class IgnoreWhenConfigurationTest : BehaviorSpec({
+    given("IgnoreWhenConfiguration configuration") {
         val project: Project = ProjectBuilder().build()
 
         `when`("There is no property ") {
-            val ignoreWhen = IgnoreWhen(project)
+            val ignoreWhen = IgnoreWhenConfiguration(project)
             then("I shouldn't ignore the execution") {
                 assertFalse(ignoreWhen.shouldIgnore())
             }
         }
         `when`("There isn't  matching property  ") {
             project.extra.set("CI", "false")
-            val ignoreWhen = IgnoreWhen(project)
-            ignoreWhen.envName = "CI"
-            ignoreWhen.envValue = "true"
+            val ignoreWhenConfiguration = IgnoreWhenConfiguration(project)
+            ignoreWhenConfiguration.envName = "CI"
+            ignoreWhenConfiguration.envValue = "true"
             then("I shouldn;t ignore the execution") {
-                assertFalse(ignoreWhen.shouldIgnore())
+                assertFalse(ignoreWhenConfiguration.shouldIgnore())
             }
         }
         `when`("There is matching property ") {
             project.extra.set("CI", "true")
-            val ignoreWhen = IgnoreWhen(project)
+            val ignoreWhen = IgnoreWhenConfiguration(project)
             ignoreWhen.envName = "CI"
             ignoreWhen.envValue = "true"
             then("I shouldn;t ignore the execution") {

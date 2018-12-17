@@ -23,9 +23,10 @@ class Request(
                 body = content
                 build()
             }
-            println(response)
+            if (response.isNotEmpty()) {
+                logTracker.log(response)
+            }
         }
         logTracker.log(url)
-
     }
 }

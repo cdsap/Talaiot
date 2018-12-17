@@ -1,9 +1,8 @@
-package com.cdsap.talaiot.publisher.output
+package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.publisher.Publisher
 
 
 class OutputPublisher(private val logTracker: LogTracker) : Publisher {

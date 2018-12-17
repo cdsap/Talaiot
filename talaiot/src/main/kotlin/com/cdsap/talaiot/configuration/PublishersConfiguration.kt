@@ -1,10 +1,10 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.configuration
 
 
-import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.publisher.output.OutputPublisher
+import com.cdsap.talaiot.publisher.Publisher
+import com.cdsap.talaiot.publisher.OutputPublisher
 
-class PublisherExtension {
+class PublishersConfiguration {
     var influxDbPublisher: InfluxDbPublisherConfiguration? = null
     var outputPublisher: OutputPublisher? = null
     var customPublisher: Publisher? = null
@@ -15,8 +15,9 @@ class PublisherExtension {
 
     fun customPublisher(configuration: Publisher) {
         customPublisher = configuration
-
     }
+
+
     // Groovy compat
     //fun outputPublisher(closure: Closure<*>) {
     //    outputPublisher = OutputPublisher()

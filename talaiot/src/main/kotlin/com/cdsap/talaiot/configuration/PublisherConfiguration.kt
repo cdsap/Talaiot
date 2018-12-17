@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.configuration
 
 interface PublisherConfiguration {
     var name: String
