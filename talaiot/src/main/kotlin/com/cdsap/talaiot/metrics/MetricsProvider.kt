@@ -11,15 +11,15 @@ class MetricsProvider(
     fun get(): List<Metrics> {
         val metrics = mutableListOf<Metrics>(BaseMetrics(result))
 
-        if (talaiotExtension.gitMetrics) {
+        if (talaiotExtension.metrics.gitMetrics) {
             metrics.add(GitMetrics())
         }
 
-        if (talaiotExtension.performanceMetrics) {
+        if (talaiotExtension.metrics.performanceMetrics) {
             metrics.add(PerformanceMetrics())
         }
 
-        if (!talaiotExtension.customMetrics.isEmpty()) {
+        if (talaiotExtension.metrics.customMetrics.isNotEmpty()) {
             metrics.add(CustomMetrics(talaiotExtension))
         }
 

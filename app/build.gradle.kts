@@ -26,29 +26,25 @@ android {
 
 talaiot {
 
-    gitMetrics = true
-    performanceMetrics = false
-
-  ci {
-        ignored = false
-//       envName = "CI"
-//       envValue = "false"
+//    publishers {
+//        outputPublisher
 //
-   }
-    publishers {
-
-        outputPublisher
-
-        influxDbPublisher {
-            dbName = "tracking"
-            url = "http://localhost:8086"
-            urlMetric = "tracking"
-        }
-        //  customPublisher = CustomPublisher()
-
-    }
-
-    customMetrics("gradleHomeDir" to project.gradle.gradleHomeDir.toString())
+//        influxDbPublisher {
+//            dbName = "tracking"
+//            url = "http://localhost:8086"
+//            urlMetric = "tracking"
+//        }
+//    }
+//    ignoreWhen {
+//        envName = "CI"
+//        envValue = "false"
+//    }
+//
+//    metrics {
+//        gitMetrics = true
+//        performanceMetrics = true
+//        customMetrics("gradleHomeDir" to project.gradle.gradleHomeDir.toString())
+//    }
 
 }
 

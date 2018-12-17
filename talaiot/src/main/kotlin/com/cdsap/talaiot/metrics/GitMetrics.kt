@@ -12,12 +12,13 @@ class GitMetrics : Metrics {
             val bufferBranch = BufferedReader(
                 InputStreamReader(runtime.exec("git rev-parse --abbrev-ref HEAD").inputStream)
             )
-
             val bufferUserName = BufferedReader(
-                InputStreamReader(runtime.exec("git config user-name").inputStream)
+                InputStreamReader(runtime.exec("git config --get user.name").inputStream)
             )
-            val user = bufferUserName.readLine()
+            val user = bufferUserName.readLine().trimSpaces()
+
             val branch = bufferBranch.readLine()
+
             return mapOf("gitUser" to user, "branch" to branch)
         } catch (e: IllegalStateException) {
             throw IllegalArgumentException(

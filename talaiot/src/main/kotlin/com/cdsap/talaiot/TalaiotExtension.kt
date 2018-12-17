@@ -1,7 +1,8 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.ci.CiConfiguration
+import com.cdsap.talaiot.ci.IgnoreWhen
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.metrics.MetricsConfiguration
 import com.cdsap.talaiot.publisher.PublisherExtension
 import org.gradle.api.Project
 
@@ -9,29 +10,20 @@ import org.gradle.api.Project
 open class TalaiotExtension(val project: Project) {
     var logger = LogTracker.Mode.INFO
     var publishers: PublisherExtension? = null
-    var gitMetrics: Boolean = true
-    var performanceMetrics: Boolean = true
-    var customMetrics: MutableMap<String, String> = mutableMapOf()
-    var ci: CiConfiguration? = null
+    var ignoreWhen: IgnoreWhen? = null
+    var metrics: MetricsConfiguration = MetricsConfiguration()
 
-    fun ci(block: CiConfiguration.() -> Unit) {
-        ci = CiConfiguration(project).also(block)
+    fun ignoreWhen(block: IgnoreWhen.() -> Unit) {
+        ignoreWhen = IgnoreWhen(project).also(block)
     }
 
     fun publishers(block: PublisherExtension.() -> Unit) {
         publishers = PublisherExtension().also(block)
     }
 
-    fun customMetrics(vararg pair: Pair<String, String>) {
-        pair.forEach {
-            customMetrics[it.first] = it.second
-        }
+    fun metrics(block: MetricsConfiguration.() -> Unit) {
+        metrics = MetricsConfiguration().also(block)
     }
-
-    fun customMetrics(pair: Pair<String, String>) {
-        customMetrics[pair.first] = pair.second
-    }
-
 
 // Example using Groovy
 //fun publishers(closure: Closure<*>) {

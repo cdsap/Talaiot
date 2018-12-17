@@ -5,5 +5,5 @@ import com.cdsap.talaiot.TalaiotExtension
 
 class CustomMetrics(private val talaiotExtension: TalaiotExtension) : Metrics {
 
-    override fun get() = talaiotExtension.customMetrics
+    override fun get() = talaiotExtension.metrics.customMetrics
 }

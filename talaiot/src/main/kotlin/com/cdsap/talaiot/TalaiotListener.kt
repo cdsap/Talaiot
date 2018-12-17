@@ -23,7 +23,8 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
-        if (talaiotExtension.ci?.executeOnCi() != false) {
+        val ignore = talaiotExtension.ignoreWhen?.shouldIgnore() ?: false
+        if (!ignore) {
             TalaiotPublisher(result, taskLenghtList, talaiotExtension)
         }
     }

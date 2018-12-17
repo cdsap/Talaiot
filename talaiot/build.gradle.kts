@@ -44,6 +44,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
 }
 
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform { }
+}
+
 gradlePlugin {
     repositories {
         google()
@@ -54,10 +58,13 @@ gradlePlugin {
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
-        compile("io.ktor:ktor-client:0.9.4")
-        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.61")
-        compile("io.ktor:ktor-client-okhttp:0.9.4")
-        compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2")
+        implementation("io.ktor:ktor-client:0.9.4")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.61")
+        implementation("io.ktor:ktor-client-okhttp:0.9.4")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2")
+        testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
+      testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
+
     }
 
     plugins {
