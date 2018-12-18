@@ -8,7 +8,8 @@ import com.cdsap.talaiot.request.Request
 
 class InfluxDbPublisher(
     private val influxDbPublisherConfiguration: InfluxDbPublisherConfiguration,
-    private val logTracker: LogTracker
+    private val logTracker: LogTracker,
+    private val requestPublisher: Request
 ) :
     Publisher {
 
@@ -26,11 +27,15 @@ class InfluxDbPublisher(
             }
 
             this.taskMeasurement.forEach {
-                content += "${influxDbPublisherConfiguration.urlMetric},task=\"${it.path}\",${metrics.dropLast(1)}  value=${it.ms}   \n"
+                content += "${influxDbPublisherConfiguration.urlMetric},task=\"${it.path}\",${metrics.dropLast(1)}  value=${it.ms}\n"
             }
-            logTracker.log("$content")
+            logTracker.log(content)
         }
-        Request(url, content, logTracker)
+        if (!content.isEmpty()) {
+            requestPublisher.send(url, content)
+        } else {
+            logTracker.log("Empty content")
+        }
     }
 
 }

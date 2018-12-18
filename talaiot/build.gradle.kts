@@ -1,3 +1,5 @@
+import com.jfrog.bintray.gradle.BintrayExtension
+import com.novoda.gradle.release.PublishExtension
 import org.gradle.kotlin.dsl.`kotlin-dsl`
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 
@@ -21,11 +23,11 @@ plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
     `maven-publish`
+    id("com.novoda.bintray-release")
 }
 
-group = "com.cdsap"
-version = "0.1.6"
 
+val artifactID = "talaiot"
 kotlin {
     experimental {
         coroutines = Coroutines.ENABLE
@@ -41,7 +43,9 @@ repositories {
 }
 
 dependencies {
+    implementation("com.novoda:bintray-release:0.9")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
+
 }
 
 val test by tasks.getting(Test::class) {
@@ -57,13 +61,14 @@ gradlePlugin {
     }
 
     dependencies {
+        implementation("com.novoda:bintray-release:0.9")
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
         implementation("io.ktor:ktor-client:0.9.4")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.61")
         implementation("io.ktor:ktor-client-okhttp:0.9.4")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2")
         testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
-      testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
+        //  testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
 
     }
 
@@ -75,10 +80,14 @@ gradlePlugin {
     }
 
 }
-//
-publishing {
-    repositories {
-        mavenLocal()
 
-    }
+configure<PublishExtension> {
+    userOrg = ""
+    groupId = "com.cdsap"
+    artifactId = "talaiot"
+    publishVersion = "0.1.7"
+    desc = ""
+    website = "https://github.com/cdsap/Talaiot"
+    issueTracker = "https://github.com/cdsap/Talaiot/issues"
+    repository = "https://github.com/cdsap/Talaiot/"
 }

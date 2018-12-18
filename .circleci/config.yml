@@ -6,8 +6,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: assemble
+          command: gradle assemble
       - run:
-          name: Print the Current Time
-          command: date
+          name: clean
+          command: gradle clean

@@ -6,6 +6,7 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.MetricsParser
 import com.cdsap.talaiot.metrics.MetricsProvider
+import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.BuildResult
 
 
@@ -24,7 +25,7 @@ class TalaiotPublisher(
 
             influxDbPublisher?.apply {
                 let {
-                    InfluxDbPublisher(it, logger).publish(aggregatedData)
+                    InfluxDbPublisher(it, logger, SimpleRequest(logger)).publish(aggregatedData)
                 }
             }
 

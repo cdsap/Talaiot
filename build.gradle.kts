@@ -11,6 +11,8 @@ buildscript {
         classpath("com.android.tools.build:gradle:3.2.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
         classpath("com.cdsap:talaiot:0.1.6")
+        classpath ("com.novoda:bintray-release:0.9")
+
     }
 }
 
