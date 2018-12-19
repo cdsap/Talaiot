@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
+import java.util.concurrent.TimeUnit
 
 
 class OutputPublisher(private val logTracker: LogTracker) : Publisher {
@@ -19,7 +20,8 @@ class OutputPublisher(private val logTracker: LogTracker) : Publisher {
                 sort(taskMeasurement).forEach {
                     val x = if (max == 0L) 0 else (it.ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
-                    logTracker.log("$s ${it.path} ---- ${it.ms}")
+                    val maskMs = maskMs(it.ms)
+                    logTracker.log("$s ${it.path} : $maskMs")
                 }
             }
         }
@@ -35,6 +37,14 @@ class OutputPublisher(private val logTracker: LogTracker) : Publisher {
         val greater = items.filter { it.ms > pivot }
         return sort(less) + equal + sort(greater)
     }
+
+    private fun maskMs(ms: Long): String =
+        when {
+            ms < 1000 -> ms.toString() + " ms"
+            ms < 60000 -> TimeUnit.MILLISECONDS.toSeconds(ms).toString() + " sec"
+            else -> TimeUnit.MILLISECONDS.toMinutes(ms).toString() + " min"
+        }
+
 
     companion object {
         const val MAX_UNIT = "¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯"
