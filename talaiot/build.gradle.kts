@@ -57,9 +57,9 @@ gradlePlugin {
     dependencies {
         implementation("com.novoda:bintray-release:0.9")
         implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11")
+        implementation("io.ktor:ktor-client-okhttp:1.0.1")
         implementation("io.ktor:ktor-client:1.0.1")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.10")
-        implementation("io.ktor:ktor-client-okhttp:1.0.1")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
         testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
     }
