@@ -33,8 +33,7 @@ you need to aggregate data you need to join Gradle Enterprise.
 |---------- |:-------------:|
 | envName    |  left-aligned |
 | envValue   |    centered   |
-
-
+    
 ##### Publishers
 
 | Property  |      Are      |
@@ -51,9 +50,40 @@ you need to aggregate data you need to join Gradle Enterprise.
 | envValue   |    centered   |
 
 
+
+#### Setup Plugin
+
+Include in the classpath the latest version of Talaiot:
+````
+classpath("com.cdsap:talaiot:0.1.7")
+````
+
+Apply the plugin:
+````
+plugins {
+    id("kotlin-android")
+    id("talaiot")
+}
+````
 
 #### Basic configuration
 
+
+````
+talaiot {
+    publishers {
+        outputPublisher
+    }
+}
+````
+
+
+Simple task like `clean` will generate the output:
+
+
+````
+¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ :app:clean ---- 5112
+````
 
 #### Custom Publishers
 
@@ -66,5 +96,10 @@ you need to aggregate data you need to join Gradle Enterprise.
 #### Undestanting problems
 
 
+#### What is a Talaiot
+
+_"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
+
+https://en.wikipedia.org/wiki/Talaiot
 
 #### Thanks

@@ -14,7 +14,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11")
     }
 }
 
@@ -26,14 +26,8 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
-
 val artifactID = "talaiot"
-kotlin {
-    experimental {
-        coroutines = Coroutines.ENABLE
 
-    }
-}
 repositories {
     mavenLocal()
     google()
@@ -44,7 +38,7 @@ repositories {
 
 dependencies {
     implementation("com.novoda:bintray-release:0.9")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11")
 
 }
 
@@ -62,14 +56,12 @@ gradlePlugin {
 
     dependencies {
         implementation("com.novoda:bintray-release:0.9")
-        implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.61")
-        implementation("io.ktor:ktor-client:0.9.4")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.61")
-        implementation("io.ktor:ktor-client-okhttp:0.9.4")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2")
+        implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11")
+        implementation("io.ktor:ktor-client:1.0.1")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.10")
+        implementation("io.ktor:ktor-client-okhttp:1.0.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
         testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
-        //  testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-
     }
 
     plugins {
@@ -85,7 +77,7 @@ configure<PublishExtension> {
     userOrg = ""
     groupId = "com.cdsap"
     artifactId = "talaiot"
-    publishVersion = "0.1.7"
+    publishVersion = "0.1.8-SNAPSHOT"
     desc = ""
     website = "https://github.com/cdsap/Talaiot"
     issueTracker = "https://github.com/cdsap/Talaiot/issues"

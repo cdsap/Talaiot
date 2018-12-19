@@ -6,5 +6,4 @@ pluginManagement {
     }
 }
 
-include (":app")
 include (":talaiot")
