@@ -4,6 +4,7 @@ Talaiot is a simple and extensible plugin to track timing in your Gradle Project
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
+https://en.wikipedia.org/wiki/Talaiot
 
 #### Why another plugin?
 
@@ -82,7 +83,7 @@ But is possible that this solution doesn't solve your problem, and we offer the 
 |----------------------- |:----------------------------------------------:|
 | gitMetrics             |Disable Git Metrics                             |
 | performanceMetrics     |Disable Performance Metrics                     |
-| CustomMetrics          |Confioguration to add new metrics (see example) |
+| customMetrics          |Confioguration to add new metrics (see example) |
 
 
 #### Setup Plugin
@@ -183,9 +184,35 @@ talaiot {
 and AutorizherRequest in case you need to use it. 
 
 #### Extending Metrics
-If you need to add more information on the builds you can add more metrics under the 
+If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
+
+````
+talaiot {
+    metrics {
+        customMetrics( "nameProject" to project.gradle.rootProject.name,
+                             "customProperty" to getCustomProperty() )
+    }
+}
+````
+
+#### Ignoring Executions
+The configuration `ignoreWhen` allows us to set specific variables and values to ignore the execution of Talaiot when we match 
+that condition.
+One of the use cases is ignoring Talaiot on CI Executions becuasis understand better the performance of the builds on the development team, nor in CI. 
+
+
+````
+talaiot {
+    ignoreWhen {
+        envName = "CI"
+        envValue = "true"
+    }
+}
+````
 
 #### Creating DashBoards & Grafana
+If your company/team don't use any Dashboard or just you want to test the whole process with Talaiot you can use Grafana and 
+Influx Db 
 
 
 #### Undestanting problems

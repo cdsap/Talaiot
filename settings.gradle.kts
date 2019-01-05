@@ -1,9 +1,10 @@
 pluginManagement {
     repositories {
-        maven { url = uri("./talaiot/build/repository") }
+        google()
+        jcenter()
+        mavenLocal()
+        maven(url = "https://dl.bintray.com/kotlin/ktor")
         gradlePluginPortal()
 
     }
 }
-
-include (":talaiot")

@@ -25,6 +25,7 @@ class TalaiotPublisher(
 
             influxDbPublisher?.apply {
                 let {
+                  //  InfluxDbPublisher(it, logger, AuthRequest(logger)).publish(aggregatedData)
                     InfluxDbPublisher(it, logger, SimpleRequest(logger)).publish(aggregatedData)
                 }
             }

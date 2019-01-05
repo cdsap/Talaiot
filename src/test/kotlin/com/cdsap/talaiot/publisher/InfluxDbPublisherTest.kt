@@ -6,12 +6,7 @@ import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
-import io.kotlintest.properties.assertAll
 import io.kotlintest.specs.BehaviorSpec
-import junit.framework.Assert.assertTrue
-import org.gradle.api.Project
-import org.gradle.internal.impldep.org.junit.Assert.assertThat
-import org.gradle.testfixtures.ProjectBuilder
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
