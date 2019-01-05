@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.configuration
 
-import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.internal.impldep.junit.framework.Assert.assertFalse
