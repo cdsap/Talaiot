@@ -17,7 +17,7 @@ One the other side, in different projects I was using the awesome plugin [Build 
 So if you are using this plugin you should continue using it.
 
 
-With Talaiot I wanted to achieve two main goals:
+Some of the features of Talaiot:
 
 * Requirements from team and project can be different so Talaiot is extensible in a way of what we want to track and where we want to report
 * Focus on measuring within Time/Series systems
@@ -63,8 +63,6 @@ Simple task like `clean` will generate the output:
 ````
 talaiot {
     publishers {
-        outputPublisher
-
         influxDbPublisher {
             dbName = "tracking"
             url = "http://localhost:3003"
@@ -78,16 +76,15 @@ talaiot {
     }
 }
 ````
-Here we are adding the InfluxDb Configuration and additionally we don't want to include git and performance metrics
-
-
+Here we are adding the InfluxDb Publisher information to be reported and in terms of additional information tracked wea are removing the 
+information related with Git and Performance
 
 ## DSL
-### TalaiotExtension
+### Talaiot Extension
 
 | Property  |      Description                                   |
 |---------- |----------------------------------------------------|
-| logger    | State for logging                                  |
+| logger    | State for logging, true by default                 |
 | ignoreWhen| Configuration to ignore the execution of Talaiot   |
 | publishers| Once the build has finished                        |
 | metrics   | Values tracked in the execution of the task        |
@@ -103,7 +100,7 @@ Here we are adding the InfluxDb Configuration and additionally we don't want to 
 In terms of publishing Talaiot inclide some default Publishers, but at the same time 
 you can extend it and create your own publisher for your requirements
 
-### OutputPublisher
+#### OutputPublisher
 Simple output of the execution of the task. In console, at the end of the build will print by time each task  
 
 
@@ -113,7 +110,7 @@ Simple output of the execution of the task. In console, at the end of the build 
 
 
 
-### InfluxDb
+#### InfluxDb
 One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected during the execution
 
 
@@ -123,7 +120,7 @@ One of the most populars Time Series Db. Talaiot will send to the server defined
 | url       | Url of the InfluxDb Server               |
 | urlMetric | Name of the metric used in the execution |
 
-### customPublisher
+#### customPublisher
 We may have different configurations or different services, Talaiot allows you to setup your favorite environment inside 
 customPublisher configuration. 
 
@@ -151,7 +148,7 @@ But is possible that this solution doesn't solve your problem, and we offer the 
 
 
 
-#### Custom Publishers
+## Creating custom Publishers
 The configuration of Dashboards, TimeSeries DB's is different for peojects or companies. 
 Talaiot allows you to create your custom Publisher:
 
@@ -192,7 +189,7 @@ talaiot {
 4- In case you need to requires Http request to publish your results in third part services, Talaiot includes SimpleRequest 
 and AutorizherRequest in case you need to use it. 
 
-#### Extending Metrics
+## Extending Metrics
 If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
 
 ````
@@ -224,11 +221,7 @@ If your company/team don't use any Dashboard or just you want to test the whole 
 Influx Db 
 
 
-## Undestanting problems
-
-
-## More about real Talaiots
-
-https://en.wikipedia.org/wiki/Talaiot
 
 ## Thanks
+Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration.
+Anton Malinsky 
