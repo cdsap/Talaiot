@@ -6,87 +6,24 @@ _"... while some certainly had a defensive purpose, the use of others is not cle
 
 https://en.wikipedia.org/wiki/Talaiot
 
-#### Why another plugin?
+## Why another plugin?
 
 Maybe you are wondering why we need another tool to track time tasks.
-If you are using Gradle Enterprise Talaiot is useless but if you're not 
-You have already awesome plugins like https://github.com/passy/build-time-tracker-plugin or of course Build Scan from Gradle.
  
-Build scans are excellent tools to understand problems on the build, detect bottlenecks and problems on the configuration, but if 
-you need to aggregate data you need to join Gradle Enterprise. 
- 
- In our case we didn't have the subscription of Gradle enterprise we wanted to understand what is the best approach the data
- and understand the problems of medium/big teams in terms of detection and developemnt. 
+[Build Scan](https://gradle.com/build-scans/) is excellent tool to understand builds, detect bottlenecks and problems in the configuration.
+If you are using Gradle Enterprise, Talaiot is useless because Gradle Enterprise allows you aggregate and compare the data of the build.
+
+One the other side, in different projects I was using the awesome plugin [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig.
+So if you are using this plugin you should continue using it.
 
 
-#### DSL
-##### TalaiotExtension
+With Talaiot I wanted to achieve two main goals:
 
-| Property  |      Description                                   |
-|---------- |:--------------------------------------------------:|
-| logger    | State for logging                                  |
-| ignoreWhen| Configuration to ignore the execution of Talaiot   |
-| publishers| Once the build has finished                        |
-| metrics   | Values tracked in the execution of the task        |
+* Requirements from team and project can be different so Talaiot is extensible in a way of what we want to track and where we want to report
+* Focus on measuring within Time/Series systems
+* Develop it entirely with Kotlin 
 
-##### IgnoreWhen
-
-| Property   |      Description      |
-|----------- |:---------------------:|
-| envName    |Name of the Property        |
-| envValue   |Value of the Property          |
-    
-##### Publishers
-In terms of publishing Talaiot inclide some default Publishers, but at the same time 
-you can extend it and create your own publisher for your requirements
-
-###### OutputPublisher
-Simple output of the execution of the task. In console, at the end of the build will print by time each task  
-
-
-| Property  |      Description                      |
-|---------- |:-------------------------------------:|
-| disabled  |  Disable the output of the execution  |
-
-
-
-###### InfluxDb
-One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected during the execution
-
-
-| Property  |      Description      |
-|---------- |:-------------:|
-| dbName    |  Name of the database |
-| url       |    Url of the InfluxDb Server   |
-| urlMetric   |    Name of the metric used in the execution    |
-
-###### customPublisher
-We may have different configurations or different services, Talaiot allows you to setup your favorite environment inside 
-customPublisher configuration. 
-
-
-| Property  |      Description                            |
-|---------- |:-------------------------------------------:|
-| customPublisher    |  Custom Publisher ( see example)   |
-
-
-##### Metrics
-With the metrics configuration we can adapt our requirements to the data we are adding on the information for 
-every task.
-The Default Configuration of Metrics includes:
-
-Basic Metrics + gitMetrics + Performance metrics
-
-But is possible that this solution doesn't solve your problem, and we offer the next configuration
-
-| Property               |      Description                               |
-|----------------------- |:----------------------------------------------:|
-| gitMetrics             |Disable Git Metrics                             |
-| performanceMetrics     |Disable Performance Metrics                     |
-| customMetrics          |Confioguration to add new metrics (see example) |
-
-
-#### Setup Plugin
+## Setup Plugin
 
 Include in the classpath the latest version of Talaiot:
 ````
@@ -101,7 +38,8 @@ plugins {
 }
 ````
 
-#### Basic configuration
+
+## Basic configuration
 
 
 ````
@@ -120,7 +58,7 @@ Simple task like `clean` will generate the output:
 ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ :app:clean ---- 5112
 ````
 
-#### More advanced configuration
+### More advanced configuration
 
 ````
 talaiot {
@@ -141,6 +79,77 @@ talaiot {
 }
 ````
 Here we are adding the InfluxDb Configuration and additionally we don't want to include git and performance metrics
+
+
+
+## DSL
+### TalaiotExtension
+
+| Property  |      Description                                   |
+|---------- |----------------------------------------------------|
+| logger    | State for logging                                  |
+| ignoreWhen| Configuration to ignore the execution of Talaiot   |
+| publishers| Once the build has finished                        |
+| metrics   | Values tracked in the execution of the task        |
+
+### IgnoreWhen
+
+| Property   |      Description      |
+|----------- |-----------------------|
+| envName    |Name of the Property   |
+| envValue   |Value of the Property  |
+    
+### Publishers
+In terms of publishing Talaiot inclide some default Publishers, but at the same time 
+you can extend it and create your own publisher for your requirements
+
+### OutputPublisher
+Simple output of the execution of the task. In console, at the end of the build will print by time each task  
+
+
+| Property  |      Description                      |
+|---------- |---------------------------------------|
+| disabled  |  Disable the output of the execution  |
+
+
+
+### InfluxDb
+One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected during the execution
+
+
+| Property  |      Description                         |
+|---------- |------------------------------------------|
+| dbName    | Name of the database                     |
+| url       | Url of the InfluxDb Server               |
+| urlMetric | Name of the metric used in the execution |
+
+### customPublisher
+We may have different configurations or different services, Talaiot allows you to setup your favorite environment inside 
+customPublisher configuration. 
+
+
+| Property           |      Description                   |
+|------------------- |------------------------------------|
+| customPublisher    |  Custom Publisher ( see example)   |
+
+
+### Metrics
+With the metrics configuration we can adapt our requirements to the data we are adding on the information for 
+every task.
+The Default Configuration of Metrics includes:
+
+Basic Metrics + gitMetrics + Performance metrics
+
+But is possible that this solution doesn't solve your problem, and we offer the next configuration
+
+| Property               |      Description                               |
+|----------------------- |------------------------------------------------|
+| gitMetrics             |Disable Git Metrics                             |
+| performanceMetrics     |Disable Performance Metrics                     |
+| customMetrics          |Confioguration to add new metrics (see example) |
+
+
+
 
 #### Custom Publishers
 The configuration of Dashboards, TimeSeries DB's is different for peojects or companies. 
@@ -195,7 +204,7 @@ talaiot {
 }
 ````
 
-#### Ignoring Executions
+## Ignoring Executions
 The configuration `ignoreWhen` allows us to set specific variables and values to ignore the execution of Talaiot when we match 
 that condition.
 One of the use cases is ignoring Talaiot on CI Executions becuasis understand better the performance of the builds on the development team, nor in CI. 
@@ -210,16 +219,16 @@ talaiot {
 }
 ````
 
-#### Creating DashBoards & Grafana
+## Creating DashBoards & Grafana
 If your company/team don't use any Dashboard or just you want to test the whole process with Talaiot you can use Grafana and 
 Influx Db 
 
 
-#### Undestanting problems
+## Undestanting problems
 
 
-#### More about real Talaiots
+## More about real Talaiots
 
 https://en.wikipedia.org/wiki/Talaiot
 
-#### Thanks
+## Thanks
