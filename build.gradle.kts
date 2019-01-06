@@ -24,8 +24,10 @@ gradlePlugin {
             id = "talaiot"
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
+
         dependencies {
             api("io.ktor:ktor-client-okhttp:1.1.1")
+            testImplementation ("io.kotlintest:kotlintest-runner-junit5:3.1.11")
         }
     }
 }
@@ -63,7 +65,12 @@ val sourcesJar by tasks.registering(Jar::class) {
     dependsOn(tasks["classes"])
 }
 
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform { }
+}
+
 afterEvaluate {
+
     publishing.publications.named<MavenPublication>("pluginMaven") {
         artifactId = "talaiot"
         artifact(sourcesJar.get())
@@ -98,5 +105,4 @@ repositories {
     jcenter()
     google()
     mavenLocal()
-
 }
