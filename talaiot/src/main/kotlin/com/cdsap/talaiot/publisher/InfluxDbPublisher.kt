@@ -25,9 +25,9 @@ class InfluxDbPublisher(
             this.values.forEach {
                 metrics += "${it.key}=\"${it.value}\","
             }
-
             this.taskMeasurement.forEach {
-                content += "${influxDbPublisherConfiguration.urlMetric},task=\"${it.path}\",${metrics.dropLast(1)}  value=${it.ms}\n"
+                content += "${influxDbPublisherConfiguration.urlMetric},state=\"${it.state}\"" +
+                        ",task=\"${it.path}\",${metrics.dropLast(1)}  value=${it.ms}\n"
             }
             logTracker.log(content)
         }
