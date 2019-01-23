@@ -13,7 +13,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
     given("InfluxDbPublisher configuration") {
         val logger = LogTracker(LogTracker.Mode.INFO)
 
-        `when`("There is configuration with metrics and tasks ") {
+        `when`("There is confxiguration with metrics and tasks ") {
             val influxDbCon = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
@@ -33,7 +33,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         ), listOf(TaskLength(1, ":clean", TaskMessageState.NO_MESSAGE_STATE))
                     )
                 )
-                assert(testRequest.content == "log,task=\":clean\",metric1=\"value1\",metric2=\"value2\"  value=1\n")
+                assert(testRequest.content == "log,state=\"NO_MESSAGE_STATE\",task=\":clean\",metric1=\"value1\",metric2=\"value2\"  value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }

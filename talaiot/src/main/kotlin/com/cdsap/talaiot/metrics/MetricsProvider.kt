@@ -16,12 +16,14 @@ class MetricsProvider(
         }
 
         if (talaiotExtension.metrics.performanceMetrics) {
-            metrics.add(PerformanceMetrics())
+            metrics.add(PerformanceMetrics(result))
         }
 
         if (talaiotExtension.metrics.customMetrics.isNotEmpty()) {
             metrics.add(CustomMetrics(talaiotExtension))
         }
+
+        metrics.add(GradleMetrics(result))
 
         return metrics
     }

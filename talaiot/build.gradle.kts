@@ -10,11 +10,6 @@ plugins {
     id("com.gradle.plugin-publish") version "0.10.0"
 }
 
-dependencies {
-    compileOnly("com.android.tools.build:gradle:3.2.1")
-}
-
-
 group = "com.cdsap"
 version = "0.1.8.4-SNAPSHOT"
 

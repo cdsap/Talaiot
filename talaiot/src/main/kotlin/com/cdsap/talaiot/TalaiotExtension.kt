@@ -4,6 +4,7 @@ import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.MetricsConfiguration
 import com.cdsap.talaiot.configuration.PublishersConfiguration
+import groovy.lang.Closure
 import org.gradle.api.Project
 
 
@@ -25,10 +26,26 @@ open class TalaiotExtension(val project: Project) {
         metrics = MetricsConfiguration().also(block)
     }
 
-// Example using Groovy
-//fun publishers(closure: Closure<*>) {
-//    publishers = PublisherConfiguration()
-//    closure.delegate = publishers
-//    closure.call()
-//}
+    // Groovy's compat definition
+
+    fun publishers(closure: Closure<*>) {
+        publishers = PublishersConfiguration()
+        closure.delegate = publishers
+        closure.call()
+    }
+
+    fun ignoreWjen(closure: Closure<*>) {
+        ignoreWhen = IgnoreWhenConfiguration(project)
+        closure.delegate = ignoreWhen
+        closure.call()
+    }
+
+    fun metrics(closure: Closure<*>) {
+        metrics = MetricsConfiguration()
+        closure.delegate = metrics
+        closure.call()
+
+    }
+
+
 }
