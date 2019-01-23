@@ -4,6 +4,7 @@ class MetricsConfiguration {
     var gitMetrics: Boolean = true
     var performanceMetrics: Boolean = true
     var customMetrics: MutableMap<String, String> = mutableMapOf()
+    var gradleMetrics: Boolean = true
 
     fun customMetrics(vararg pair: Pair<String, String>) {
         pair.forEach {

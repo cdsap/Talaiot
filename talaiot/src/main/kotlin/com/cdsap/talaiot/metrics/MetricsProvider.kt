@@ -23,7 +23,9 @@ class MetricsProvider(
             metrics.add(CustomMetrics(talaiotExtension))
         }
 
-        metrics.add(GradleMetrics(result))
+        if (talaiotExtension.metrics.gradleMetrics) {
+            metrics.add(GradleMetrics(result))
+        }
 
         return metrics
     }
