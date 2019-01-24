@@ -47,7 +47,7 @@ class TalaiotListener(
         taskLenghtList.add(
             TaskLength(
                 ms = time,
-                path = task.path,
+                taskName = task.path,
                 state = when (state.skipMessage) {
                     "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                     "FROM-CACHE" -> TaskMessageState.FROM_CACHE

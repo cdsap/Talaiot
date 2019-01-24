@@ -4,6 +4,7 @@ import com.cdsap.talaiot.AggregateData
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.metrics.MetricsParser
 import com.cdsap.talaiot.metrics.MetricsProvider
 import com.cdsap.talaiot.request.SimpleRequest
@@ -15,7 +16,7 @@ class TalaiotPublisher(
     taskLengthList: MutableList<TaskLength>,
     talaiotExtension: TalaiotExtension
 ) {
-    private val logger = LogTracker(talaiotExtension.logger)
+    private val logger = LogTrackerImpl(talaiotExtension.logger)
     private val availableMetrics = MetricsProvider(talaiotExtension, result).get()
     private val aggregatedData = AggregateData(taskLengthList, MetricsParser(availableMetrics)).build()
 

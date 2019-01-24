@@ -16,12 +16,11 @@ class OutputPublisher(private val logTracker: LogTracker) : Publisher {
             val orderedTiming = sort(taskMeasurement)
             if (!orderedTiming.isEmpty()) {
                 val max = orderedTiming.last().ms
-                MAX_UNIT.length
                 sort(taskMeasurement).forEach {
                     val x = if (max == 0L) 0 else (it.ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
                     val maskMs = maskMs(it.ms)
-                    logTracker.log("$s ${it.path} : $maskMs")
+                    logTracker.log("$s ${it.taskName} : $maskMs")
                 }
             }
         }

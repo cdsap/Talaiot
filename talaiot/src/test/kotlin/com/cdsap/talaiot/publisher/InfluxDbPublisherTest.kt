@@ -5,13 +5,14 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
     given("InfluxDbPublisher configuration") {
-        val logger = LogTracker(LogTracker.Mode.INFO)
+        val logger = LogTrackerImpl(LogTracker.Mode.INFO)
 
         `when`("There is confxiguration with metrics and tasks ") {
             val influxDbCon = InfluxDbPublisherConfiguration().apply {

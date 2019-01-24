@@ -11,7 +11,7 @@ class AggregateData(
 
     fun build(): TaskMeasurementAggregated {
         return TaskMeasurementAggregated(
-            metricsProvider.get(),
+            values = metricsProvider.get(),
             taskMeasurement = listTaskLength
         )
     }

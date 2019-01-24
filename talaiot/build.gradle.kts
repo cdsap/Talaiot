@@ -23,6 +23,7 @@ gradlePlugin {
         dependencies {
             api("io.ktor:ktor-client-okhttp:1.1.1")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
+            testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
     }
 }
