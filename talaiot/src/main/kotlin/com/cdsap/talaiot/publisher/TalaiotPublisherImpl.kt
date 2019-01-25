@@ -13,6 +13,7 @@ class TalaiotPublisherImpl(
     override fun publish(taskLengthList: MutableList<TaskLength>) {
         val aggregatedData = TaskMeasurementAggregated(metrics, taskLengthList)
         publishers.forEach {
+            println("aslslsallas")
             it.publish(aggregatedData)
         }
     }

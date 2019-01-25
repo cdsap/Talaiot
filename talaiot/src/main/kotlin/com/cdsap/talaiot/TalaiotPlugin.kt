@@ -7,18 +7,26 @@ import org.gradle.api.Project
 
 class TalaiotPlugin : Plugin<Project> {
 
-    override fun apply(project: Project) {
-        val extension: TalaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-        initPlugin(extension, project)
+    override fun apply(target: Project) {
+        val extension: TalaiotExtension = target.extensions.create("talaiot", TalaiotExtension::class.java, target)
+        println("1")
+        println(extension.ignoreWhen)
+        println(extension.toString())
+        initPlugin(extension)
     }
 
-    private fun initPlugin(extension: TalaiotExtension, project: Project) {
-        if (extension.ignoreWhen?.shouldIgnore() == false) {
-            val publishers = PublishersProvider(project).get()
-            val metrics = MetricsProvider(project).get()
-            val publisher = TalaiotPublisherImpl(publishers, metrics)
-            val listener = TalaiotListener(publisher)
-            project.gradle.addBuildListener(listener)
-        }
+    private fun initPlugin(extension: TalaiotExtension) {
+        println(extension)
+        println("1")
+        println(extension.publishers)
+        println("1")
+        println(extension.publishers?.influxDbPublisher)
+        // if (extension.ignoreWhen?.shouldIgnore() == false) {
+        val publishers = PublishersProvider(extension).get()
+        val metrics = MetricsProvider(extension.project).get()
+        val publisher = TalaiotPublisherImpl(publishers, metrics)
+        val listener = TalaiotListener(publisher)
+        extension.project.gradle.addBuildListener(listener)
+        //   }
     }
 }

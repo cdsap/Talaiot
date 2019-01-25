@@ -1,36 +1,51 @@
 package com.cdsap.talaiot.request
 
 import com.cdsap.talaiot.logger.LogTracker
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.request.post
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.lang.Exception
+import io.github.rybalkinsd.kohttp.dsl.httpPost
+import okhttp3.RequestBody
+import okhttp3.Response
 
-
-import java.net.URL
 
 class SimpleRequest(mode: LogTracker) : Request {
     override var logTracker = mode
 
     override fun send(url: String, content: String) {
+        println("sdldldldldldl")
+        println(url)
+        val response: Response = httpPost {
+            host = url
 
-        val client = HttpClient(OkHttp)
-
-        GlobalScope.launch {
-            try {
-                val response = client.post<String>(URL(url)) {
-                    body = content
-                    build()
-                }
-                if (response.isNotEmpty()) {
-                    logTracker.log(response)
-                }
-            } catch (e: Exception) {
-                logTracker.log(e.message ?: "error requesting $url")
+            body {
+                RequestBody.create(null, content)
             }
+
+
         }
-        logTracker.log(url)
+        println(response.message())
+        // val response: Response = httpPost {
+
+        //  }
     }
+//        val response: Response = httPost{
+//    }
+//    ]
+//    val client = HttpClient(OkHttp)
+//
+//
+//    GlobalScope.launch
+//    {
+//        try {
+//            val response = client.post<String>(URL(url)) {
+//                body = content
+//                build()
+//            }
+//            if (response.isNotEmpty()) {
+//                logTracker.log(response)
+//            }
+//        } catch (e: Exception) {
+//            logTracker.log(e.message ?: "error requesting $url")
+//        }
+//    }
+//    logTracker.log(url)
+//}
 }

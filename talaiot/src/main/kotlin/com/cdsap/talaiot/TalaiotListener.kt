@@ -24,6 +24,8 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
+        println("paso")
+
         talaiotPublisher.publish(taskLenghtList)
     }
 
