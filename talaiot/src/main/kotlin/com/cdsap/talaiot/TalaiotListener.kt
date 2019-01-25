@@ -14,8 +14,9 @@ import org.gradle.api.tasks.TaskState
 
 
 class TalaiotListener(
-    private val talaiotExtension: TalaiotExtension
+    private val talaiotPublisher: TalaiotPublisher
 ) : BuildListener, TaskExecutionListener {
+
     private val taskLenghtList = mutableListOf<TaskLength>()
     private var listOfTasks: HashMap<String, Long> = hashMapOf()
 
@@ -23,10 +24,7 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
-        val ignore = talaiotExtension.ignoreWhen?.shouldIgnore() ?: false
-        if (!ignore) {
-            TalaiotPublisher(result, taskLenghtList, talaiotExtension)
-        }
+        talaiotPublisher.publish(taskLenghtList)
     }
 
     override fun projectsLoaded(gradle: Gradle) {
@@ -39,7 +37,7 @@ class TalaiotListener(
     }
 
     override fun beforeExecute(task: Task) {
-        listOfTasks.put(task.path, System.currentTimeMillis())
+        listOfTasks[task.path] = System.currentTimeMillis()
     }
 
     override fun afterExecute(task: Task, state: TaskState) {

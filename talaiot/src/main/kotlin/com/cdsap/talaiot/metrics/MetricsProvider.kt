@@ -1,32 +1,35 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.TalaiotExtension
-import org.gradle.BuildResult
+import org.gradle.api.Project
 
 class MetricsProvider(
-    private val talaiotExtension: TalaiotExtension,
-    private val result: BuildResult
+    private val project: Project
 ) {
 
-    fun get(): List<Metrics> {
-        val metrics = mutableListOf<Metrics>(BaseMetrics(result))
+    fun get(): Map<String, String> {
+        val metrics = mutableListOf<Metrics>(BaseMetrics(project))
+        val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
+        talaiotExtension.metrics.apply {
+            if (gitMetrics) {
+                metrics.add(GitMetrics())
+            }
 
-        if (talaiotExtension.metrics.gitMetrics) {
-            metrics.add(GitMetrics())
+            if (performanceMetrics) {
+                metrics.add(PerformanceMetrics(project))
+            }
+
+            if (customMetrics.isNotEmpty()) {
+                metrics.add(CustomMetrics(customMetrics))
+            }
+
+            if (gradleMetrics) {
+                metrics.add(GradleMetrics(project))
+            }
+
         }
-
-        if (talaiotExtension.metrics.performanceMetrics) {
-            metrics.add(PerformanceMetrics(result))
+        return metrics.fold(mutableMapOf()) { acc, f ->
+            (f.get().toMutableMap() + acc.toMutableMap()) as MutableMap<String, String>
         }
-
-        if (talaiotExtension.metrics.customMetrics.isNotEmpty()) {
-            metrics.add(CustomMetrics(talaiotExtension))
-        }
-
-        if (talaiotExtension.metrics.gradleMetrics) {
-            metrics.add(GradleMetrics(result))
-        }
-
-        return metrics
     }
 }

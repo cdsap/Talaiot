@@ -1,28 +1,29 @@
 package com.cdsap.talaiot.metrics
 
-import org.gradle.BuildResult
+import org.gradle.api.Project
 
-class GradleMetrics(private val buildResults: BuildResult) : Metrics {
+class GradleMetrics(private val project: Project) : Metrics {
 
     override fun get(): Map<String, String> {
         val gradleMetrics = mutableMapOf<String, String>()
 
-        if (buildResults.gradle?.rootProject?.hasProperty("org.gradle.caching") == true) {
-            gradleMetrics["gradleCaching"] = buildResults.gradle?.rootProject?.property("org.gradle.caching") as String
+        if (hasProperty("org.gradle.caching")) {
+            gradleMetrics["gradleCaching"] = property("org.gradle.caching") as String
         }
-        if (buildResults.gradle?.rootProject?.hasProperty("org.gradle.daemon") == true) {
-            gradleMetrics["gradleDaemon"] = buildResults.gradle?.rootProject?.property("org.gradle.daemon") as String
+        if (hasProperty("org.gradle.daemon")) {
+            gradleMetrics["gradleDaemon"] = property("org.gradle.daemon") as String
         }
-        if (buildResults.gradle?.rootProject?.hasProperty("org.gradle.parallel") == true) {
-            gradleMetrics["gradleParallel"] =
-                    buildResults.gradle?.rootProject?.property("org.gradle.parallel") as String
+        if (hasProperty("org.gradle.parallel")) {
+            gradleMetrics["gradleParallel"] = property("org.gradle.parallel") as String
         }
-        if (buildResults.gradle?.rootProject?.hasProperty("org.gradle.configureondemand") == true) {
-            gradleMetrics["gradleConfigurationOnDemand"] =
-                    buildResults.gradle?.rootProject?.property("org.gradle.configureondemand") as String
+        if (hasProperty("org.gradle.configureondemand")) {
+            gradleMetrics["gradleConfigurationOnDemand"] = property("org.gradle.configureondemand") as String
         }
-        gradleMetrics["gradleVerion"] = buildResults.gradle?.gradleVersion ?: ""
+        gradleMetrics["gradleVerion"] = project.gradle.gradleVersion
         return gradleMetrics
 
     }
+
+    private fun hasProperty(property: String) = project.gradle.rootProject.hasProperty(property)
+    private fun property(property: String) = project.property(property)
 }

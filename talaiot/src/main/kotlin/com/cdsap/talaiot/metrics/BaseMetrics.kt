@@ -1,20 +1,17 @@
 package com.cdsap.talaiot.metrics
 
-import org.gradle.BuildResult
+import org.gradle.api.Project
 import org.gradle.internal.os.OperatingSystem
-import java.time.Instant
-import kotlin.random.Random
+import java.util.*
 
-class BaseMetrics(private val result: BuildResult) : Metrics {
+class BaseMetrics(private val project: Project) : Metrics {
 
-    private val buildId =
-        Instant.now().hashCode() + System.getProperty("user.name").trimSpaces().hashCode() + Random.nextInt().hashCode()
+    private val buildId = UUID.randomUUID().toString()
 
     override fun get() = mapOf(
         "user" to System.getProperty("user.name").trimSpaces(),
-        "project" to (result.gradle?.rootProject?.name ?: "").trimSpaces(),
-        "talaiotVersion" to "0.1.8.1",
-        "buildId" to "$buildId",
+        "project" to project.gradle.rootProject.name.trimSpaces(),
+        "buildId" to buildId,
         "os" to "${OperatingSystem.current().name}-${OperatingSystem.current().version}".trimSpaces()
     )
 

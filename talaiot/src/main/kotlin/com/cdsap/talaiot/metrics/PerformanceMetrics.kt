@@ -1,8 +1,8 @@
 package com.cdsap.talaiot.metrics
 
-import org.gradle.BuildResult
+import org.gradle.api.Project
 
-class PerformanceMetrics(private val project: BuildResult) : Metrics {
+class PerformanceMetrics(private val project: Project) : Metrics {
 
     override fun get(): Map<String, String> {
         val runtime = Runtime.getRuntime()
@@ -17,10 +17,10 @@ class PerformanceMetrics(private val project: BuildResult) : Metrics {
 
 
     private fun parseJvmArgs(): Map<String, String> {
-        if (project.gradle?.rootProject?.hasProperty("org.gradle.jvmargs") == true) {
+        if (project.gradle.rootProject.hasProperty("org.gradle.jvmargs")) {
             val listOfJvmArgs = mutableMapOf<String, String>()
-            println(project.gradle?.rootProject?.property("org.gradle.jvmargs"))
-            val properties: String = project.gradle?.rootProject?.property("org.gradle.jvmargs") as String
+            println(project.gradle.rootProject.property("org.gradle.jvmargs"))
+            val properties: String = project.gradle.rootProject.property("org.gradle.jvmargs") as String
             println(properties)
             properties.split(" ").forEach {
                 println(it)

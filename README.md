@@ -1,6 +1,6 @@
 ## Talaiot[WIP]
 
-Talaiot is a simple and extensible plugin to track timing in your Gradle Project.  
+Talaiot is a simple and extensible plugin to track timing/metrics in your Gradle tasks.  
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
@@ -13,15 +13,16 @@ Maybe you are wondering why we need another tool to track time tasks.
 [Build Scan](https://gradle.com/build-scans/) is excellent tool to understand builds, detect bottlenecks and problems in the configuration.
 If you are using Gradle Enterprise, Talaiot is useless because Gradle Enterprise allows you aggregate and compare the data of the build.
 
-One the other side, in different projects I was using the awesome plugin [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig.
-So if you are using this plugin you should continue using it.
+In previous projects I was using the awesome plugin [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig.
+So if you are using this plugin you can still continue using it. Build Time Tracker it was the main inspiration to build Talaiot exploring building Gradle plugins Kotlin.
 
 
-Some of the features of Talaiot:
+## Features Talaiot
 
-* Requirements from team and project can be different so Talaiot is extensible in a way of what we want to track and where we want to report
 * Focus on measuring within Time/Series systems
 * Develop it entirely with Kotlin 
+* Extensible definition of metrics depending of the requirements.
+* Extensible definition of publishers
 
 ## Setup Plugin
 
@@ -55,7 +56,7 @@ Simple task like `clean` will generate the output:
 
 
 ````
-¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ :app:clean ---- 5112
+¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ :app:clean ---- 51 ms
 ````
 
 ### More advanced configuration
@@ -110,7 +111,7 @@ Simple output of the execution of the task. In console, at the end of the build 
 
 
 
-#### InfluxDb
+#### InfluxDbPublisher
 One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected during the execution
 
 
@@ -120,7 +121,7 @@ One of the most populars Time Series Db. Talaiot will send to the server defined
 | url       | Url of the InfluxDb Server               |
 | urlMetric | Name of the metric used in the execution |
 
-#### customPublisher
+#### CustomPublisher
 We may have different configurations or different services, Talaiot allows you to setup your favorite environment inside 
 customPublisher configuration. 
 
@@ -141,13 +142,52 @@ But is possible that this solution doesn't solve your problem, and we offer the 
 
 | Property               |      Description                               |
 |----------------------- |------------------------------------------------|
-| gitMetrics             |Disable Git Metrics                             |
-| performanceMetrics     |Disable Performance Metrics                     |
+| gitMetrics             |Enable/Disable Git Metrics                             |
+| performanceMetrics     |Enable/Disable Performance Metrics                     |
 | customMetrics          |Confioguration to add new metrics (see example) |
+| gradleMetrics          |Enable/Disable Gradle Metrics |
+
+#### BaseMetrics
+|  Values               |
+|----------------------- |
+| user             |
+| project     |
+| buildId          |
+| os          |
 
 
 
+#### PerformanceMetrics
+Extracted from   Gradle Root's project configuration  and runtime Environment
 
+|  Values               |
+|----------------------- |
+| totalMemory             |
+| freeMemory     |
+| maxMemory          |
+| Xmx          |
+| MaxPermSize          |
+
+
+#### GitMetrics
+|  Values               |  
+|----------------------- | 
+| gitUser             |
+| branch     |         
+
+#### GradleMetrics       
+Extracted from Gradle Root's project configuration
+        
+|  Values               |     
+|----------------------- |    
+| gradleCaching             |       
+| gradleDaemon     | 
+| gradleParallel     | 
+| gradleConfigurationOnDemand     | 
+| gradleVersion     | 
+               
+ 
+               
 ## Creating custom Publishers
 The configuration of Dashboards, TimeSeries DB's is different for peojects or companies. 
 Talaiot allows you to create your custom Publisher:

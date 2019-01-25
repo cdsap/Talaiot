@@ -16,7 +16,6 @@ class SimpleRequest(mode: LogTracker) : Request {
 
     override fun send(url: String, content: String) {
 
-
         val client = HttpClient(OkHttp)
 
         GlobalScope.launch {
@@ -29,7 +28,7 @@ class SimpleRequest(mode: LogTracker) : Request {
                     logTracker.log(response)
                 }
             } catch (e: Exception) {
-                logTracker.log(e.message ?: "error ")
+                logTracker.log(e.message ?: "error requesting $url")
             }
         }
         logTracker.log(url)

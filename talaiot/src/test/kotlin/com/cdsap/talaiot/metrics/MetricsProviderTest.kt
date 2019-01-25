@@ -5,58 +5,58 @@ import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.BuildResult
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.extra
+import org.gradle.testfixtures.ProjectBuilder
+import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
 
 
 class MetricsProviderTest : BehaviorSpec({
     given("Metrics Provider implementation") {
 
         `when`("there are no metrics configured") {
-            val project: Project = mock()
-            val result: BuildResult = mock()
-            val talaiotExtension = TalaiotExtension(project)
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.metrics.gitMetrics = false
             talaiotExtension.metrics.customMetrics = mutableMapOf()
             talaiotExtension.metrics.gradleMetrics = false
             talaiotExtension.metrics.performanceMetrics = false
-            val metricsProvider = MetricsProvider(talaiotExtension, result)
+            val metrics = MetricsProvider(project).get()
             then("only base metrics are provided") {
-                assert(metricsProvider.get().count() == 1)
-                assert(metricsProvider.get()[0] is BaseMetrics)
+                assert(metrics.count() == 4)
+                assert(metrics.containsKey("user"))
+                assert(metrics.containsKey("project"))
+                assert(metrics.containsKey("buildId"))
+                assert(metrics.containsKey("os"))
             }
         }
         `when`("git metrics are configured") {
-            val project: Project = mock()
-            val result: BuildResult = mock()
-            val talaiotExtension = TalaiotExtension(project)
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.metrics.gitMetrics = true
             talaiotExtension.metrics.customMetrics = mutableMapOf()
             talaiotExtension.metrics.gradleMetrics = false
             talaiotExtension.metrics.performanceMetrics = false
-            val metricsProvider = MetricsProvider(talaiotExtension, result)
+            val metrics = MetricsProvider(project).get()
             then("git metrics should be included in the list") {
-                assert(metricsProvider.get().count() == 2)
-                assert(metricsProvider.get().any {
-                    it is GitMetrics
-                })
+                assert(metrics.count() == 6)
+                assert(metrics.containsKey("gitUser"))
+                assert(metrics.containsKey("branch"))
             }
         }
         `when`("all the  metrics are configured") {
-            val project: Project = mock()
-            val result: BuildResult = mock()
-            val talaiotExtension = TalaiotExtension(project)
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            project.gradle.rootProject.extra.set("org.gradle.jvmargs", "-Xmx8G MaxPermSize=512M")
             talaiotExtension.metrics.gitMetrics = true
             talaiotExtension.metrics.customMetrics = mutableMapOf(Pair("1", "2"))
             talaiotExtension.metrics.gradleMetrics = true
             talaiotExtension.metrics.performanceMetrics = true
-            val metricsProvider = MetricsProvider(talaiotExtension, result)
+            val metrics = MetricsProvider(project).get()
             then("all metrics should be included in the list") {
-                assert(metricsProvider.get().count() == 5)
-                assert(metricsProvider.get().any { it is GitMetrics })
-                assert(metricsProvider.get().any { it is PerformanceMetrics })
-                assert(metricsProvider.get().any { it is GradleMetrics })
-                assert(metricsProvider.get().any { it is CustomMetrics })
-                assert(metricsProvider.get().any { it is BaseMetrics })
-
+                assert(metrics.containsKey("buildId"))
+                assert(metrics.containsKey("user"))
+                assert(metrics.containsKey("Xmx"))
+                assert(metrics.containsKey("1"))
             }
         }
     }
