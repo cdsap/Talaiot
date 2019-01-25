@@ -1,0 +1,28 @@
+docker run -d \
+  --name onaki \
+  -p 3003:3003 \
+  -p 3004:8888 \
+  -p 8086:8086 \
+  -v /path/for/influxdb:/var/lib/influxdb \
+  -v /path/for/grafana:/var/lib/grafana \
+  po
+
+
+  docker run -it \
+    --name onaki \
+    -p 3003:3003 \
+    -p 3004:8888 \
+    -p 8086:8086 \
+    -v /var/lib/influxdb \
+    -v /var/lib/grafana \
+    po
+
+
+    docker run -it \
+      --name kkk \
+      -p 3003:3003 \
+      -p 3004:8888 \
+      -p 8086:8086 \
+      -v /var/lib/influxdb \
+      -v /var/lib/grafana \
+      iki

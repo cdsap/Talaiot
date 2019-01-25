@@ -1,0 +1,12 @@
+datasources:
+-  access: 'proxy'
+   editable: true
+   is_default: true
+   name: 'trakingInfluxDb'
+   org_id: 1
+   type: 'influxdb'
+   url: 'http://localhost:8086'
+   version: 1
+   user: root
+   password: root
+   database: tracking

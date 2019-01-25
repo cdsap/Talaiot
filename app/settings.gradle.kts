@@ -8,5 +8,3 @@ pluginManagement {
 
     }
 }
-include(":talaiot")
-include(":app")
