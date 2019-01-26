@@ -14,7 +14,8 @@ import org.gradle.api.tasks.TaskState
 
 
 class TalaiotListener(
-    private val talaiotPublisher: TalaiotPublisher
+    private val talaiotPublisher: TalaiotPublisher,
+    private val extension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
 
     private val taskLenghtList = mutableListOf<TaskLength>()
@@ -24,9 +25,9 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
-        println("paso")
-
-        talaiotPublisher.publish(taskLenghtList)
+        if (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) {
+            talaiotPublisher.publish(taskLenghtList)
+        }
     }
 
     override fun projectsLoaded(gradle: Gradle) {

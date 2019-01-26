@@ -13,7 +13,11 @@ class SimpleRequest(mode: LogTracker) : Request {
         println("sdldldldldldl")
         println(url)
         val response: Response = httpPost {
-            host = url
+
+            host = "http://localhost"
+            port = 8086
+            path = "write?db=tracking"
+
 
             body {
                 RequestBody.create(null, content)

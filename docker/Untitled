@@ -19,7 +19,7 @@ docker run -d \
 
 
     docker run -it \
-      --name kkk \
+      --name krabi \
       -p 3003:3003 \
       -p 3004:8888 \
       -p 8086:8086 \

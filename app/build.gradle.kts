@@ -1,3 +1,5 @@
+import com.cdsap.talaiot.logger.LogTracker
+
 plugins {
     id("com.android.application")
     id("talaiot")
@@ -24,28 +26,19 @@ android {
 }
 
 
-//talaiot {
-//    publishers {
-//        outputPublisher
-//        influxDbPublisher {
-//            dbName = "tracking"
-//            url = "http://localhost:8086"
-//            urlMetric = "tracking"
-//        }
-//    }
-//}
-
 talaiot {
-    ignoreWhen {
-        envName = "CI"
-        envValue = "true"
-    }
+    logger = LogTracker.Mode.INFO
+//    ignoreWhen {
+//        envName = "CI"
+//        envValue = "true"
+//    }
 
     publishers {
+       // outputPublisher = true
         influxDbPublisher {
-          dbName = "tracking"
-          url = "http://localhost:8086"
-          urlMetric = "tracking"
+            dbName = "tracking"
+            url = "http://localhost:8086"
+            urlMetric = "tracking"
         }
     }
 }
@@ -60,13 +53,3 @@ dependencies {
 }
 
 
-//class CustomPublisher : Publisher {
-//
-//    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
-//
-//    }
-//}
-
-fun getCustomProperty(): String {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-}

@@ -9,4 +9,4 @@ pluginManagement {
     }
 }
 include(":talaiot")
-//include(":app")
+include(":app")
