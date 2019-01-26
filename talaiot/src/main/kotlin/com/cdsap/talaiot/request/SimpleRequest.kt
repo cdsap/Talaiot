@@ -17,7 +17,6 @@ class SimpleRequest(mode: LogTracker) : Request {
     override fun send(url: String, content: String) {
 
         val client = HttpClient(OkHttp)
-
         GlobalScope.launch {
             try {
                 val response = client.post<String>(URL(url)) {

@@ -1,6 +1,5 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.metrics.*
 import com.cdsap.talaiot.publisher.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,12 +12,8 @@ class TalaiotPlugin : Plugin<Project> {
     }
 
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
-        if (extension.ignoreWhen?.shouldIgnore() == false) {
-            val publishers = PublishersProvider(project).get()
-            val metrics = MetricsProvider(project).get()
-            val publisher = TalaiotPublisherImpl(publishers, metrics)
-            val listener = TalaiotListener(publisher)
-            project.gradle.addBuildListener(listener)
-        }
+        val publisher = TalaiotPublisherImpl(project)
+        val listener = TalaiotListener(publisher, extension)
+        project.gradle.addBuildListener(listener)
     }
 }
