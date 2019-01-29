@@ -8,27 +8,29 @@ import org.gradle.testfixtures.ProjectBuilder
 
 class IgnoreWhenConfigurationTest : BehaviorSpec({
     given("IgnoreWhenConfiguration configuration") {
-        val project: Project = ProjectBuilder().build()
 
         `when`("There is no property") {
+            val project: Project = ProjectBuilder().build()
             val ignoreWhen = IgnoreWhenConfiguration(project)
             then("It should not ignore the execution") {
                 assert(!ignoreWhen.shouldIgnore())
             }
         }
         `when`("There isn't a matching property  ") {
-            project.extra.set("CI", "false")
+            val project: Project = ProjectBuilder().build()
+            project.extra.set("execute", "false")
             val ignoreWhenConfiguration = IgnoreWhenConfiguration(project)
-            ignoreWhenConfiguration.envName = "CI"
+            ignoreWhenConfiguration.envName = "execute"
             ignoreWhenConfiguration.envValue = "true"
             then("It should not ignore the execution tw") {
                 assert(!ignoreWhenConfiguration.shouldIgnore())
             }
         }
         `when`("There is a matching property ") {
-            project.gradle.rootProject.extra.set("CI", "true")
+            val project: Project = ProjectBuilder().build()
+            project.gradle.rootProject.extra.set("execute", "true")
             val ignoreWhen = IgnoreWhenConfiguration(project)
-            ignoreWhen.envName = "CI"
+            ignoreWhen.envName = "execute"
             ignoreWhen.envValue = "true"
             then("It should ignore the execution") {
                 assert(ignoreWhen.shouldIgnore())
