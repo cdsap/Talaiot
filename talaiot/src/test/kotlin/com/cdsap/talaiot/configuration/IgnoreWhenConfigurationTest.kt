@@ -18,7 +18,6 @@ class IgnoreWhenConfigurationTest : BehaviorSpec({
         }
         `when`("There isn't  matching property  ") {
             project.gradle.rootProject.extra.set("CI", "false")
-            project.extra.set("CI", "false")
             val ignoreWhenConfiguration = IgnoreWhenConfiguration(project)
             ignoreWhenConfiguration.envName = "CI"
             ignoreWhenConfiguration.envValue = "true"
