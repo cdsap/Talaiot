@@ -108,7 +108,7 @@
               },
               {
                 "params": [],
-                "type": "count"
+                "type": "mean"
               }
             ]
           ],
@@ -532,7 +532,7 @@
             },
             {
               "params": [
-                "os"
+                "gradleVerion"
               ],
               "type": "tag"
             }
@@ -562,7 +562,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":presentation:search:kaptDebugKotlin\""
+              "value": "\":app:mergeDebugResources\""
             }
           ]
         }

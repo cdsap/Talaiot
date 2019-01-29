@@ -3,7 +3,7 @@ assemble {
 tasks = ["clean"]
 }
 clean_build {
-versions = ["5.1"]
+versions = ["5.1","4.10.2"]
 tasks = ["assembleDebug"]
 gradle-args = ["--parallel"]
 
