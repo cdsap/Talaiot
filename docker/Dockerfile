@@ -15,8 +15,6 @@ ENV INFLUXDB_GRAFANA_PW datasource
 
 ENV GF_DATABASE_TYPE=sqlite3
 
-# Fix bad proxy issue
-#COPY system/99fixbadproxy /etc/apt/apt.conf.d/99fixbadproxy
 
 # Clear previous sources
 RUN rm /var/lib/apt/lists/* -vf
@@ -83,10 +81,23 @@ COPY grafana/dashboards /var/lib/grafana/dashboards/
 RUN chmod 0755 /etc/init.d/influxdb
 
 
-#CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord"]
 
 COPY influxdb/createdb.sh /usr/local/bin/createdb.sh
 
 RUN chmod 777 /usr/local/bin/createdb.sh
 
-#CMD /usr/local/bin/createdb.sh
+RUN  git clone https://github.com/gradle/gradle-profiler.git
+
+RUN cd gradle-profiler
+
+RUN ./gradlew installDist
+
+#RUN INSTALL PROFILER AND SET PATTH
+
+#RUN  GIT TEST REPO
+
+#RUN GRADLE PROFILER WIHT SCENARIO
+
+
+

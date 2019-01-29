@@ -4,52 +4,31 @@ import com.cdsap.talaiot.logger.LogTracker
 import io.github.rybalkinsd.kohttp.dsl.httpPost
 import okhttp3.RequestBody
 import okhttp3.Response
+import java.lang.Exception
+import java.net.URL
 
 
 class SimpleRequest(mode: LogTracker) : Request {
     override var logTracker = mode
 
     override fun send(url: String, content: String) {
-        println("sdldldldldldl")
-        println(url)
-        val response: Response = httpPost {
-
-            host = "http://localhost"
-            port = 8086
-            path = "write?db=tracking"
-
-
-            body {
-                RequestBody.create(null, content)
+        val urlSpec = URL(url)
+        logTracker.log(url)
+        try {
+            val response: Response = httpPost {
+                host = urlSpec.host
+                port = urlSpec.port
+                path = urlSpec.path
+                param {
+                    urlSpec.query
+                }
+                body {
+                    RequestBody.create(null, content)
+                }
             }
-
-
+            logTracker.log(response.message())
+        } catch (e: Exception) {
+            logTracker.log(e.message ?: "error requesting $url")
         }
-        println(response.message())
-        // val response: Response = httpPost {
-
-        //  }
     }
-//        val response: Response = httPost{
-//    }
-//    ]
-//    val client = HttpClient(OkHttp)
-//
-//
-//    GlobalScope.launch
-//    {
-//        try {
-//            val response = client.post<String>(URL(url)) {
-//                body = content
-//                build()
-//            }
-//            if (response.isNotEmpty()) {
-//                logTracker.log(response)
-//            }
-//        } catch (e: Exception) {
-//            logTracker.log(e.message ?: "error requesting $url")
-//        }
-//    }
-//    logTracker.log(url)
-//}
 }
