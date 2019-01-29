@@ -22,7 +22,6 @@ class GitMetrics : Metrics {
             val branch = bufferBranch.readLine()
             if (branch != null) {
                 gitMetrics["branch"] = branch
-
             }
             return gitMetrics
         } catch (e: IllegalStateException) {

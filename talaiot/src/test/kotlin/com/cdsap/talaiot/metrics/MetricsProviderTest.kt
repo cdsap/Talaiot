@@ -29,18 +29,17 @@ class MetricsProviderTest : BehaviorSpec({
                 assert(metrics.containsKey("os"))
             }
         }
-        `when`("git metrics are configured") {
+        `when`("perfomance metrics are configured") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-            talaiotExtension.metrics.gitMetrics = true
+            talaiotExtension.metrics.gitMetrics = false
             talaiotExtension.metrics.customMetrics = mutableMapOf()
             talaiotExtension.metrics.gradleMetrics = false
-            talaiotExtension.metrics.performanceMetrics = false
+            talaiotExtension.metrics.performanceMetrics = true
             val metrics = MetricsProvider(project).get()
             then("git metrics should be included in the list") {
-                assert(metrics.count() == 6)
-                assert(metrics.containsKey("gitUser"))
-                assert(metrics.containsKey("branch"))
+                assert(metrics.containsKey("totalMemory"))
+                assert(metrics.containsKey("freeMemory"))
             }
         }
         `when`("all the  metrics are configured") {
