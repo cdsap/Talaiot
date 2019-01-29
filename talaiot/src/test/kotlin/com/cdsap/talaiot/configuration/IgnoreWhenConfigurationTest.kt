@@ -21,7 +21,7 @@ class IgnoreWhenConfigurationTest : BehaviorSpec({
             val ignoreWhenConfiguration = IgnoreWhenConfiguration(project)
             ignoreWhenConfiguration.envName = "CI"
             ignoreWhenConfiguration.envValue = "true"
-            then("It should not ignore the execution") {
+            then("It should not ignore the execution tw") {
                 assert(!ignoreWhenConfiguration.shouldIgnore())
             }
         }
