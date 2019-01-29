@@ -17,4 +17,9 @@ jobs:
           name: build
           command: ./gradlew build test
 
+      - store_test_results:
+          path: talaiot/build/reports/tests/
+      - store_artifacts:
+          path: talaiot/build/reports/tests/
+
 
