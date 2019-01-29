@@ -15,13 +15,13 @@ class GitMetrics : Metrics {
             val bufferUserName = BufferedReader(
                 InputStreamReader(runtime.exec("git config --get user.name").inputStream)
             )
-            val userName = bufferUserName.runCatching { readLine() }
-            if (userName.isSuccess) {
-                gitMetrics["gitUser"] = userName.getOrElse { "" }
+            val userName = bufferUserName.readLine()
+            if (userName != null) {
+                gitMetrics["gitUser"] = userName
             }
-            val branch = bufferBranch.runCatching { readLine() }
-            if (branch.isSuccess) {
-                gitMetrics["branch"] = branch.getOrElse { "" }
+            val branch = bufferBranch.readLine()
+            if (branch != null) {
+                gitMetrics["branch"] = branch
 
             }
             return gitMetrics

@@ -1,3 +1,4 @@
+import com.novoda.gradle.release.PublishExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.gradle.api.publish.maven.MavenPom
 
@@ -8,10 +9,13 @@ plugins {
     groovy
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
+    id("com.novoda.bintray-release")
 }
 
+
+
 group = "com.cdsap"
-version = "0.1.8.5-SNAPSHOT"
+version = "0.1.8"
 
 gradlePlugin {
     plugins {
@@ -44,9 +48,8 @@ publishing {
             url = uri("https://nexus.default.svc.agoda.mobi/repository/maven-snapshots")
 
             credentials {
-                username = "admin" //project.findProperty("SONATYPE_NEXUS_USERNAME")?.toString()
-                password = "admin123" //project.findProperty("SONATYPE_NEXUS_PASSWORD")?.toString()
-
+                username = ""
+                password = ""
             }
         }
     }
@@ -66,7 +69,7 @@ val test by tasks.getting(Test::class) {
 afterEvaluate {
 
     publishing.publications.named<MavenPublication>("pluginMaven") {
-        artifactId = "talaiot-gradle-4"
+        artifactId = "talaiot"
         artifact(sourcesJar.get())
         pom {
             name.set("Talaiot")
@@ -91,6 +94,17 @@ afterEvaluate {
         }
     }
 }
+
+configure<PublishExtension> {
+    userOrg = ""
+    groupId = "com.cdsap"
+    artifactId = "talaiot"
+    publishVersion = "0.1.8.1"
+    desc = "Simple and extensible plugin to track task times in your Gradle Project."
+    website = "https://github.com/cdsap/Talaiot"
+}
+
+
 repositories {
     jcenter()
     google()
