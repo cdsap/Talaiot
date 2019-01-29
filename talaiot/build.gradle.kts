@@ -13,9 +13,10 @@ plugins {
 }
 
 
+val versionTalaiot = "0.1.9-SNAPSHOT"
 
 group = "com.cdsap"
-version = "0.1.8"
+version = versionTalaiot
 
 gradlePlugin {
     plugins {
@@ -99,7 +100,7 @@ configure<PublishExtension> {
     userOrg = ""
     groupId = "com.cdsap"
     artifactId = "talaiot"
-    publishVersion = "0.1.8.1"
+    publishVersion = versionTalaiot
     desc = "Simple and extensible plugin to track task times in your Gradle Project."
     website = "https://github.com/cdsap/Talaiot"
 }

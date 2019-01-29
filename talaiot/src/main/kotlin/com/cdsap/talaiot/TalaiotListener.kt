@@ -44,6 +44,7 @@ class TalaiotListener(
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
+        println("$task  ${state.skipMessage}   ${state.didWork}  ${state.executed}")
         val time = System.currentTimeMillis() - (listOfTasks[task.path] as Long)
         taskLenghtList.add(
             TaskLength(
@@ -53,7 +54,7 @@ class TalaiotListener(
                     "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                     "FROM-CACHE" -> TaskMessageState.FROM_CACHE
                     "NO-SOURCE" -> TaskMessageState.NO_SOURCE
-                    else -> TaskMessageState.NO_MESSAGE_STATE
+                    else -> TaskMessageState.EXECUTED
                 }
             )
         )

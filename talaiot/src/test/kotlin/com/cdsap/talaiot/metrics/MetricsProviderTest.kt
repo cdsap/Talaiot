@@ -37,7 +37,7 @@ class MetricsProviderTest : BehaviorSpec({
             talaiotExtension.metrics.gradleMetrics = false
             talaiotExtension.metrics.performanceMetrics = true
             val metrics = MetricsProvider(project).get()
-            then("git metrics should be included in the list") {
+            then("performance metrics should be included in the list") {
                 assert(metrics.containsKey("totalMemory"))
                 assert(metrics.containsKey("freeMemory"))
             }

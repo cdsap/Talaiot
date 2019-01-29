@@ -27,7 +27,7 @@ class TalaiotListenerTest : BehaviorSpec({
                 verify(talaiotPublisher).publish(argThat {
                     this.size == 1
                             && this[0].taskName == ":myTask"
-                            && this[0].state == TaskMessageState.NO_MESSAGE_STATE
+                            && this[0].state == TaskMessageState.EXECUTED
 
                 })
             }

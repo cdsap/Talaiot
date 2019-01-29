@@ -1,37 +1,30 @@
-## Talaiot[WIP]
+# Talaiot
 
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.8.1) ](https://bintray.com/cdsap/maven/talaiot/0.1.8.1/link)
+ 
 Talaiot is a simple and extensible plugin to track timing/metrics in your Gradle tasks.  
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
 https://en.wikipedia.org/wiki/Talaiot
 
-## Why another plugin?
-
-Maybe you are wondering why we need another tool to track time tasks.
- 
-[Build Scan](https://gradle.com/build-scans/) is excellent tool to understand builds, detect bottlenecks and problems in the configuration.
-If you are using Gradle Enterprise, Talaiot is useless because Gradle Enterprise allows you aggregate and compare the data of the build.
-
-In previous projects I was using the awesome plugin [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig.
-So if you are using this plugin you can still continue using it. Build Time Tracker it was the main inspiration to build Talaiot exploring building Gradle plugins Kotlin.
-
 
 ## Features Talaiot
 
 * Focus on measuring within Time/Series systems
-* Develop it entirely with Kotlin 
 * Extensible definition of metrics depending of the requirements.
-* Extensible definition of publishers
+* Definition of custom publishers
+* Develop it entirely with Kotlin 
 
 ## Setup Plugin
 
 Include in the classpath the latest version of Talaiot:
 ````
-classpath("com.cdsap:talaiot:0.1.7")
+classpath("com.cdsap:talaiot:latest_version")
 ````
 
 Apply the plugin:
+
 ````
 plugins {
     id("kotlin-android")

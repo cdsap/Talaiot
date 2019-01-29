@@ -4,5 +4,5 @@ enum class TaskMessageState {
     FROM_CACHE,
     NO_SOURCE,
     UP_TO_DATE,
-    NO_MESSAGE_STATE
+    EXECUTED
 }
