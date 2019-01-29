@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.cdsap"
-version = "0.1.8.4-SNAPSHOT"
+version = "0.1.8.5-SNAPSHOT"
 
 gradlePlugin {
     plugins {
@@ -19,9 +19,8 @@ gradlePlugin {
             id = "talaiot"
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
-
         dependencies {
-            api("io.ktor:ktor-client-okhttp:1.1.1")
+            api("io.github.rybalkinsd:kohttp:0.7.1")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
@@ -67,7 +66,7 @@ val test by tasks.getting(Test::class) {
 afterEvaluate {
 
     publishing.publications.named<MavenPublication>("pluginMaven") {
-        artifactId = "talaiot"
+        artifactId = "talaiot-gradle-4"
         artifact(sourcesJar.get())
         pom {
             name.set("Talaiot")

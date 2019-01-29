@@ -9,8 +9,8 @@ import org.gradle.api.plugins.ExtensionContainer
 
 class TalaiotPluginTest : BehaviorSpec({
     given(("a Talaiot Plugin")) {
-        `when`("not ignores ") {
-            then("") {
+        `when`("configuration is applied ") {
+            then("listener is added to the build") {
                 val talaiotPlug = TalaiotPlugin()
                 val project: Project = mock()
                 val gradle: Gradle = mock()
@@ -31,33 +31,6 @@ class TalaiotPluginTest : BehaviorSpec({
                 whenever(extensionContainer.getByName("talaiot")).thenReturn(extension)
                 talaiotPlug.apply(project)
                 verify(project.gradle).addBuildListener(any())
-
-            }
-        }
-        `when`("ignores ") {
-            then("") {
-                val talaiotPlug = TalaiotPlugin()
-                val project: Project = mock()
-                val gradle: Gradle = mock()
-                val extension = TalaiotExtension(project)
-                val ignore = IgnoreWhenConfiguration(project)
-                ignore.envName = "1"
-                ignore.envValue = "2"
-                val extensionContainer: ExtensionContainer = mock()
-                extension.ignoreWhen = ignore
-                whenever(extensionContainer.create("talaiot", TalaiotExtension::class.java, project)).thenReturn(
-                    extension
-                )
-                whenever(project.hasProperty("1")).thenReturn(true)
-                whenever(project.property("1")).thenReturn("2")
-                whenever(gradle.rootProject).thenReturn(project)
-                whenever(gradle.gradleVersion).thenReturn("5.1")
-                whenever(project.gradle).thenReturn(gradle)
-                whenever(project.name).thenReturn("test1")
-                whenever(project.extensions).thenReturn(extensionContainer)
-                whenever(extensionContainer.getByName("talaiot")).thenReturn(extension)
-                talaiotPlug.apply(project)
-                verify(project.gradle, never()).addBuildListener(any())
 
             }
         }

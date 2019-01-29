@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        mavenCentral()
         google()
         jcenter()
         mavenLocal()
@@ -9,4 +10,3 @@ pluginManagement {
     }
 }
 include(":talaiot")
-include(":app")

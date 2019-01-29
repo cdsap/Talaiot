@@ -9,7 +9,7 @@ import org.gradle.api.Project
 
 
 open class TalaiotExtension(val project: Project) {
-    var logger = LogTracker.Mode.INFO
+    var logger = LogTracker.Mode.SILENT
     var publishers: PublishersConfiguration? = null
     var ignoreWhen: IgnoreWhenConfiguration? = null
     var metrics: MetricsConfiguration = MetricsConfiguration()
@@ -25,8 +25,6 @@ open class TalaiotExtension(val project: Project) {
     fun metrics(block: MetricsConfiguration.() -> Unit) {
         metrics = MetricsConfiguration().also(block)
     }
-
-    // Groovy's compat definition
 
     fun publishers(closure: Closure<*>) {
         publishers = PublishersConfiguration()
@@ -46,6 +44,5 @@ open class TalaiotExtension(val project: Project) {
         closure.call()
 
     }
-
 
 }
