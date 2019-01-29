@@ -6,7 +6,7 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     groovy
-    kotlin("jvm")
+    kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
 }
 
