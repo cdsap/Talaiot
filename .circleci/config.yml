@@ -2,9 +2,19 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/openjdk:latest
+
+
+    working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
     steps:
       - checkout
       - run:
           name: build
           command: ./gradlew build
+
+
