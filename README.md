@@ -1,7 +1,8 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.8.1) ](https://bintray.com/cdsap/maven/talaiot/0.1.8.1/link)
- 
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.9) ](https://bintray.com/cdsap/maven/talaiot/0.1.9/link)
+
+
 Talaiot is a simple and extensible plugin to track timing/metrics in your Gradle tasks.  
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_

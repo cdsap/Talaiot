@@ -13,7 +13,7 @@ plugins {
 }
 
 
-val versionTalaiot = "0.1.9-SNAPSHOT"
+val versionTalaiot = "0.1.10-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
