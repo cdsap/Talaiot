@@ -7,10 +7,7 @@ class PerformanceMetrics(private val project: Project) : Metrics {
     override fun get(): Map<String, String> {
         val runtime = Runtime.getRuntime()
         val runtimeMetrics = mapOf(
-            "totalMemory" to "${runtime.totalMemory()}",
-            "freeMemory" to "${runtime.freeMemory()}",
-            "maxMemory" to "${runtime.maxMemory()}",
-            "availableProcessors" to "${runtime.availableProcessors()}"
+                "availableProcessors" to "${runtime.availableProcessors()}"
         )
         return runtimeMetrics + parseJvmArgs()
     }
@@ -23,6 +20,9 @@ class PerformanceMetrics(private val project: Project) : Metrics {
             properties.split(" ").forEach {
                 if (it.contains("Xmx")) {
                     listOfJvmArgs["Xmx"] = it.split("Xmx")[1]
+                }
+                if (it.contains("Xms")) {
+                    listOfJvmArgs["Xms"] = it.split("Xms")[1]
                 }
                 if (it.contains("MaxPermSize")) {
                     listOfJvmArgs["MaxPermSize"] = it.split("=")[1]

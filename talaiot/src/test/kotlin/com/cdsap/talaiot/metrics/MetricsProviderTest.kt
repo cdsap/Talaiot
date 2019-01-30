@@ -38,8 +38,7 @@ class MetricsProviderTest : BehaviorSpec({
             talaiotExtension.metrics.performanceMetrics = true
             val metrics = MetricsProvider(project).get()
             then("performance metrics should be included in the list") {
-                assert(metrics.containsKey("totalMemory"))
-                assert(metrics.containsKey("freeMemory"))
+                assert(metrics.containsKey("availableProcessors"))
             }
         }
         `when`("all the  metrics are configured") {
