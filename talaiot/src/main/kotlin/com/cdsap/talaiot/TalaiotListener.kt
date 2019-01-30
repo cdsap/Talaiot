@@ -44,7 +44,6 @@ class TalaiotListener(
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
-        println("$task  ${state.skipMessage}   ${state.didWork}  ${state.executed}")
         val time = System.currentTimeMillis() - (listOfTasks[task.path] as Long)
         taskLenghtList.add(
             TaskLength(
