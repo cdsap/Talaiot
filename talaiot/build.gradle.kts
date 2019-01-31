@@ -13,7 +13,7 @@ plugins {
 }
 
 
-val versionTalaiot = "0.1.10-SNAPSHOT"
+val versionTalaiot = "0.1.15-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -76,7 +76,7 @@ afterEvaluate {
             name.set("Talaiot")
             url.set("https://github.com/cdsap/Talaiot/")
             description.set(
-                "is a simple and extensible plugin to track timing in your Gradle Project."
+                    "is a simple and extensible plugin to track timing in your Gradle Project."
             )
             licenses {
                 license {
@@ -104,7 +104,6 @@ configure<PublishExtension> {
     desc = "Simple and extensible plugin to track task times in your Gradle Project."
     website = "https://github.com/cdsap/Talaiot"
 }
-
 
 repositories {
     jcenter()

@@ -11,7 +11,7 @@ class OutputPublisher(private val logTracker: LogTracker) : Publisher {
 
         measurementAggregated.apply {
             logTracker.log("================")
-            logTracker.log("OutputReporting")
+            logTracker.log("OutputPublisher")
             logTracker.log("================")
             val orderedTiming = sort(taskMeasurement)
             if (!orderedTiming.isEmpty()) {

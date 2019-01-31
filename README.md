@@ -12,16 +12,20 @@ https://en.wikipedia.org/wiki/Talaiot
 
 ## Features Talaiot
 
-* Focus on measuring within Time/Series systems
+Talaiot is a complementary tool for medium/big teams of developers using Gradle Build System.
+
+* Integration within Time/Series systems
 * Extensible definition of metrics depending of the requirements.
 * Definition of custom publishers
 * Develop it entirely with Kotlin 
+
+If you are wondering  Why another plugin to track the build,  Check the article explaining more about motivation of Talaiot
 
 ## Setup Plugin
 
 Include in the classpath the latest version of Talaiot:
 ````
-classpath("com.cdsap:talaiot:latest_version")
+classpath("com.cdsap:talaiot:<latest_version>")
 ````
 
 Apply the plugin:
@@ -35,25 +39,6 @@ plugins {
 
 
 ## Basic configuration
-
-
-````
-talaiot {
-    publishers {
-        outputPublisher
-    }
-}
-````
-
-
-Simple task like `clean` will generate the output:
-
-
-````
-¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ ¯\_(ツ)_/¯ :app:clean ---- 51 ms
-````
-
-### More advanced configuration
 
 ````
 talaiot {
@@ -71,7 +56,7 @@ talaiot {
     }
 }
 ````
-Here we are adding the InfluxDb Publisher information to be reported and in terms of additional information tracked wea are removing the 
+Here we are adding the `InfluxDbPublisher` information to be reported and in terms of additional information tracked wea are removing the 
 information related with Git and Performance
 
 ## DSL
@@ -90,6 +75,19 @@ information related with Git and Performance
 |----------- |-----------------------|
 | envName    |Name of the Property   |
 | envValue   |Value of the Property  |
+
+We will use IgnoreWhebn when we want to ignore publishing the results of the build due 
+
+````
+talaiot {
+    ignoreWhen {
+        envName = "CI"
+        envValue = "true"
+    }
+}
+````
+
+
     
 ### Publishers
 In terms of publishing Talaiot inclide some default Publishers, but at the same time 
@@ -138,55 +136,30 @@ But is possible that this solution doesn't solve your problem, and we offer the 
 |----------------------- |------------------------------------------------|
 | gitMetrics             |Enable/Disable Git Metrics                             |
 | performanceMetrics     |Enable/Disable Performance Metrics                     |
-| customMetrics          |Confioguration to add new metrics (see example) |
+| customMetrics          |Configuration to add new metrics (see example) |
 | gradleMetrics          |Enable/Disable Gradle Metrics |
 
-#### BaseMetrics
-|  Values               |
-|----------------------- |
-| user             |
-| project     |
-| buildId          |
-| os          |
+Check the Wiki to know more about the existing metrics
+#### Extending metrics
 
+If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
 
-
-#### PerformanceMetrics
-Extracted from   Gradle Root's project configuration  and runtime Environment
-
-|  Values               |
-|----------------------- |
-| totalMemory             |
-| freeMemory     |
-| maxMemory          |
-| Xmx          |
-| MaxPermSize          |
-
-
-#### GitMetrics
-|  Values               |  
-|----------------------- | 
-| gitUser             |
-| branch     |         
-
-#### GradleMetrics       
-Extracted from Gradle Root's project configuration
-        
-|  Values               |     
-|----------------------- |    
-| gradleCaching             |       
-| gradleDaemon     | 
-| gradleParallel     | 
-| gradleConfigurationOnDemand     | 
-| gradleVersion     | 
-               
+````
+talaiot {
+    metrics {
+        customMetrics( "versionApp" to $version,
+                       "customProperty" to getCustomProperty() 
+                      )
+    }
+}
+````
  
                
 ## Creating custom Publishers
 The configuration of Dashboards, TimeSeries DB's is different for peojects or companies. 
-Talaiot allows you to create your custom Publisher:
+Talaiot allows you to create your custom Publisher dependenciung of your requirements. 
 
-1- The interface Publisher is the basic contract to publish the results of the build
+ The interface Publisher is the basic contract to publish the results of the build
 
 ````
 interface Publisher {
@@ -197,7 +170,7 @@ interface Publisher {
 The function publish includes the argument `TaskMeasurementAggregated` where includes all the aggregated metrics 
 defined in the configuration and the list of tasks executed in the build. 
 
-2- Create the Custom Publisher
+If we want to create or custom Publisher first of all we have to create our class implementing the `Publisher`:
 
 ````
 class CustomPublisher : Publisher {
@@ -207,10 +180,11 @@ class CustomPublisher : Publisher {
     }
 }
 ````
+Therefore we need to implement our logic, could be reporting to another Time/Series environment like Prometheus or generate 
+our custom Json implementation to later send it. 
 
 
-3- Register the Custom Publisher      
-The final step is just set the custom publisher in the `publisher` configuration
+Finally we need to register the Custom Publisher in the `talaiot` configuration:
 
 ````
 talaiot {
@@ -219,43 +193,40 @@ talaiot {
     }
 }
 ````
+Check the wiki to see different examples of custom publishers defined in Java/Groovy.
 
-4- In case you need to requires Http request to publish your results in third part services, Talaiot includes SimpleRequest 
-and AutorizherRequest in case you need to use it. 
-
-## Extending Metrics
-If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
-
-````
-talaiot {
-    metrics {
-        customMetrics( "nameProject" to project.gradle.rootProject.name,
-                             "customProperty" to getCustomProperty() )
-    }
-}
-````
-
-## Ignoring Executions
-The configuration `ignoreWhen` allows us to set specific variables and values to ignore the execution of Talaiot when we match 
-that condition.
-One of the use cases is ignoring Talaiot on CI Executions becuasis understand better the performance of the builds on the development team, nor in CI. 
-
-
-````
-talaiot {
-    ignoreWhen {
-        envName = "CI"
-        envValue = "true"
-    }
-}
-````
 
 ## Creating DashBoards & Grafana
+One of the moitivations of `Talaiot` is help to understand better our build process. One of the way to do that is measuring and 
+having an easy way to display the information. 
+One of the defauult publishers defined in Talaiot is `InfluxDbPublisher`, InfluxDb is quite extended in the "Dashboard workd".
+The tupla Grafana/InfluxDb helps a lot of developers to track measurmentes happening oinf the db. 
+
+
+### Docker Image
+The docker image is provided there and is based in this awesome Image with some modfications, the docker iamage is 
+usiong:
+
+-- InfluxDb
+
+-- Grafana
+
+-- Provisioned Dashboard 
+
+
+### Provisioning Data 
+If you want to check quickly how Talaiot help us we need to populate the data. We can do with the script provisioning 
+There we are using Gradle Profiler  
+
+
+
+
 If your company/team don't use any Dashboard or just you want to test the whole process with Talaiot you can use Grafana and 
 Influx Db 
 
-
+In the article we were commenting some use cases used in Agoda
 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration.
-Anton Malinsky 
+
+Anton Malinsky for all the help. 
