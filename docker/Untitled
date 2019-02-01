@@ -19,10 +19,9 @@ docker run -d \
 
 
     docker run -it \
-      --name krabi2 \
       -p 3003:3003 \
       -p 3004:8888 \
       -p 8086:8086 \
       -v /var/lib/influxdb \
       -v /var/lib/grafana \
-      iki
+      cdsap/talaiot:latest

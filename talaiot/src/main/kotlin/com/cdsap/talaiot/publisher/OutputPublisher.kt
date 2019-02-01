@@ -1,40 +1,70 @@
 package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.Order
+import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.logger.LogTrackerImpl
 import java.util.concurrent.TimeUnit
 
 
-class OutputPublisher(private val logTracker: LogTracker) : Publisher {
+class OutputPublisher(
+    private val outputPublisherConfiguration: OutputPublisherConfiguration,
+    private val logTracker: LogTracker
+) : Publisher {
     override fun publish(measurementAggregated: TaskMeasurementAggregated) {
 
         measurementAggregated.apply {
             logTracker.log("================")
-            logTracker.log("OutputReporting")
+            logTracker.log("OutputPublisher")
             logTracker.log("================")
-            val orderedTiming = sort(taskMeasurement)
+            val orderedTiming = sort(taskMeasurement, outputPublisherConfiguration.order)
             if (!orderedTiming.isEmpty()) {
-                val max = orderedTiming.last().ms
-                sort(taskMeasurement).forEach {
-                    val x = if (max == 0L) 0 else (it.ms * MAX_UNIT.length) / max
+                val max = when (outputPublisherConfiguration.order) {
+                    Order.ASC -> orderedTiming.last().ms
+                    Order.DESC -> orderedTiming.first().ms
+                }
+                val limit = when {
+                    outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
+                    outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
+                    else -> orderedTiming.size
+                }
+
+                for (i in 0 until limit) {
+                    val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
-                    val maskMs = maskMs(it.ms)
-                    logTracker.log("$s ${it.taskName} : $maskMs")
+                    val maskMs = maskMs(orderedTiming[i].ms)
+                    logTracker.log("$s ${orderedTiming[i].taskName} : $maskMs")
+                }
+                sort(taskMeasurement, outputPublisherConfiguration.order).forEach {
+
                 }
             }
         }
     }
 
-    private fun sort(items: List<TaskLength>): List<TaskLength> {
+    private fun sort(items: List<TaskLength>, order: Order): List<TaskLength> {
         if (items.count() < 2) {
             return items
         }
-        val pivot = items[items.count() / 2].ms
-        val equal = items.filter { it.ms == pivot }
-        val less = items.filter { it.ms < pivot }
-        val greater = items.filter { it.ms > pivot }
-        return sort(less) + equal + sort(greater)
+        return when (order) {
+            Order.ASC -> {
+                val pivot = items[items.count() / 2].ms
+                val equal = items.filter { it.ms == pivot }
+                val less = items.filter { it.ms < pivot }
+                val greater = items.filter { it.ms > pivot }
+                sort(less, order) + equal + sort(greater, order)
+            }
+            Order.DESC -> {
+                val pivot = items[items.count() / 2].ms
+                val equal = items.filter { it.ms == pivot }
+                val less = items.filter { it.ms > pivot }
+                val greater = items.filter { it.ms < pivot }
+                sort(less, order) + equal + sort(greater, order)
+            }
+        }
     }
 
     private fun maskMs(ms: Long): String =

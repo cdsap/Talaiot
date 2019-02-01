@@ -85,19 +85,8 @@ CMD ["/usr/bin/supervisord"]
 
 COPY influxdb/createdb.sh /usr/local/bin/createdb.sh
 
+# Create Database
 RUN chmod 777 /usr/local/bin/createdb.sh
-
-RUN  git clone https://github.com/gradle/gradle-profiler.git
-
-RUN cd gradle-profiler
-
-RUN ./gradlew installDist
-
-#RUN INSTALL PROFILER AND SET PATTH
-
-#RUN  GIT TEST REPO
-
-#RUN GRADLE PROFILER WIHT SCENARIO
 
 
 

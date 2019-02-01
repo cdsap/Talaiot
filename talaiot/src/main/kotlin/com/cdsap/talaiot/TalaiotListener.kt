@@ -1,6 +1,5 @@
 package com.cdsap.talaiot
 
-
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.publisher.TalaiotPublisher

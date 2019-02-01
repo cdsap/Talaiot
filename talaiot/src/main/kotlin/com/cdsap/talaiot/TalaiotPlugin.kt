@@ -8,7 +8,7 @@ class TalaiotPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val extension: TalaiotExtension = target.extensions.create("talaiot", TalaiotExtension::class.java, target)
-        initPlugin(extension,target)
+        initPlugin(extension, target)
     }
 
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
