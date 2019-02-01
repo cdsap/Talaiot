@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.Order
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
@@ -20,7 +21,7 @@ class OutputPublisherTest : BehaviorSpec({
                 outputPublisher.publish(TaskMeasurementAggregated(emptyMap(), emptyList()))
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
-                    verify(logTracker).log("OutputReporting")
+                    verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verifyNoMoreInteractions()
                 }
@@ -28,9 +29,9 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There are tasks tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration()
-            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
-            then("should apply sorting") {
+            then("should apply sorting desc") {
+                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
@@ -42,7 +43,7 @@ class OutputPublisherTest : BehaviorSpec({
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
-                    verify(logTracker).log("OutputReporting")
+                    verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains(":fastTask")
@@ -52,6 +53,37 @@ class OutputPublisherTest : BehaviorSpec({
                     })
                     verify(logTracker).log(argForWhich {
                         this.contains(":slowTask")
+                    })
+                    verifyNoMoreInteractions()
+
+                }
+            }
+            then("should apply sorting asc") {
+                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                outputPublisherConfiguration.order = Order.DESC
+                val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
+
+                val taskMeasurementAggregated = TaskMeasurementAggregated(
+                    emptyMap(),
+                    listOf(
+                        TaskLength(20L, ":averageTask", TaskMessageState.EXECUTED),
+                        TaskLength(30L, ":slowTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, ":fastTask", TaskMessageState.EXECUTED)
+                    )
+                )
+                outputPublisher.publish(taskMeasurementAggregated)
+                inOrder(logTracker) {
+                    verify(logTracker).log("================")
+                    verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("================")
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":slowTask")
+                    })
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":averageTask")
+                    })
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":fastTask")
                     })
                     verifyNoMoreInteractions()
 
@@ -70,7 +102,7 @@ class OutputPublisherTest : BehaviorSpec({
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
-                    verify(logTracker).log("OutputReporting")
+                    verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains(":zeroTask : 0 ms")
@@ -95,7 +127,7 @@ class OutputPublisherTest : BehaviorSpec({
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
-                    verify(logTracker).log("OutputReporting")
+                    verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains(":msTask : 10 ms")
@@ -110,6 +142,38 @@ class OutputPublisherTest : BehaviorSpec({
                 }
             }
         }
+        `when`("There are tasks tracked and the configuration of the Publisher exceeds number of tasks ") {
+            val logTracker: LogTracker = mock()
+            then("should apply sorting desc") {
+                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                outputPublisherConfiguration.numberOfTasks = 100
+                val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
+                val taskMeasurementAggregated = TaskMeasurementAggregated(
+                    emptyMap(),
+                    listOf(
+                        TaskLength(20L, ":averageTask", TaskMessageState.EXECUTED),
+                        TaskLength(30L, ":slowTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, ":fastTask", TaskMessageState.EXECUTED)
+                    )
+                )
+                outputPublisher.publish(taskMeasurementAggregated)
+                inOrder(logTracker) {
+                    verify(logTracker).log("================")
+                    verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("================")
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":fastTask")
+                    })
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":averageTask")
+                    })
+                    verify(logTracker).log(argForWhich {
+                        this.contains(":slowTask")
+                    })
+                    verifyNoMoreInteractions()
+
+                }
+            }
+        }
     }
-}
-)
+})

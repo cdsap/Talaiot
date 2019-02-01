@@ -4,7 +4,9 @@ import com.cdsap.talaiot.configuration.Order
 import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.logger.LogTrackerImpl
 import java.util.concurrent.TimeUnit
 
 
@@ -20,9 +22,16 @@ class OutputPublisher(
             logTracker.log("================")
             val orderedTiming = sort(taskMeasurement, outputPublisherConfiguration.order)
             if (!orderedTiming.isEmpty()) {
-                val max = orderedTiming.last().ms
-                val limit = if (outputPublisherConfiguration.numberOfTasks == -1) orderedTiming.size else
-                    outputPublisherConfiguration.numberOfTasks
+                val max = when (outputPublisherConfiguration.order) {
+                    Order.ASC -> orderedTiming.last().ms
+                    Order.DESC -> orderedTiming.first().ms
+                }
+                val limit = when {
+                    outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
+                    outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
+                    else -> orderedTiming.size
+                }
+
                 for (i in 0 until limit) {
                     val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
                     val s = MAX_UNIT.substring(0, x.toInt())
