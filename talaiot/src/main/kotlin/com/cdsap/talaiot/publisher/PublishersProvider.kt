@@ -13,7 +13,7 @@ class PublishersProvider(val project: Project) {
 
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
-                publishers.add(OutputPublisher(logger))
+                publishers.add(OutputPublisher(this, logger))
             }
 
             influxDbPublisher?.apply {

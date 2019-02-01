@@ -1,4 +1,4 @@
-import com.novoda.gradle.release.PublishExtension
+//import com.novoda.gradle.release.PublishExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.gradle.api.publish.maven.MavenPom
 
@@ -9,7 +9,7 @@ plugins {
     groovy
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
-    id("com.novoda.bintray-release")
+   // id("com.novoda.bintray-release")
 }
 
 
@@ -96,14 +96,14 @@ afterEvaluate {
     }
 }
 
-configure<PublishExtension> {
-    userOrg = ""
-    groupId = "com.cdsap"
-    artifactId = "talaiot"
-    publishVersion = versionTalaiot
-    desc = "Simple and extensible plugin to track task times in your Gradle Project."
-    website = "https://github.com/cdsap/Talaiot"
-}
+//configure<PublishExtension> {
+//    userOrg = ""
+//    groupId = "com.cdsap"
+//    artifactId = "talaiot"
+//    publishVersion = versionTalaiot
+//    desc = "Simple and extensible plugin to track task times in your Gradle Project."
+//    website = "https://github.com/cdsap/Talaiot"
+//}
 
 repositories {
     jcenter()

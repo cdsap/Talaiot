@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
+import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.nhaarman.mockitokotlin2.argForWhich
 import com.nhaarman.mockitokotlin2.inOrder
@@ -13,7 +14,8 @@ class OutputPublisherTest : BehaviorSpec({
     given("OutputPublisher configuration") {
         `when`("There are no tasks tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisher = OutputPublisher(logTracker)
+            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("shouldn't print anything") {
                 outputPublisher.publish(TaskMeasurementAggregated(emptyMap(), emptyList()))
                 inOrder(logTracker) {
@@ -26,7 +28,8 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There are tasks tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisher = OutputPublisher(logTracker)
+            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should apply sorting") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
@@ -57,7 +60,8 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There is task tracked with 0 length") {
             val logTracker: LogTracker = mock()
-            val outputPublisher = OutputPublisher(logTracker)
+            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
@@ -77,7 +81,8 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There are different time units on the task tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisher = OutputPublisher(logTracker)
+            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print length in the correct unit") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
