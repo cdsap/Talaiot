@@ -3,10 +3,9 @@
 [ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.9) ](https://bintray.com/cdsap/maven/talaiot/0.1.9/link)
 
 
-Talaiot is a simple and extensible plugin to track length your Gradle tasks and add metrics in  .  
- 
+Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
+It records duration of your Gradle tasks to helping to understand problems of the build of the team.  
 
-Talaiot is targeting medium/big teams of developers using Gradle Build System.
 Some of the features are:
 
 * Integration within Time/Series systems
@@ -14,8 +13,12 @@ Some of the features are:
 * Definition of custom publishers
 * Develop it entirely with Kotlin 
 
+![](resources/dashboard.png) 
+
 If you are wondering  Why we need another plugin to track builds, check this article that explains more about motivation of Talaiot
 
+
+**What is a Talaiot?**
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
@@ -92,20 +95,20 @@ talaiot {
 In terms of publishing Talaiot inclide some default Publishers, but at the same time 
 you can extend it and create your own publisher for your requirements
 
-#### Defined Publsihers
+#### Predefined Publsihers
 Simple output of the execution of the task. In console, at the end of the build will print by time each task  
 
 
-| Property           |      Description                      |
-|------------------- |---------------------------------------|
-| OutputPublisher    |  Disable the output of the execution  |
-| InfluxDbPublisher  |  Disable the output of the execution  |
-| CustomPublisher    |  Disable the output of the execution  |
+| Property           |      Description                                                                                       |
+|------------------- |--------------------------------------------------------------------------------------------------------|
+| OutputPublisher    | Publish the results of the build on console, this Publisher will only print the task name and duration |
+| InfluxDbPublisher  | Publish the results of the build to the InfluxDb database defined in the configurataion                |
 
 
 
 #### InfluxDbPublisher
-One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected during the execution
+One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected 
+during the execution
 
 
 | Property  |      Description                         |
@@ -115,28 +118,38 @@ One of the most populars Time Series Db. Talaiot will send to the server defined
 | urlMetric | Name of the metric used in the execution |
 
 #### Custom Publishers
+Talaiot allows to use another Publishers defined by the requirements of your environment, in case you are using another Time/Series machine or 
+you can define your own implementation.
 Check here how to define a custom publisher
 
 
 ### Metrics
-With the metrics configuration we can adapt our requirements to the data we are adding on the information for 
-every task.
+For every measurement done, Talaiot adds metrics to help you later to analyze the data and detect problems.
+
+Metrics are categorized and trhought the configuration we can disable and add more metrics.
+
 The Default Configuration of Metrics includes:
-
-Basic Metrics + gitMetrics + Performance metrics
-
-But is possible that this solution doesn't solve your problem, and we offer the next configuration
 
 | Property               |      Description                               |
 |----------------------- |------------------------------------------------|
-| baseMetricsg             |Enable/Disable Git Metrics                      |
-| gitMetrics             |Enable/Disable Git Metrics                      |
-| performanceMetrics     |Enable/Disable Performance Metrics              |
-| customMetrics          |Configuration to add new metrics (see example)  |
-| gradleMetrics          |Enable/Disable Gradle Metrics |
+| baseMetrics            |Collects information about the pro                      |
+| gitMetrics             |Metrics related to the Git configuration of the project               |
+| performanceMetrics     |Metrics related to the Java arguments defined on the Gradle Build.        |
+| gradleMetrics          |Metrics related to Gradle arguments|
+
+By default all the metrics are available but if you want to disable some group define the configuration like:
+```
+  metrics {
+        gitMetrics = false
+        perfomanceMetrics = false
+  }
+```
+
 
 Check the Wiki to know more about the existing metrics
+
 #### Extending metrics
+
 
 If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
 
@@ -151,11 +164,11 @@ talaiot {
 ````
  
                
-##Analyzing Data provided by Talaiot
+## Example: Analyzing Data provided by Talaiot
 
 ### Docker, InfluxDb and Grafana
 To have a quick setup to see the posibilities of `Talaiot` we are providing a Docker image to set up quickly a Grafana + Inlfluxdb 
-instances. 
+instances.  Setting 
 Additionally we set up a default database and a provisioned dashboard.
 The source is here(docker folder):
 But if you want to set up easyly only 
@@ -176,25 +189,42 @@ And you can access to the local instance of Grafana through:
 `http://localhost:3003` root/root
     
 In terms of InfluxdB we are providing one database and one dashboard plus the datasource    
+
+
 ### Populating data 
 If you access to the provisioned Dashbord included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1)
  you will see an empty dashboard like:
 
 ![](resources/empty_dashboard.png)
 
-If you want to check quickly how Talaiot help us we need to populate the data. We can do with the script provisioning 
-There we are using Gradle Profiler .
-Gradle Profiler option if Benchmarking helps us to execute different scenarios. To populate quickly we are exect
+If you want to check quickly how Talaiot help us we need to populate the data. We are providing script to populate data based in this 
+example repository:
+https://github.com/cdsap/TalaiotClientExample
 
-only execute:
+This repository includes the `InfluxDbPubluser` configuration pointing to the InfluxDb and datastore defined in the Docker image:
 
-`bash boolstraping/populate.sh --YOUR_PATH` 
-this will doenload the gradle profiler will add to your path and execute the scenatio. 
+```
+talaiot {
+    publishers {
+        influxDbPublisher {
+            dbName = "tracking"
+            url = "http://localhost:3003"
+            urlMetric = "tracking"
+        }
 
-This is an example of scenario defined in the code:
+    }
+}
 
 ```
 
+You can execute the bootstraping script:
+
+`bash boolstraping/populate.sh --YOUR_PATH`
+
+The script will download the example repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
+will trigger number of builds defined in the scenario file:
+
+```
     aessemble {
     tasks = ["clean"]
     }
@@ -208,13 +238,15 @@ This is an example of scenario defined in the code:
     }
 ```
 
-To check 
+Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1
 
- As you can see we don't have data to analyz. 
- We are providing an example of 
+
+## Contributing
+Talaiot is Open Source and accepts contributions of new Publishers, metrics and Dashboards that we can include as provisioned ones in the 
+Docker image.
 
 
 ## Thanks
-Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration.
+Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration to build this plugin.
 
 Anton Malinsky for all the help. 
