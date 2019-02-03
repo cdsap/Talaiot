@@ -532,7 +532,7 @@
             },
             {
               "params": [
-                "gradleVerion"
+                "buildId"
               ],
               "type": "tag"
             }
@@ -551,27 +551,19 @@
                 "type": "field"
               },
               {
-                "params": [
-                  95
-                ],
-                "type": "percentile"
+                "params": [],
+                "type": "sum"
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "task",
-              "operator": "=",
-              "value": "\":app:mergeDebugResources\""
-            }
-          ]
+          "tags": []
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": ":search:kaptCompileDebug by OS",
+      "title": "sum by Build",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -587,7 +579,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "ms",
           "label": null,
           "logBase": 1,
           "max": null,
