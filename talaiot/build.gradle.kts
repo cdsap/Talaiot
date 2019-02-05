@@ -9,7 +9,7 @@ plugins {
     groovy
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
-   // id("com.novoda.bintray-release")
+    id("com.novoda.bintray-release")
 }
 
 
@@ -76,7 +76,7 @@ afterEvaluate {
             name.set("Talaiot")
             url.set("https://github.com/cdsap/Talaiot/")
             description.set(
-                    "is a simple and extensible plugin to track timing in your Gradle Project."
+                "is a simple and extensible plugin to track timing in your Gradle Project."
             )
             licenses {
                 license {
@@ -96,14 +96,14 @@ afterEvaluate {
     }
 }
 
-//configure<PublishExtension> {
-//    userOrg = ""
-//    groupId = "com.cdsap"
-//    artifactId = "talaiot"
-//    publishVersion = versionTalaiot
-//    desc = "Simple and extensible plugin to track task times in your Gradle Project."
-//    website = "https://github.com/cdsap/Talaiot"
-//}
+configure<PublishExtension> {
+    userOrg = ""
+    groupId = "com.cdsap"
+    artifactId = "talaiot"
+    publishVersion = versionTalaiot
+    desc = "Simple and extensible plugin to track task times in your Gradle Project."
+    website = "https://github.com/cdsap/Talaiot"
+}
 
 repositories {
     jcenter()

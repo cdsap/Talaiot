@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.metrics
+package com.cdsap.talaiot.configuration
 
 class MetricsConfiguration {
     var gitMetrics: Boolean = true
@@ -16,4 +16,9 @@ class MetricsConfiguration {
         customMetrics[pair.first] = pair.second
     }
 
+    fun customMetrics(metrics: Map<String, String>) {
+        metrics.forEach {
+            customMetrics[it.key] = it.value
+        }
+    }
 }

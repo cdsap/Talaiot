@@ -15,11 +15,11 @@ class OutputPublisher(
     private val logTracker: LogTracker
 ) : Publisher {
     override fun publish(measurementAggregated: TaskMeasurementAggregated) {
+        logTracker.log("================")
+        logTracker.log("OutputPublisher")
+        logTracker.log("================")
 
         measurementAggregated.apply {
-            logTracker.log("================")
-            logTracker.log("OutputPublisher")
-            logTracker.log("================")
             val orderedTiming = sort(taskMeasurement, outputPublisherConfiguration.order)
             if (!orderedTiming.isEmpty()) {
                 val max = when (outputPublisherConfiguration.order) {
@@ -34,12 +34,9 @@ class OutputPublisher(
 
                 for (i in 0 until limit) {
                     val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
-                    val s = MAX_UNIT.substring(0, x.toInt())
+                    val shrug = MAX_UNIT.substring(0, x.toInt())
                     val maskMs = maskMs(orderedTiming[i].ms)
-                    logTracker.log("$s ${orderedTiming[i].taskName} : $maskMs")
-                }
-                sort(taskMeasurement, outputPublisherConfiguration.order).forEach {
-
+                    logTracker.log("$shrug ${orderedTiming[i].taskName}: $maskMs : ${orderedTiming[i].state} ")
                 }
             }
         }
@@ -69,9 +66,9 @@ class OutputPublisher(
 
     private fun maskMs(ms: Long): String =
         when {
-            ms < 1000 -> ms.toString() + " ms"
-            ms < 60000 -> TimeUnit.MILLISECONDS.toSeconds(ms).toString() + " sec"
-            else -> TimeUnit.MILLISECONDS.toMinutes(ms).toString() + " min"
+            ms < 1000 -> ms.toString() + "ms"
+            ms < 60000 -> TimeUnit.MILLISECONDS.toSeconds(ms).toString() + "sec"
+            else -> TimeUnit.MILLISECONDS.toMinutes(ms).toString() + "min"
         }
 
 
