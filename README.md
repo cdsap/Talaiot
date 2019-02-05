@@ -4,21 +4,19 @@
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
-It records duration of your Gradle tasks to helping to understand problems of the build of the team.  
+It records duration of your Gradle tasks helping to understand problems of the build.  
 
 Some of the features are:
 
-* Integration within Time/Series systems
+* Integration with Time/Series systems 
 * Extensible definition of metrics depending of the requirements.
 * Definition of custom publishers
 * Develop it entirely with Kotlin 
 
 ![](resources/dashboard.png) 
 
-If you are wondering  Why we need another plugin to track builds, check this article that explains more about motivation of Talaiot
 
-
-**What is a Talaiot?**
+**_What is a Talaiot?_**
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
@@ -41,6 +39,7 @@ plugins {
 ````
 
 Check these articles to see how to setup with Groovy(all the examples in the README are in KTS.
+
 ## Basic configuration
 
 ````
@@ -59,17 +58,17 @@ talaiot {
     }
 }
 ````
-Here we are adding the `InfluxDbPublisher` information to be reported and in terms of additional information tracked wea are removing the 
-information related with Git and Performance
+This example adds the `InfluxDbPublisher` with the information of the InfluxDb Server where it will be posted the information tracked.
+Additionally we are disabling the metrics for Git and Performance.
 
 ## Talaiot Extension
 
-| Property  |      Description                                   |
-|---------- |----------------------------------------------------|
-| logger    | State for logging, true by default                 |
-| ignoreWhen| Configuration to ignore the execution of Talaiot   |
-| publishers| Once the build has finished                        |
-| metrics   | Values tracked in the execution of the task        |
+| Property  |      Description                                                       |
+|---------- |------------------------------------------------------------------------|
+| logger    | Mode for logging (Silent,Info)                                         |
+| ignoreWhen| Configuration to ignore the execution of Talaiot                       |
+| publishers| Configuration to define where to submit the information of the build   |
+| metrics   | Additional information tracked during the execution of the task        |
 
 ### IgnoreWhen
 
@@ -78,7 +77,8 @@ information related with Git and Performance
 | envName    |Name of the Property   |
 | envValue   |Value of the Property  |
 
-We will use IgnoreWhebn when we want to ignore publishing the results of the build due 
+We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
+are building on CI 
 
 ````
 talaiot {
@@ -92,23 +92,22 @@ talaiot {
 
     
 ### Publishers
-In terms of publishing Talaiot inclide some default Publishers, but at the same time 
+In terms of publishing Talaiot include some default Publishers, but at the same time 
 you can extend it and create your own publisher for your requirements
 
-#### Predefined Publsihers
+#### Predefined Publishers
 Simple output of the execution of the task. In console, at the end of the build will print by time each task  
 
 
 | Property           |      Description                                                                                       |
 |------------------- |--------------------------------------------------------------------------------------------------------|
 | OutputPublisher    | Publish the results of the build on console, this Publisher will only print the task name and duration |
-| InfluxDbPublisher  | Publish the results of the build to the InfluxDb database defined in the configurataion                |
+| InfluxDbPublisher  | Publish the results of the build to the InfluxDb database defined in the configuration                |
 
 
 
 #### InfluxDbPublisher
-One of the most populars Time Series Db. Talaiot will send to the server defined in the configuration the values collected 
-during the execution
+Talaiot will send to the InfluxDb server defined in the configuration the values collected during the execution
 
 
 | Property  |      Description                         |
@@ -117,25 +116,24 @@ during the execution
 | url       | Url of the InfluxDb Server               |
 | urlMetric | Name of the metric used in the execution |
 
-#### Custom Publishers
-Talaiot allows to use another Publishers defined by the requirements of your environment, in case you are using another Time/Series machine or 
-you can define your own implementation.
-Check here how to define a custom publisher
 
+#### Custom Publishers
+Talaiot allows to use another Publishers defined by the requirements of your environment, in case you are using another implementation.
+Check here how to define a custom publisher
 
 ### Metrics
 For every measurement done, Talaiot adds metrics to help you later to analyze the data and detect problems.
 
-Metrics are categorized and trhought the configuration we can disable and add more metrics.
+Metrics are categorized by different configurations.
 
 The Default Configuration of Metrics includes:
 
-| Property               |      Description                               |
-|----------------------- |------------------------------------------------|
-| baseMetrics            |Collects information about the pro                      |
+| Property               |      Description                                                     |
+|----------------------- |----------------------------------------------------------------------|
+| baseMetrics            |Collects information about the project, build, OS Id and user         |
 | gitMetrics             |Metrics related to the Git configuration of the project               |
-| performanceMetrics     |Metrics related to the Java arguments defined on the Gradle Build.        |
-| gradleMetrics          |Metrics related to Gradle arguments|
+| performanceMetrics     |Metrics related to the Java arguments defined on the Gradle Build.    |
+| gradleMetrics          |Metrics related to Gradle arguments                                   |
 
 By default all the metrics are available but if you want to disable some group define the configuration like:
 ```
@@ -167,10 +165,13 @@ talaiot {
 ## Example: Analyzing Data provided by Talaiot
 
 ### Docker, InfluxDb and Grafana
-To have a quick setup to see the posibilities of `Talaiot` we are providing a Docker image to set up quickly a Grafana + Inlfluxdb 
-instances.  Setting 
-Additionally we set up a default database and a provisioned dashboard.
+To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to set up quickly a Grafana + Inlfluxdb 
+instances.  
+
+Additionally we create a default database and a provisioned dashboard.
 The source is here(docker folder):
+
+
 But if you want to set up easyly only 
 
 ```sh
@@ -197,7 +198,7 @@ If you access to the provisioned Dashbord included in the Docker Image(http://lo
 
 ![](resources/empty_dashboard.png)
 
-If you want to check quickly how Talaiot help us we need to populate the data. We are providing script to populate data based in this 
+If you want to check quickly how Talaiot help us you need to populate the data. We are providing script to populate data based in this 
 example repository:
 https://github.com/cdsap/TalaiotClientExample
 
@@ -217,9 +218,9 @@ talaiot {
 
 ```
 
-You can execute the bootstraping script:
+You can execute the script:
 
-`bash boolstraping/populate.sh --YOUR_PATH`
+`bash populateDashboard/populate.sh `
 
 The script will download the example repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
 will trigger number of builds defined in the scenario file:
@@ -242,11 +243,10 @@ Once is finished you can check the results on the Grafana Dashboard http://local
 
 
 ## Contributing
-Talaiot is Open Source and accepts contributions of new Publishers, metrics and Dashboards that we can include as provisioned ones in the 
+Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the 
 Docker image.
 
 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration to build this plugin.
 
-Anton Malinsky for all the help. 
