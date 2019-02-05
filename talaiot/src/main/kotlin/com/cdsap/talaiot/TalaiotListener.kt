@@ -25,6 +25,8 @@ class TalaiotListener(
 
     override fun buildFinished(result: BuildResult) {
         if (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) {
+
+            updateTotalBuild()
             talaiotPublisher.publish(taskLenghtList)
         }
     }
@@ -36,6 +38,7 @@ class TalaiotListener(
     }
 
     override fun projectsEvaluated(gradle: Gradle) {
+        listOfTasks[":total"] = System.currentTimeMillis()
     }
 
     override fun beforeExecute(task: Task) {
@@ -57,5 +60,16 @@ class TalaiotListener(
             )
         )
     }
+
+    private fun updateTotalBuild() {
+        taskLenghtList.add(
+            TaskLength(
+                System.currentTimeMillis() - (listOfTasks[":total"] as Long),
+                ":total",
+                TaskMessageState.EXECUTED
+            )
+        )
+    }
+
 }
 

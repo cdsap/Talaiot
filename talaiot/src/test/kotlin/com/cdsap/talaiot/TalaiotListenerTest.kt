@@ -6,6 +6,7 @@ import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.BuildResult
 import org.gradle.api.internal.tasks.TaskStateInternal
+import org.gradle.api.invocation.Gradle
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
 
@@ -14,18 +15,20 @@ class TalaiotListenerTest : BehaviorSpec({
     given("a TalaiotListener") {
         val project = ProjectBuilder.builder().build()
         val result: BuildResult = mock()
+        val gradle: Gradle = mock()
         `when`("build is finished") {
             val talaiotPublisher: TalaiotPublisher = mock()
             val talaiotExtension = TalaiotExtension(project)
             val talaiotListener = TalaiotListener(talaiotPublisher, talaiotExtension)
             val task = project.task("myTask")
+            talaiotListener.projectsEvaluated(gradle)
             talaiotListener.beforeExecute(task)
             talaiotListener.afterExecute(task, TaskStateInternal())
             talaiotListener.buildFinished(result)
             then("Publisher publish results with the tasks processed") {
 
                 verify(talaiotPublisher).publish(argThat {
-                    this.size == 1
+                    this.size == 2
                             && this[0].taskName == ":myTask"
                             && this[0].state == TaskMessageState.EXECUTED
 
@@ -43,6 +46,7 @@ class TalaiotListenerTest : BehaviorSpec({
             project.extra.set("CI", "true")
             val talaiotListener = TalaiotListener(talaiotPublisher, talaiotExtension)
             val task = project.task("myTask2")
+            talaiotListener.projectsEvaluated(gradle)
             talaiotListener.beforeExecute(task)
             talaiotListener.afterExecute(task, TaskStateInternal())
 

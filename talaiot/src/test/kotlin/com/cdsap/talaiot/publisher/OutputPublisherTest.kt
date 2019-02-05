@@ -105,7 +105,7 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":zeroTask : 0 ms")
+                        this.contains(":zeroTask: 0ms")
                     })
                     verifyNoMoreInteractions()
                 }
@@ -130,13 +130,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":msTask : 10 ms")
+                        this.contains(":msTask: 10ms")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":secTask : 2 sec")
+                        this.contains(":secTask: 2sec")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":minTask : 1 min")
+                        this.contains(":minTask: 1min")
                     })
                     verifyNoMoreInteractions()
                 }

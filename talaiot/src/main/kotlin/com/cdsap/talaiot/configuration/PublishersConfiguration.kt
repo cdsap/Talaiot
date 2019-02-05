@@ -2,7 +2,6 @@ package com.cdsap.talaiot.configuration
 
 
 import com.cdsap.talaiot.publisher.Publisher
-import com.cdsap.talaiot.publisher.OutputPublisher
 import groovy.lang.Closure
 
 class PublishersConfiguration {
@@ -15,7 +14,7 @@ class PublishersConfiguration {
     }
 
     fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
-        outputPublisher = OutputPublisherConfiguration().also(configuration)
+       outputPublisher = OutputPublisherConfiguration().also(configuration)
     }
 
     fun customPublisher(configuration: Publisher) {
