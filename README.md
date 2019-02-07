@@ -38,7 +38,7 @@ plugins {
 }
 ````
 
-Check these articles to see how to setup with Groovy(all the examples in the README are in KTS.
+Check these articles to see how to setup with Groovy(all the examples in the README are in KTS).
 
 ## Basic configuration
 
@@ -226,7 +226,7 @@ The script will download the example repository and with the help of Gradle Prof
 will trigger number of builds defined in the scenario file:
 
 ```
-    aessemble {
+    assemble {
     tasks = ["clean"]
     }
     clean_build {
