@@ -22,9 +22,9 @@
       "colorBackground": true,
       "colorValue": false,
       "colors": [
-        "#299c46",
+        "#d44a3a",
         "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
+        "#299c46"
       ],
       "datasource": "trakingInfluxDb",
       "format": "none",
@@ -78,7 +78,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "alias": "s",
+          "alias": "Cached Tasks",
           "groupBy": [
             {
               "params": [
@@ -240,7 +240,7 @@
         }
       ],
       "thresholds": "value <1 = Green,  2 <= value <= 3 = Yellow,  value > 3 Red",
-      "title": "Percentile(95) Build",
+      "title": "Percentile 95 Build",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -290,25 +290,57 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "P(95)",
+          "alias": "median",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
-            },
+            }
+          ],
+          "hide": false,
+          "measurement": "tracking",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "median"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=",
+              "value": "\":app:mergeDexDebug\""
+            }
+          ]
+        },
+        {
+          "alias": "percentile 95",
+          "groupBy": [
             {
               "params": [
-                "null"
+                "5m"
               ],
-              "type": "fill"
+              "type": "time"
             }
           ],
           "measurement": "tracking",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
+          "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
@@ -330,30 +362,63 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":consumer-android:app:transformClassesWithDexBuilderForGaeDebug\""
+              "value": "\":app:mergeDexDebug\""
             }
           ]
         },
         {
-          "alias": "P(80)",
+          "alias": "percentile 70",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "5m"
               ],
               "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
             }
           ],
           "measurement": "tracking",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "B",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "70"
+                ],
+                "type": "percentile"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=",
+              "value": "\":app:mergeDexDebug\""
+            }
+          ]
+        },
+        {
+          "alias": "percentile 80",
+          "groupBy": [
+            {
+              "params": [
+                "5m"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "tracking",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
           "resultFormat": "time_series",
           "select": [
             [
@@ -375,52 +440,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":consumer-android:app:transformClassesWithDexBuilderForGaeDebug\""
-            }
-          ]
-        },
-        {
-          "alias": "P(50)",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "tracking",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [
-                  "50"
-                ],
-                "type": "percentile"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "task",
-              "operator": "=",
-              "value": "\":consumer-android:app:transformClassesWithDexBuilderForGaeDebug\""
+              "value": "\":app:mergeDexDebug\""
             }
           ]
         }
@@ -429,7 +449,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Percentiles :transformClassesWithDexBuilderForGaeDebug",
+      "title": "Percentiles \":app:mergeDexDebug\"",
       "tooltip": {
         "shared": true,
         "sort": 1,
@@ -475,7 +495,7 @@
       "fill": 1,
       "gridPos": {
         "h": 9,
-        "w": 11,
+        "w": 12,
         "x": 0,
         "y": 6
       },
@@ -489,13 +509,13 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 2,
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
       "pointradius": 5,
-      "points": false,
+      "points": true,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -503,18 +523,13 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "4.10.2",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
-            },
-            {
-              "params": [
-                "gradleVerion"
-              ],
-              "type": "tag"
             }
           ],
           "measurement": "tracking",
@@ -542,7 +557,58 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":consumer-android:app:kaptGaeDebugKotlin\""
+              "value": "\":app:mergeDebugResources\""
+            },
+            {
+              "condition": "AND",
+              "key": "gradleVerion",
+              "operator": "=",
+              "value": "\"4.10.2\""
+            }
+          ]
+        },
+        {
+          "alias": "5.1",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "tracking",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  95
+                ],
+                "type": "percentile"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=",
+              "value": "\":app:mergeDebugResources\""
+            },
+            {
+              "condition": "AND",
+              "key": "gradleVerion",
+              "operator": "=",
+              "value": "\"5.1\""
             }
           ]
         }
@@ -551,7 +617,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "kaptGaeDebugKotlin by Gradle Version",
+      "title": ":search:kaptCompileDebug by Gradle Version",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -589,14 +655,110 @@
       }
     },
     {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#b4ff00",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.5,
+        "mode": "spectrum"
+      },
+      "dataFormat": "timeseries",
+      "datasource": "trakingInfluxDb",
+      "description": "",
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "heatmap": {},
+      "highlightCards": true,
+      "id": 12,
+      "legend": {
+        "show": false
+      },
+      "links": [],
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "tracking",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "task",
+              "operator": "=",
+              "value": "\":app:compileDebugKotlin\""
+            }
+          ]
+        }
+      ],
+      "title": "Heat Map \":app:compileDebugKotlin\"",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "ms",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
       "columns": [],
       "datasource": "trakingInfluxDb",
       "fontSize": "100%",
       "gridPos": {
-        "h": 9,
-        "w": 13,
-        "x": 11,
-        "y": 6
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 15
       },
       "id": 4,
       "links": [],
@@ -682,114 +844,12 @@
               }
             ]
           ],
-          "tags": [
-            {
-              "key": "task",
-              "operator": "!=",
-              "value": "\":total\""
-            }
-          ]
+          "tags": []
         }
       ],
       "title": "Max Time Task by user",
       "transform": "table",
       "type": "table"
-    },
-    {
-      "cards": {
-        "cardPadding": null,
-        "cardRound": null
-      },
-      "color": {
-        "cardColor": "#b4ff00",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateOranges",
-        "exponent": 0.5,
-        "mode": "spectrum"
-      },
-      "dataFormat": "timeseries",
-      "datasource": "trakingInfluxDb",
-      "description": "",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 15
-      },
-      "heatmap": {},
-      "highlightCards": true,
-      "id": 12,
-      "legend": {
-        "show": false
-      },
-      "links": [],
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "tracking",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "task",
-              "operator": "=",
-              "value": "\":presentation:search:compileDebugKotlin\""
-            }
-          ]
-        }
-      ],
-      "title": "Heat Map :presentation:search:compileDebugKotlin",
-      "tooltip": {
-        "show": true,
-        "showHistogram": false
-      },
-      "type": "heatmap",
-      "xAxis": {
-        "show": true
-      },
-      "xBucketNumber": null,
-      "xBucketSize": null,
-      "yAxis": {
-        "decimals": null,
-        "format": "ms",
-        "logBase": 1,
-        "max": null,
-        "min": null,
-        "show": true,
-        "splitFactor": null
-      },
-      "yBucketBound": "auto",
-      "yBucketNumber": null,
-      "yBucketSize": null
     }
   ],
   "refresh": false,
@@ -800,7 +860,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {

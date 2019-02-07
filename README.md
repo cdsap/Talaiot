@@ -222,7 +222,7 @@ The script will download the example repository and with the help of Gradle Prof
 will trigger number of builds defined in the scenario file:
 
 ```
-    aessemble {
+    assemble {
     tasks = ["clean"]
     }
     clean_build {
@@ -238,12 +238,20 @@ will trigger number of builds defined in the scenario file:
 Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1
 
 
+## Other Plugins
+Talaiot is not a new idea, there are multiple awesome plugins to use to achieve the same results:
+
+* [Gradle Enterprise](https://gradle.com/#): Actually if you are using Gradle Enterprise Talaiot is useless because the aggregation 
+is great and you have the support from Gradle :) 
+
+* [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig(@passy).
+
+* [Kuronometer](https://github.com/pedrovgs/Kuronometer): Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)
+
+
 ## Contributing
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
-
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration to build this plugin.
-
-https://hub.docker.com/r/philhawthorne/docker-influxdb-grafanat
 

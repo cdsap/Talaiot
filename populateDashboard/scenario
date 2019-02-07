@@ -2,8 +2,8 @@ assemble {
 tasks = ["clean"]
 }
 clean_build {
-versions = ["5.1","4.10.2"]
-tasks = ["assembleDebug"]
+versions = ["5.1"]
+tasks = ["assembleDebug`"]
 gradle-args = ["--parallel"]
 cleanup-tasks = ["clean"]
 run-using = cli
