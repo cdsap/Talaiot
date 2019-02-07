@@ -38,7 +38,7 @@ plugins {
 }
 ````
 
-Check these articles to see how to setup with Groovy(all the examples in the README are in KTS.
+Check [this](https://github.com/cdsap/Talaiot/wiki/Groovy-setup) article to see how to setup Talaiot with  Groovy(all the examples in the README are in KTS.
 
 ## Basic configuration
 
@@ -119,7 +119,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 
 #### Custom Publishers
 Talaiot allows to use another Publishers defined by the requirements of your environment, in case you are using another implementation.
-Check here how to define a custom publisher
+Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) how to define a custom publisher
 
 ### Metrics
 For every measurement done, Talaiot adds metrics to help you later to analyze the data and detect problems.
@@ -144,7 +144,7 @@ By default all the metrics are available but if you want to disable some group d
 ```
 
 
-Check the Wiki to know more about the existing metrics
+Check the [Wiki](https://github.com/cdsap/Talaiot/wiki/Metrics) to know more about the existing metrics
 
 #### Extending metrics
 
@@ -165,15 +165,12 @@ talaiot {
 ## Example: Analyzing Data provided by Talaiot
 
 ### Docker, InfluxDb and Grafana
-To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to set up quickly a Grafana + Inlfluxdb 
-instances.  
+To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to set up quickly a Grafana + Inlfluxdb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
 
 Additionally we create a default database and a provisioned dashboard.
-The source is here(docker folder):
+The source is [here](docker/Dockerfile):
 
-
-But if you want to set up easyly only 
-
+TO run the Docker Image:
 ```sh
 docker run -d \
   -p 3003:3003 \
@@ -189,12 +186,11 @@ And you can access to the local instance of Grafana through:
 
 `http://localhost:3003` root/root
     
-In terms of InfluxdB we are providing one database and one dashboard plus the datasource    
+Finally, we are providing database and datasource for the InfluxDb instance to quick setup your configuration.
 
 
 ### Populating data 
-If you access to the provisioned Dashbord included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1)
- you will see an empty dashboard like:
+If you access to the provisioned Dashbord included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1) you will see an empty dashboard like:
 
 ![](resources/empty_dashboard.png)
 
@@ -243,10 +239,11 @@ Once is finished you can check the results on the Grafana Dashboard http://local
 
 
 ## Contributing
-Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the 
-Docker image.
+Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was totally an inspiration to build this plugin.
+
+https://hub.docker.com/r/philhawthorne/docker-influxdb-grafanat
 
