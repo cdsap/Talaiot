@@ -122,10 +122,7 @@ Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) h
 
 ### Metrics
 For every measurement done, Talaiot adds metrics to help you later to analyze the data and detect problems.
-
-Metrics are categorized by different configurations.
-
-The Default Configuration of Metrics includes:
+Metrics are categorized by different configurations. The Default Configuration of Metrics includes:
 
 | Property               |      Description                                                     |
 |----------------------- |----------------------------------------------------------------------|
@@ -169,7 +166,7 @@ To have a quick setup to see the possibilities of `Talaiot` we are providing a D
 Additionally, the Docker image is creating a default database, a provisioned dashboard and the default datasource for InfluxDb.
 The source is [here](docker/Dockerfile):
 
-TO run the Docker Image:
+To run the Docker Image:
 ```sh
 docker run -d \
   -p 3003:3003 \
@@ -181,7 +178,7 @@ docker run -d \
   cdsap/talaiot:latest
 ```
   
-You can access to the local instance of Grafana through:
+You can access to the local instance of Grafana:
 
 `http://localhost:3003` root/root
     
@@ -207,14 +204,13 @@ talaiot {
 
     }
 }
-
 ```
 
 You can execute the script:
 
 `bash populateDashboard/populate.sh `
 
-The script will download the example repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
+The script will download the repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
 will trigger number of builds defined in the scenario file:
 
 ```
@@ -237,7 +233,8 @@ Once is finished you can check the results on the Grafana Dashboard http://local
 ## Other Plugins
 Talaiot is not a new idea. There are multiple awesome plugins to use to achieve the same results:
 
-* [Gradle Enterprise](https://gradle.com/#) Actually, if you are using Gradle Enterprise, Talaiot is useless because the aggregation is excellent and you have the support from Gradle :) 
+* [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation 
+is great and you have the support from Gradle :) 
 
 * [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig(@passy).
 
