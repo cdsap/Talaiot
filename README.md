@@ -70,26 +70,6 @@ Additionally, we are disabling the metrics for Git and Performance.
 | publishers| Configuration to define where to submit the information of the build   |
 | metrics   | Additional information tracked during the execution of the task        |
 
-### IgnoreWhen
-
-| Property   |      Description      |
-|----------- |-----------------------|
-| envName    |Name of the Property   |
-| envValue   |Value of the Property  |
-
-We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
-are building on CI:
-
-````
-talaiot {
-    ignoreWhen {
-        envName = "CI"
-        envValue = "true"
-    }
-}
-````
-
-
     
 ### Publishers
 In terms of publishing Talaiot include some default Publishers, but at the same time 
@@ -157,6 +137,25 @@ talaiot {
 }
 ````
  
+ ### IgnoreWhen
+
+| Property   |      Description      |
+|----------- |-----------------------|
+| envName    |Name of the Property   |
+| envValue   |Value of the Property  |
+
+We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
+are building on CI:
+
+````
+talaiot {
+    ignoreWhen {
+        envName = "CI"
+        envValue = "true"
+    }
+}
+````
+
                
 ## Example: Analyzing Data provided by Talaiot
 
