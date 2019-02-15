@@ -20,4 +20,4 @@ git clone https://github.com/cdsap/TalaiotClientExample.git
 
 # executing Gradle Profiler with Test code
 #pwd
-gradle-profiler --benchmark --project-dir TalaiotClientExample/ --scenario-file  ../populateDashboard/scenario
+gradle-profiler --benchmark --project-dir TalaiotClientExample/ --scenario-file  ../scripts/scenario
