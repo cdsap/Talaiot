@@ -247,3 +247,4 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
 
+[Anton Malinskiy](https://github.com/Malinskiy).
