@@ -16,7 +16,7 @@ Some of the features are:
 ![](resources/dashboard.png) 
 
 
-**_What is a Talaiot?_**
+**_What is Talaiot?_**
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
@@ -70,29 +70,9 @@ Additionally, we are disabling the metrics for Git and Performance.
 | publishers| Configuration to define where to submit the information of the build   |
 | metrics   | Additional information tracked during the execution of the task        |
 
-### IgnoreWhen
-
-| Property   |      Description      |
-|----------- |-----------------------|
-| envName    |Name of the Property   |
-| envValue   |Value of the Property  |
-
-We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
-are building on CI:
-
-````
-talaiot {
-    ignoreWhen {
-        envName = "CI"
-        envValue = "true"
-    }
-}
-````
-
-
     
 ### Publishers
-In terms of publishing Talaiot include some default Publishers, but at the same time 
+In terms of publishing Talaiot includes some default Publishers, but at the same time 
 you can extend it and create your publisher for your requirements
 
 #### Predefined Publishers
@@ -100,7 +80,7 @@ you can extend it and create your publisher for your requirements
 
 | Property           |      Description                                                                                       |
 |------------------- |--------------------------------------------------------------------------------------------------------|
-| OutputPublisher    | Publish the results of the build on console, this Publisher will only print the task name and duration |
+| OutputPublisher    | Publish the results of the build on the console, this Publisher will only print the task name and duration |
 | InfluxDbPublisher  | Publish the results of the build to the InfluxDb database defined in the configuration                |
 
 
@@ -117,7 +97,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 
 
 #### Custom Publishers
-Talaiot allows to use custom Publishers defined by the requirements of your environment, in case you are using another implementation.
+Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
 Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) how to define a custom publisher
 
 ### Metrics
@@ -157,6 +137,25 @@ talaiot {
 }
 ````
  
+ ### IgnoreWhen
+
+| Property   |      Description      |
+|----------- |-----------------------|
+| envName    |Name of the Property   |
+| envValue   |Value of the Property  |
+
+We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
+are building on CI:
+
+````
+talaiot {
+    ignoreWhen {
+        envName = "CI"
+        envValue = "true"
+    }
+}
+````
+
                
 ## Example: Analyzing Data provided by Talaiot
 
@@ -208,7 +207,7 @@ talaiot {
 
 You can execute the script:
 
-`bash populateDashboard/populate.sh `
+`bash scripts/populate.sh `
 
 The script will download the repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
 will trigger number of builds defined in the scenario file:
@@ -247,3 +246,4 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
 
+[Anton Malinskiy](https://github.com/Malinskiy).
