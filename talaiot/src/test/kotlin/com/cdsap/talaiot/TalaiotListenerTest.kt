@@ -28,7 +28,7 @@ class TalaiotListenerTest : BehaviorSpec({
             then("Publisher publish results with the tasks processed") {
 
                 verify(talaiotPublisher).publish(argThat {
-                    this.size == 2
+                    this.size == 1
                             && this[0].taskName == ":myTask"
                             && this[0].state == TaskMessageState.EXECUTED
 
