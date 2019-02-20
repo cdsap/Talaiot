@@ -25,7 +25,6 @@ class TalaiotListener(
 
     override fun buildFinished(result: BuildResult) {
         if (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) {
-
             updateTotalBuild()
             talaiotPublisher.publish(taskLenghtList)
         }
@@ -62,13 +61,14 @@ class TalaiotListener(
     }
 
     private fun updateTotalBuild() {
-        taskLenghtList.add(
-            TaskLength(
-                System.currentTimeMillis() - (listOfTasks[":total"] as Long),
-                ":total",
-                TaskMessageState.EXECUTED
-            )
-        )
+        if (taskLenghtList.size > 1) {
+            val aggregatorTask =
+                taskLenghtList.last().copy(ms = System.currentTimeMillis() - (listOfTasks[":total"] as Long))
+            taskLenghtList.remove(taskLenghtList.last())
+            taskLenghtList.add(aggregatorTask)
+        } else {
+            taskLenghtList.drop(1)
+        }
     }
 
 }
