@@ -19,7 +19,7 @@ class GradleMetrics(private val project: Project) : Metrics {
         if (hasProperty("org.gradle.configureondemand")) {
             gradleMetrics["gradleConfigurationOnDemand"] = property("org.gradle.configureondemand") as String
         }
-        gradleMetrics["gradleVerion"] = project.gradle.gradleVersion
+        gradleMetrics["gradleVersion"] = project.gradle.gradleVersion
         return gradleMetrics
 
     }
