@@ -37,7 +37,7 @@ class InfluxDbPublisher(
             measurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
-                    metrics += "${it.key}=\"${it.value}\","
+                    metrics += "${it.key}=\"${it.value.replace(",","_")}\","
                 }
                 taskMeasurement.forEach {
                     content += "${influxDbPublisherConfiguration.urlMetric},state=\"${it.state}\"" +
