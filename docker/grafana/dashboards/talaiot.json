@@ -438,7 +438,7 @@
             },
             {
               "condition": "AND",
-              "key": "gradleVerion",
+              "key": "gradleVersion",
               "operator": "=",
               "value": "\"4.10.2\""
             }
@@ -483,7 +483,7 @@
             },
             {
               "condition": "AND",
-              "key": "gradleVerion",
+              "key": "gradleVersion",
               "operator": "=",
               "value": "\"5.1\""
             }
