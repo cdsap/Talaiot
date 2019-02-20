@@ -111,7 +111,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:compileDebugKotlin\""
+              "value": ":app:compileDebugKotlin"
             }
           ]
         }
@@ -228,7 +228,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:compileReleaseKotlin\""
+              "value": ":app:compileReleaseKotlin"
             }
           ]
         }
@@ -345,7 +345,7 @@
             {
               "key": "state",
               "operator": "=",
-              "value": "\"FROM_CACHE\""
+              "value": "FROM_CACHE"
             }
           ]
         }
@@ -434,13 +434,13 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDebugResources\""
+              "value": ":app:mergeDebugResources"
             },
             {
               "condition": "AND",
               "key": "gradleVersion",
               "operator": "=",
-              "value": "\"4.10.2\""
+              "value": "4.10.2"
             }
           ]
         },
@@ -479,13 +479,13 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDebugResources\""
+              "value": ":app:mergeDebugResources"
             },
             {
               "condition": "AND",
               "key": "gradleVersion",
               "operator": "=",
-              "value": "\"5.1\""
+              "value": "5.1"
             }
           ]
         }
@@ -695,7 +695,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDexDebug\""
+              "value": ":app:mergeDexDebug"
             }
           ]
         },
@@ -734,7 +734,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDexDebug\""
+              "value": ":app:mergeDexDebug"
             }
           ]
         },
@@ -773,7 +773,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDexDebug\""
+              "value": ":app:mergeDexDebug"
             }
           ]
         },
@@ -812,7 +812,7 @@
             {
               "key": "task",
               "operator": "=",
-              "value": "\":app:mergeDexDebug\""
+              "value": ":app:mergeDexDebug"
             }
           ]
         }
@@ -821,7 +821,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Percentiles \":app:mergeDexDebug\"",
+      "title": "Percentiles :app:mergeDexDebug",
       "tooltip": {
         "shared": true,
         "sort": 1,
