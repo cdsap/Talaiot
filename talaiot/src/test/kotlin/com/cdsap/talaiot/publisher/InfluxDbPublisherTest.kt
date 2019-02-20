@@ -14,7 +14,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
     given("InfluxDbPublisher configuration") {
         val logger = LogTrackerImpl(LogTracker.Mode.INFO)
 
-        `when`("There is confxiguration with metrics and tasks ") {
+        `when`("There is configuration with metrics and tasks ") {
             val influxDbCon = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
@@ -34,8 +34,8 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         ), listOf(TaskLength(1, ":clean", TaskMessageState.EXECUTED))
                     )
                 )
-             ////   assert(testRequest.content == "log,state=\"EXECUTED\",metric1=\"value1\",metric2=\"value2\"  value=1,task=\":clean\"\n")
-             //   assert(testRequest.url == "http://localhost:666/write?db=db")
+                assert(testRequest.content == "log,state=EXECUTED,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
 
@@ -59,6 +59,30 @@ class InfluxDbPublisherTest : BehaviorSpec({
                 )
                 assert(testRequest.content.isEmpty())
                 assert(testRequest.url.isEmpty())
+            }
+        }
+        `when`("There is configuration with metrics and tags not supported by Line Protocol") {
+            val influxDbCon = InfluxDbPublisherConfiguration().apply {
+                dbName = "db"
+                url = "http://localhost:666"
+                urlMetric = "log"
+            }
+            val testRequest = TestRequest(logger)
+            val influxDbPublisher = InfluxDbPublisher(
+                influxDbCon, logger, testRequest
+            )
+
+            then("these metrics should be parsed to correct format ") {
+                influxDbPublisher.publish(
+                    measurementAggregated = TaskMeasurementAggregated(
+                        mapOf(
+                            "me=tric1" to "va====lue1",
+                            "metric2" to "val,,   , ue2"
+                        ), listOf(TaskLength(1, ":clean", TaskMessageState.EXECUTED))
+                    )
+                )
+                assert(testRequest.content == "log,state=EXECUTED,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
     }

@@ -37,11 +37,13 @@ class InfluxDbPublisher(
             measurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
-                    metrics += "${it.key}=\"${it.value.replace(",","_")}\","
+                    val tag = formatToLineProtocol(it.key)
+                    val tagValue = formatToLineProtocol(it.value)
+                    metrics += "$tag=$tagValue,"
                 }
                 taskMeasurement.forEach {
-                    content += "${influxDbPublisherConfiguration.urlMetric},state=\"${it.state}\"" +
-                            ",task=\"${it.taskName}\",${metrics.dropLast(1)}  value=${it.ms}\n"
+                    content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
+                            ",task=${it.taskName},${metrics.dropLast(1)} value=${it.ms}\n"
                 }
                 logTracker.log(content)
             }
@@ -52,5 +54,7 @@ class InfluxDbPublisher(
             }
         }
     }
+
+    private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
 
 }
