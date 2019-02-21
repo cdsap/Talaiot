@@ -9,12 +9,10 @@ class BaseMetrics(private val project: Project) : Metrics {
     private val buildId = UUID.randomUUID().toString()
 
     override fun get() = mapOf(
-        "user" to System.getProperty("user.name").trimSpaces(),
-        "project" to project.gradle.rootProject.name.trimSpaces(),
+        "user" to System.getProperty("user.name"),
+        "project" to project.gradle.rootProject.name,
         "buildId" to buildId,
-        "os" to "${OperatingSystem.current().name}-${OperatingSystem.current().version}".trimSpaces()
+        "os" to "${OperatingSystem.current().name}-${OperatingSystem.current().version}"
     )
 
 }
-
-fun String.trimSpaces() = this.replace("\\s".toRegex(), "")

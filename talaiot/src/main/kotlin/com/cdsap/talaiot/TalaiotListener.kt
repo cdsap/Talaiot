@@ -1,7 +1,5 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.BuildListener
 import org.gradle.BuildResult
@@ -17,16 +15,14 @@ class TalaiotListener(
     private val extension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
 
-    private val taskLenghtList = mutableListOf<TaskLength>()
-    private var listOfTasks: HashMap<String, Long> = hashMapOf()
+    private val talaiotTracker = TalaiotTracker()
 
     override fun settingsEvaluated(settings: Settings) {
     }
 
     override fun buildFinished(result: BuildResult) {
         if (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) {
-            updateTotalBuild()
-            talaiotPublisher.publish(taskLenghtList)
+            talaiotPublisher.publish(talaiotTracker.taskLengthList)
         }
     }
 
@@ -37,39 +33,20 @@ class TalaiotListener(
     }
 
     override fun projectsEvaluated(gradle: Gradle) {
-        listOfTasks[":total"] = System.currentTimeMillis()
+        gradle.startParameter.taskRequests.forEach {
+            it.args.forEach {
+                talaiotTracker.queue.add(NodeArgument(it, 0, 0))
+            }
+        }
+        talaiotTracker.initNodeArgument()
     }
 
     override fun beforeExecute(task: Task) {
-        listOfTasks[task.path] = System.currentTimeMillis()
+        talaiotTracker.startTrackingTask(task)
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
-        val time = System.currentTimeMillis() - (listOfTasks[task.path] as Long)
-        taskLenghtList.add(
-            TaskLength(
-                ms = time,
-                taskName = task.path,
-                state = when (state.skipMessage) {
-                    "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
-                    "FROM-CACHE" -> TaskMessageState.FROM_CACHE
-                    "NO-SOURCE" -> TaskMessageState.NO_SOURCE
-                    else -> TaskMessageState.EXECUTED
-                }
-            )
-        )
+        talaiotTracker.finishTrackingTask(task,state)
     }
-
-    private fun updateTotalBuild() {
-        if (taskLenghtList.size > 1) {
-            val aggregatorTask =
-                taskLenghtList.last().copy(ms = System.currentTimeMillis() - (listOfTasks[":total"] as Long))
-            taskLenghtList.remove(taskLenghtList.last())
-            taskLenghtList.add(aggregatorTask)
-        } else {
-            taskLenghtList.drop(1)
-        }
-    }
-
 }
 
