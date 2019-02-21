@@ -51,10 +51,13 @@ class TalaiotListenerTest : BehaviorSpec({
                     this.size == 3
                             && this[0].taskName == "clean"
                             && this[0].state == TaskMessageState.EXECUTED
+                            && this[0].rootNode
                             && this[1].taskName == "myTask"
                             && this[1].state == TaskMessageState.EXECUTED
+                            && !this[1].rootNode
                             && this[2].taskName == "assemble"
                             && this[2].state == TaskMessageState.EXECUTED
+                            && this[2].rootNode
 
                 })
             }
