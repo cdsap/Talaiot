@@ -35,6 +35,7 @@ class TalaiotTracker {
                 TaskLength(
                     ms = ms,
                     taskName = task.name,
+                    taskPath = task.path,
                     state = TaskMessageState.EXECUTED,
                     rootNode = true
                 )
@@ -49,6 +50,7 @@ class TalaiotTracker {
                 TaskLength(
                     ms = ms,
                     taskName = task.name,
+                    taskPath = task.path,
                     state = when (state.skipMessage) {
                         "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                         "FROM-CACHE" -> TaskMessageState.FROM_CACHE

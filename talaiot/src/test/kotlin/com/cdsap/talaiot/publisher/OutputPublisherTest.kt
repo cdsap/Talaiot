@@ -35,9 +35,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -46,13 +46,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":fastTask")
+                        this.contains("fastTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":averageTask")
+                        this.contains("averageTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":slowTask")
+                        this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()
 
@@ -66,9 +66,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -77,13 +77,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":slowTask")
+                        this.contains("slowTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":averageTask")
+                        this.contains("averageTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":fastTask")
+                        this.contains("fastTask")
                     })
                     verifyNoMoreInteractions()
 
@@ -97,7 +97,7 @@ class OutputPublisherTest : BehaviorSpec({
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
-                    listOf(TaskLength(0L, ":zeroTask", TaskMessageState.EXECUTED))
+                    listOf(TaskLength(0L, "zeroTask", ":zeroTask", TaskMessageState.EXECUTED))
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
@@ -105,7 +105,7 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":zeroTask: 0ms")
+                        this.contains("zeroTask: 0ms")
                     })
                     verifyNoMoreInteractions()
                 }
@@ -119,9 +119,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(2_000L, ":secTask", TaskMessageState.EXECUTED),
-                        TaskLength(65_000L, ":minTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, ":msTask", TaskMessageState.EXECUTED)
+                        TaskLength(2_000L, "secTask", ":secTask", TaskMessageState.EXECUTED),
+                        TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED)
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -130,13 +130,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":msTask: 10ms")
+                        this.contains("msTask: 10ms")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":secTask: 2sec")
+                        this.contains("secTask: 2sec")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":minTask: 1min")
+                        this.contains("minTask: 1min")
                     })
                     verifyNoMoreInteractions()
                 }
@@ -151,9 +151,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -162,13 +162,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
-                        this.contains(":fastTask")
+                        this.contains("fastTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":averageTask")
+                        this.contains("averageTask")
                     })
                     verify(logTracker).log(argForWhich {
-                        this.contains(":slowTask")
+                        this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()
 
