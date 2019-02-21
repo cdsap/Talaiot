@@ -23,6 +23,7 @@ class TalaiotTracker {
     }
 
     fun finishTrackingTask(task: Task, state: TaskState) {
+
         if (currentNode.task == task.name) {
             val ms = if (currentNode.counter > 1) {
                 System.currentTimeMillis() - currentNode.ms
@@ -34,17 +35,19 @@ class TalaiotTracker {
                 TaskLength(
                     ms = ms,
                     taskName = task.name,
-                    state = TaskMessageState.EXECUTED
+                    state = TaskMessageState.EXECUTED,
+                    rootNode = true
                 )
             )
-        } else {
+
             if (!queue.isEmpty()) {
                 initNodeArgument()
             }
-            val time = System.currentTimeMillis() - (listOfTasks[task.name] as Long)
+        } else {
+            val ms = System.currentTimeMillis() - (listOfTasks[task.name] as Long)
             taskLengthList.add(
                 TaskLength(
-                    ms = time,
+                    ms = ms,
                     taskName = task.name,
                     state = when (state.skipMessage) {
                         "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE

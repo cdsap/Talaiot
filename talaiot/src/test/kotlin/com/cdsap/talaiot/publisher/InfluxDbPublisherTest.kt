@@ -34,7 +34,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         ), listOf(TaskLength(1, ":clean", TaskMessageState.EXECUTED))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
@@ -81,7 +81,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         ), listOf(TaskLength(1, ":clean", TaskMessageState.EXECUTED))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
