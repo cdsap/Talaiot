@@ -17,7 +17,7 @@ class GitMetrics : Metrics {
             )
             val userName = bufferUserName.readLine()
             if (userName != null) {
-                gitMetrics["gitUser"] = userName.trimSpaces()
+                gitMetrics["gitUser"] = userName
             }
             val branch = bufferBranch.readLine()
             if (branch != null) {

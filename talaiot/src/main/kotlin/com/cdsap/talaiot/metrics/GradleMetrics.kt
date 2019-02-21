@@ -6,7 +6,6 @@ class GradleMetrics(private val project: Project) : Metrics {
 
     override fun get(): Map<String, String> {
         val gradleMetrics = mutableMapOf<String, String>()
-
         if (hasProperty("org.gradle.caching")) {
             gradleMetrics["gradleCaching"] = property("org.gradle.caching") as String
         }
