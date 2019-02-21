@@ -230,7 +230,7 @@ Once is finished you can check the results on the Grafana Dashboard http://local
 
 
 ## Other Plugins
-Talaiot is not a new idea. There are multiple awesome plugins to use to achieve the same results:
+Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:
 
 * [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation 
 is great and you have the support from Gradle :) 
