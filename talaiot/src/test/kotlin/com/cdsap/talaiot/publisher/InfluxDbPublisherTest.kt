@@ -8,6 +8,7 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
+import java.util.concurrent.Executor
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
@@ -15,14 +16,14 @@ class InfluxDbPublisherTest : BehaviorSpec({
         val logger = LogTrackerImpl(LogTracker.Mode.INFO)
 
         `when`("There is configuration with metrics and tasks ") {
-            val influxDbCon = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
-                influxDbCon, logger, testRequest
+                influxDbConfiguration, logger, testRequest, TestExecutor()
             )
 
             then("should contains formatted the url and content the Request") {
@@ -40,14 +41,14 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There is configuration without metrics and tasks ") {
-            val influxDbCon = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
-                influxDbCon, logger, testRequest
+                influxDbConfiguration, logger, testRequest, TestExecutor()
             )
 
             then("should TestRequest be empty") {
@@ -62,14 +63,14 @@ class InfluxDbPublisherTest : BehaviorSpec({
             }
         }
         `when`("There is configuration with metrics and tags not supported by Line Protocol") {
-            val influxDbCon = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
-                influxDbCon, logger, testRequest
+                influxDbConfiguration, logger, testRequest, TestExecutor()
             )
 
             then("these metrics should be parsed to correct format ") {
@@ -99,3 +100,9 @@ class TestRequest(override var logTracker: LogTracker) : Request {
     }
 }
 
+class TestExecutor : Executor {
+    override fun execute(command: Runnable?) {
+        command?.run()
+    }
+
+}

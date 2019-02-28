@@ -7,8 +7,8 @@ import org.gradle.api.tasks.TaskState
 import java.util.*
 
 class TalaiotTracker {
-    internal val taskLengthList = mutableListOf<TaskLength>()
-    internal var queue = ArrayDeque<NodeArgument>()
+    val taskLengthList = mutableListOf<TaskLength>()
+    var queue = ArrayDeque<NodeArgument>()
     private var listOfTasks: HashMap<String, Long> = hashMapOf()
     private var currentNode = NodeArgument("", 0, 0)
 
@@ -22,9 +22,15 @@ class TalaiotTracker {
         currentNode.counter++
     }
 
-    fun finishTrackingTask(task: Task, state: TaskState) {
 
-        if (currentNode.task == task.name) {
+    /**
+     * Compute the total time of the task and aggregate the
+     * rootNodes launched by the user.
+     * Clean is handled as exception, by default task name and task argument on general
+     * clean tasks are the same.
+     */
+    fun finishTrackingTask(task: Task, state: TaskState) {
+        if (((currentNode.task == task.name) || ((currentNode.task != task.name && currentNode.task == task.path)))) {
             val ms = if (currentNode.counter > 1) {
                 System.currentTimeMillis() - currentNode.ms
             } else {
@@ -37,7 +43,7 @@ class TalaiotTracker {
                     taskName = task.name,
                     taskPath = task.path,
                     state = TaskMessageState.EXECUTED,
-                    rootNode = true
+                    rootNode = currentNode.task != "clean"
                 )
             )
 

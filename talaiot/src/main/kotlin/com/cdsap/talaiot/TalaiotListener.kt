@@ -11,7 +11,7 @@ import org.gradle.api.tasks.TaskState
 
 
 class TalaiotListener(
-    private val talaiotPublisher: TalaiotPublisher,
+    val talaiotPublisher: TalaiotPublisher,
     private val extension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
 
@@ -46,7 +46,7 @@ class TalaiotListener(
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
-        talaiotTracker.finishTrackingTask(task,state)
+        talaiotTracker.finishTrackingTask(task, state)
     }
 }
 

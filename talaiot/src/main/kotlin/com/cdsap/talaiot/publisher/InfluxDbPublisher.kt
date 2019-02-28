@@ -4,12 +4,14 @@ import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
+import java.util.concurrent.Executor
 
 
 class InfluxDbPublisher(
     private val influxDbPublisherConfiguration: InfluxDbPublisherConfiguration,
     private val logTracker: LogTracker,
-    private val requestPublisher: Request
+    private val requestPublisher: Request,
+    private val executor: Executor
 ) : Publisher {
 
     override fun publish(measurementAggregated: TaskMeasurementAggregated) {
@@ -47,8 +49,11 @@ class InfluxDbPublisher(
                 }
                 logTracker.log(content)
             }
+
             if (!content.isEmpty()) {
-                requestPublisher.send(url, content)
+                executor.execute {
+                    requestPublisher.send(url, content)
+                }
             } else {
                 logTracker.log("Empty content")
             }
