@@ -20,7 +20,7 @@ class TalaiotListenerTest : BehaviorSpec({
         `when`("build is executed by assemble and clean tasks") {
             val project = ProjectBuilder.builder().build()
             val result: BuildResult = mock()
-            val talaiotListener = setMockingGradle(arrayOf("clean", "assemble"), project)
+            val talaiotListener = initListener(arrayOf("clean", "assemble"), project)
             provideTasks(arrayOf("clean", "myTask", "assemble"), project, talaiotListener)
             talaiotListener.buildFinished(result)
 
@@ -51,7 +51,7 @@ class TalaiotListenerTest : BehaviorSpec({
             }
             project.extra.set("CI", "true")
 
-            val talaiotListener = setMockingGradle(arrayOf("clean", "assemble"), project, talaiotExtension)
+            val talaiotListener = initListener(arrayOf("clean", "assemble"), project, talaiotExtension)
             provideTasks(arrayOf("clean", "myTask", "assemble"), project, talaiotListener)
             talaiotListener.buildFinished(result)
 
@@ -65,7 +65,7 @@ class TalaiotListenerTest : BehaviorSpec({
 })
 
 
-fun setMockingGradle(
+fun initListener(
     elements: Array<String>,
     project: Project,
     talaiotExtension: TalaiotExtension? = null
