@@ -2,10 +2,8 @@ package com.cdsap.talaiot.request
 
 import com.cdsap.talaiot.logger.LogTracker
 import io.github.rybalkinsd.kohttp.dsl.httpPost
-import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.Response
-import okhttp3.internal.Util
 import java.lang.Exception
 import java.net.URL
 
