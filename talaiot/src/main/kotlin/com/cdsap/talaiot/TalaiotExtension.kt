@@ -6,11 +6,31 @@ import com.cdsap.talaiot.configuration.MetricsConfiguration
 import com.cdsap.talaiot.configuration.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 
-
+@Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {
-    var logger = LogTracker.Mode.SILENT
-    var publishers: PublishersConfiguration? = null
+    @get:Internal("Backing property for logger mode")
+    internal var _logger: LogTracker.Mode? = null
+
+    @get:Input
+    var logger
+        get() = _logger ?: LogTracker.Mode.SILENT
+        set(value) {
+            _logger = value
+        }
+
+    @get:Internal("Backing property for Publishers")
+    internal var _publishers: PublishersConfiguration? = null
+
+    @get:Input
+    var publishers
+        get() = _publishers
+        set(value) {
+            _publishers = value
+        }
+
     var ignoreWhen: IgnoreWhenConfiguration? = null
     var metrics: MetricsConfiguration =
         MetricsConfiguration()
