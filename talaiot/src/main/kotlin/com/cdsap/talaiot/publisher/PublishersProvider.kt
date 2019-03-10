@@ -28,6 +28,17 @@ class PublishersProvider(val project: Project) {
                     )
                 )
             }
+            neo4jPublisher?.apply {
+                publishers.add(
+                    Neo4jPublisher
+                        (
+                        this,
+                        logger
+                    )
+                )
+            }
+
+
 
             customPublisher?.apply {
                 publishers.add(this)

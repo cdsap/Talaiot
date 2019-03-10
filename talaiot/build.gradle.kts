@@ -1,6 +1,7 @@
 import com.novoda.gradle.release.PublishExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.gradle.api.publish.maven.MavenPom
+import org.jetbrains.kotlin.gradle.model.NoArg
 
 plugins {
     `java-gradle-plugin`
@@ -13,7 +14,7 @@ plugins {
 }
 
 
-val versionTalaiot = "0.1.16"
+val versionTalaiot = "0.1.17-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -26,6 +27,12 @@ gradlePlugin {
         }
         dependencies {
             api("io.github.rybalkinsd:kohttp:0.7.1")
+//api("   org.jetbrains.kotlin:kotlin-noarg:1.3.11")
+            api("org.neo4j.driver:neo4j-java-driver:1.7.3")
+            api("org.neo4j:neo4j-ogm-core:3.1.2")
+            api("org.neo4j:neo4j-ogm-embedded-driver:3.1.2")
+            api("org.neo4j:neo4j-ogm-bolt-driver:3.1.2")
+            api("org.neo4j:neo4j-ogm-http-driver:3.1.2")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
@@ -105,8 +112,10 @@ configure<PublishExtension> {
     website = "https://github.com/cdsap/Talaiot"
 }
 
+
 repositories {
     jcenter()
+    mavenCentral()
     google()
     mavenLocal()
 }

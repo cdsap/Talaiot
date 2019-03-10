@@ -18,6 +18,7 @@ class TalaiotTracker {
     }
 
     fun startTrackingTask(task: Task) {
+
         listOfTasks[task.name] = System.currentTimeMillis()
         currentNode.counter++
     }
@@ -43,7 +44,8 @@ class TalaiotTracker {
                     taskName = task.name,
                     taskPath = task.path,
                     state = TaskMessageState.EXECUTED,
-                    rootNode = currentNode.task != "clean"
+                    rootNode = currentNode.task != "clean",
+                    taskDependencies = taskDependencies(task)
                 )
             )
 
@@ -62,12 +64,17 @@ class TalaiotTracker {
                         "FROM-CACHE" -> TaskMessageState.FROM_CACHE
                         "NO-SOURCE" -> TaskMessageState.NO_SOURCE
                         else -> TaskMessageState.EXECUTED
-                    }
+                    },
+                    taskDependencies = taskDependencies(task)
                 )
             )
         }
 
     }
+
+    fun taskDependencies(task: Task) = task.taskDependencies.getDependencies(task).map { it.path }
 }
 
+
 data class NodeArgument(val task: String, var ms: Long, var counter: Int)
+data class GraphTask(val node: NodeArgument)

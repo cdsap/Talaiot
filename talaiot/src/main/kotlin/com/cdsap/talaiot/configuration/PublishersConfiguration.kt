@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.configuration
 
 
+import com.cdsap.talaiot.publisher.Neo4jPublisher
 import com.cdsap.talaiot.publisher.Publisher
 import groovy.lang.Closure
 
@@ -8,17 +9,22 @@ class PublishersConfiguration {
     var influxDbPublisher: InfluxDbPublisherConfiguration? = null
     var outputPublisher: OutputPublisherConfiguration? = null
     var customPublisher: Publisher? = null
+    var neo4jPublisher: Neo4JConfiguration? = null
 
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
         influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
     }
 
     fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
-       outputPublisher = OutputPublisherConfiguration().also(configuration)
+        outputPublisher = OutputPublisherConfiguration().also(configuration)
     }
 
     fun customPublisher(configuration: Publisher) {
         customPublisher = configuration
+    }
+
+    fun neo4jPublisher(configuration: Neo4JConfiguration.() -> Unit) {
+        neo4jPublisher = Neo4JConfiguration().also(configuration)
     }
 
     fun influxDbPublisher(closure: Closure<*>) {
