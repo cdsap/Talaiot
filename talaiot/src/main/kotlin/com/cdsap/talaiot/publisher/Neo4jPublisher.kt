@@ -9,16 +9,16 @@ class Neo4jPublisher(
     private val neo4jConfiguration: Neo4JConfiguration,
     private val logTracker: LogTracker
 ) : Publisher {
-    val graphTaskc = mutableSetOf<GraphTask>()
+    val graphTaskM = mutableSetOf<GraphTask>()
 
     override fun publish(measurementAggregated: TaskMeasurementAggregated) {
 
         val config = Config.defaultConfig()
 
-        val driver = GraphDatabase.driver(
-            "bolt://localhost:7687",
-            AuthTokens.basic("neo4j", "root")
-        )
+//        val driver = GraphDatabase.driver(
+//            "bolt://localhost:7687",
+//            AuthTokens.basic("neo4j", "root")
+//        )
         measurementAggregated.taskMeasurement.forEach {
             println(it.taskPath)
             it.taskDependencies.forEach {
@@ -27,30 +27,30 @@ class Neo4jPublisher(
 
         }
 
-        val transactionWork = TransactionWork { tx: Transaction? ->
-            tx.run {
-                "CREATE (a:SALSALSAL { Name : \"LPSALPSPALSAPLSALPSAPLAS Young Lad\" }) "
-
-            }
-
-        }
+//        val transactionWork = TransactionWork { tx: Transaction? ->
+//            tx.run {
+//                "CREATE (a:SALSALSAL { Name : \"LPSALPSPALSAPLSALPSAPLAS Young Lad\" }) "
+//
+//            }
+//
+//        }
 
         measurementAggregated.taskMeasurement.forEach {
             var graphTask = GraphTask(name = it.taskPath)
-            graphTaskc.add(graphTask)
+            graphTaskM.add(graphTask)
             //  println(it.taskPath)
 
             var dependencies = mutableSetOf<GraphTask>()
             it.taskDependencies.forEach {
                 val a = it
-                val fd = graphTaskc.find { it.name == a }
+                val fd = graphTaskM.find { it.name == a }
                 fd?.let {
                     dependencies.add(it)
                 }
                 println("++$it")
             }
             val a = it
-            val fa = graphTaskc.find { it.name == a.taskPath }
+            val fa = graphTaskM.find { it.name == a.taskPath }
 
 
             fa?.let {
@@ -67,25 +67,61 @@ class Neo4jPublisher(
                 //session.save(fa)
             }
         }
-        val session = driver.session()
+        //    val session = driver.session()
 
 
-        graphTaskc.forEach {
-            session.run(
-                "CREATE (${it.name}:TaskC {name:\"${it.name}\"}) ")
+        var count = 0
+        var xx = hashMapOf<String, Int>()
+        graphTaskM.forEach {
+            if (it.name.contains("presentation:app")) {
+                println("nodes.push({id: $count, label: '${it.name}'});")
+                xx[it.name] = count
+                count++
+            }
         }
 
-        graphTaskc.forEach {
+
+        graphTaskM.forEach {
             val name = it.name
             it.dependencies.forEach {
-                session.run("   MATCH (a:TaskC), (b:TaskC) WHERE a.name = \"$name\" AND b.name = \"${it.name}\" "+
-                "CREATE (a)-[r: xx]->(b) "+
-                "RETURN a,b")
+                val temp = it.name.split(":").dropLast(1)
+                var module = ""
+                temp.forEach {
+                    module += "it:"
+                }
+
+                if (name.contains("presentation:app")) {
+
+                    println("edges.push({from: ${xx[name]}, to: ${xx[it.name]}});")
+                }
             }
 
         }
-        session.close()
-        driver.close()
+
+//        graphTaskM.forEach {
+//            session.run(
+//                "CREATE (${it.name}:Taskp {name:\"${it.name}\"}) "
+//            )
+//        }
+//
+//        graphTaskM.forEach {
+//            val name = it.name
+//            it.dependencies.forEach {
+//                println(
+//                    "MATCH (a:Taskp), (b:Taskp) WHERE a.name = \\\"$name\\\" AND b.name = \\\"${it.name}\\\" \"+\n" +
+//                            "                \"CREATE (a)-[r: xx]->(b) \"+\n" +
+//                            "                \"RETURN a,b\""
+//                )
+//                session.run(
+//                    "   MATCH (a:Taskp), (b:Taskp) WHERE a.name = \"$name\" AND b.name = \"${it.name}\" " +
+//                            "CREATE (a)-[r: xx]->(b) " +
+//                            "RETURN a,b"
+//                )
+//            }
+//
+//        }
+//        session.close()
+//        driver.close()
     }
 
 

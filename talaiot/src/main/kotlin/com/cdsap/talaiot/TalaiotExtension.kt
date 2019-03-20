@@ -11,7 +11,7 @@ import org.gradle.api.tasks.Internal
 
 @Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {
-    @get:Internal("Backing property for logger mode")
+    @get:Internal("Backing property public logger mode")
     internal var _logger: LogTracker.Mode? = null
 
     @get:Input
@@ -21,7 +21,7 @@ open class TalaiotExtension(val project: Project) {
             _logger = value
         }
 
-    @get:Internal("Backing property for Publishers")
+    @get:Internal("Backing property public Publishers")
     internal var _publishers: PublishersConfiguration? = null
 
     @get:Input
@@ -31,9 +31,26 @@ open class TalaiotExtension(val project: Project) {
             _publishers = value
         }
 
-    var ignoreWhen: IgnoreWhenConfiguration? = null
-    var metrics: MetricsConfiguration =
-        MetricsConfiguration()
+    @get:Internal("Backing property public IgnoreWhen")
+    internal var _ignoreWhen: IgnoreWhenConfiguration? = null
+
+    @get:Input
+    var ignoreWhen
+        get() = _ignoreWhen
+        set(value) {
+            _ignoreWhen = value
+        }
+
+    @get:Internal("Backing property public Metrics")
+    internal var _metrics: MetricsConfiguration = MetricsConfiguration()
+
+    @get:Input
+    var metrics
+        get() = _metrics
+        set(value) {
+            _metrics = value
+        }
+
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)

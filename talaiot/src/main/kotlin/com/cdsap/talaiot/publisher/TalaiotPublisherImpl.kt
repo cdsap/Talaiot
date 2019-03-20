@@ -14,8 +14,8 @@ class TalaiotPublisherImpl(
     override fun providePublishers(): List<Publisher> = PublishersProvider(project).get()
 
     override fun publish(taskLengthList: MutableList<TaskLength>) {
-        val aggregatedData = TaskMeasurementAggregated(provideMetrics(), taskLengthList)
         providePublishers().forEach {
+            val aggregatedData = TaskMeasurementAggregated(provideMetrics(), taskLengthList)
             it.publish(aggregatedData)
         }
     }

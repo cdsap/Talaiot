@@ -53,7 +53,7 @@ publishing {
     repositories {
         maven {
             name = "Snapshots"
-            url = uri("https://nexus.default.svc.agoda.mobi/repository/maven-snapshots")
+            url = uri("")
 
             credentials {
                 username = ""
