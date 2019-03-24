@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.SimpleRequest
+import com.cdsap.talaiot.wrotter.Writter
 import org.gradle.api.Project
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -34,6 +35,16 @@ class PublishersProvider(val project: Project) {
                         (
                         this,
                         logger
+                    )
+                )
+            }
+
+            taskDependencyGraphPublisher?.apply {
+                publishers.add(
+                    TaskDependencyGraphPublisher
+                        (
+                        Writter(project)
+                    
                     )
                 )
             }

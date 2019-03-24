@@ -3,6 +3,7 @@ package com.cdsap.talaiot.configuration
 
 import com.cdsap.talaiot.publisher.Neo4jPublisher
 import com.cdsap.talaiot.publisher.Publisher
+import com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher
 import groovy.lang.Closure
 
 class PublishersConfiguration {
@@ -10,6 +11,7 @@ class PublishersConfiguration {
     var outputPublisher: OutputPublisherConfiguration? = null
     var customPublisher: Publisher? = null
     var neo4jPublisher: Neo4JConfiguration? = null
+    var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
 
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
         influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
@@ -25,6 +27,10 @@ class PublishersConfiguration {
 
     fun neo4jPublisher(configuration: Neo4JConfiguration.() -> Unit) {
         neo4jPublisher = Neo4JConfiguration().also(configuration)
+    }
+
+    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
+        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration().also(configuration)
     }
 
     fun influxDbPublisher(closure: Closure<*>) {

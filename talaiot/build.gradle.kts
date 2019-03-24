@@ -33,6 +33,7 @@ gradlePlugin {
             api("org.neo4j:neo4j-ogm-embedded-driver:3.1.2")
             api("org.neo4j:neo4j-ogm-bolt-driver:3.1.2")
             api("org.neo4j:neo4j-ogm-http-driver:3.1.2")
+            api("org.simpleframework:simple-xml:2.7.1")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }

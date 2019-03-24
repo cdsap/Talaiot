@@ -6,6 +6,7 @@ import org.gradle.BuildResult
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
+import org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
 
@@ -43,16 +44,24 @@ class TalaiotListener(
     }
 
     override fun beforeExecute(task: Task) {
-        println("=========")
-        println("task ${task.name}")
+      //  println("=========")
+     //   println("task ${task.name}")
         talaiotTracker.startTrackingTask(task)
         task.taskDependencies.getDependencies(task).forEach {
-            println(it.path)
+    //        println(it.path)
+
 
         }
+        println("======")
+        println(task.name)
         task.dependsOn.forEach {
-         //   val a = it as Task
-         //   println(it.toString())
+            println(it.toString())
+           // println(it.javaClass.canonicalName)
+            //  val a = it as DefaultConfigurableFileCollection
+        //    it.forEach {
+        //        println(it)
+        //    }
+      //      println(it.toString())
         }
     }
 

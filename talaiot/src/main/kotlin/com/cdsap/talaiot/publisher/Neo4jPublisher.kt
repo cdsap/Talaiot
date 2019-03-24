@@ -1,7 +1,9 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.Neo4JConfiguration
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import org.neo4j.driver.v1.*
 
@@ -36,7 +38,7 @@ class Neo4jPublisher(
 //        }
 
         measurementAggregated.taskMeasurement.forEach {
-            var graphTask = GraphTask(name = it.taskPath)
+            var graphTask = GraphTask(name = it.taskPath,state = TaskMessageState.EXECUTED)
             graphTaskM.add(graphTask)
             //  println(it.taskPath)
 
@@ -129,5 +131,6 @@ class Neo4jPublisher(
 
 data class GraphTask(
     val name: String,
-    var dependencies: List<GraphTask> = emptyList()
+    var dependencies: List<GraphTask> = emptyList(),
+    val state: TaskMessageState
 )
