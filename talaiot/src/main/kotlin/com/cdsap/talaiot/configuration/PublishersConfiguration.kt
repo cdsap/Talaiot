@@ -12,6 +12,7 @@ class PublishersConfiguration {
     var customPublisher: Publisher? = null
     var neo4jPublisher: Neo4JConfiguration? = null
     var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
+    var gefxPublisher: GefxConfiguration? = null
 
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
         influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
@@ -31,6 +32,10 @@ class PublishersConfiguration {
 
     fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
         taskDependencyGraphPublisher = TaskDependencyGraphConfiguration().also(configuration)
+    }
+
+    fun gefxPublisher(configuration: GefxConfiguration.() -> Unit) {
+        gefxPublisher = GefxConfiguration().also(configuration)
     }
 
     fun influxDbPublisher(closure: Closure<*>) {

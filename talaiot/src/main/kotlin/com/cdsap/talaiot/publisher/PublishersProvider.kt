@@ -44,7 +44,17 @@ class PublishersProvider(val project: Project) {
                     TaskDependencyGraphPublisher
                         (
                         Writter(project)
-                    
+
+                    )
+                )
+            }
+
+            gefxPublisher?.apply {
+                publishers.add(
+                    GefxPublisher
+                        (
+                        Writter(project)
+
                     )
                 )
             }

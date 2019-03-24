@@ -4,6 +4,7 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.resources.TaskDependenciesHtml
+import com.cdsap.talaiot.resources.TaskDependenciesXml
 import com.cdsap.talaiot.wrotter.Writter
 import java.lang.StringBuilder
 
@@ -16,26 +17,8 @@ class GefxPublisher(private val fileWriter: Writter) : Publisher {
         var count = 0
         var nodes = ""
 
-//        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-//                "<gexf xmlns=\"http://www.gexf.net/1.2draft\" version=\"1.2\">\n" +
-//                "    <meta lastmodifieddate=\"2009-03-20\">\n" +
-//                "        <creator>Gexf.net</creator>\n" +
-//                "        <description>A hello world! file</description>\n" +
-//                "    </meta>\n" +
-//                "    <graph mode=\"static\" defaultedgetype=\"directed\">\n" +
-//                "        <nodes>\n" +
-//                "            <node id=\"0\" label=\"Hello\" />\n" +
-//                "            <node id=\"1\" label=\"Word\" />\n" +
-//                "        </nodes>\n" +
-//                "        <edges>\n" +
-//                "            <edge id=\"0\" source=\"0\" target=\"1\" />\n" +
-//                "        </edges>\n" +
-//                "    </graph>\n" +
-//                "</gexf>"
 
-        //   val xmlSerializer = XMLSerializer.newSerializer()
-
-
+        nodes += "<nodes>"
         measurementAggregated.taskMeasurement.forEach {
             val dependency = TaskDependency(it, count)
 
@@ -47,37 +30,42 @@ class GefxPublisher(private val fileWriter: Writter) : Publisher {
                 modules.add(module)
             }
             dependency.counter =
-                1 + (it.taskDependencies.count() * 10)//getCounter(it.taskPath, measurementAggregated.taskMeasurement)
+                    1 +
+                    (it.taskDependencies.count() * 10)//getCounter(it.taskPath, measurementAggregated.taskMeasurement)
             g[it.taskPath] = dependency
             if (dependency?.taskLength?.state == TaskMessageState.FROM_CACHE) {
                 color = ", color: '#ccccff'"
             }
-
-            nodes += "nodes.push({id: ${dependency?.internalId}, title:'${dependency?.module}', group:'${dependency?.module}', label: '${dependency?.taskLength?.taskName}', value: ${dependency?.counter} $color});\n"
+            nodes += "  <node id=\"${dependency?.internalId}\" label=\"${dependency?.taskLength?.taskName}\" />\n"
 
         }
-        var edges = ""
+        nodes += "</nodes>"
 
+        var edges = "<edges>"
+
+        var counterEdges = 0
         g.forEach {
             var taska = g[it.key]
             taska?.taskLength?.taskDependencies?.forEach {
-                edges += "edges.push({from: ${taska.internalId}, to: ${g[it]?.internalId}});\n"
-
+                edges += "  <edge id=\"$counterEdges\" source=\"${taska.internalId}\" target=\"${g[it]?.internalId}\" />\n"
+                counterEdges++
             }
         }
 
+        edges +="</edges>"
+
         val content = nodes + edges
-        // println(contentComponser(content))
-        fileWriter.createFile(contentComponser(content), "xx.html")
+        println(contentComponser(content))
+        fileWriter.createFile(contentComponser(content), "xx.gexf")
 
     }
 
     fun contentComponser(task: String): String {
         var content = StringBuilder()
-        content.append(TaskDependenciesHtml.HEADER)
+        content.append(TaskDependenciesXml.HEADER)
         content.append(task)
         content.append(
-            TaskDependenciesHtml.FOOTER
+            TaskDependenciesXml.FOOTER
         )
         return content.toString()
     }
@@ -91,12 +79,6 @@ class GefxPublisher(private val fileWriter: Writter) : Publisher {
         }
         return counter * 10
     }
-}
-
-
-data class TaskDependency(val taskLength: TaskLength, val internalId: Int) {
-    var module: String = ""
-    var counter: Int = 0
 }
 
 
