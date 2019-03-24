@@ -7,7 +7,7 @@ import com.cdsap.talaiot.resources.TaskDependenciesHtml
 import com.cdsap.talaiot.wrotter.Writter
 import java.lang.StringBuilder
 
-class TaskDependencyGraphPublisher(private val fileWriter: Writter) : Publisher {
+class GefxPublisher(private val fileWriter: Writter) : Publisher {
     val graphTaskM = mutableSetOf<GraphTask>()
     val g = hashMapOf<String, TaskDependency>()
     val modules = mutableSetOf<String>()
@@ -99,3 +99,7 @@ data class TaskDependency(val taskLength: TaskLength, val internalId: Int) {
     var counter: Int = 0
 }
 
+
+data class Node(val id: Int, val label: String)
+
+data class Edge(val id: Int, val source: Int, val target: Int)
