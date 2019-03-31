@@ -1,13 +1,10 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.nhaarman.mockitokotlin2.mock
+import io.kotlintest.matchers.maps.shouldNotContain
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.BuildResult
-import org.gradle.api.Project
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
-import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
 
 
 class MetricsProviderTest : BehaviorSpec({
@@ -57,5 +54,21 @@ class MetricsProviderTest : BehaviorSpec({
                 assert(metrics.containsKey("1"))
             }
         }
+        `when`("build Id generation is disabled") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.generateBuildId = false
+            talaiotExtension.metrics.gitMetrics = false
+            talaiotExtension.metrics.gradleMetrics = false
+            talaiotExtension.metrics.performanceMetrics = false
+            val metrics = MetricsProvider(project).get()
+            then("base metrics is not including buildId") {
+                assert(!metrics.containsKey("buildId"))
+                assert(metrics.containsKey("user"))
+                assert(metrics.containsKey("project"))
+                assert(metrics.containsKey("os"))
+            }
+        }
+
     }
 })

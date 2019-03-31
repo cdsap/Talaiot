@@ -8,8 +8,8 @@ class MetricsProvider(
 ) {
 
     fun get(): Map<String, String> {
-        val metrics = mutableListOf<Metrics>(BaseMetrics(project))
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
+        val metrics = mutableListOf<Metrics>(BaseMetrics(project, talaiotExtension.generateBuildId))
         talaiotExtension.metrics.apply {
             if (gitMetrics) {
                 metrics.add(GitMetrics())

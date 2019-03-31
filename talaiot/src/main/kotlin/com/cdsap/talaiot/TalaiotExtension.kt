@@ -10,6 +10,7 @@ import org.gradle.api.Project
 
 open class TalaiotExtension(val project: Project) {
     var logger = LogTracker.Mode.SILENT
+    var generateBuildId = true
     var publishers: PublishersConfiguration? = null
     var ignoreWhen: IgnoreWhenConfiguration? = null
     var metrics: MetricsConfiguration =
