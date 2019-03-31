@@ -1,13 +1,9 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.nhaarman.mockitokotlin2.mock
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.BuildResult
-import org.gradle.api.Project
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
-import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
 
 
 class MetricsProviderTest : BehaviorSpec({

@@ -40,29 +40,10 @@ class TalaiotListener(
             }
         }
         talaiotTracker.initNodeArgument()
-        //  gradle.taskGraph.getDependencies().
     }
 
     override fun beforeExecute(task: Task) {
-      //  println("=========")
-     //   println("task ${task.name}")
         talaiotTracker.startTrackingTask(task)
-        task.taskDependencies.getDependencies(task).forEach {
-    //        println(it.path)
-
-
-        }
-        println("======")
-        println(task.name)
-        task.dependsOn.forEach {
-            println(it.toString())
-           // println(it.javaClass.canonicalName)
-            //  val a = it as DefaultConfigurableFileCollection
-        //    it.forEach {
-        //        println(it)
-        //    }
-      //      println(it.toString())
-        }
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
