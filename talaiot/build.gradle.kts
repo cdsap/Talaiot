@@ -26,7 +26,7 @@ gradlePlugin {
         }
         dependencies {
             api("io.github.rybalkinsd:kohttp:0.7.1")
-            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
+            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
     }
