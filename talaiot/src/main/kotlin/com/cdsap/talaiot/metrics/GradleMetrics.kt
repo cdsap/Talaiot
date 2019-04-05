@@ -2,7 +2,6 @@ package com.cdsap.talaiot.metrics
 
 import org.gradle.api.Project
 
-
 class GradleMetrics(private val project: Project) : Metrics {
 
     override fun get(): Map<String, String> {
@@ -18,9 +17,8 @@ class GradleMetrics(private val project: Project) : Metrics {
         }
         gradleMetrics["gradleVersion"] = project.gradle.gradleVersion
         return gradleMetrics
-
     }
 
-    private fun hasProperty(property: String) = project.gradle.rootProject.hasProperty(property)
+    private fun hasProperty(property: String) = project.hasProperty(property)
     private fun property(property: String) = project.property(property)
 }
