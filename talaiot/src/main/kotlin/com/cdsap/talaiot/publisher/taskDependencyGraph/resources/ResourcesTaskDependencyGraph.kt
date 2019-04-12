@@ -1,6 +1,6 @@
-package com.cdsap.talaiot.resources
+package com.cdsap.talaiot.publisher.taskDependencyGraph.resources
 
-object TaskDependenciesHtml {
+object ResourcesTaskDependencyGraph {
     const val HEADER = "<!doctype html>\n" +
             "<html>\n" +
             "<head>\n" +

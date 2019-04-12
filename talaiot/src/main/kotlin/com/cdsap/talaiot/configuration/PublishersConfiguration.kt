@@ -1,9 +1,9 @@
 package com.cdsap.talaiot.configuration
 
 
-import com.cdsap.talaiot.publisher.Neo4jPublisher
+import com.cdsap.talaiot.publisher.taskDependencyGraph.Neo4jPublisher
 import com.cdsap.talaiot.publisher.Publisher
-import com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher
+import com.cdsap.talaiot.publisher.taskDependencyGraph.TaskDependencyGraphPublisher
 import groovy.lang.Closure
 
 class PublishersConfiguration {

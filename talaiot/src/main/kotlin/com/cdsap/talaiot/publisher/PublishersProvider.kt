@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.SimpleRequest
+import com.cdsap.talaiot.publisher.taskDependencyGraph.TaskDependencyGraphPublisher
 import com.cdsap.talaiot.wrotter.Writter
 import org.gradle.api.Project
 import java.util.concurrent.ExecutorService
@@ -29,16 +30,16 @@ class PublishersProvider(val project: Project) {
                     )
                 )
             }
-            neo4jPublisher?.apply {
-                publishers.add(
-                    Neo4jPublisher
-                        (
-                        this,
-                        logger
-                    )
-                )
-            }
-
+//            neo4jPublisher?.apply {
+//                publishers.add(
+//                    Neo4jPublisher
+//                        (
+//                        this,
+//                        logger
+//                    )
+//                )
+//            }
+//
             taskDependencyGraphPublisher?.apply {
                 publishers.add(
                     TaskDependencyGraphPublisher
@@ -48,16 +49,16 @@ class PublishersProvider(val project: Project) {
                     )
                 )
             }
-
-            gefxPublisher?.apply {
-                publishers.add(
-                    GefxPublisher
-                        (
-                        Writter(project)
-
-                    )
-                )
-            }
+//
+//            gefxPublisher?.apply {
+//                publishers.add(
+//                    GefxPublisher
+//                        (
+//                        Writter(project)
+//
+//                    )
+//                )
+//            }
 
 
 
