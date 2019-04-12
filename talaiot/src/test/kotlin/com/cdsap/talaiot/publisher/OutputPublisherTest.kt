@@ -35,9 +35,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, "app")
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -66,9 +66,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, "app")
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -97,7 +97,7 @@ class OutputPublisherTest : BehaviorSpec({
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
-                    listOf(TaskLength(0L, "zeroTask", ":zeroTask", TaskMessageState.EXECUTED))
+                    listOf(TaskLength(0L, "zeroTask", ":zeroTask", TaskMessageState.EXECUTED, "app"))
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
@@ -119,9 +119,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(2_000L, "secTask", ":secTask", TaskMessageState.EXECUTED),
-                        TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED)
+                        TaskLength(2_000L, "secTask", ":secTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED, "app")
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -151,9 +151,9 @@ class OutputPublisherTest : BehaviorSpec({
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
                     listOf(
-                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED)
+                        TaskLength(20L, "averageTask", ":averageTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, "app"),
+                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, "app")
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
