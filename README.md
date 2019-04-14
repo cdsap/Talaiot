@@ -63,13 +63,13 @@ Additionally, we are disabling the metrics for Git and Performance.
 
 ## Talaiot Extension
 
-| Property       |      Description                                                       |
-|----------------|------------------------------------------------------------------------|
-| logger         | Mode for logging (Silent,Info)                                         |
-| ignoreWhen     | Configuration to ignore the execution of Talaiot                       |
-| generateBuildId| Generation of unique identifier for each execution(enable by default)  |
-| publishers     | Configuration to define where to submit the information of the build   |
-| metrics        | Additional information tracked during the execution of the task        |
+| Property       |      Description                                                          |
+|----------------|---------------------------------------------------------------------------|
+| logger         | Mode for logging (Silent,Info)                                            |
+| ignoreWhen     | Configuration to ignore the execution of Talaiot                          |
+| generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
+| publishers     | Configuration to define where to submit the information of the build      |
+| metrics        | Additional information tracked during the execution of the task           |
 
     
 ### Publishers

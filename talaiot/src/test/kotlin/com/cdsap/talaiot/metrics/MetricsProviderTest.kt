@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.TalaiotExtension
-import io.kotlintest.matchers.maps.shouldNotContain
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
@@ -19,10 +18,9 @@ class MetricsProviderTest : BehaviorSpec({
             talaiotExtension.metrics.performanceMetrics = false
             val metrics = MetricsProvider(project).get()
             then("only base metrics are provided") {
-                assert(metrics.count() == 4)
+                assert(metrics.count() == 3)
                 assert(metrics.containsKey("user"))
                 assert(metrics.containsKey("project"))
-                assert(metrics.containsKey("buildId"))
                 assert(metrics.containsKey("os"))
             }
         }
@@ -48,22 +46,35 @@ class MetricsProviderTest : BehaviorSpec({
             talaiotExtension.metrics.performanceMetrics = true
             val metrics = MetricsProvider(project).get()
             then("all metrics should be included in the list") {
-                assert(metrics.containsKey("buildId"))
                 assert(metrics.containsKey("user"))
                 assert(metrics.containsKey("Xmx"))
                 assert(metrics.containsKey("1"))
             }
         }
-        `when`("build Id generation is disabled") {
+        `when`("build Id generation is disabled in the default behaviour") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-            talaiotExtension.generateBuildId = false
             talaiotExtension.metrics.gitMetrics = false
             talaiotExtension.metrics.gradleMetrics = false
             talaiotExtension.metrics.performanceMetrics = false
             val metrics = MetricsProvider(project).get()
             then("base metrics is not including buildId") {
                 assert(!metrics.containsKey("buildId"))
+                assert(metrics.containsKey("user"))
+                assert(metrics.containsKey("project"))
+                assert(metrics.containsKey("os"))
+            }
+        }
+        `when`("build Id generation is enabled") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.generateBuildId =  true
+            talaiotExtension.metrics.gitMetrics = false
+            talaiotExtension.metrics.gradleMetrics = false
+            talaiotExtension.metrics.performanceMetrics = false
+            val metrics = MetricsProvider(project).get()
+            then("base metrics is including buildId") {
+                assert(metrics.containsKey("buildId"))
                 assert(metrics.containsKey("user"))
                 assert(metrics.containsKey("project"))
                 assert(metrics.containsKey("os"))
