@@ -10,6 +10,7 @@ import org.gradle.api.Project
 import org.gradle.api.internal.tasks.TaskStateInternal
 import org.gradle.api.invocation.Gradle
 import org.gradle.kotlin.dsl.extra
+import org.gradle.kotlin.dsl.task
 import org.gradle.plugins.ide.internal.tooling.model.LaunchableGradleTask
 import org.gradle.testfixtures.ProjectBuilder
 
@@ -55,10 +56,23 @@ class TalaiotListenerTest : BehaviorSpec({
             provideTasks(arrayOf("clean", "myTask", "assemble"), project, talaiotListener)
             talaiotListener.buildFinished(result)
 
-
-            talaiotListener.buildFinished(result)
             then("Publisher doesn't publish results with the tasks processed") {
                 verify(talaiotListener.talaiotPublisher, never()).publish(any())
+            }
+        }
+        `when`("build includes tasks without module ") {
+            val project = ProjectBuilder.builder().build()
+            val result: BuildResult = mock()
+            val talaiotExtension = TalaiotExtension(project)
+
+            val talaiotListener = initListener(arrayOf("clean"), project, talaiotExtension)
+            provideTasks(arrayOf("clean"), project, talaiotListener)
+            talaiotListener.buildFinished(result)
+
+            then("Module is marked as no_module") {
+                verify(talaiotListener.talaiotPublisher).publish(argThat {
+                    this[0].module == "no_module"
+                })
             }
         }
     }
