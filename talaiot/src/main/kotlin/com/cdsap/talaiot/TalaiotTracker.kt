@@ -74,8 +74,13 @@ class TalaiotTracker {
 
 data class NodeArgument(val task: String, var ms: Long, var counter: Int)
 
-private fun getModule(path: String): String = path
-    .split(":")
-    .toList()
-    .dropLast(1)
-    .joinToString(separator = ":")
+private fun getModule(path: String): String {
+    val module = path.split(":")
+
+    return if (module.size > 2) module.toList()
+        .dropLast(1)
+        .joinToString(separator = ":")
+    else "no_module"
+}
+
+
