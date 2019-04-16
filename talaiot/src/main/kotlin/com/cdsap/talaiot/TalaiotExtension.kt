@@ -51,6 +51,16 @@ open class TalaiotExtension(val project: Project) {
             _metrics = value
         }
 
+    @get:Internal("Backing property public GenerateBuildId")
+    internal var _generateBuildId: Boolean = false
+
+    @get:Input
+    var generateBuildId
+        get() = _generateBuildId
+        set(value) {
+            _generateBuildId = value
+        }
+
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)

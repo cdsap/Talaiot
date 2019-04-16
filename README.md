@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.15) ](https://bintray.com/cdsap/maven/talaiot/0.1.15/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.1.17) ](https://bintray.com/cdsap/maven/talaiot/0.1.17/link)
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
@@ -63,12 +63,13 @@ Additionally, we are disabling the metrics for Git and Performance.
 
 ## Talaiot Extension
 
-| Property  |      Description                                                       |
-|---------- |------------------------------------------------------------------------|
-| logger    | Mode for logging (Silent,Info)                                         |
-| ignoreWhen| Configuration to ignore the execution of Talaiot                       |
-| publishers| Configuration to define where to submit the information of the build   |
-| metrics   | Additional information tracked during the execution of the task        |
+| Property       |      Description                                                          |
+|----------------|---------------------------------------------------------------------------|
+| logger         | Mode for logging (Silent,Info)                                            |
+| ignoreWhen     | Configuration to ignore the execution of Talaiot                          |
+| generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
+| publishers     | Configuration to define where to submit the information of the build      |
+| metrics        | Additional information tracked during the execution of the task           |
 
     
 ### Publishers

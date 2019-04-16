@@ -32,10 +32,10 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         mapOf(
                             "metric1" to "value1",
                             "metric2" to "value2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED))
+                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
@@ -79,10 +79,10 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         mapOf(
                             "me=tric1" to "va====lue1",
                             "metric2" to "val,,   , ue2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED))
+                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }

@@ -38,11 +38,11 @@ class Neo4jPublisher(
         from: Int,
         to: Int?
     ): String {
-        session.run(
-            "   MATCH (a:Taskp), (b:Taskp) WHERE a.name = \"$name\" AND b.name = \"${it.name}\" " +
-                    "CREATE (a)-[r: xx]->(b) " +
-                    "RETURN a,b"
-        )
+//        session.run(
+//            "   MATCH (a:Taskp), (b:Taskp) WHERE a.name = \"$name\" AND b.name = \"${it.name}\" " +
+//                    "CREATE (a)-[r: xx]->(b) " +
+//                    "RETURN a,b"
+//        )
         return ""
 
     }

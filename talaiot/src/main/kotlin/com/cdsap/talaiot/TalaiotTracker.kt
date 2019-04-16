@@ -43,6 +43,7 @@ class TalaiotTracker {
                     ms = ms,
                     taskName = task.name,
                     taskPath = task.path,
+                    module = getModule(task.path),
                     state = TaskMessageState.EXECUTED,
                     rootNode = currentNode.task != "clean",
                     taskDependencies = taskDependencies(task)
@@ -59,6 +60,7 @@ class TalaiotTracker {
                     ms = ms,
                     taskName = task.name,
                     taskPath = task.path,
+                    module = getModule(task.path),
                     state = when (state.skipMessage) {
                         "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                         "FROM-CACHE" -> TaskMessageState.FROM_CACHE
@@ -75,6 +77,13 @@ class TalaiotTracker {
     fun taskDependencies(task: Task) = task.taskDependencies.getDependencies(task).map { it.path }
 }
 
-
 data class NodeArgument(val task: String, var ms: Long, var counter: Int)
 data class GraphTask(val node: NodeArgument)
+private fun getModule(path: String): String {
+    val module = path.split(":")
+
+    return if (module.size > 2) module.toList()
+        .dropLast(1)
+        .joinToString(separator = ":")
+    else "no_module"
+}
