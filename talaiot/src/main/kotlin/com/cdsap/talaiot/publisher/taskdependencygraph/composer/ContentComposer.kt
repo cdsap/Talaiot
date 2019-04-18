@@ -1,16 +1,16 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.taskdependencygraph.composer
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.publisher.taskDependencyGraph.TaskDependencyNode
-import com.cdsap.talaiot.wrotter.Writter
+import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.entities.TaskDependencyNode
+import com.cdsap.talaiot.writer.FileWriter
 import java.lang.StringBuilder
 
-interface GraphPublisher : Publisher {
-    var fileWriter: Writter
-    var fileName: String
+interface ContentComposer {
+    var logTracker: LogTracker
+    var fileWriter: FileWriter
 
-
-    fun writeFile(contentFile: String) = fileWriter.createFile(contentFile, fileName)
+    fun compose(taskMeasurementAggregated: TaskMeasurementAggregated)
 
     fun contentComposer(task: String, header: String, footer: String) = StringBuilder().apply {
         append(header)
@@ -18,19 +18,33 @@ interface GraphPublisher : Publisher {
         append(footer)
     }.toString()
 
+    fun writeFile(contentFile: String, name: String) = fileWriter.createFile(contentFile, name)
+
+
     fun mask(vertices: String, edges: String): String = vertices + edges
 
-    fun writeNode(
+    fun formatNode(
         internalId: Int,
         module: String,
         taskName: String,
         numberDependencies: Int
     ): String
 
-    fun writeEdge(
+    fun formatEdge(
         from: Int,
         to: Int?
     ): String
+
+    fun write(statement: String): String {
+        logTracker.log(statement)
+        return statement
+    }
+
+    private fun getModule(path: String): String = path
+        .split(":")
+        .toList()
+        .dropLast(1)
+        .joinToString(separator = ":")
 
     fun buildGraph(taskMeasurementAggregated: TaskMeasurementAggregated): String {
         var count = 0
@@ -43,19 +57,13 @@ interface GraphPublisher : Publisher {
             dependency.module = getModule(it.taskPath)
             dependencies[it.taskPath] = dependency
             with(dependency) {
-                nodes += writeNode(internalId, module, taskLength.taskName, taskLength.taskDependencies.count())
+                nodes += formatNode(internalId, module, taskLength.taskName, taskLength.taskDependencies.count())
             }
             it.taskDependencies.forEach {
-                edges += writeEdge(from = dependency.internalId, to = dependencies[it]?.internalId)
+                edges += formatEdge(from = dependency.internalId, to = dependencies[it]?.internalId)
             }
             count++
         }
         return nodes + edges
     }
-
-    private fun getModule(path: String): String = path
-        .split(":")
-        .toList()
-        .dropLast(1)
-        .joinToString(separator = ":")
 }

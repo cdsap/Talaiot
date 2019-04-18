@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.taskDependencyGraph
+package com.cdsap.talaiot.entities
 
 import com.cdsap.talaiot.entities.TaskLength
 

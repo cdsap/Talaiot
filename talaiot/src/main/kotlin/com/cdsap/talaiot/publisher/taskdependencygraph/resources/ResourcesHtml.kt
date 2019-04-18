@@ -1,6 +1,6 @@
-package com.cdsap.talaiot.publisher.taskDependencyGraph.resources
+package com.cdsap.talaiot.publisher.taskdependencygraph.resources
 
-object ResourcesTaskDependencyGraph {
+object ResourcesHtml {
     const val HEADER = "<!doctype html>\n" +
             "<html>\n" +
             "<head>\n" +
@@ -33,8 +33,8 @@ object ResourcesTaskDependencyGraph {
             "    function draw() {\n" +
             "      destroy();\n" +
             "      var nodes = [];\n" +
-            "      var edges = [];"
-    const val FOOTER = "      var container = document.getElementById('mynetwork');\n" +
+            "      var edges = [];\n"
+    const val FOOTER = "var container = document.getElementById('mynetwork');\n" +
             "      var data = {\n" +
             "        nodes: nodes,\n" +
             "        edges: edges\n" +
