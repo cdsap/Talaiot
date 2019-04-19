@@ -6,9 +6,9 @@ import com.cdsap.talaiot.publisher.taskdependencygraph.resources.ResourcesHtml
 import com.cdsap.talaiot.writer.FileWriter
 
 class HtmlComposer(
-    override var logTracker: LogTracker,
-    override var fileWriter: FileWriter
-) : ContentComposer {
+    val logger: LogTracker,
+    val writter: FileWriter
+) : ContentComposer(logger, writter) {
     private val fileName: String = "taskDependency.html"
 
     override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
@@ -19,7 +19,13 @@ class HtmlComposer(
         writeFile(content, fileName)
     }
 
-    override fun formatNode(internalId: Int, module: String, taskName: String, numberDependencies: Int): String =
+    override fun formatNode(
+        internalId: Int,
+        module: String,
+        taskName: String,
+        numberDependencies: Int,
+        cached: Boolean
+    ): String =
         write(
             "nodes.push({id: $internalId, title:'$module', group:'$module', " +
                     "label: '$taskName', " +
@@ -29,5 +35,5 @@ class HtmlComposer(
     override fun formatEdge(from: Int, to: Int?): String =
         write("edges.push({from: $from, to: $to});\n")
 
-    override fun mask(vertices: String, edges: String): String = vertices + edges
+    //override fun mask(vertices: String, edges: String): String = vertices + edges
 }

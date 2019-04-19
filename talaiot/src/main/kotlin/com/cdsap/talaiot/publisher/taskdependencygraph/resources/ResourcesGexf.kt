@@ -7,7 +7,13 @@ object ResourcesGexf {
             "        <creator>Talaiot</creator>\n" +
             "        <description>Graph Dependency</description>\n" +
             "    </meta>\n" +
-            "    <taskdependencygraph mode=\"static\" defaultedgetype=\"directed\">"
+            "    <graph mode=\"static\" defaultedgetype=\"directed\">" +
+            "       <attributes class=\"node\">\n" +
+            "          <attribute id=\"0\" title=\"module\" type=\"string\"/>\n" +
+            "          <attribute id=\"1\" title=\"cached\" type=\"boolean\">\n" +
+            "                <default>false</default>\n" +
+            "           </attribute>\n" +
+            "       </attributes>"
     const val FOOTER = "    </taskdependencygraph>\n" +
             "</gexf>"
 }

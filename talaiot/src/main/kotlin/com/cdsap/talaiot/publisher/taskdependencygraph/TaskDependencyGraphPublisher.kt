@@ -4,9 +4,9 @@ import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.Publisher
+import com.cdsap.talaiot.publisher.taskdependencygraph.composer.DotComposer
 import com.cdsap.talaiot.publisher.taskdependencygraph.composer.GexfComposer
 import com.cdsap.talaiot.publisher.taskdependencygraph.composer.HtmlComposer
-import com.cdsap.talaiot.publisher.taskdependencygraph.composer.Neo4JComposer
 import com.cdsap.talaiot.writer.FileWriter
 
 class TaskDependencyGraphPublisher(
@@ -27,8 +27,8 @@ class TaskDependencyGraphPublisher(
                     .compose(measurementAggregated)
             }
 
-            if (neo4j) {
-                Neo4JComposer(logTracker, fileWriter)
+            if (dot) {
+                DotComposer(logTracker, fileWriter)
                     .compose(measurementAggregated)
             }
         }

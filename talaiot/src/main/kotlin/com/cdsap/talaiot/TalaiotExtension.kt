@@ -81,7 +81,6 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun logger(string: String) {
-
     }
 
     fun ignoreWjen(closure: Closure<*>) {

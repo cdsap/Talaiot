@@ -3,10 +3,11 @@ package com.cdsap.talaiot.publisher.taskdependencygraph.composer
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.entities.TaskDependencyNode
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.writer.FileWriter
 import java.lang.StringBuilder
 
-interface ContentComposer {
+interface ContentComposer<Node, Edge> {
     var logTracker: LogTracker
     var fileWriter: FileWriter
 
@@ -27,13 +28,14 @@ interface ContentComposer {
         internalId: Int,
         module: String,
         taskName: String,
-        numberDependencies: Int
-    ): String
+        numberDependencies: Int,
+        cached: Boolean
+    ): Node
 
     fun formatEdge(
         from: Int,
         to: Int?
-    ): String
+    ): Edge
 
     fun write(statement: String): String {
         logTracker.log(statement)
@@ -57,7 +59,10 @@ interface ContentComposer {
             dependency.module = getModule(it.taskPath)
             dependencies[it.taskPath] = dependency
             with(dependency) {
-                nodes += formatNode(internalId, module, taskLength.taskName, taskLength.taskDependencies.count())
+                nodes += formatNode(
+                    internalId, module, taskLength.taskName, taskLength.taskDependencies.count(),
+                    taskLength.state == TaskMessageState.FROM_CACHE
+                )
             }
             it.taskDependencies.forEach {
                 edges += formatEdge(from = dependency.internalId, to = dependencies[it]?.internalId)

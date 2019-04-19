@@ -13,8 +13,6 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
-
-
 val versionTalaiot = "0.1.18-SNAPSHOT"
 
 group = "com.cdsap"
@@ -29,7 +27,7 @@ gradlePlugin {
         dependencies {
             api("io.github.rybalkinsd:kohttp:0.7.1")
 //api("   org.jetbrains.kotlin:kotlin-noarg:1.3.11")
-            api("org.neo4j.driver:neo4j-java-driver:1.7.3")
+            api("guru.nidi:graphviz-java:0.8.3")
             api("org.neo4j:neo4j-ogm-core:3.1.2")
             api("org.neo4j:neo4j-ogm-embedded-driver:3.1.2")
             api("org.neo4j:neo4j-ogm-bolt-driver:3.1.2")

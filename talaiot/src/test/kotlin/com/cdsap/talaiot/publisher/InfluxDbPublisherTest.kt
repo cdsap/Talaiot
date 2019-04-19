@@ -32,7 +32,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         mapOf(
                             "metric1" to "value1",
                             "metric2" to "value2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
+                        ), listOf(
+                            TaskLength(
+                                1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            )
+                        )
                     )
                 )
                 assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
@@ -79,10 +84,10 @@ class InfluxDbPublisherTest : BehaviorSpec({
                         mapOf(
                             "me=tric1" to "va====lue1",
                             "metric2" to "val,,   , ue2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
+                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, true, "app", emptyList()))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=true,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }

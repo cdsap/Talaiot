@@ -10,9 +10,9 @@ import org.neo4j.driver.v1.Driver
 import org.neo4j.driver.v1.GraphDatabase
 
 class Neo4JComposer(
-    override var logTracker: LogTracker,
-    override var fileWriter: FileWriter
-) : ContentComposer {
+    val logger: LogTracker,
+    val  writter: FileWriter
+) : ContentComposer(logger, writter) {
     private val fileName: String = ""
     private val driver: Driver = GraphDatabase.driver(
         "bolt://localhost:7687",
@@ -31,7 +31,10 @@ class Neo4JComposer(
         driver.close()
     }
 
-    override fun formatNode(internalId: Int, module: String, taskName: String, numberDependencies: Int): String =
+    override fun formatNode(
+        internalId: Int, module: String, taskName: String, numberDependencies: Int,
+        cached: Boolean
+    ): String =
         session
             .run(write("CREATE ($internalId:Task {id:\"$internalId\", name:\"$taskName\"})"))
             .toString()
