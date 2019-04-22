@@ -1,17 +1,31 @@
-package com.cdsap.talaiot.publisher.taskdependencygraph.composer
+package com.cdsap.talaiot.composer
 
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.entities.TaskDependencyNode
+import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
+import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter
 import java.lang.StringBuilder
 
-interface ContentComposer<Node, Edge> {
-    var logTracker: LogTracker
-    var fileWriter: FileWriter
+abstract class DefaultComposer(
+    override var logTracker: LogTracker,
+    override var fileWriter: FileWriter<String>
+) : Composer<String> {
 
-    fun compose(taskMeasurementAggregated: TaskMeasurementAggregated)
+
+    abstract fun formatNode(
+        internalId: Int,
+        module: String,
+        taskName: String,
+        numberDependencies: Int,
+        cached: Boolean
+    ): String
+
+    abstract fun formatEdge(
+        from: Int,
+        to: Int?
+    ): String
+
 
     fun contentComposer(task: String, header: String, footer: String) = StringBuilder().apply {
         append(header)
@@ -19,34 +33,12 @@ interface ContentComposer<Node, Edge> {
         append(footer)
     }.toString()
 
-    fun writeFile(contentFile: String, name: String) = fileWriter.createFile(contentFile, name)
-
-
-    fun mask(vertices: String, edges: String): String = vertices + edges
-
-    fun formatNode(
-        internalId: Int,
-        module: String,
-        taskName: String,
-        numberDependencies: Int,
-        cached: Boolean
-    ): Node
-
-    fun formatEdge(
-        from: Int,
-        to: Int?
-    ): Edge
+    fun writeFile(contentFile: String, name: String) = fileWriter.prepareFile(contentFile, name)
 
     fun write(statement: String): String {
         logTracker.log(statement)
         return statement
     }
-
-    private fun getModule(path: String): String = path
-        .split(":")
-        .toList()
-        .dropLast(1)
-        .joinToString(separator = ":")
 
     fun buildGraph(taskMeasurementAggregated: TaskMeasurementAggregated): String {
         var count = 0
@@ -56,17 +48,17 @@ interface ContentComposer<Node, Edge> {
 
         taskMeasurementAggregated.taskMeasurement.forEach {
             val dependency = TaskDependencyNode(it, count)
-            dependency.module = getModule(it.taskPath)
             dependencies[it.taskPath] = dependency
             with(dependency) {
                 nodes += formatNode(
-                    internalId, module, taskLength.taskName, taskLength.taskDependencies.count(),
+                    internalId, taskLength.module, taskLength.taskName, taskLength.taskDependencies.count(),
                     taskLength.state == TaskMessageState.FROM_CACHE
                 )
             }
             it.taskDependencies.forEach {
                 edges += formatEdge(from = dependency.internalId, to = dependencies[it]?.internalId)
             }
+
             count++
         }
         return nodes + edges

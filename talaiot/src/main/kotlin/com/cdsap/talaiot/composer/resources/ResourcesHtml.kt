@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.taskdependencygraph.resources
+package com.cdsap.talaiot.composer.resources
 
 object ResourcesHtml {
     const val HEADER = "<!doctype html>\n" +

@@ -26,13 +26,7 @@ gradlePlugin {
         }
         dependencies {
             api("io.github.rybalkinsd:kohttp:0.7.1")
-//api("   org.jetbrains.kotlin:kotlin-noarg:1.3.11")
             api("guru.nidi:graphviz-java:0.8.3")
-            api("org.neo4j:neo4j-ogm-core:3.1.2")
-            api("org.neo4j:neo4j-ogm-embedded-driver:3.1.2")
-            api("org.neo4j:neo4j-ogm-bolt-driver:3.1.2")
-            api("org.neo4j:neo4j-ogm-http-driver:3.1.2")
-            api("org.simpleframework:simple-xml:2.7.1")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }

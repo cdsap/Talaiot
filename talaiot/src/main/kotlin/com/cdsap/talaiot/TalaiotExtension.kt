@@ -67,7 +67,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration().also(block)
+        publishers = PublishersConfiguration(project).also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {
@@ -75,7 +75,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(closure: Closure<*>) {
-        publishers = PublishersConfiguration()
+        publishers = PublishersConfiguration(project)
         closure.delegate = publishers
         closure.call()
     }
@@ -83,7 +83,7 @@ open class TalaiotExtension(val project: Project) {
     fun logger(string: String) {
     }
 
-    fun ignoreWjen(closure: Closure<*>) {
+    fun ignoreWhen(closure: Closure<*>) {
         ignoreWhen = IgnoreWhenConfiguration(project)
         closure.delegate = ignoreWhen
         closure.call()

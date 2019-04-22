@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.taskdependencygraph.resources
+package com.cdsap.talaiot.composer.resources
 
 object ResourcesGexf {
     const val HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -7,13 +7,13 @@ object ResourcesGexf {
             "        <creator>Talaiot</creator>\n" +
             "        <description>Graph Dependency</description>\n" +
             "    </meta>\n" +
-            "    <graph mode=\"static\" defaultedgetype=\"directed\">" +
+            "    <graph mode=\"static\" defaultedgetype=\"directed\">\n" +
             "       <attributes class=\"node\">\n" +
             "          <attribute id=\"0\" title=\"module\" type=\"string\"/>\n" +
             "          <attribute id=\"1\" title=\"cached\" type=\"boolean\">\n" +
             "                <default>false</default>\n" +
             "           </attribute>\n" +
-            "       </attributes>"
-    const val FOOTER = "    </taskdependencygraph>\n" +
+            "       </attributes>\n"
+    const val FOOTER = "    </graph>\n" +
             "</gexf>"
 }

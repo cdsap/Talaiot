@@ -104,10 +104,3 @@ class TestRequest(override var logTracker: LogTracker) : Request {
         this.content = content
     }
 }
-
-class TestExecutor : Executor {
-    override fun execute(command: Runnable?) {
-        command?.run()
-    }
-
-}

@@ -1,22 +1,27 @@
-package com.cdsap.talaiot.publisher.taskdependencygraph.composer
+package com.cdsap.talaiot.composer
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.publisher.taskdependencygraph.resources.ResourcesHtml
+import com.cdsap.talaiot.composer.resources.ResourcesHtml
 import com.cdsap.talaiot.writer.FileWriter
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 
 class HtmlComposer(
-    val logger: LogTracker,
-    val writter: FileWriter
-) : ContentComposer(logger, writter) {
-    private val fileName: String = "taskDependency.html"
+    override var logTracker: LogTracker,
+    override var fileWriter: FileWriter<String>,
+    private val executor: Executor
+) : DefaultComposer(logTracker, fileWriter) {
+    private val fileName: String = "htmlTaskDependency.html"
 
     override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
-        val content = contentComposer(
-            buildGraph(taskMeasurementAggregated), ResourcesHtml.HEADER,
-            ResourcesHtml.HEADER
-        )
-        writeFile(content, fileName)
+        executor.execute {
+            val content = contentComposer(
+                buildGraph(taskMeasurementAggregated), ResourcesHtml.HEADER,
+                ResourcesHtml.FOOTER
+            )
+            writeFile(content, fileName)
+        }
     }
 
     override fun formatNode(
@@ -35,5 +40,4 @@ class HtmlComposer(
     override fun formatEdge(from: Int, to: Int?): String =
         write("edges.push({from: $from, to: $to});\n")
 
-    //override fun mask(vertices: String, edges: String): String = vertices + edges
 }

@@ -1,23 +1,29 @@
-package com.cdsap.talaiot.publisher.taskdependencygraph.composer
+package com.cdsap.talaiot.composer
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.publisher.taskdependencygraph.resources.ResourcesGexf
+import com.cdsap.talaiot.composer.resources.ResourcesGexf
 import com.cdsap.talaiot.writer.FileWriter
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
 
 class GexfComposer(
-    val logger: LogTracker,
-    val writter: FileWriter
-) : ContentComposer(logger, writter) {
-    private val fileName: String = "talaiot.gexf"
+    override var logTracker: LogTracker,
+    override var fileWriter: FileWriter<String>,
+    private val executor: Executor
+) : DefaultComposer(logTracker, fileWriter) {
+
+    private val fileName: String = "gexfTaskDependency.gexf"
     private var internalCounterEdges = 0
 
-    override fun compose(measurementAggregated: TaskMeasurementAggregated) {
-        val content = contentComposer(
-            buildGraph(measurementAggregated), ResourcesGexf.HEADER,
-            ResourcesGexf.FOOTER
-        )
-        writeFile(content, fileName)
+    override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
+        executor.execute {
+            val content = contentComposer(
+                buildGraph(taskMeasurementAggregated), ResourcesGexf.HEADER,
+                ResourcesGexf.FOOTER
+            )
+            writeFile(content, fileName)
+        }
     }
 
     override fun formatNode(
@@ -28,18 +34,16 @@ class GexfComposer(
         cached: Boolean
     ): String =
         write(
-            "<node id=\"$internalId\" label=\"$taskName\">" +
+            "<node id=\"$internalId\" label=\"$taskName\">\n" +
                     "           <attvalues>\n" +
                     "                    <attvalue for=\"0\" value=\"$module\"/>\n" +
                     "                    <attvalue for=\"1\" value=\"$cached\"/>\n" +
                     "           </attvalues>\n" +
-                    "</node>"
+                    "</node>\n"
         )
 
     override fun formatEdge(
         from: Int,
         to: Int?
     ) = write("<edge id=\"${internalCounterEdges++}\" source=\"$from\" target=\"$to\" />\n")
-
-  //  override fun mask(vertices: String, edges: String) = "<nodes>$vertices</nodes><edges>$edges</edges>"
 }

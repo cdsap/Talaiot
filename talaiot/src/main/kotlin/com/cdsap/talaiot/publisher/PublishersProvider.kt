@@ -3,12 +3,11 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.SimpleRequest
-import com.cdsap.talaiot.publisher.taskdependencygraph.TaskDependencyGraphPublisher
-import com.cdsap.talaiot.writer.FileWriter
 import org.gradle.api.Project
 import java.util.concurrent.Executors
 
 class PublishersProvider(val project: Project) {
+    val executor = Executors.newSingleThreadExecutor()
     fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
@@ -26,16 +25,17 @@ class PublishersProvider(val project: Project) {
                         this,
                         logger,
                         SimpleRequest(logger),
-                        Executors.newSingleThreadExecutor()
+                        executor
                     )
                 )
             }
             taskDependencyGraphPublisher?.apply {
                 publishers.add(
                     TaskDependencyGraphPublisher(
+                        project,
                         this,
-                        FileWriter(project),
-                        logger
+                        logger,
+                        executor
                     )
                 )
             }

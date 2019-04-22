@@ -3,15 +3,17 @@ package com.cdsap.talaiot.configuration
 
 import com.cdsap.talaiot.publisher.Publisher
 import groovy.lang.Closure
+import org.gradle.api.Project
 
-class PublishersConfiguration {
+
+class PublishersConfiguration(val project: Project) {
     var influxDbPublisher: InfluxDbPublisherConfiguration? = null
     var outputPublisher: OutputPublisherConfiguration? = null
     var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
     var customPublisher: Publisher? = null
 
     fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration().also(configuration)
+        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
     }
 
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
@@ -33,7 +35,7 @@ class PublishersConfiguration {
     }
 
     fun taskDependencyGraphPublisher(closure: Closure<*>) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration()
+        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project)
         closure.delegate = taskDependencyGraphPublisher
         closure.call()
     }
