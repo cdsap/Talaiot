@@ -108,7 +108,7 @@ class PublishersProviderTest : BehaviorSpec({
 })
 
 class TestPublisher : Publisher {
-    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
 
     }
 

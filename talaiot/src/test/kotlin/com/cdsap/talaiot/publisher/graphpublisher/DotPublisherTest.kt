@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -9,16 +9,16 @@ import com.cdsap.talaiot.writer.FileWriter
 import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 
-class DotComposerTest : BehaviorSpec({
-    given("Dot Composer") {
+class DotPublisherTest : BehaviorSpec({
+    given("Dot Publisher instance") {
         `when`("composing new aggregation ") {
             val logger: LogTracker = mock()
             val fileWriter: FileWriter = mock()
             val executor = TestExecutor()
-            val dotComposer = DotComposer(logger, fileWriter, executor)
+            val dotPublisher = DotPublisher(logger, fileWriter, executor)
             then("writer is using the content") {
 
-                dotComposer.compose(taskMeasurementAggregated())
+                dotPublisher.publish(taskMeasurementAggregated())
                 verify(fileWriter, times(2)).prepareFile(any(), any())
             }
         }

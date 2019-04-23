@@ -1,20 +1,19 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.composer.resources.ResourcesHtml
+import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml
 import com.cdsap.talaiot.writer.FileWriter
 import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
 
-class HtmlComposer(
+class HtmlPublisher(
     override var logTracker: LogTracker,
     override var fileWriter: FileWriter,
     private val executor: Executor
-) : DefaultComposer(logTracker, fileWriter) {
+) : DefaultDiskPublisher(logTracker, fileWriter) {
     private val fileName: String = "htmlTaskDependency.html"
 
-    override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             val content = contentComposer(
                 buildGraph(taskMeasurementAggregated), ResourcesHtml.HEADER,

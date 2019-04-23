@@ -8,7 +8,6 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
-import java.util.concurrent.Executor
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
@@ -28,7 +27,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should contains formatted the url and content the Request") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         mapOf(
                             "metric1" to "value1",
                             "metric2" to "value2"
@@ -58,7 +57,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should TestRequest be empty") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         emptyMap(), emptyList()
 
                     )
@@ -80,7 +79,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("these metrics should be parsed to correct format ") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         mapOf(
                             "me=tric1" to "va====lue1",
                             "metric2" to "val,,   , ue2"

@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -12,11 +12,11 @@ import guru.nidi.graphviz.model.Node
 import guru.nidi.graphviz.model.LinkSource
 import java.util.concurrent.Executor
 
-class DotComposer(
+class DotPublisher(
     override var logTracker: LogTracker,
     override var fileWriter: FileWriter,
     private val executor: Executor
-) : Composer {
+) : DiskPublisher {
     private val fileName: String = "dotTaskDependency.png"
     private val fileNameXdot: String = "xdotTaskDependency.xdot"
 
@@ -41,7 +41,7 @@ class DotComposer(
         return nodes.toList()
     }
 
-    override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             try {
 
@@ -63,7 +63,7 @@ class DotComposer(
                 Graphviz.releaseEngine()
 
             } catch (e: Exception) {
-                logTracker.log("DotComposer Error -> ${e.message}")
+                logTracker.log("DotPublisher Error -> ${e.message}")
             }
         }
     }

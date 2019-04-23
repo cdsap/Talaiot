@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.composer.resources
+package com.cdsap.talaiot.publisher.graphpublisher.resources
 
 object ResourcesGexf {
     const val HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +

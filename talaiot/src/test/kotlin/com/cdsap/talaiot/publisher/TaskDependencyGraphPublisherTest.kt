@@ -1,8 +1,8 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.composer.Composer
-import com.cdsap.talaiot.composer.ComposerFactory
-import com.cdsap.talaiot.composer.ComposerType
+import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
+import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
+import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -29,28 +29,28 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                 html = true
                 gexf = true
             }
-            val composerFactory: ComposerFactory = mock()
+            val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, composerFactory)
+                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregated()
             )
-            then("no composer is instanciated ") {
+            then("no publisher is instanciated ") {
 
-                verify(composerFactory, never()).createComposer(
-                    argThat { this == ComposerType.GEXF },
+                verify(graphPublisherFactory, never()).createPublisher(
+                    argThat { this == GraphPublisherType.GEXF },
                     any(),
                     any(),
                     any()
                 )
-                verify(composerFactory, never()).createComposer(
-                    argThat { this == ComposerType.DOT },
+                verify(graphPublisherFactory, never()).createPublisher(
+                    argThat { this == GraphPublisherType.DOT },
                     any(),
                     any(),
                     any()
                 )
-                verify(composerFactory, never()).createComposer(
-                    argThat { this == ComposerType.HTML },
+                verify(graphPublisherFactory, never()).createPublisher(
+                    argThat { this == GraphPublisherType.HTML },
                     any(),
                     any(),
                     any()
@@ -63,40 +63,38 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisherConfiguration = TaskDependencyGraphConfiguration(project).apply {
                 html = true
             }
-            val composerFactory: ComposerFactory = mock()
+            val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, composerFactory)
+                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
 
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregated()
             )
 
-            then("HtmlComposer is called") {
-                verify(composerFactory).createComposer(
-                    argThat { this == ComposerType.HTML },
+            then("HtmlPublisher is called") {
+                verify(graphPublisherFactory).createPublisher(
+                    argThat { this == GraphPublisherType.HTML },
                     any(),
                     any(),
                     any()
                 )
-
             }
-
         }
         `when`("configuration shouldn't be ignored and gexf is enabled") {
             val project = ProjectBuilder.builder().build()
             val taskDependencyGraphPublisherConfiguration = TaskDependencyGraphConfiguration(project).apply {
                 gexf = true
             }
-            val composerFactory: ComposerFactory = mock()
+            val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, composerFactory)
+                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregated()
             )
 
-            then("GexfComposer is called") {
-                verify(composerFactory).createComposer(
-                    argThat { this == ComposerType.GEXF },
+            then("GexfPublisher is called") {
+                verify(graphPublisherFactory).createPublisher(
+                    argThat { this == GraphPublisherType.GEXF },
                     any(),
                     any(),
                     any()
@@ -109,16 +107,16 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisherConfiguration = TaskDependencyGraphConfiguration(project).apply {
                 dot = true
             }
-            val composerFactory: ComposerFactory = mock()
+            val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, composerFactory)
+                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregated()
             )
 
-            then("DotComposer is called") {
-                verify(composerFactory).createComposer(
-                    argThat { this == ComposerType.DOT },
+            then("DotPublisher is called") {
+                verify(graphPublisherFactory).createPublisher(
+                    argThat { this == GraphPublisherType.DOT },
                     any(),
                     any(),
                     any()
@@ -134,28 +132,28 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                 html = true
                 dot = true
             }
-            val composerFactory: ComposerFactory = mock()
+            val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, composerFactory)
+                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregated()
             )
 
-            then("All Composers are called") {
-                verify(composerFactory, atLeast(1)).createComposer(
-                    argThat { this == ComposerType.GEXF },
+            then("All publishers are called") {
+                verify(graphPublisherFactory, atLeast(1)).createPublisher(
+                    argThat { this == GraphPublisherType.GEXF },
                     any(),
                     any(),
                     any()
                 )
-                verify(composerFactory, atLeast(1)).createComposer(
-                    argThat { this == ComposerType.DOT },
+                verify(graphPublisherFactory, atLeast(1)).createPublisher(
+                    argThat { this == GraphPublisherType.DOT },
                     any(),
                     any(),
                     any()
                 )
-                verify(composerFactory, atLeast(1)).createComposer(
-                    argThat { this == ComposerType.HTML },
+                verify(graphPublisherFactory, atLeast(1)).createPublisher(
+                    argThat { this == GraphPublisherType.HTML },
                     any(),
                     any(),
                     any()
@@ -171,20 +169,20 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
 private fun getGraphPublisher(
     project: Project,
     taskDependencyGraphPublisherConfiguration: TaskDependencyGraphConfiguration,
-    composerFactory: ComposerFactory
+    graphPublisherFactory: GraphPublisherFactory
 ): TaskDependencyGraphPublisher {
     val testExecutor: Executor = mock()
     val logger: LogTracker = mock()
-    val composer: Composer = mock()
-    whenever(composerFactory.createComposer(any(), any(), any(), any())).thenReturn(composer)
-    doNothing().`when`(composer).compose(any())
+    val publisher: DiskPublisher = mock()
+    whenever(graphPublisherFactory.createPublisher(any(), any(), any(), any())).thenReturn(publisher)
+    doNothing().`when`(publisher).publish(any())
 
     return TaskDependencyGraphPublisher(
         project,
         taskDependencyGraphPublisherConfiguration,
         logger,
         testExecutor,
-        composerFactory
+        graphPublisherFactory
     )
 }
 

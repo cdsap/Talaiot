@@ -1,22 +1,21 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.composer.resources.ResourcesGexf
+import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
 import com.cdsap.talaiot.writer.FileWriter
 import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
 
-class GexfComposer(
+class GexfPublisher(
     override var logTracker: LogTracker,
     override var fileWriter: FileWriter,
     private val executor: Executor
-) : DefaultComposer(logTracker, fileWriter) {
+) : DefaultDiskPublisher(logTracker, fileWriter) {
 
     private val fileName: String = "gexfTaskDependency.gexf"
     private var internalCounterEdges = 0
 
-    override fun compose(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             val content = contentComposer(
                 buildGraph(taskMeasurementAggregated), ResourcesGexf.HEADER,

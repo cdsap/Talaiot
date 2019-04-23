@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.entities.TaskDependencyNode
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -7,10 +7,19 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter
 import java.lang.StringBuilder
 
-abstract class DefaultComposer(
+/**
+ * Abstract class implementing DiskPublisher.
+ * Use this class if you need to compose the output of one GraphPublisher writing in Disk the next format:
+ *   HEADER + CONTENT + FOOTER
+ * Consumers should implement how to write the nodes and edges.
+ *
+ * @see HtmlPublisher
+ * @see GexfPublisher
+ */
+abstract class DefaultDiskPublisher(
     override var logTracker: LogTracker,
     override var fileWriter: FileWriter
-) : Composer {
+) : DiskPublisher {
 
 
     abstract fun formatNode(

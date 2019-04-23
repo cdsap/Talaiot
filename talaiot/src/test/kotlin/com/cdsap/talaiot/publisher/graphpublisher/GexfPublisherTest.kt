@@ -1,6 +1,6 @@
-package com.cdsap.talaiot.composer
+package com.cdsap.talaiot.publisher.graphpublisher
 
-import com.cdsap.talaiot.composer.resources.ResourcesHtml
+import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
@@ -13,33 +13,39 @@ import com.nhaarman.mockitokotlin2.verify
 import io.kotlintest.specs.BehaviorSpec
 import java.lang.StringBuilder
 
-class HtmlComposerTest : BehaviorSpec({
-    given("Html Composer") {
+class GexfPublisherTest : BehaviorSpec({
+    given("Gexf DiskPublisher") {
         `when`("composing new aggregation ") {
             val logger: LogTracker = mock()
             val fileWriter: FileWriter = mock()
             val executor = TestExecutor()
-            val htmlComposer = HtmlComposer(logger, fileWriter, executor)
+            val gexfPublisher = GexfPublisher(logger, fileWriter, executor)
             then("writer is using the content") {
 
-                val content = "nodes.push({id: 0, title:'app', group:'app', " +
-                        "label: 'assemble', " +
-                        "value: 0});\n" +
-                        "nodes.push({id: 1, title:'app', group:'app', " +
-                        "label: 'compileKotlin', " +
-                        "value: 1});\n" +
-                        "edges.push({from: 1, to: 0});\n"
+                val content = "<node id=\"0\" label=\"assemble\">\n" +
+                        "           <attvalues>\n" +
+                        "                    <attvalue for=\"0\" value=\"app\"/>\n" +
+                        "                    <attvalue for=\"1\" value=\"false\"/>\n" +
+                        "           </attvalues>\n" +
+                        "</node>\n" +
+                        "<node id=\"1\" label=\"compileKotlin\">\n" +
+                        "           <attvalues>\n" +
+                        "                    <attvalue for=\"0\" value=\"app\"/>\n" +
+                        "                    <attvalue for=\"1\" value=\"false\"/>\n" +
+                        "           </attvalues>\n" +
+                        "</node>\n" +
+                        "<edge id=\"0\" source=\"1\" target=\"0\" />\n"
 
-                htmlComposer.compose(taskMeasurementAggregated())
+                gexfPublisher.publish(taskMeasurementAggregated())
                 verify(fileWriter).prepareFile(
                     argThat {
                         this == StringBuilder().apply {
-                            append(ResourcesHtml.HEADER)
+                            append(ResourcesGexf.HEADER)
                             append(content)
-                            append(ResourcesHtml.FOOTER)
+                            append(ResourcesGexf.FOOTER)
                         }.toString()
                     }, argThat {
-                        this == "htmlTaskDependency.html"
+                        this == "gexfTaskDependency.gexf"
                     }
                 )
             }
