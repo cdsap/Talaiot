@@ -17,7 +17,7 @@ class HtmlComposerTest : BehaviorSpec({
     given("Html Composer") {
         `when`("composing new aggregation ") {
             val logger: LogTracker = mock()
-            val fileWriter: FileWriter<String> = mock()
+            val fileWriter: FileWriter = mock()
             val executor = TestExecutor()
             val htmlComposer = HtmlComposer(logger, fileWriter, executor)
             then("writer is using the content") {

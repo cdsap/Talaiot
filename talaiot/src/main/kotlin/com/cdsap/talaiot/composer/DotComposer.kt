@@ -14,9 +14,9 @@ import java.util.concurrent.Executor
 
 class DotComposer(
     override var logTracker: LogTracker,
-    override var fileWriter: FileWriter<Renderer>,
+    override var fileWriter: FileWriter,
     private val executor: Executor
-) : Composer<Renderer> {
+) : Composer {
     private val fileName: String = "dotTaskDependency.png"
     private val fileNameXdot: String = "xdotTaskDependency.xdot"
 

@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.composer.ComposerFactoryImpl
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
@@ -35,7 +36,8 @@ class PublishersProvider(val project: Project) {
                         project,
                         this,
                         logger,
-                        executor
+                        executor,
+                        ComposerFactoryImpl()
                     )
                 )
             }

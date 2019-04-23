@@ -9,8 +9,8 @@ import java.lang.StringBuilder
 
 abstract class DefaultComposer(
     override var logTracker: LogTracker,
-    override var fileWriter: FileWriter<String>
-) : Composer<String> {
+    override var fileWriter: FileWriter
+) : Composer {
 
 
     abstract fun formatNode(

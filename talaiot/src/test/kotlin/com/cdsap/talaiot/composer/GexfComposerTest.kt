@@ -18,7 +18,7 @@ class GexfComposerTest : BehaviorSpec({
     given("Gexf Composer") {
         `when`("composing new aggregation ") {
             val logger: LogTracker = mock()
-            val fileWriter: FileWriter<String> = mock()
+            val fileWriter: FileWriter = mock()
             val executor = TestExecutor()
             val gexfComposer = GexfComposer(logger, fileWriter, executor)
             then("writer is using the content") {

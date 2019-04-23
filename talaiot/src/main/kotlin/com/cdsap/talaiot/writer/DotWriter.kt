@@ -6,11 +6,13 @@ import org.gradle.api.Project
 import java.io.File
 
 
-class DotWriter(override var project: Project) : FileWriter<Renderer> {
-    override fun prepareFile(content: Renderer, name: String) {
+class DotWriter(override var project: Project) : FileWriter {
+    override fun prepareFile(content: Any, name: String) {
         val fileName = File("${project.rootDir}/$TALAIOT_OUTPUT_DIR/$name")
         createFile {
-            content.toFile(fileName)
+            if (content is Renderer) {
+                content.toFile(fileName)
+            }
         }
     }
 }

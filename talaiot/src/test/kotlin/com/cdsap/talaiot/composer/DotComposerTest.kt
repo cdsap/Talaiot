@@ -7,14 +7,13 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.TestExecutor
 import com.cdsap.talaiot.writer.FileWriter
 import com.nhaarman.mockitokotlin2.*
-import guru.nidi.graphviz.engine.Renderer
 import io.kotlintest.specs.BehaviorSpec
 
 class DotComposerTest : BehaviorSpec({
     given("Dot Composer") {
         `when`("composing new aggregation ") {
             val logger: LogTracker = mock()
-            val fileWriter: FileWriter<Renderer> = mock()
+            val fileWriter: FileWriter = mock()
             val executor = TestExecutor()
             val dotComposer = DotComposer(logger, fileWriter, executor)
             then("writer is using the content") {

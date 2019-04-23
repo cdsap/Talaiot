@@ -5,10 +5,10 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-interface FileWriter<T> {
+interface FileWriter {
     var project: Project
 
-    fun prepareFile(content: T, name: String)
+    fun prepareFile(content: Any, name: String)
 
     fun createFile(func: () -> Unit) {
         if (dirExist()) {

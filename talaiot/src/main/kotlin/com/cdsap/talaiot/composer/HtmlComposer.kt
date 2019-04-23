@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService
 
 class HtmlComposer(
     override var logTracker: LogTracker,
-    override var fileWriter: FileWriter<String>,
+    override var fileWriter: FileWriter,
     private val executor: Executor
 ) : DefaultComposer(logTracker, fileWriter) {
     private val fileName: String = "htmlTaskDependency.html"

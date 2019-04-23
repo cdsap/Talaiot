@@ -6,11 +6,13 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class DefaultWriter(override var project: Project) : FileWriter<String> {
-    override fun prepareFile(content: String, name: String) {
+class DefaultWriter(override var project: Project) : FileWriter {
+    override fun prepareFile(content: Any, name: String) {
         val fileName = File("${project.rootDir}/$TALAIOT_OUTPUT_DIR/$name")
         createFile {
-            Files.write(fileName.toPath(), content.toByteArray())
+            if (content is String) {
+                Files.write(fileName.toPath(), content.toByteArray())
+            }
         }
     }
 }
