@@ -21,10 +21,13 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
-        if (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) {
+        if (shouldPublish()) {
             talaiotPublisher.publish(talaiotTracker.taskLengthList)
         }
     }
+
+    private fun shouldPublish() = ((extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false)
+            && talaiotTracker.isTracking)
 
     override fun projectsLoaded(gradle: Gradle) {
     }
@@ -38,7 +41,9 @@ class TalaiotListener(
                 talaiotTracker.queue.add(NodeArgument(it, 0, 0))
             }
         }
-        talaiotTracker.initNodeArgument()
+        if (talaiotTracker.queue.isNotEmpty()) {
+            talaiotTracker.initNodeArgument()
+        }
     }
 
     override fun beforeExecute(task: Task) {

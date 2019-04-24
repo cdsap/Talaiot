@@ -1,6 +1,4 @@
 import com.novoda.gradle.release.PublishExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import org.gradle.api.publish.maven.MavenPom
 
 plugins {
     `java-gradle-plugin`
@@ -13,7 +11,7 @@ plugins {
 }
 
 
-val versionTalaiot = "0.1.17"
+val versionTalaiot = "0.1.18"
 
 group = "com.cdsap"
 version = versionTalaiot

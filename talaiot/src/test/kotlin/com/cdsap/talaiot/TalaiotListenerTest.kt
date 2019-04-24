@@ -10,7 +10,6 @@ import org.gradle.api.Project
 import org.gradle.api.internal.tasks.TaskStateInternal
 import org.gradle.api.invocation.Gradle
 import org.gradle.kotlin.dsl.extra
-import org.gradle.kotlin.dsl.task
 import org.gradle.plugins.ide.internal.tooling.model.LaunchableGradleTask
 import org.gradle.testfixtures.ProjectBuilder
 
@@ -73,6 +72,19 @@ class TalaiotListenerTest : BehaviorSpec({
                 verify(talaiotListener.talaiotPublisher).publish(argThat {
                     this[0].module == "no_module"
                 })
+            }
+        }
+        `when`("start parameters is empty") {
+            val project = ProjectBuilder.builder().build()
+            val result: BuildResult = mock()
+            val talaiotExtension = TalaiotExtension(project)
+
+            val talaiotListener = initListener(emptyArray(), project, talaiotExtension)
+            provideTasks(arrayOf("clean"), project, talaiotListener)
+            talaiotListener.buildFinished(result)
+
+            then("no publisher is executed") {
+                verify(talaiotListener.talaiotPublisher, never()).publish(any())
             }
         }
     }
