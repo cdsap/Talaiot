@@ -11,8 +11,10 @@ class TalaiotTracker {
     var queue = ArrayDeque<NodeArgument>()
     private var listOfTasks: HashMap<String, Long> = hashMapOf()
     private var currentNode = NodeArgument("", 0, 0)
+    var isTracking = false
 
     fun initNodeArgument() {
+        isTracking = true
         currentNode = queue.pop()
         currentNode.ms = System.currentTimeMillis()
     }
