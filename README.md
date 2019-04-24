@@ -79,10 +79,11 @@ you can extend it and create your publisher for your requirements
 #### Predefined Publishers
  
 
-| Property           |      Description                                                                                       |
-|------------------- |--------------------------------------------------------------------------------------------------------|
-| OutputPublisher    | Publish the results of the build on the console, this Publisher will only print the task name and duration |
-| InfluxDbPublisher  | Publish the results of the build to the InfluxDb database defined in the configuration                |
+| Property                      |      Description                                                                                           |
+|------------------------------ |------------------------------------------------------------------------------------------------------------|
+| OutputPublisher               | Publish the results of the build on the console, this Publisher will only print the task name and duration |
+| InfluxDbPublisher             | Publish the results of the build to the InfluxDb database defined in the configuration                     |
+| TaskDependencyGraphPublisher  | Publish the results of the build using the dependency graph of the tasks executed                          |
 
 
 
@@ -96,6 +97,21 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | url       | Url of the InfluxDb Server               |
 | urlMetric | Name of the metric used in the execution |
 
+
+#### TaskDependencyGraphPublisher
+Since version 0.2.0 Talaiot is offering a new category of Publishers: TaskDependencyGraphPublisher
+
+
+| Property  |      Description                         |
+|-------------  |------------------------------------------|
+| ignoreWhen    | Name of the database                     |
+| html    | Export the task dependency graph in Html format with support of vis.js                     |
+| gexf       | Export the task dependency graph in gexf format.      |
+| dot | Export the task dependency graph in PNG/XDOT format |
+
+This new category of publishers doesn't require constantly evaluating the builds, that's why there is an extra
+parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is 
+use this publisher and collect the files on CI.
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
@@ -244,7 +260,21 @@ is great and you have the support from Gradle :)
 ## Contributing
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
+
+## Articles
+ 
+ What is Talaiot
+ 
+ Exploring the InfluxDbPublisher.
+
+
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
 
 [Anton Malinskiy](https://github.com/Malinskiy).
+
+Novoda Bintray plugin
+
+kohttp Library
+
+graphviz-java Library
