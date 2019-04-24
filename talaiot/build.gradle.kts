@@ -1,7 +1,4 @@
 import com.novoda.gradle.release.PublishExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
-import org.gradle.api.publish.maven.MavenPom
-import org.jetbrains.kotlin.gradle.model.NoArg
 
 plugins {
     `java-gradle-plugin`

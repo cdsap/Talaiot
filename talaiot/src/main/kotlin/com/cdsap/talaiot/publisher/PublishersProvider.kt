@@ -8,13 +8,14 @@ import org.gradle.api.Project
 import java.util.concurrent.Executors
 
 class PublishersProvider(val project: Project) {
-    val executor = Executors.newSingleThreadExecutor()
     fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
         val logger = LogTrackerImpl(talaiotExtension.logger)
+        val executor = Executors.newSingleThreadExecutor()
 
         talaiotExtension.publishers?.apply {
+
 
             outputPublisher?.apply {
                 publishers.add(OutputPublisher(this, logger))

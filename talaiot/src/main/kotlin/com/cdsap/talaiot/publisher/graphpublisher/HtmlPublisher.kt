@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher.graphpublisher
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml
+import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml.LEGEND_HEADER
 import com.cdsap.talaiot.writer.FileWriter
 import java.util.concurrent.Executor
 
@@ -16,9 +17,12 @@ class HtmlPublisher(
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             val content = contentComposer(
-                buildGraph(taskMeasurementAggregated), ResourcesHtml.HEADER,
-                ResourcesHtml.FOOTER
+                task = buildGraph(taskMeasurementAggregated),
+                legend = legend(taskMeasurementAggregated),
+                header = ResourcesHtml.HEADER,
+                footer = ResourcesHtml.FOOTER
             )
+            logTracker.log("HtmlPublisher: writing file")
             writeFile(content, fileName)
         }
     }
@@ -29,14 +33,27 @@ class HtmlPublisher(
         taskName: String,
         numberDependencies: Int,
         cached: Boolean
-    ): String =
-        write(
-            "nodes.push({id: $internalId, title:'$module', group:'$module', " +
-                    "label: '$taskName', " +
-                    "value: $numberDependencies});\n"
-        )
+    ): String = "      nodes.push({id: $internalId, title:'$taskName', group:'$module', " +
+            "label: '$taskName', " +
+            "value: $numberDependencies});\n"
 
-    override fun formatEdge(from: Int, to: Int?): String =
-        write("edges.push({from: $from, to: $to});\n")
+    override fun formatEdge(
+        from: Int,
+        to: Int?
+    ): String = "      edges.push({from: $from, to: $to});\n"
+
+    private fun legend(taskMeasurementAggregated: TaskMeasurementAggregated): String {
+        var count = 10000
+        var nodes = LEGEND_HEADER
+        taskMeasurementAggregated.taskMeasurement.distinctBy {
+            it.module
+        }.forEach {
+            count++
+            nodes += "      nodes.push({id: $count, x: x, y: y, label: '${it.module}', group: '${it.module}', value: 1, " +
+                    "fixed: true, physics:false});\n"
+        }
+        return nodes
+    }
+
 
 }

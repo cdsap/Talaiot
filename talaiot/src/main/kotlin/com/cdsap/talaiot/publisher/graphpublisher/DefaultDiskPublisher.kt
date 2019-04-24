@@ -36,18 +36,16 @@ abstract class DefaultDiskPublisher(
     ): String
 
 
-    fun contentComposer(task: String, header: String, footer: String) = StringBuilder().apply {
+    fun contentComposer(task: String, header: String, legend: String? = null, footer: String) = StringBuilder().apply {
         append(header)
         append(task)
+        legend?.let {
+            append(legend)
+        }
         append(footer)
     }.toString()
 
     fun writeFile(contentFile: String, name: String) = fileWriter.prepareFile(contentFile, name)
-
-    fun write(statement: String): String {
-        logTracker.log(statement)
-        return statement
-    }
 
     fun buildGraph(taskMeasurementAggregated: TaskMeasurementAggregated): String {
         var count = 0
@@ -70,6 +68,7 @@ abstract class DefaultDiskPublisher(
 
             count++
         }
+
         return nodes + edges
     }
 }

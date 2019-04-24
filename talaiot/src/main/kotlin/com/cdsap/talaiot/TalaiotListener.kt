@@ -6,7 +6,6 @@ import org.gradle.BuildResult
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
-import org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
 

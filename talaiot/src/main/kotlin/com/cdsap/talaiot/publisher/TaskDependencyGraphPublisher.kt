@@ -31,7 +31,7 @@ class TaskDependencyGraphPublisher(
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.HTML,
-                            logTracker, DefaultWriter(project), executor
+                            logTracker, DefaultWriter(project, logTracker), executor
                         )
                     )
                 }
@@ -40,7 +40,7 @@ class TaskDependencyGraphPublisher(
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.GEXF,
-                            logTracker, DefaultWriter(project), executor
+                            logTracker, DefaultWriter(project, logTracker), executor
                         )
                     )
                 }
@@ -49,7 +49,7 @@ class TaskDependencyGraphPublisher(
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.DOT,
-                            logTracker, DotWriter(project), executor
+                            logTracker, DotWriter(project, logTracker), executor
                         )
                     )
                 }

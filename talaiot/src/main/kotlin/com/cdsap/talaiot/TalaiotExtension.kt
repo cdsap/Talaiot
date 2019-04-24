@@ -6,61 +6,32 @@ import com.cdsap.talaiot.configuration.MetricsConfiguration
 import com.cdsap.talaiot.configuration.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
 
 @Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {
-    @get:Internal("Backing property public logger mode")
-    internal var _logger: LogTracker.Mode? = null
+    /**
+     * General Logger for the whole plugin
+     */
+    var logger = LogTracker.Mode.SILENT
+    /**
+     * Flag to specify the generation of the unique build id.
+     * In some cases could generate high cardinality problems like in basic InfluxDb setups, disabled by default
+     */
+    var generateBuildId = false
+    /**
+     * General Publisher configuration included in the build
+     */
+    var publishers: PublishersConfiguration? = null
+    /**
+     * Configuration for ignoring the execution of the plugin in the build
+     */
+    var ignoreWhen: IgnoreWhenConfiguration? = null
 
-    @get:Input
-    var logger
-        get() = _logger ?: LogTracker.Mode.SILENT
-        set(value) {
-            _logger = value
-        }
-
-    @get:Internal("Backing property public Publishers")
-    internal var _publishers: PublishersConfiguration? = null
-
-    @get:Input
-    var publishers
-        get() = _publishers
-        set(value) {
-            _publishers = value
-        }
-
-    @get:Internal("Backing property public IgnoreWhen")
-    internal var _ignoreWhen: IgnoreWhenConfiguration? = null
-
-    @get:Input
-    var ignoreWhen
-        get() = _ignoreWhen
-        set(value) {
-            _ignoreWhen = value
-        }
-
-    @get:Internal("Backing property public Metrics")
-    internal var _metrics: MetricsConfiguration = MetricsConfiguration()
-
-    @get:Input
-    var metrics
-        get() = _metrics
-        set(value) {
-            _metrics = value
-        }
-
-    @get:Internal("Backing property public GenerateBuildId")
-    internal var _generateBuildId: Boolean = false
-
-    @get:Input
-    var generateBuildId
-        get() = _generateBuildId
-        set(value) {
-            _generateBuildId = value
-        }
-
+    /**
+     * Metrics general configuration
+     */
+    var metrics: MetricsConfiguration =
+        MetricsConfiguration()
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)

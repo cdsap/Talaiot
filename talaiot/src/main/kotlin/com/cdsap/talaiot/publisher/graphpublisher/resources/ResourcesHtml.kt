@@ -8,7 +8,7 @@ object ResourcesHtml {
             "  <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js\"></script>\n" +
             "  <link href=\"https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css\" rel=\"stylesheet\" type=\"text/css\" />\n" +
             "  <style type=\"text/css\">\n" +
-            "    #mynetwork {\n" +
+            "    #talaiot {\n" +
             "      width: 100%;\n" +
             "      height: 1000px;\n" +
             "      solid lightgray;\n" +
@@ -17,7 +17,7 @@ object ResourcesHtml {
             "</head>\n" +
             "\n" +
             "<body onload=\"draw();\">\n" +
-            "  <div id=\"mynetwork\"></div>\n" +
+            "  <div id=\"talaiot\"></div>\n" +
             "\n" +
             "  <script type=\"text/javascript\">\n" +
             "    var network = null;\n" +
@@ -34,7 +34,7 @@ object ResourcesHtml {
             "      destroy();\n" +
             "      var nodes = [];\n" +
             "      var edges = [];\n"
-    const val FOOTER = "var container = document.getElementById('mynetwork');\n" +
+    const val FOOTER = "      var container = document.getElementById('talaiot');\n" +
             "      var data = {\n" +
             "        nodes: nodes,\n" +
             "        edges: edges\n" +
@@ -49,17 +49,17 @@ object ResourcesHtml {
             "          hierarchical: {\n" +
             "            enabled: true,\n" +
             "            levelSeparation: 200,\n" +
-            "            nodeSpacing: 600,\n" +
+            "            nodeSpacing: 800,\n" +
             "            treeSpacing: 200,\n" +
             "            blockShifting: true,\n" +
             "            edgeMinimization: false,\n" +
             "            parentCentralization: true,\n" +
-            "            direction: 'LR', // UD, DU, LR, RL\n" +
-            "            sortMethod: 'hubsize' // hubsize, directed\n" +
+            "            direction: 'LR',\n" +
+            "            sortMethod: 'hubsize'\n" +
             "          }\n" +
             "        },\n" +
             "        nodes: {\n" +
-            "          shape: 'dot',\n" +
+            "          shape: 'ellipse',\n" +
             "          margin: 10,\n" +
             "          color: {\n" +
             "            border: '#2B7CE9',\n" +
@@ -92,4 +92,8 @@ object ResourcesHtml {
             "      network = new vis.Network(container, data, options);\n" +
             "    }\n" +
             "</script>\n"
+
+    const val LEGEND_HEADER = "      var x = - talaiot.clientWidth / 2 + 50;\n" +
+            "      var y = - talaiot.clientHeight / 2 + 50;\n" +
+            "      var step = 70;\n"
 }

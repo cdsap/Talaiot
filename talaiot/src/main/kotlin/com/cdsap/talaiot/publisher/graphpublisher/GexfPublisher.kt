@@ -18,9 +18,11 @@ class GexfPublisher(
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             val content = contentComposer(
-                buildGraph(taskMeasurementAggregated), ResourcesGexf.HEADER,
-                ResourcesGexf.FOOTER
+                task = buildGraph(taskMeasurementAggregated),
+                header = ResourcesGexf.HEADER,
+                footer = ResourcesGexf.FOOTER
             )
+            logTracker.log("GexfPublisher: writing file")
             writeFile(content, fileName)
         }
     }
@@ -31,18 +33,17 @@ class GexfPublisher(
         taskName: String,
         numberDependencies: Int,
         cached: Boolean
-    ): String =
-        write(
-            "<node id=\"$internalId\" label=\"$taskName\">\n" +
-                    "           <attvalues>\n" +
-                    "                    <attvalue for=\"0\" value=\"$module\"/>\n" +
-                    "                    <attvalue for=\"1\" value=\"$cached\"/>\n" +
-                    "           </attvalues>\n" +
-                    "</node>\n"
-        )
+    ): String = "       <node id=\"$internalId\" label=\"$taskName\">\n" +
+            "              <attvalues>\n" +
+            "                     <attvalue for=\"0\" value=\"$module\"/>\n" +
+            "                     <attvalue for=\"1\" value=\"$cached\"/>\n" +
+            "              </attvalues>\n" +
+            "       </node>\n"
+
 
     override fun formatEdge(
         from: Int,
         to: Int?
-    ) = write("<edge id=\"${internalCounterEdges++}\" source=\"$from\" target=\"$to\" />\n")
+    ) = "       <edge id=\"${internalCounterEdges++}\" " +
+            "source=\"$from\" target=\"$to\" />\n"
 }

@@ -12,6 +12,8 @@ import java.util.concurrent.Executor
  * @see GraphPublisherType
  */
 interface GraphPublisherFactory {
+
+
     fun createPublisher(
         graphType: GraphPublisherType,
         logTracker: LogTracker,

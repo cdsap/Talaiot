@@ -44,26 +44,26 @@ class DotPublisher(
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         executor.execute {
             try {
-
+                logTracker.log("DotPublisher: creating graph")
                 val g = graph("Talaiot").directed()
                     .strict()
                     .graphAttr().with(RankDir.TOP_TO_BOTTOM)
                     .with(getLinkSources(taskMeasurementAggregated))
 
+                logTracker.log("DotPublisher: writing png")
                 fileWriter.prepareFile(
-                    Graphviz.fromGraph(g).fontAdjust(0.90)
+                    Graphviz.fromGraph(g).engine(Engine.DOT).fontAdjust(0.90)
                         .render(Format.PNG), fileName
                 )
 
+                logTracker.log("DotPublisher: writing xdot")
                 fileWriter.prepareFile(
-                    Graphviz.fromGraph(g)
+                    Graphviz.fromGraph(g).engine(Engine.DOT)
                         .render(Format.XDOT), fileNameXdot
                 )
 
-                Graphviz.releaseEngine()
-
             } catch (e: Exception) {
-                logTracker.log("DotPublisher Error -> ${e.message}")
+                logTracker.log("DotPublisher: Error -> ${e.message}")
             }
         }
     }
