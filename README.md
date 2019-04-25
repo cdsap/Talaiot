@@ -99,19 +99,24 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 
 
 #### TaskDependencyGraphPublisher
-Since version 0.2.0 Talaiot is offering a new category of Publishers: TaskDependencyGraphPublisher
+Talaiot will generate the Task Depenency Graph in the specific format specified in the configuration
 
 
-| Property  |      Description                         |
-|-------------  |------------------------------------------|
-| ignoreWhen    | Name of the database                     |
-| html    | Export the task dependency graph in Html format with support of vis.js                     |
-| gexf       | Export the task dependency graph in gexf format.      |
-| dot | Export the task dependency graph in PNG/XDOT format |
+| Property      |      Description                                                                                 |
+|---------------|--------------------------------------------------------------------------------------------------|
+| ignoreWhen    | Configuration to ignore the execution of the publisher                                           |
+| html          | Export the task dependency graph in Html format with support of [vis.js](http://visjs.org/)      |
+| gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
+| dot           | Export the task dependency graph in png/xdot format. See [Graphviz](https://graphviz.gitlab.io/) |
 
 This new category of publishers doesn't require constantly evaluating the builds, that's why there is an extra
 parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is 
 use this publisher and collect the files on CI.
+
+The output will be found `"${project.rootDir}/talaiot`:
+
+![](resources/output_graph_publisher.png) 
+
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
@@ -263,9 +268,9 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 
 ## Articles
  
- What is Talaiot
+[Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
  
- Exploring the InfluxDbPublisher.
+[Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
 
 
 ## Thanks
@@ -273,8 +278,8 @@ Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-
 
 [Anton Malinskiy](https://github.com/Malinskiy).
 
-Novoda Bintray plugin
+[Bintray release plugin](https://github.com/novoda/bintray-release) plugin by Novoda
 
-kohttp Library
+[Kohttp Library](https://github.com/rybalkinsd/kohttp)
 
-graphviz-java Library
+[Graphviz-java Library](https://github.com/nidi3/graphviz-java)

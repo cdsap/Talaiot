@@ -1,9 +1,7 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock
 import com.cdsap.talaiot.publisher.TestExecutor
 import com.cdsap.talaiot.writer.FileWriter
 import com.nhaarman.mockitokotlin2.*
@@ -18,37 +16,10 @@ class DotPublisherTest : BehaviorSpec({
             val dotPublisher = DotPublisher(logger, fileWriter, executor)
             then("writer is using the content") {
 
-                dotPublisher.publish(taskMeasurementAggregated())
+                dotPublisher.publish(TaskMeasurementAggregatedMock.taskMeasurementAggregated())
                 verify(fileWriter, times(2)).prepareFile(any(), any())
             }
         }
     }
 }
 )
-
-private fun taskMeasurementAggregated(): TaskMeasurementAggregated {
-    return TaskMeasurementAggregated(
-        emptyMap(),
-        listOf(
-            TaskLength(
-                1,
-                "assemble",
-                "assemble",
-                TaskMessageState.EXECUTED,
-                true,
-                "app",
-                emptyList()
-            ),
-            TaskLength(
-                2,
-                "compileKotlin",
-                "compileKotlin",
-                TaskMessageState.EXECUTED,
-                false,
-                "app",
-                listOf("assemble")
-
-            )
-        )
-    )
-}

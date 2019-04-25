@@ -8,8 +8,6 @@ import java.util.concurrent.Executor
  * Generates Disks publishers instances depending on the GraphType passed as argument
  *
  * @see GraphPublisherFactoryImpl
- * @see DiskPublisher
- * @see GraphPublisherType
  */
 interface GraphPublisherFactory {
 

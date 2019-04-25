@@ -10,7 +10,7 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
-val versionTalaiot = "0.1.18-SNAPSHOT"
+val versionTalaiot = "0.2.0-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -22,6 +22,7 @@ gradlePlugin {
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
+            
             api("io.github.rybalkinsd:kohttp:0.7.1")
             api("guru.nidi:graphviz-java:0.8.3")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")

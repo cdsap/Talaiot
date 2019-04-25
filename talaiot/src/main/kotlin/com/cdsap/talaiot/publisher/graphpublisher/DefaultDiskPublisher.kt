@@ -10,8 +10,8 @@ import java.lang.StringBuilder
 /**
  * Abstract class implementing DiskPublisher.
  * Use this class if you need to compose the output of one GraphPublisher writing in Disk the next format:
- *   HEADER + CONTENT + FOOTER
- * Consumers should implement how to write the nodes and edges.
+ *   HEADER + CONTENT + LEGEND + FOOTER
+ * Consumers should implement how to write the legend, nodes and edges.
  *
  * @see HtmlPublisher
  * @see GexfPublisher

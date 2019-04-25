@@ -1,10 +1,8 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock
 import com.cdsap.talaiot.publisher.TestExecutor
 import com.cdsap.talaiot.writer.FileWriter
 import com.nhaarman.mockitokotlin2.argThat
@@ -36,7 +34,7 @@ class GexfPublisherTest : BehaviorSpec({
                         "       </node>\n" +
                         "       <edge id=\"0\" source=\"1\" target=\"0\" />\n"
 
-                gexfPublisher.publish(taskMeasurementAggregated())
+                gexfPublisher.publish(TaskMeasurementAggregatedMock.taskMeasurementAggregated())
                 verify(fileWriter).prepareFile(
                     argThat {
                         this == StringBuilder().apply {
@@ -53,30 +51,3 @@ class GexfPublisherTest : BehaviorSpec({
     }
 }
 )
-
-private fun taskMeasurementAggregated(): TaskMeasurementAggregated {
-    return TaskMeasurementAggregated(
-        emptyMap(),
-        listOf(
-            TaskLength(
-                1,
-                "assemble",
-                "assemble",
-                TaskMessageState.EXECUTED,
-                true,
-                "app",
-                emptyList()
-            ),
-            TaskLength(
-                2,
-                "compileKotlin",
-                "compileKotlin",
-                TaskMessageState.EXECUTED,
-                false,
-                "app",
-                listOf("assemble")
-
-            )
-        )
-    )
-}

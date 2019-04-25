@@ -1,10 +1,8 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock.taskMeasurementAggregated
 import com.cdsap.talaiot.publisher.TestExecutor
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml.LEGEND_HEADER
 import com.cdsap.talaiot.writer.FileWriter
@@ -54,30 +52,3 @@ class HtmlPublisherTest : BehaviorSpec({
     }
 }
 )
-
-private fun taskMeasurementAggregated(): TaskMeasurementAggregated {
-    return TaskMeasurementAggregated(
-        emptyMap(),
-        listOf(
-            TaskLength(
-                1,
-                "assemble",
-                "assemble",
-                TaskMessageState.EXECUTED,
-                true,
-                "app",
-                emptyList()
-            ),
-            TaskLength(
-                2,
-                "compileKotlin",
-                "compileKotlin",
-                TaskMessageState.EXECUTED,
-                false,
-                "app",
-                listOf("assemble")
-
-            )
-        )
-    )
-}

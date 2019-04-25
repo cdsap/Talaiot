@@ -4,10 +4,8 @@ import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
 import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
@@ -33,7 +31,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisher =
                 getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
-                taskMeasurementAggregated()
+                taskMeasurementAggregatedWrongMetricsFormat()
             )
             then("no publisher is instanciated ") {
 
@@ -68,7 +66,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                 getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
 
             taskDependencyGraphPublisher.publish(
-                taskMeasurementAggregated()
+                taskMeasurementAggregatedWrongMetricsFormat()
             )
 
             then("HtmlPublisher is called") {
@@ -89,7 +87,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisher =
                 getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
-                taskMeasurementAggregated()
+                taskMeasurementAggregatedWrongMetricsFormat()
             )
 
             then("GexfPublisher is called") {
@@ -111,7 +109,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisher =
                 getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
-                taskMeasurementAggregated()
+                taskMeasurementAggregatedWrongMetricsFormat()
             )
 
             then("DotPublisher is called") {
@@ -136,7 +134,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             val taskDependencyGraphPublisher =
                 getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
-                taskMeasurementAggregated()
+                taskMeasurementAggregatedWrongMetricsFormat()
             )
 
             then("All publishers are called") {
@@ -185,13 +183,3 @@ private fun getGraphPublisher(
         graphPublisherFactory
     )
 }
-
-private fun taskMeasurementAggregated(): TaskMeasurementAggregated {
-    return TaskMeasurementAggregated(
-        mapOf(
-            "me=tric1" to "va====lue1",
-            "metric2" to "val,,   , ue2"
-        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, true, "app", emptyList()))
-    )
-}
-
