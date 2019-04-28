@@ -47,7 +47,7 @@ talaiot {
     publishers {
         influxDbPublisher {
             dbName = "tracking"
-            url = "http://localhost:3003"
+            url = "http://localhost:8086"
             urlMetric = "tracking"
         }
 
@@ -198,7 +198,7 @@ talaiot {
     publishers {
         influxDbPublisher {
             dbName = "tracking"
-            url = "http://localhost:3003"
+            url = "http://localhost:8086"
             urlMetric = "tracking"
         }
 
