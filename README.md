@@ -12,8 +12,9 @@ Some of the features are:
 * Extensible definition of metrics depending on the requirements.
 * Definition of custom publishers
 * Develop it entirely with Kotlin 
+* Generation Task Dependency Graph for the build
 
-![](resources/dashboard.png) 
+![](resources/dashboard.png)
 
 
 **_What is Talaiot?_**
@@ -117,6 +118,8 @@ The output will be found `"${project.rootDir}/talaiot`:
 
 ![](resources/output_graph_publisher.png) 
 
+Example:
+![](resources/graph_example_plaid.png) 
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
