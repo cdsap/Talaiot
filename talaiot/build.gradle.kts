@@ -10,8 +10,8 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
+val versionTalaiot = "0.2.0"
 
-val versionTalaiot = "0.1.18"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -23,7 +23,9 @@ gradlePlugin {
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
+            
             api("io.github.rybalkinsd:kohttp:0.7.1")
+            api("guru.nidi:graphviz-java:0.8.3")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
@@ -103,8 +105,10 @@ configure<PublishExtension> {
     website = "https://github.com/cdsap/Talaiot"
 }
 
+
 repositories {
     jcenter()
+    mavenCentral()
     google()
     mavenLocal()
 }

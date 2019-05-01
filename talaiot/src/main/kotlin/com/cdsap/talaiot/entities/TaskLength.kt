@@ -5,6 +5,7 @@ data class TaskLength(
     val taskName: String,
     val taskPath: String,
     val state: TaskMessageState,
+    val rootNode: Boolean = false,
     val module: String,
-    val rootNode: Boolean = false
+    val taskDependencies: List<String>
 )

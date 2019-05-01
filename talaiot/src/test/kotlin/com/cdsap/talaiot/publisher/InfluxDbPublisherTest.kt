@@ -8,7 +8,6 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
-import java.util.concurrent.Executor
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
@@ -28,11 +27,16 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should contains formatted the url and content the Request") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         mapOf(
                             "metric1" to "value1",
                             "metric2" to "value2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
+                        ), listOf(
+                            TaskLength(
+                                1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            )
+                        )
                     )
                 )
                 assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
@@ -53,7 +57,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should TestRequest be empty") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         emptyMap(), emptyList()
 
                     )
@@ -75,14 +79,14 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("these metrics should be parsed to correct format ") {
                 influxDbPublisher.publish(
-                    measurementAggregated = TaskMeasurementAggregated(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
                         mapOf(
                             "me=tric1" to "va====lue1",
                             "metric2" to "val,,   , ue2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, "app"))
+                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, true, "app", emptyList()))
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
+                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=true,task=:clean,metric1=value1,metric2=value2 value=1\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
         }
@@ -98,11 +102,4 @@ class TestRequest(override var logTracker: LogTracker) : Request {
         this.url = url
         this.content = content
     }
-}
-
-class TestExecutor : Executor {
-    override fun execute(command: Runnable?) {
-        command?.run()
-    }
-
 }

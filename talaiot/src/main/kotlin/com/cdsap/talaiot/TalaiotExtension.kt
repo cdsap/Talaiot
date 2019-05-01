@@ -7,12 +7,29 @@ import com.cdsap.talaiot.configuration.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
-
+@Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {
+    /**
+     * General Logger for the whole plugin
+     */
     var logger = LogTracker.Mode.SILENT
+    /**
+     * Flag to specify the generation of the unique build id.
+     * In some cases could generate high cardinality problems like in basic InfluxDb setups, disabled by default
+     */
     var generateBuildId = false
+    /**
+     * General Publisher configuration included in the build
+     */
     var publishers: PublishersConfiguration? = null
+    /**
+     * Configuration for ignoring the execution of the plugin in the build
+     */
     var ignoreWhen: IgnoreWhenConfiguration? = null
+
+    /**
+     * Metrics general configuration
+     */
     var metrics: MetricsConfiguration =
         MetricsConfiguration()
 
@@ -21,7 +38,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration().also(block)
+        publishers = PublishersConfiguration(project).also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {
@@ -29,16 +46,15 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(closure: Closure<*>) {
-        publishers = PublishersConfiguration()
+        publishers = PublishersConfiguration(project)
         closure.delegate = publishers
         closure.call()
     }
 
     fun logger(string: String) {
-
     }
 
-    fun ignoreWjen(closure: Closure<*>) {
+    fun ignoreWhen(closure: Closure<*>) {
         ignoreWhen = IgnoreWhenConfiguration(project)
         closure.delegate = ignoreWhen
         closure.call()

@@ -20,10 +20,10 @@ class TalaiotTracker {
     }
 
     fun startTrackingTask(task: Task) {
+
         listOfTasks[task.name] = System.currentTimeMillis()
         currentNode.counter++
     }
-
 
     /**
      * Compute the total time of the task and aggregate the
@@ -40,14 +40,7 @@ class TalaiotTracker {
             }
 
             taskLengthList.add(
-                TaskLength(
-                    ms = ms,
-                    taskName = task.name,
-                    taskPath = task.path,
-                    module = getModule(task.path),
-                    state = TaskMessageState.EXECUTED,
-                    rootNode = currentNode.task != "clean"
-                )
+                taskLength(ms, task, TaskMessageState.EXECUTED, currentNode.task != "clean")
             )
 
             if (!queue.isEmpty()) {
@@ -56,22 +49,32 @@ class TalaiotTracker {
         } else {
             val ms = System.currentTimeMillis() - (listOfTasks[task.name] as Long)
             taskLengthList.add(
-                TaskLength(
-                    ms = ms,
-                    taskName = task.name,
-                    taskPath = task.path,
-                    module = getModule(task.path),
-                    state = when (state.skipMessage) {
+                taskLength(
+                    ms, task, when (state.skipMessage) {
                         "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                         "FROM-CACHE" -> TaskMessageState.FROM_CACHE
                         "NO-SOURCE" -> TaskMessageState.NO_SOURCE
                         else -> TaskMessageState.EXECUTED
-                    }
+                    }, false
                 )
             )
         }
 
     }
+
+    private fun taskLength(ms: Long, task: Task, state: TaskMessageState, rootNode: Boolean): TaskLength {
+        return TaskLength(
+            ms = ms,
+            taskName = task.name,
+            taskPath = task.path,
+            module = getModule(task.path),
+            state = state,
+            rootNode = rootNode,
+            taskDependencies = taskDependencies(task)
+        )
+    }
+
+    private fun taskDependencies(task: Task) = task.taskDependencies.getDependencies(task).map { it.path }
 }
 
 data class NodeArgument(val task: String, var ms: Long, var counter: Int)
@@ -84,5 +87,3 @@ private fun getModule(path: String): String {
         .joinToString(separator = ":")
     else "no_module"
 }
-
-

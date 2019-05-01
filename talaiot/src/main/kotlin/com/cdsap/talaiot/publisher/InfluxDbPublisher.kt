@@ -14,7 +14,7 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(measurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
         logTracker.log("================")
@@ -36,7 +36,7 @@ class InfluxDbPublisher(
             val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
             var content = ""
 
-            measurementAggregated.apply {
+            taskMeasurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
                     val tag = formatToLineProtocol(it.key)
