@@ -119,6 +119,7 @@ The output will be found `"${project.rootDir}/talaiot`:
 ![](resources/output_graph_publisher.png) 
 
 Example:
+
 ![](resources/graph_example_plaid.png) 
 
 #### Custom Publishers
