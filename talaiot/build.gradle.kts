@@ -12,6 +12,7 @@ plugins {
 
 val versionTalaiot = "0.2.0"
 
+
 group = "com.cdsap"
 version = versionTalaiot
 
