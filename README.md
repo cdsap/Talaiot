@@ -107,7 +107,7 @@ Talaiot will generate the Task Depenency Graph in the specific format specified 
 | ignoreWhen    | Configuration to ignore the execution of the publisher                                           |
 | html          | Export the task dependency graph in Html format with support of [vis.js](http://visjs.org/)      |
 | gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
-| dot           | Export the task dependency graph in png/xdot format. See [Graphviz](https://graphviz.gitlab.io/) |
+| dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
 
 This new category of publishers doesn't require constantly evaluating the builds, that's why there is an extra
 parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is 
