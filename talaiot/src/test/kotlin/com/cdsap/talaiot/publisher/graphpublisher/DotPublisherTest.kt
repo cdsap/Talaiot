@@ -17,7 +17,7 @@ class DotPublisherTest : BehaviorSpec({
             then("writer is using the content") {
 
                 dotPublisher.publish(TaskMeasurementAggregatedMock.taskMeasurementAggregated())
-                verify(fileWriter, times(2)).prepareFile(any(), any())
+                verify(fileWriter).prepareFile(any(), any())
             }
         }
     }

@@ -18,7 +18,6 @@ class DotPublisher(
     private val executor: Executor
 ) : DiskPublisher {
     private val fileName: String = "dotTaskDependency.png"
-    private val fileNameXdot: String = "xdotTaskDependency.xdot"
 
     private fun getLinkSources(measurementAggregated: TaskMeasurementAggregated): List<LinkSource> {
         val mapNodes = mutableMapOf<String, Node>()
@@ -54,12 +53,6 @@ class DotPublisher(
                 fileWriter.prepareFile(
                     Graphviz.fromGraph(g).engine(Engine.DOT).fontAdjust(0.90)
                         .render(Format.PNG), fileName
-                )
-
-                logTracker.log("DotPublisher: writing xdot")
-                fileWriter.prepareFile(
-                    Graphviz.fromGraph(g).engine(Engine.DOT)
-                        .render(Format.XDOT), fileNameXdot
                 )
 
             } catch (e: Exception) {
