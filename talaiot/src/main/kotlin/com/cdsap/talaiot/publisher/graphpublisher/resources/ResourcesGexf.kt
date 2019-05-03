@@ -3,8 +3,6 @@ package com.cdsap.talaiot.publisher.graphpublisher.resources
 /**
  * HEADER and VALUE constants used by the GexfPublisher
  *
- * @see GexfPublisher
- * @see DiskWiter
  */
 object ResourcesGexf {
     const val HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
