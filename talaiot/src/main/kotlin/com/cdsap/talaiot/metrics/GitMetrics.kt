@@ -4,7 +4,22 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.IllegalStateException
 
+/**
+ * GitMetrics provided for the builds.
+ * Metrics included:
+ *  -- GitUser
+ *  -- Branch
+ * It requires Git repository
+ *
+ */
 class GitMetrics : Metrics {
+
+    /**
+     * Retrieve the values for the GitMetrics defined
+     *
+     * @throws IllegalStateException in case no Git repository found
+     * @return collection of GitMetrics
+     */
     override fun get(): Map<String, String> {
         val runtime = Runtime.getRuntime()
         val gitMetrics = mutableMapOf<String, String>()

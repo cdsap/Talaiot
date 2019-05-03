@@ -2,12 +2,14 @@ package com.cdsap.talaiot.metrics
 
 import org.gradle.api.Project
 
-class PerformanceMetrics(private val project: Project) : Metrics {
+class PerformanceMetrics(
+    private val project: Project
+) : Metrics {
 
     override fun get(): Map<String, String> {
         val runtime = Runtime.getRuntime()
         val runtimeMetrics = mapOf(
-                "availableProcessors" to "${runtime.availableProcessors()}"
+            "availableProcessors" to "${runtime.availableProcessors()}"
         )
         return runtimeMetrics + parseJvmArgs()
     }
