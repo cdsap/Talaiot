@@ -8,8 +8,12 @@ import com.cdsap.talaiot.entities.TaskMeasurementAggregated
  * Once the build is finished and processed TalaiotPublisher will call all the
  * implementations of Publisher.
  *
- * @see TalaiotPublisher
  */
 interface Publisher {
+    /**
+     * Publish the results given one Publisher implementation
+     *
+     * @param taskMeasurementAggregated: Aggregated entity with the results of the build
+     */
     fun publish(taskMeasurementAggregated: TaskMeasurementAggregated)
 }

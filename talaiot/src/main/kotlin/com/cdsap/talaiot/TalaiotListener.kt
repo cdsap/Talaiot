@@ -1,5 +1,6 @@
 package com.cdsap.talaiot
 
+import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.BuildListener
 import org.gradle.BuildResult

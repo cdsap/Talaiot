@@ -6,11 +6,25 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
 
-
+/**
+ * Publisher using InfluxDb and LineProtocol format to send the metrics
+ */
 class InfluxDbPublisher(
+    /**
+     * General configuration for the publisher
+     */
     private val influxDbPublisherConfiguration: InfluxDbPublisherConfiguration,
+    /**
+     * LogTracker to print in console depending on the Mode
+     */
     private val logTracker: LogTracker,
+    /**
+     * Interface to send the measurements to an external service
+     */
     private val requestPublisher: Request,
+    /**
+     * Executor to schedule a task in Background
+     */
     private val executor: Executor
 ) : Publisher {
 
@@ -60,6 +74,12 @@ class InfluxDbPublisher(
         }
     }
 
+    /**
+     * Influx Line Protocol requires specific format, we need to replace values like ","
+     * @param tag: value to be formatted
+     *
+     * @return value formatted
+     */
     private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
 
 }
