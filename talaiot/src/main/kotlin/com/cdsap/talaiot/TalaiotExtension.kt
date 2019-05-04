@@ -7,6 +7,9 @@ import com.cdsap.talaiot.configuration.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
+/**
+ * Main configuration file for the Talaiot Plugin
+ */
 @Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {
     /**

@@ -1,0 +1,8 @@
+site:
+  about:
+    siteName: Talaiot
+    siteDescription: Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
+Editorial:
+  primaryColor: '#DE9149'
+  social:
+    github: 'cdsap/Talaiot'
