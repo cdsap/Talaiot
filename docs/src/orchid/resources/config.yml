@@ -1,7 +1,7 @@
 site:
   about:
     siteName: Talaiot
-    siteDescription: S
+    siteDescription: Build Tracker
 
 Editorial:
   primaryColor: '#DE9149'
@@ -28,5 +28,6 @@ services:
     stages:
       ghPages:
         branch: gh-pages
-        repo: 'Talaiot'
+        repo: 'cdsap/Talaiot'
         username: 'cdsap'
+        githubUrl: github.com

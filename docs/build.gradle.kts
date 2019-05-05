@@ -16,11 +16,9 @@ dependencies {
 
 orchid {
     theme = "Editorial"
-    baseUrl = ""
-    version = "1.0.0"
+    baseUrl = "https://cdsap.github.io/Talaiot"
+    version = "0.2.0"
     githubToken = ""
-    dryDeploy = "true"
-    // srcDir  = "../talaiot/src/main/kotlin"
 
 
 }
