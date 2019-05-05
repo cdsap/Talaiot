@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.entities
 
 /**
- * Main Entity to contain the information of the Task Tacked
+ * Main Entity to contain the information of the Task tracked
  */
 data class TaskLength(
     /**
