@@ -1,6 +1,8 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.configuration.ThresholdConfiguration
+import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
@@ -35,6 +37,7 @@ class InfluxDbPublisher(
         } else {
             val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
             var content = ""
+            val thresholdConfiguration = influxDbPublisherConfiguration.threshold
 
             taskMeasurementAggregated.apply {
                 var metrics = ""
@@ -43,10 +46,12 @@ class InfluxDbPublisher(
                     val tagValue = formatToLineProtocol(it.value)
                     metrics += "$tag=$tagValue,"
                 }
-                taskMeasurement.forEach {
-                    content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
-                            ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"
-                }
+                taskMeasurement
+                    .filter { threshold(thresholdConfiguration, it) }
+                    .forEach {
+                        content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
+                                ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"
+                    }
                 logTracker.log(content)
             }
 
@@ -58,6 +63,27 @@ class InfluxDbPublisher(
                 logTracker.log("Empty content")
             }
         }
+    }
+
+    private fun threshold(thresholdConfiguration: ThresholdConfiguration?, task: TaskLength): Boolean {
+        if (thresholdConfiguration == null) {
+            return true
+        } else {
+
+            if (thresholdConfiguration.maxExecutionTime != null && thresholdConfiguration.minExecutionTime != null) {
+                val max = thresholdConfiguration.maxExecutionTime!!
+                val min = thresholdConfiguration.minExecutionTime!!
+                return task.ms in min..max
+            } else {
+                thresholdConfiguration.maxExecutionTime?.let {
+                    return task.ms <= it
+                }
+                thresholdConfiguration.minExecutionTime?.let {
+                    return task.ms >= it
+                }
+            }
+        }
+        return true
     }
 
     private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
