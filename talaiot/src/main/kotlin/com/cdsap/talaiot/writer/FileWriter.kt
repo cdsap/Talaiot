@@ -32,7 +32,7 @@ interface FileWriter {
     /**
      * perform the operation of creating a file and write the content independent of the Publisher
      *
-     * @param func: lambda to be executed after the file is created. Depending on the implementation of the FileWritter
+     * @param func: lambda to be executed after the file is created. Depending on the implementation of the FileWriter
      * the function will be different
      */
     fun createFile(func: () -> Unit) {

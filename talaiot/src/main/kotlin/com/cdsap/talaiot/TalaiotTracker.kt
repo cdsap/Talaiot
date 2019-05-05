@@ -102,7 +102,7 @@ class TalaiotTracker {
      * @param state: Custom TaskState
      * @param rootNode: is the current task a rootNode
      *
-     * @return instance of TaskLenght for the current task
+     * @return instance of TaskLength for the current task
      */
     private fun taskLength(ms: Long, task: Task, state: TaskMessageState, rootNode: Boolean): TaskLength =
         TaskLength(

@@ -100,7 +100,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 
 
 #### TaskDependencyGraphPublisher
-Talaiot will generate the Task Depenency Graph in the specific format specified in the configuration
+Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration
 
 
 | Property      |      Description                                                                                 |
@@ -110,7 +110,7 @@ Talaiot will generate the Task Depenency Graph in the specific format specified 
 | gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
 | dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
 
-This new category of publishers doesn't require constantly evaluating the builds, that's why there is an extra
+This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
 parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is 
 use this publisher and collect the files on CI.
 
@@ -170,7 +170,7 @@ talaiot {
 | envName    |Name of the Property   |
 | envValue   |Value of the Property  |
 
-We will use IgnoreWhebn when we want to ignore publishing the results of the build. One use case is to ignore it when we 
+We will use IgnoreWhen when we want to ignore publishing the results of the build. One use case is to ignore it when we 
 are building on CI:
 
 ````
@@ -186,7 +186,7 @@ talaiot {
 ## Example: Analyzing Data provided by Talaiot
 
 ### Docker, InfluxDb and Grafana
-To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + Inlfluxdb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
+To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
 
 Additionally, the Docker image is creating a default database, a provisioned dashboard and the default datasource for InfluxDb.
 The source is [here](docker/Dockerfile):

@@ -85,7 +85,7 @@ abstract class DefaultDiskPublisher(
      *
      * @param taskMeasurementAggregated: Aggregated entity with the results of the build
      *
-     * @return a String with the nodes and edges formatted by the imolementations of the class
+     * @return a String with the nodes and edges formatted by the implementations of the class
      */
     fun buildGraph(taskMeasurementAggregated: TaskMeasurementAggregated): String {
         var count = 0

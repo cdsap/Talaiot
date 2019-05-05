@@ -2,7 +2,7 @@ datasources:
 -  access: 'proxy'
    editable: true
    is_default: true
-   name: 'trakingInfluxDb'
+   name: 'trackingInfluxDb'
    org_id: 1
    type: 'influxdb'
    url: 'http://localhost:8086'

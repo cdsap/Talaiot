@@ -17,7 +17,7 @@ import org.gradle.api.tasks.TaskState
  */
 class TalaiotListener(
     /**
-     * Talaiot Publisher with the infomation of metrics and publishers defined in the configuration
+     * Talaiot Publisher with the information of metrics and publishers defined in the configuration
      */
     val talaiotPublisher: TalaiotPublisher,
     /**

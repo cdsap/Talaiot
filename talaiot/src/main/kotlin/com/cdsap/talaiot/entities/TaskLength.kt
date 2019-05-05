@@ -32,7 +32,7 @@ data class TaskLength(
      */
     val module: String,
     /**
-     * List of dependencies required to be executed before the current taask
+     * List of dependencies required to be executed before the current task
      */
     val taskDependencies: List<String>
 )

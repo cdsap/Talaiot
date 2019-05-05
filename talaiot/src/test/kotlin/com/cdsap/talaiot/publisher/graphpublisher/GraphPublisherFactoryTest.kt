@@ -16,7 +16,7 @@ class GraphPublisherFactoryTest : BehaviorSpec({
                 assert(publisher is HtmlPublisher)
             }
         }
-        `when`("type is Gexg ") {
+        `when`("type is Gexf ") {
             val publisher = initPublisher(graphPublisherFactory, GraphPublisherType.GEXF)
             then("instance of publisher is GexfPublisher") {
                 assert(publisher is GexfPublisher)

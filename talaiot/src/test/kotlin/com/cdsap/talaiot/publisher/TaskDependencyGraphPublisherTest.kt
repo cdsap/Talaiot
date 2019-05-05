@@ -33,7 +33,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
             )
-            then("no publisher is instanciated ") {
+            then("no publisher is created ") {
 
                 verify(graphPublisherFactory, never()).createPublisher(
                     argThat { this == GraphPublisherType.GEXF },

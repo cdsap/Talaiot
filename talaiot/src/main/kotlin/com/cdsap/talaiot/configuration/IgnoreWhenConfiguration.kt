@@ -3,7 +3,7 @@ package com.cdsap.talaiot.configuration
 import org.gradle.api.Project
 
 /**
- * Configuration for the ignoreWhen property. Used in General Talaiot configuration and TaskDependencyGraph
+ * Configuration for the ignoreWhen property. Used in General Talaiot configuration and TaskDependencyGraph.
  * It expects an environment Name and Value variables.
  * In some scenarios we want to ignore the execution of the Publishers, for instance we don't want to execute it in
  * CI environments.
