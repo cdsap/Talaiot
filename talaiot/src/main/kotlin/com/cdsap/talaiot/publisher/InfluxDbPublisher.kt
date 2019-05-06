@@ -65,26 +65,12 @@ class InfluxDbPublisher(
         }
     }
 
-    private fun threshold(thresholdConfiguration: ThresholdConfiguration?, task: TaskLength): Boolean {
+    private fun threshold(thresholdConfiguration: ThresholdConfiguration?, task: TaskLength) =
         if (thresholdConfiguration == null) {
-            return true
+            true
         } else {
-
-            if (thresholdConfiguration.maxExecutionTime != null && thresholdConfiguration.minExecutionTime != null) {
-                val max = thresholdConfiguration.maxExecutionTime!!
-                val min = thresholdConfiguration.minExecutionTime!!
-                return task.ms in min..max
-            } else {
-                thresholdConfiguration.maxExecutionTime?.let {
-                    return task.ms <= it
-                }
-                thresholdConfiguration.minExecutionTime?.let {
-                    return task.ms >= it
-                }
-            }
+            task.ms in thresholdConfiguration.minExecutionTime..thresholdConfiguration.maxExecutionTime
         }
-        return true
-    }
 
     private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
 

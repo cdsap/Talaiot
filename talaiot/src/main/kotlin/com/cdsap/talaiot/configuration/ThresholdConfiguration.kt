@@ -9,9 +9,24 @@ class ThresholdConfiguration {
     /**
      * Minimum execution time of one task to be consider valid to be reported
      */
-    var minExecutionTime: Long? = null
+    var minExecutionTime: Long = 0
+        set(value) {
+            field = if (value < 0) {
+                0
+            } else {
+                value
+            }
+        }
+
     /**
      * Maximum execution time of one task to be consider valid to be reported
      */
-    var maxExecutionTime: Long? = null
+    var maxExecutionTime: Long = Long.MAX_VALUE
+        set(value) {
+            field = if (value < 0) {
+                Long.MAX_VALUE
+            } else {
+                value
+            }
+        }
 }

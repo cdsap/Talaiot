@@ -300,6 +300,51 @@ class InfluxDbPublisherTest : BehaviorSpec({
             }
         }
 
+        `when`("negatives values are defined in the threshold configuration") {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                dbName = "db"
+                url = "http://localhost:666"
+                urlMetric = "log"
+                threshold {
+                    minExecutionTime = -10
+                    maxExecutionTime = -5
+                }
+
+            }
+            val testRequest = TestRequest(logger)
+            val influxDbPublisher = InfluxDbPublisher(
+                influxDbConfiguration, logger, testRequest, TestExecutor()
+            )
+
+            then(" default values for the threshold are replacing the negatives values") {
+                influxDbPublisher.publish(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                        getMetrics(), listOf(
+                            TaskLength(
+                                50, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                120, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                9, "clean3", ":clean3", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            )
+                        )
+                    )
+                )
+                assert(
+                    testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=50\n" +
+                            "log,state=EXECUTED,module=app,rootNode=false,task=:clean2,metric1=value1,metric2=value2 value=120\n" +
+                            "log,state=EXECUTED,module=app,rootNode=false,task=:clean3,metric1=value1,metric2=value2 value=9\n"
+                )
+                assert(testRequest.url == "http://localhost:666/write?db=db")
+
+            }
+        }
+
 
     }
 
