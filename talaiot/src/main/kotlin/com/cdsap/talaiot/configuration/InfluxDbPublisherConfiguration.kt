@@ -1,5 +1,7 @@
 package com.cdsap.talaiot.configuration
 
+import groovy.lang.Closure
+
 /**
  * Configuration for the InfluxDbPublisher. It belongs to the Publisher configurations
  *
@@ -26,4 +28,15 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      * metric to identify the measurement in InfluxDb
      */
     var urlMetric: String = ""
+    var threshold: ThresholdConfiguration? = null
+
+    fun threshold(configuration: ThresholdConfiguration.() -> Unit) {
+        threshold = ThresholdConfiguration().also(configuration)
+    }
+
+    fun threshold(closure: Closure<*>) {
+        threshold = ThresholdConfiguration()
+        closure.delegate = threshold
+        closure.call()
+    }
 }

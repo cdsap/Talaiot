@@ -29,7 +29,7 @@ open class TalaiotExtension(val project: Project) {
      * Configuration for ignoring the execution of the plugin in the build
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
-
+    
     /**
      * Metrics general configuration
      */

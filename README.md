@@ -92,11 +92,12 @@ you can extend it and create your publisher for your requirements
 Talaiot will send to the InfluxDb server defined in the configuration the values collected during the execution
 
 
-| Property  |      Description                         |
-|---------- |------------------------------------------|
-| dbName    | Name of the database                     |
-| url       | Url of the InfluxDb Server               |
-| urlMetric | Name of the metric used in the execution |
+| Property  |      Description                                                                  |
+|---------- |-----------------------------------------------------------------------------------|
+| dbName    | Name of the database                                                              |
+| url       | Url of the InfluxDb Server                                                        |
+| urlMetric | Name of the metric used in the execution                                          |
+| threshold | Configuration used to define time execution ranges to filter tasks to be reported |
 
 
 #### TaskDependencyGraphPublisher
@@ -225,8 +226,10 @@ talaiot {
             dbName = "tracking"
             url = "http://localhost:8086"
             urlMetric = "tracking"
+            threshold {
+               minExecutionTime = 10
+            }
         }
-
     }
 }
 ```
