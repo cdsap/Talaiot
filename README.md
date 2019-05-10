@@ -273,11 +273,15 @@ is great and you have the support from Gradle :)
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
 
+
+
 ## Articles
  
 [Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
  
 [Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
+
+[Graphs, Gradle and Talaiot](https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1)
 
 
 ## Thanks
