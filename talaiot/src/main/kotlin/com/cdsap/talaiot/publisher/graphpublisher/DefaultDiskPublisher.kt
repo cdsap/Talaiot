@@ -25,11 +25,11 @@ abstract class DefaultDiskPublisher(
      * Depending on the Publisher we may want to format the node representation on different way.
      * Node here represent a tracked Task with Talaiot
      *
-     * @param internalId: internalId for the node
-     * @param module: module which belongs the task
-     * @param taskName: name of the task tracked
-     * @param numberDependencies: number of task dependencies
-     * @param cached: represents if the task has been cached during the execution
+     * @param internalId internalId for the node
+     * @param module module which belongs the task
+     * @param taskName name of the task tracked
+     * @param numberDependencies number of task dependencies
+     * @param cached represents if the task has been cached during the execution
      *
      * @return a String with the node/task formatted
      */
@@ -44,8 +44,8 @@ abstract class DefaultDiskPublisher(
     /**
      * Abstract function to format the information related with the edge.
      *
-     * @param from: origin of the relation, internalId
-     * @param to: destination of the relation, internalId
+     * @param from origin of the relation, internalId
+     * @param to destination of the relation, internalId
      *
      * @return a String with the edge formatted
      */
@@ -59,10 +59,10 @@ abstract class DefaultDiskPublisher(
      * It builds a String with the different parts of the required format defined. This format is composed by a header
      * a content and a footer. Optionally it can be defined a legend. Used by the HtmlPublisher
      *
-     * @param task: content related with the results formatted of the tracked build
-     * @param header: header of the file
-     * @param legend: legend to represent the information included in the graph, optional.
-     * @param footer: footer of the file
+     * @param task content related with the results formatted of the tracked build
+     * @param header header of the file
+     * @param legend legend to represent the information included in the graph, optional.
+     * @param footer footer of the file
      *
      * @return a String with all the information composed
      */
@@ -83,7 +83,7 @@ abstract class DefaultDiskPublisher(
      * The implementations of the abstract class will require the construction of the graph. The format of the graph is
      * given by the formatNode and formatEdge of this class.
      *
-     * @param taskMeasurementAggregated: Aggregated entity with the results of the build
+     * @param taskMeasurementAggregated Aggregated entity with the results of the build
      *
      * @return a String with the nodes and edges formatted by the implementations of the class
      */

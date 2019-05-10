@@ -97,10 +97,10 @@ class TalaiotTracker {
     /**
      * Helper function to return one TaskLength instance of the current task
      *
-     * @param ms: duration of the execution
-     * @param task: current task
-     * @param state: Custom TaskState
-     * @param rootNode: is the current task a rootNode
+     * @param ms duration of the execution
+     * @param task current task
+     * @param state Custom TaskState
+     * @param rootNode is the current task a rootNode
      *
      * @return instance of TaskLength for the current task
      */
@@ -119,7 +119,7 @@ class TalaiotTracker {
     /**
      * Retrieve the dependencies of a given task
      *
-     * @param task: current task
+     * @param task current task
      *
      * @return list of task paths depending of the given task
      */
@@ -128,7 +128,7 @@ class TalaiotTracker {
     /**
      * Get the current module of a given task
      *
-     * @param path: complete of a given task
+     * @param path complete of a given task
      *
      * @return module of the task, in case it doesn't exist it will return "no_module"
      */

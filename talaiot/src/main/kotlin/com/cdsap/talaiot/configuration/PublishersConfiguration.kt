@@ -39,7 +39,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the TaskDependencyGraphPublisher
-     * @param configuration: Lambda with receiver for the TaskDependencyGraphConfiguration representing the configuration
+     * @param configuration Lambda with receiver for the TaskDependencyGraphConfiguration representing the configuration
      * taskDependencyGraphPublisher
      */
     fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
@@ -48,7 +48,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the InfluxDbPublisher
-     * @param configuration: Lambda with receiver for the InfluxDbPublisherConfiguration representing the configuration
+     * @param configuration Lambda with receiver for the InfluxDbPublisherConfiguration representing the configuration
      * influxDbPublisher
      */
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
@@ -57,7 +57,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the OutputPublisher
-     * @param configuration: Lambda with receiver for the OutputPublisherConfiguration representing the configuration
+     * @param configuration Lambda with receiver for the OutputPublisherConfiguration representing the configuration
      * outputPublisher
      */
     fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
@@ -66,7 +66,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the CustomPublisher
-     * @param configuration: custom Publisher defined in the configuration
+     * @param configuration custom Publisher defined in the configuration
      */
     fun customPublisher(configuration: Publisher) {
         customPublisher = configuration
@@ -74,7 +74,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the InfluxDbPublisher, Groovy version
-     * @param closure: closure for the InfluxDbPublisherConfiguration representing the configuration
+     * @param closure closure for the InfluxDbPublisherConfiguration representing the configuration
      * influxDbPublisher
      */
     fun influxDbPublisher(closure: Closure<*>) {
@@ -85,7 +85,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the TaskDependencyGraphPublisher, Groovy version
-     * @param closure: closure for the TaskDependencyGraphConfiguration representing the configuration
+     * @param closure closure for the TaskDependencyGraphConfiguration representing the configuration
      * taskDependencyGraphPublisher
      */
     fun taskDependencyGraphPublisher(closure: Closure<*>) {
@@ -96,7 +96,7 @@ class PublishersConfiguration(val project: Project) {
 
     /**
      * Configuration within the main PublisherConfiguration for the OutputPublisher, Groovy version
-     * @param closure: closure OutputPublisherConfiguration representing the configuration
+     * @param closure closure OutputPublisherConfiguration representing the configuration
      * outputPublisher
      */
     fun outputPublisher(closure: Closure<*>) {

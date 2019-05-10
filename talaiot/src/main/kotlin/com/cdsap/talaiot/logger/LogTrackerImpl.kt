@@ -13,7 +13,7 @@ class LogTrackerImpl(
 
     /**
      * Logger function that check the current node to use the output method to display the results.
-     * @param message: message to be displayed
+     * @param message message to be displayed
      */
     override fun log(message: String) {
         when (mode) {

@@ -49,7 +49,7 @@ class GradleMetrics(
 
     /**
      * Check if a property exists in the Gradle project given a property name
-     * @param property: name of the property to check
+     * @param property name of the property to check
      * @return if the property is present in the configuration
      */
     private fun hasProperty(property: String) = project.gradle.rootProject.hasProperty(property)
@@ -57,7 +57,7 @@ class GradleMetrics(
 
     /**
      * Get property from the Gradle project given a property name
-     * @param property: name of the property to retrieve
+     * @param property name of the property to retrieve
      * @return value of the property
      */
     private fun property(property: String) = project.property(property)

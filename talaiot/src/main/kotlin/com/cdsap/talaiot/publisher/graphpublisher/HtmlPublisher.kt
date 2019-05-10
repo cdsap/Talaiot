@@ -54,7 +54,7 @@ class HtmlPublisher(
     /**
      * In the HtmlPublisher we want to show a legend representing the different colors of the modules.
      *
-     * @param taskMeasurementAggregated: Aggregated entity with the results of the build
+     * @param taskMeasurementAggregated Aggregated entity with the results of the build
      *
      * @return the aggregated legend for all the modules
      */

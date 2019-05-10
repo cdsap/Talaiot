@@ -33,7 +33,7 @@ class DotPublisher(
      * parts of the file. The library expect a list of LinkSources to build the graph.
      * This function builds the list of LinkSources required.
      *
-     * @param measurementAggregated: Aggregated entity with the results of the build
+     * @param measurementAggregated Aggregated entity with the results of the build
      *
      * @return a list of LinkSources representing the relations of the tasks/nodes.
      */

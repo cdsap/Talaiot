@@ -88,7 +88,7 @@ class InfluxDbPublisher(
 
     /**
      * Influx Line Protocol requires specific format, we need to replace values like ","
-     * @param tag: value to be formatted
+     * @param tag value to be formatted
      *
      * @return value formatted
      */

@@ -51,8 +51,8 @@ class OutputPublisher(
     /**
      * Quick Sort algorithm for a list of Tasks tracked.
      *
-     * @param items: list of tasks tracked
-     * @param order: orientation of the order
+     * @param items list of tasks tracked
+     * @param order orientation of the order
      *
      * @return list of Task ordered
      */
@@ -80,7 +80,7 @@ class OutputPublisher(
 
     /**
      * Format the duration of a given task to have better readability with high values
-     * @param ms: quantity of milliseconds to be formatted
+     * @param ms quantity of milliseconds to be formatted
      *
      * @return value formatted
      */

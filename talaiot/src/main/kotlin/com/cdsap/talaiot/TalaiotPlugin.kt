@@ -27,8 +27,8 @@ class TalaiotPlugin : Plugin<Project> {
      * tracking the information of the tasks.
      * Additionally we need the information of which metrics and providers will be used in the execution.
      *
-     * @param extension: Talaiot extension that contains the configuration
-     * @param project: Gradle project used to to retrieve properties or general configurations.
+     * @param extension Talaiot extension that contains the configuration
+     * @param project Gradle project used to to retrieve properties or general configurations.
      */
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
         val publisher = TalaiotPublisherImpl(project)

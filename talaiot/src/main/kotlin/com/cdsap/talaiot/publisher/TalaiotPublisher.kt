@@ -24,7 +24,7 @@ interface TalaiotPublisher {
      * Main function to publish the results. All the publishers will be called here when the aggregation
      * of data is finished
      *
-     * @param taskLengthList: List of tasks tracked during the execution
+     * @param taskLengthList List of tasks tracked during the execution
      */
     fun publish(taskLengthList: MutableList<TaskLength>)
 }

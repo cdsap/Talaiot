@@ -35,7 +35,7 @@ class TaskDependencyGraphConfiguration(val project: Project) {
 
     /**
      * Configuration within the TaskDependencyGraphConfiguration for the ignoreWhen
-     * @param block: Lambda with receiver for the IgnoreWhenConfiguration
+     * @param block Lambda with receiver for the IgnoreWhenConfiguration
      */
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
@@ -43,7 +43,7 @@ class TaskDependencyGraphConfiguration(val project: Project) {
 
     /**
      * Configuration within the TaskDependencyGraphConfiguration for the ignoreWhen, Groovy version
-     * @param closure: closure for the IgnoreWhenConfiguration
+     * @param closure closure for the IgnoreWhenConfiguration
      */
     fun ignoreWhen(closure: Closure<*>) {
         ignoreWhen = IgnoreWhenConfiguration(project)

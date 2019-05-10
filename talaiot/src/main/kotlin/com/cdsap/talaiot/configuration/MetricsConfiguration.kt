@@ -26,7 +26,7 @@ class MetricsConfiguration {
 
     /**
      * process the metrics defined in the configuration
-     * @param pair : one or more pairs of strings representing custom the metrics
+     * @param pair one or more pairs of strings representing custom the metrics
      */
     fun customMetrics(vararg pair: Pair<String, String>) {
         pair.forEach {
@@ -36,7 +36,7 @@ class MetricsConfiguration {
 
     /**
      * process the metrics defined in the configuration
-     * @param pair : one pair of strings representing a custom metric
+     * @param pair one pair of strings representing a custom metric
      */
     fun customMetrics(pair: Pair<String, String>) {
         customMetrics[pair.first] = pair.second
@@ -44,7 +44,7 @@ class MetricsConfiguration {
 
     /**
      * process the metrics defined in the configuration
-     * @param metrics: a Map of strings representing  custom metrics
+     * @param metrics a Map of strings representing  custom metrics
      */
     fun customMetrics(metrics: Map<String, String>) {
         metrics.forEach {

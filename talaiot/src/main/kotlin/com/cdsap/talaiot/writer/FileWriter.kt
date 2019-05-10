@@ -24,15 +24,15 @@ interface FileWriter {
      * Previous step where it will invoke the creation of the file depending on the Publisher and the way we want to
      * write on disk
      *
-     * @param content: it contains the data formatted to be persisted. The implementation gives the specific type
-     * @param name: filename
+     * @param content it contains the data formatted to be persisted. The implementation gives the specific type
+     * @param name filename
      */
     fun prepareFile(content: Any, name: String)
 
     /**
      * perform the operation of creating a file and write the content independent of the Publisher
      *
-     * @param func: lambda to be executed after the file is created. Depending on the implementation of the FileWriter
+     * @param func lambda to be executed after the file is created. Depending on the implementation of the FileWriter
      * the function will be different
      */
     fun createFile(func: () -> Unit) {
