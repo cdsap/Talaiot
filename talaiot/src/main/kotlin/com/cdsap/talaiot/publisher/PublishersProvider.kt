@@ -7,7 +7,21 @@ import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors
 
-class PublishersProvider(val project: Project) {
+/**
+ * Provides the Publishers defined in the  PublisherConfiguration of the Extension
+ */
+class PublishersProvider(
+    /**
+     * Gradle Project used to retrieve the extension
+     */
+    val project: Project
+) {
+
+    /**
+     * Check the main TalaiotExtension which Publishers have been enabled.
+     * When one publisher is enabled it initialize it with the required parameters
+     * @return list of available Publisher for the configuration
+     */
     fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension

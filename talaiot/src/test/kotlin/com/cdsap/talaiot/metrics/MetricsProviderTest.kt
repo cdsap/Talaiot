@@ -24,7 +24,7 @@ class MetricsProviderTest : BehaviorSpec({
                 assert(metrics.containsKey("os"))
             }
         }
-        `when`("perfomance metrics are configured") {
+        `when`("performance metrics are configured") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.metrics.gitMetrics = false

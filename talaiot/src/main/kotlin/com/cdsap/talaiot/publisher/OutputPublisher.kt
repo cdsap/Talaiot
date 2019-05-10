@@ -7,9 +7,17 @@ import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * Publisher using the default output to show the tasks ordered by duration
+ */
 class OutputPublisher(
+    /**
+     * General configuration for the publisher
+     */
     private val outputPublisherConfiguration: OutputPublisherConfiguration,
+    /**
+     * LogTracker to print in console depending on the Mode
+     */
     private val logTracker: LogTracker
 ) : Publisher {
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
@@ -40,6 +48,14 @@ class OutputPublisher(
         }
     }
 
+    /**
+     * Quick Sort algorithm for a list of Tasks tracked.
+     *
+     * @param items list of tasks tracked
+     * @param order orientation of the order
+     *
+     * @return list of Task ordered
+     */
     private fun sort(items: List<TaskLength>, order: Order): List<TaskLength> {
         if (items.count() < 2) {
             return items
@@ -62,6 +78,12 @@ class OutputPublisher(
         }
     }
 
+    /**
+     * Format the duration of a given task to have better readability with high values
+     * @param ms quantity of milliseconds to be formatted
+     *
+     * @return value formatted
+     */
     private fun maskMs(ms: Long): String =
         when {
             ms < 1000 -> ms.toString() + "ms"

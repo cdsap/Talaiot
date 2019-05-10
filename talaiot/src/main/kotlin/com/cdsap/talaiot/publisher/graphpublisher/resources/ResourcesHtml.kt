@@ -1,5 +1,10 @@
 package com.cdsap.talaiot.publisher.graphpublisher.resources
 
+
+/**
+ * HEADER and VALUE constants used by the HtmlPublisher
+ *
+ */
 object ResourcesHtml {
     const val HEADER = "<!doctype html>\n" +
             "<html>\n" +

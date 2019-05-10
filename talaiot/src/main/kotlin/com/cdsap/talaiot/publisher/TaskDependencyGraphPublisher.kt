@@ -11,11 +11,30 @@ import com.cdsap.talaiot.writer.DotWriter
 import org.gradle.api.Project
 import java.util.concurrent.Executor
 
+/**
+ * Publisher used to export the task dependency graph in a DAG with different formats.
+ * Current formats supported: Html, Gexf and PNG(dot format)
+ */
 class TaskDependencyGraphPublisher(
+    /**
+     * Gradle Project used to retrieve build and root information
+     */
     val project: Project,
+    /**
+     * General configuration for the publisher
+     */
     private val graphConfiguration: TaskDependencyGraphConfiguration,
+    /**
+     * LogTracker to print in console depending on the Mode
+     */
     val logTracker: LogTracker,
+    /**
+     * Executor to schedule a task in Background
+     */
     private val executor: Executor,
+    /**
+     * Factory to create instance of the different publishers
+     */
     private val graphPublisherFactory: GraphPublisherFactory
 ) : Publisher {
 

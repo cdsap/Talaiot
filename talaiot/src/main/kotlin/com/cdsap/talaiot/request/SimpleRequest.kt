@@ -5,7 +5,10 @@ import io.github.rybalkinsd.kohttp.dsl.httpPost
 import io.github.rybalkinsd.kohttp.ext.url
 import java.net.URL
 
-
+/**
+ * Simple implementation of request.
+ * Using KoHttp to create the request.
+ */
 class SimpleRequest(mode: LogTracker) : Request {
     override var logTracker = mode
 

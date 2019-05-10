@@ -6,7 +6,9 @@ import guru.nidi.graphviz.engine.Renderer
 import org.gradle.api.Project
 import java.io.File
 
-
+/**
+ * Implementation of FileWriter using Renderer from GraphViz library
+ */
 class DotWriter(
     override var project: Project,
     override var logTracker: LogTracker

@@ -1,0 +1,33 @@
+site:
+  about:
+    siteName: Talaiot
+    siteDescription: Build Tracker
+
+Editorial:
+  primaryColor: '#DE9149'
+  social:
+    github: 'cdsap/Talaiot'
+  menu:
+    - type: 'separator'
+      title: 'API Docs'
+    - type: 'kotlindocPackages'
+    - type: 'kotlindocClasses'
+
+kotlindoc:
+  sourceDirs:
+    - '../../../../talaiot/src/main/kotlin'
+  pages:
+    extraCss:
+      - 'assets/css/orchidKotlindoc.scss'
+    menu:
+      - type: "kotlindocClassLinks"
+        includeItems: true
+
+services:
+  publications:
+    stages:
+      ghPages:
+        branch: gh-pages
+        repo: 'cdsap/Talaiot'
+        username: 'cdsap'
+        githubUrl: github.com

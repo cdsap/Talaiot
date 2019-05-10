@@ -6,6 +6,9 @@ import org.gradle.api.Project
 import java.io.File
 import java.nio.file.Files
 
+/**
+ * Implementation of FileWriter to writes bytes to a file
+ */
 class DefaultWriter(
     override var project: Project,
     override var logTracker: LogTracker
