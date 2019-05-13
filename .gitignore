@@ -5,7 +5,11 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+/.idea/gradle.xml
+/.idea/vcs.xml
+/.idea/codeStyles/codeStyleConfig.xml
 .DS_Store
+talaiot/out/**
 /build
 /captures
 .externalNativeBuild
