@@ -535,7 +535,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
             )
-            then("included tasks are only published") {
+            then("included modules are only published") {
                 influxDbPublisher.publish(
                     taskMeasurementAggregated = TaskMeasurementAggregated(
                         getMetrics(), listOf(
@@ -559,7 +559,6 @@ class InfluxDbPublisherTest : BehaviorSpec({
                             "log,state=EXECUTED,module=app,rootNode=false,task=:clean2,metric1=value1,metric2=value2 value=120\n"
                 )
                 assert(testRequest.url == "http://localhost:666/write?db=db")
-
             }
 
         }

@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.configuration.filter
+package com.cdsap.talaiot.filter
 
 import com.cdsap.talaiot.logger.LogTracker
 

@@ -3,8 +3,8 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.configuration.ThresholdConfiguration
-import com.cdsap.talaiot.configuration.filter.FilterProcessor
-import com.cdsap.talaiot.configuration.filter.StringFilter
+import com.cdsap.talaiot.filter.FilterProcessor
+import com.cdsap.talaiot.filter.StringFilter
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker

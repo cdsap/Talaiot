@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.configuration
 
-import com.cdsap.talaiot.configuration.filter.StringFilter
+import com.cdsap.talaiot.filter.StringFilter
 import groovy.lang.Closure
 
 class FilterConfiguration {
