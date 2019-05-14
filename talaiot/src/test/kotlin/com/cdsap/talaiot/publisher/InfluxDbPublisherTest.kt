@@ -6,13 +6,14 @@ import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
 
 
 class InfluxDbPublisherTest : BehaviorSpec({
     given("InfluxDbPublisher configuration") {
-        val logger = LogTrackerImpl(LogTracker.Mode.INFO)
+        val logger = TestLogTrackerRecorder
 
         `when`("There is configuration with metrics and tasks ") {
             val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
@@ -470,6 +471,50 @@ class InfluxDbPublisherTest : BehaviorSpec({
                     testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:assembleDebug,metric1=value1,metric2=value2 value=9\n"
                 )
                 assert(testRequest.url == "http://localhost:666/write?db=db")
+
+            }
+
+        }
+
+        `when`("excludes and includes filter configurations (with same values) for tasks is provided") {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                dbName = "db"
+                url = "http://localhost:666"
+                urlMetric = "log"
+                filter {
+                    tasks {
+                        excludes = arrayOf("clean.*")
+                        includes = arrayOf("clean.*")
+                    }
+                }
+            }
+            val testRequest = TestRequest(logger)
+            val influxDbPublisher = InfluxDbPublisher(
+                influxDbConfiguration, logger, testRequest, TestExecutor()
+            )
+            then("excluded tasks are not published") {
+                influxDbPublisher.publish(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                        getMetrics(), listOf(
+                            TaskLength(
+                                50, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                120, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                9, "assembleDebug", ":assembleDebug", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            )
+                        )
+                    )
+                )
+                assert(testRequest.content.isEmpty())
+                assert(logger.containsLog("clean matches with inclusion and exclusion filter"))
+                assert(logger.containsLog("clean2 matches with inclusion and exclusion filter"))
+                assert(testRequest.url.isEmpty())
 
             }
 
