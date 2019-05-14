@@ -1,31 +1,30 @@
 package com.cdsap.talaiot.configuration
 
-import com.cdsap.talaiot.configuration.filter.ModuleFilterConfiguration
-import com.cdsap.talaiot.configuration.filter.TaskFilterConfiguration
+import com.cdsap.talaiot.configuration.filter.StringFilter
 import groovy.lang.Closure
 
 class FilterConfiguration {
-    var tasks: TaskFilterConfiguration? = null
-    var modules: ModuleFilterConfiguration? = null
+    var tasks: StringFilter? = null
+    var modules: StringFilter? = null
 
 
-    fun tasks(configuration: TaskFilterConfiguration.() -> Unit) {
-        tasks = TaskFilterConfiguration().also(configuration)
+    fun tasks(configuration: StringFilter.() -> Unit) {
+        tasks = StringFilter().also(configuration)
     }
 
     fun tasks(closure: Closure<*>) {
-        tasks = TaskFilterConfiguration()
+        tasks = StringFilter()
         closure.delegate = tasks
         closure.call()
     }
 
 
-    fun modules(configuration: ModuleFilterConfiguration.() -> Unit) {
-        modules = ModuleFilterConfiguration().also(configuration)
+    fun modules(configuration: StringFilter.() -> Unit) {
+        modules = StringFilter().also(configuration)
     }
 
     fun modules(closure: Closure<*>) {
-        modules = ModuleFilterConfiguration()
+        modules = StringFilter()
         closure.delegate = modules
         closure.call()
     }

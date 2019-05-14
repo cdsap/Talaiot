@@ -11,5 +11,6 @@
 .DS_Store
 talaiot/out/**
 /build
+/talaiot/build/**
 /captures
 .externalNativeBuild
