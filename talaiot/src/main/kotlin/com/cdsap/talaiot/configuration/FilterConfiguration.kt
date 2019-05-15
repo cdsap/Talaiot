@@ -3,8 +3,32 @@ package com.cdsap.talaiot.configuration
 import com.cdsap.talaiot.filter.StringFilter
 import groovy.lang.Closure
 
+/**
+ * Configuration to specify the filters for the tasks that should be processed by the publisher.
+ *
+ * Initially used in the InfluxDB Publisher
+ *
+ *filter{
+ *  tasks{
+ *      includes = arrayOf("cle.*")
+ *      excludes = arrayOf("taskA")
+ *  }
+ *  modules{
+ *      includes = arrayOf("feature.*")
+ *      excludes = arrayOf("utils.*")
+ *  }
+ * }
+ */
 class FilterConfiguration {
+
+    /**
+     * A regex based filter to include and exclude tasks
+     */
     var tasks: StringFilter? = null
+
+    /**
+     * A regex based filter to include and exclude module
+     */
     var modules: StringFilter? = null
 
 
