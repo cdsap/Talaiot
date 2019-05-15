@@ -484,7 +484,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
                 filter {
                     tasks {
                         excludes = arrayOf("clean.*")
-                        includes = arrayOf("clean.*")
+                        includes = arrayOf("cle.*")
                     }
                 }
             }
@@ -557,6 +557,48 @@ class InfluxDbPublisherTest : BehaviorSpec({
                 assert(
                     testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=50\n" +
                             "log,state=EXECUTED,module=app,rootNode=false,task=:clean2,metric1=value1,metric2=value2 value=120\n"
+                )
+                assert(testRequest.url == "http://localhost:666/write?db=db")
+            }
+
+        }
+
+        `when`("excludes filter configuration for modules is provided") {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                dbName = "db"
+                url = "http://localhost:666"
+                urlMetric = "log"
+                filter {
+                    modules {
+                        excludes = arrayOf("app")
+                    }
+                }
+            }
+            val testRequest = TestRequest(logger)
+            val influxDbPublisher = InfluxDbPublisher(
+                influxDbConfiguration, logger, testRequest, TestExecutor()
+            )
+            then("excluded modules are not published") {
+                influxDbPublisher.publish(
+                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                        getMetrics(), listOf(
+                            TaskLength(
+                                50, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                120, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
+                                "app", emptyList()
+                            ),
+                            TaskLength(
+                                9, "assembleDebug", ":assembleDebug", TaskMessageState.EXECUTED, false,
+                                "feature1", emptyList()
+                            )
+                        )
+                    )
+                )
+                assert(
+                    testRequest.content == "log,state=EXECUTED,module=feature1,rootNode=false,task=:assembleDebug,metric1=value1,metric2=value2 value=9\n"
                 )
                 assert(testRequest.url == "http://localhost:666/write?db=db")
             }
