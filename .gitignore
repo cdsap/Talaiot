@@ -8,6 +8,9 @@
 /.idea/gradle.xml
 /.idea/vcs.xml
 /.idea/codeStyles/codeStyleConfig.xml
+/.idea/misc.xml
+/.idea/codeStyles/Project.xml
+/.idea/encodings.xml
 .DS_Store
 talaiot/out/**
 /build
