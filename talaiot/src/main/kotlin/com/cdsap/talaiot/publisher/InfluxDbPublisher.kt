@@ -99,9 +99,9 @@ class InfluxDbPublisher(
     }
 
     private fun executeFilterProcessor(
-        moduleFilter: StringFilter, argument: String
+        filter: StringFilter, argument: String
     ): Boolean {
-        return with(FilterProcessor(moduleFilter, logTracker)) {
+        return with(FilterProcessor(filter, logTracker)) {
             matches(argument)
         }
     }
