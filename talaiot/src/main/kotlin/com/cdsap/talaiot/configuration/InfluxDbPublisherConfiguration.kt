@@ -9,6 +9,17 @@ import groovy.lang.Closure
  *    dbName = "tracking"
  *    url = "url"
  *    urlMetric = "tracking
+ *
+ *    filter{
+ *      tasks{
+ *          includes = arrayOf("cle.*")
+ *          excludes = arrayOf("taskA")
+ *       }
+ *      modules{
+ *          includes = arrayOf("feature.*")
+ *          excludes = arrayOf("utils.*")
+ *       }
+ *     }
  * }
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
