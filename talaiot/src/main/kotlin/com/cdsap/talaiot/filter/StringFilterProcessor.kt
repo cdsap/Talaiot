@@ -2,7 +2,7 @@ package com.cdsap.talaiot.filter
 
 import com.cdsap.talaiot.logger.LogTracker
 
-class FilterProcessor(private val filter: StringFilter, private val logTracker: LogTracker) {
+class StringFilterProcessor(private val filter: StringFilter, private val logTracker: LogTracker) {
 
 
     fun matches(string: String): Boolean {

@@ -3,7 +3,7 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.configuration.ThresholdConfiguration
-import com.cdsap.talaiot.filter.FilterProcessor
+import com.cdsap.talaiot.filter.StringFilterProcessor
 import com.cdsap.talaiot.filter.StringFilter
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -101,7 +101,7 @@ class InfluxDbPublisher(
     private fun executeFilterProcessor(
         filter: StringFilter, argument: String
     ): Boolean {
-        return with(FilterProcessor(filter, logTracker)) {
+        return with(StringFilterProcessor(filter, logTracker)) {
             matches(argument)
         }
     }
