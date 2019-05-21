@@ -272,7 +272,13 @@ is great and you have the support from Gradle :)
 ## Contributing
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
+## Contributors
 
+* [Sergey Rybalkin](https://github.com/rybalkinsd)
+
+* [Satyarth Sampath](https://github.com/satyarths)
+
+* [Iñaki Villar](https://github.com/cdsap/)
 
 
 ## Articles
