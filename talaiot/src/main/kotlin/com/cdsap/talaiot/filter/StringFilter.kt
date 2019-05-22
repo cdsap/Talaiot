@@ -5,4 +5,3 @@ class StringFilter {
     var excludes: Array<String>? = null
 }
 
-
