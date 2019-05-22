@@ -39,6 +39,5 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
         return regexes.find { string.matches(it.toRegex()) } != null
     }
 
-
 }
 
