@@ -9,6 +9,17 @@ import groovy.lang.Closure
  *    dbName = "tracking"
  *    url = "url"
  *    urlMetric = "tracking
+ *
+ *    filter{
+ *      tasks{
+ *          includes = arrayOf("cle.*")
+ *          excludes = arrayOf("taskA")
+ *       }
+ *      modules{
+ *          includes = arrayOf("feature.*")
+ *          excludes = arrayOf("utils.*")
+ *       }
+ *     }
  * }
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
@@ -30,6 +41,8 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     var urlMetric: String = ""
     var threshold: ThresholdConfiguration? = null
 
+    var filter: FilterConfiguration? = null
+
     fun threshold(configuration: ThresholdConfiguration.() -> Unit) {
         threshold = ThresholdConfiguration().also(configuration)
     }
@@ -37,6 +50,17 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     fun threshold(closure: Closure<*>) {
         threshold = ThresholdConfiguration()
         closure.delegate = threshold
+        closure.call()
+    }
+
+
+    fun filter(configuration: FilterConfiguration.() -> Unit) {
+        filter = FilterConfiguration().also(configuration)
+    }
+
+    fun filter(closure: Closure<*>) {
+        filter = FilterConfiguration()
+        closure.delegate = filter
         closure.call()
     }
 }

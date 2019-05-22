@@ -1,7 +1,10 @@
 package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.configuration.ThresholdConfiguration
+import com.cdsap.talaiot.filter.StringFilterProcessor
+import com.cdsap.talaiot.filter.StringFilter
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
@@ -62,6 +65,7 @@ class InfluxDbPublisher(
                 }
                 taskMeasurement
                     .filter { threshold(thresholdConfiguration, it) }
+                    .filter { taskLengthFilter(influxDbPublisherConfiguration.filter, it) }
                     .forEach {
                         content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
                                 ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"
@@ -76,6 +80,29 @@ class InfluxDbPublisher(
             } else {
                 logTracker.log("Empty content")
             }
+        }
+    }
+
+    private fun taskLengthFilter(filter: FilterConfiguration?, taskLength: TaskLength): Boolean {
+        var isTaskIncluded = true
+        var isModuleIncluded = true
+        filter?.let { filter ->
+
+            filter.modules?.let { moduleFilter ->
+                isModuleIncluded = executeFilterProcessor(moduleFilter, taskLength.module)
+            }
+            filter.tasks?.let { taskFilter ->
+                isTaskIncluded = executeFilterProcessor(taskFilter, taskLength.taskName)
+            }
+        }
+        return isTaskIncluded && isModuleIncluded
+    }
+
+    private fun executeFilterProcessor(
+        filter: StringFilter, argument: String
+    ): Boolean {
+        return with(StringFilterProcessor(filter, logTracker)) {
+            matches(argument)
         }
     }
 
