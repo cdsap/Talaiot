@@ -27,6 +27,7 @@ class TalaiotTracker {
      *
      */
     var queue = ArrayDeque<NodeArgument>()
+
     /**
      * HashTable to track the execution time of the task
      */

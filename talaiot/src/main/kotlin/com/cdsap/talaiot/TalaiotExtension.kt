@@ -1,5 +1,6 @@
 package com.cdsap.talaiot
 
+import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.configuration.MetricsConfiguration
@@ -29,12 +30,15 @@ open class TalaiotExtension(val project: Project) {
      * Configuration for ignoring the execution of the plugin in the build
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
-    
+
     /**
      * Metrics general configuration
      */
     var metrics: MetricsConfiguration =
         MetricsConfiguration()
+
+    var filter: FilterConfiguration? = null
+
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
@@ -66,6 +70,17 @@ open class TalaiotExtension(val project: Project) {
     fun metrics(closure: Closure<*>) {
         metrics = MetricsConfiguration()
         closure.delegate = metrics
+        closure.call()
+    }
+
+
+    fun filter(configuration: FilterConfiguration.() -> Unit) {
+        filter = FilterConfiguration().also(configuration)
+    }
+
+    fun filter(closure: Closure<*>) {
+        filter = FilterConfiguration()
+        closure.delegate = filter
         closure.call()
     }
 

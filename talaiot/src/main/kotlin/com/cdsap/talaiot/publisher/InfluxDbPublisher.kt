@@ -65,7 +65,6 @@ class InfluxDbPublisher(
                 }
                 taskMeasurement
                     .filter { threshold(thresholdConfiguration, it) }
-                    .filter { taskLengthFilter(influxDbPublisherConfiguration.filter, it) }
                     .forEach {
                         content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
                                 ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"

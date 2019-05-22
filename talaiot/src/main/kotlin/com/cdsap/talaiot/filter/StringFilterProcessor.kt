@@ -36,6 +36,7 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
 
 
     private fun listContainsMatchingItem(regexes: Array<String>, string: String): Boolean {
+
         return regexes.find { string.matches(it.toRegex()) } != null
     }
 
