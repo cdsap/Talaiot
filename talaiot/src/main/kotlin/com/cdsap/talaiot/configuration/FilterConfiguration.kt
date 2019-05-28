@@ -6,7 +6,6 @@ import groovy.lang.Closure
 /**
  * Configuration to specify the filters for the tasks that should be processed by the publisher.
  *
- * Initially used in the InfluxDB Publisher
  *
  *filter{
  *  tasks{
@@ -17,6 +16,9 @@ import groovy.lang.Closure
  *      includes = arrayOf("feature.*")
  *      excludes = arrayOf("utils.*")
  *  }
+ *  threshold{
+ *      maxValue = 3000
+ *      minValue = 10
  * }
  */
 class FilterConfiguration {
@@ -31,6 +33,7 @@ class FilterConfiguration {
      */
     var modules: StringFilter? = null
 
+    var threshold: ThresholdConfiguration? = null
 
     fun tasks(configuration: StringFilter.() -> Unit) {
         tasks = StringFilter().also(configuration)
@@ -50,6 +53,16 @@ class FilterConfiguration {
     fun modules(closure: Closure<*>) {
         modules = StringFilter()
         closure.delegate = modules
+        closure.call()
+    }
+
+    fun threshold(configuration: ThresholdConfiguration.() -> Unit) {
+        threshold = ThresholdConfiguration().also(configuration)
+    }
+
+    fun threshold(closure: Closure<*>) {
+        threshold = ThresholdConfiguration()
+        closure.delegate = threshold
         closure.call()
     }
 }

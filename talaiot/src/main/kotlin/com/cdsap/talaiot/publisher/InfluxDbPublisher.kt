@@ -1,12 +1,8 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.configuration.ThresholdConfiguration
-import com.cdsap.talaiot.filter.StringFilterProcessor
-import com.cdsap.talaiot.filter.StringFilter
-import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
@@ -33,6 +29,8 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
+    val filtering = TaskFilterProcessor(logTracker,influxDbPublisherConfiguration.filter)
+
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
@@ -54,7 +52,6 @@ class InfluxDbPublisher(
         } else {
             val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
             var content = ""
-            val thresholdConfiguration = influxDbPublisherConfiguration.threshold
 
             taskMeasurementAggregated.apply {
                 var metrics = ""
@@ -64,7 +61,7 @@ class InfluxDbPublisher(
                     metrics += "$tag=$tagValue,"
                 }
                 taskMeasurement
-                    .filter { threshold(thresholdConfiguration, it) }
+                    .filter { filtering.taskLengthFilter(it) }
                     .forEach {
                         content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
                                 ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"
@@ -81,36 +78,6 @@ class InfluxDbPublisher(
             }
         }
     }
-
-    private fun taskLengthFilter(filter: FilterConfiguration?, taskLength: TaskLength): Boolean {
-        var isTaskIncluded = true
-        var isModuleIncluded = true
-        filter?.let { filter ->
-
-            filter.modules?.let { moduleFilter ->
-                isModuleIncluded = executeFilterProcessor(moduleFilter, taskLength.module)
-            }
-            filter.tasks?.let { taskFilter ->
-                isTaskIncluded = executeFilterProcessor(taskFilter, taskLength.taskName)
-            }
-        }
-        return isTaskIncluded && isModuleIncluded
-    }
-
-    private fun executeFilterProcessor(
-        filter: StringFilter, argument: String
-    ): Boolean {
-        return with(StringFilterProcessor(filter, logTracker)) {
-            matches(argument)
-        }
-    }
-
-    private fun threshold(thresholdConfiguration: ThresholdConfiguration?, task: TaskLength) =
-        if (thresholdConfiguration == null) {
-            true
-        } else {
-            task.ms in thresholdConfiguration.minExecutionTime..thresholdConfiguration.maxExecutionTime
-        }
 
     /**
      * Influx Line Protocol requires specific format, we need to replace values like ","

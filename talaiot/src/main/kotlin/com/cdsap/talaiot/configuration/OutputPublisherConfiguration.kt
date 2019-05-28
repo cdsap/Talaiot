@@ -4,7 +4,9 @@ package com.cdsap.talaiot.configuration
  * Configuration for the OutputPublisher
  *
  */
-class OutputPublisherConfiguration : PublisherConfiguration {
+class OutputPublisherConfiguration(
+    override var filter: FilterConfiguration?
+) : PublisherFilteredConfiguration {
     override var name: String = "output"
     /**
      * Represents the displayed orientation in the results

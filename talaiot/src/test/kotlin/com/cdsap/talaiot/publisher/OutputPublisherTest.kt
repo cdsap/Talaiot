@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.Order
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
@@ -15,7 +16,7 @@ class OutputPublisherTest : BehaviorSpec({
     given("OutputPublisher configuration") {
         `when`("There are no tasks tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("shouldn't print anything") {
                 outputPublisher.publish(TaskMeasurementAggregated(emptyMap(), emptyList()))
@@ -30,7 +31,7 @@ class OutputPublisherTest : BehaviorSpec({
         `when`("There are tasks tracked") {
             val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
@@ -67,7 +68,7 @@ class OutputPublisherTest : BehaviorSpec({
                 }
             }
             then("should apply sorting asc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
                 outputPublisherConfiguration.order = Order.DESC
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
 
@@ -108,7 +109,7 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There is task tracked with 0 length") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -129,7 +130,7 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There are different time units on the task tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration()
+            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print length in the correct unit") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -161,7 +162,7 @@ class OutputPublisherTest : BehaviorSpec({
         `when`("There are tasks tracked and the configuration of the Publisher exceeds number of tasks ") {
             val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
                 outputPublisherConfiguration.numberOfTasks = 100
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -201,3 +202,6 @@ class OutputPublisherTest : BehaviorSpec({
         }
     }
 })
+
+
+fun getFilter() = FilterConfiguration()

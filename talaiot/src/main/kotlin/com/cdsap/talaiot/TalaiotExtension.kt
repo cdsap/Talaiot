@@ -45,7 +45,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration(project).also(block)
+        publishers = PublishersConfiguration(project,filter).also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {
@@ -53,7 +53,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(closure: Closure<*>) {
-        publishers = PublishersConfiguration(project)
+        publishers = PublishersConfiguration(project, filter)
         closure.delegate = publishers
         closure.call()
     }

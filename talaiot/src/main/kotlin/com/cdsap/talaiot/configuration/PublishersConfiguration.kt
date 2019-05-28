@@ -19,7 +19,10 @@ import org.gradle.api.Project
  *    }
  * }
  */
-class PublishersConfiguration(val project: Project) {
+class PublishersConfiguration(
+    val project: Project,
+    val filter: FilterConfiguration?
+) {
     /**
      * Access to the configuration of InfluxDbPublisher
      */
@@ -52,7 +55,7 @@ class PublishersConfiguration(val project: Project) {
      * influxDbPublisher
      */
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
-        influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
+        influxDbPublisher = InfluxDbPublisherConfiguration(filter).also(configuration)
     }
 
     /**
@@ -61,7 +64,7 @@ class PublishersConfiguration(val project: Project) {
      * outputPublisher
      */
     fun outputPublisher(configuration: OutputPublisherConfiguration.() -> Unit) {
-        outputPublisher = OutputPublisherConfiguration().also(configuration)
+        outputPublisher = OutputPublisherConfiguration(filter).also(configuration)
     }
 
     /**
@@ -78,7 +81,7 @@ class PublishersConfiguration(val project: Project) {
      * influxDbPublisher
      */
     fun influxDbPublisher(closure: Closure<*>) {
-        influxDbPublisher = InfluxDbPublisherConfiguration()
+        influxDbPublisher = InfluxDbPublisherConfiguration(filter)
         closure.delegate = influxDbPublisher
         closure.call()
     }
@@ -100,7 +103,7 @@ class PublishersConfiguration(val project: Project) {
      * outputPublisher
      */
     fun outputPublisher(closure: Closure<*>) {
-        outputPublisher = OutputPublisherConfiguration()
+        outputPublisher = OutputPublisherConfiguration(filter)
         closure.delegate = outputPublisher
         closure.call()
     }
