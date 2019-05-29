@@ -5,7 +5,12 @@ import groovy.lang.Closure
 
 /**
  * Configuration to specify the filters for the tasks that should be processed by the publisher.
+ * Filters included: Task Name, Module Name and Threshold duration of the execution.
  *
+ * Used in OutputConfiguration and InfluxDbConfiguration.
+ * Not used in TaskDependencyGraphConfiguration due to requirement to display dependency of the task build.
+ *
+ * Example:
  *
  *filter{
  *  tasks{
@@ -33,6 +38,9 @@ class FilterConfiguration {
      */
     var modules: StringFilter? = null
 
+    /**
+     * A range to filter the duration of execution of the task
+     */
     var threshold: ThresholdConfiguration? = null
 
     fun tasks(configuration: StringFilter.() -> Unit) {

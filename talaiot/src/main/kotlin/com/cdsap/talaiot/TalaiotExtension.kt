@@ -37,7 +37,8 @@ open class TalaiotExtension(val project: Project) {
     var metrics: MetricsConfiguration = MetricsConfiguration()
 
     /**
-     * Filtering task configuration
+     * Filtering task configuration, you can filter the reporting of the tasks
+     * by name, module and threshold time execution
      */
     var filter: FilterConfiguration? = null
 
