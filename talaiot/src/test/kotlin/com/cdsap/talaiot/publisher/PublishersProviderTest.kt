@@ -2,6 +2,8 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.logger.LogTrackerImpl
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec
@@ -10,10 +12,11 @@ import org.gradle.testfixtures.ProjectBuilder
 
 class PublishersProviderTest : BehaviorSpec({
     given("Publisher Provider") {
+        val logger = LogTrackerImpl(LogTracker.Mode.SILENT)
         `when`("No configuration is included") {
             val project = ProjectBuilder.builder().build()
             project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-            val publishersProvider = PublishersProvider(project)
+            val publishersProvider = PublishersProvider(project, logger)
             then("no publishers are  ") {
                 assert(publishersProvider.get().isEmpty())
             }
@@ -28,7 +31,7 @@ class PublishersProviderTest : BehaviorSpec({
                     dbName = ""
                 }
             }
-            val publishers = PublishersProvider(project).get()
+            val publishers = PublishersProvider(project, logger).get()
             then("instance of InfluxDbPublisher is created") {
                 publishers.forAtLeastOne {
                     it is InfluxDbPublisher
@@ -42,7 +45,7 @@ class PublishersProviderTest : BehaviorSpec({
                 outputPublisher {
                 }
             }
-            val publishers = PublishersProvider(project).get()
+            val publishers = PublishersProvider(project, logger).get()
             then("instance of OutputPublisher is created") {
                 publishers.forAtLeastOne {
                     it is OutputPublisher
@@ -57,7 +60,7 @@ class PublishersProviderTest : BehaviorSpec({
                     gexf = true
                 }
             }
-            val publishers = PublishersProvider(project).get()
+            val publishers = PublishersProvider(project, logger).get()
             then("instance of TaskDependencyGraphPublisher is created") {
                 publishers.forAtLeastOne {
                     it is TaskDependencyGraphPublisher
@@ -70,7 +73,7 @@ class PublishersProviderTest : BehaviorSpec({
             talaiotExtension.publishers {
                 customPublisher(TestPublisher())
             }
-            val publishers = PublishersProvider(project).get()
+            val publishers = PublishersProvider(project, logger).get()
             then("instance of CustomPublisher is created") {
                 publishers.forAtLeastOne {
                     it is TestPublisher
@@ -94,7 +97,7 @@ class PublishersProviderTest : BehaviorSpec({
                     dbName = ""
                 }
             }
-            val publishers = PublishersProvider(project).get()
+            val publishers = PublishersProvider(project, logger).get()
             then("instance of all publishers are created") {
                 publishers.forAll {
                     it is TestPublisher
