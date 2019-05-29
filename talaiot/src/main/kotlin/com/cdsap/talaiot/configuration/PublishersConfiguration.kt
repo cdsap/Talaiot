@@ -20,8 +20,7 @@ import org.gradle.api.Project
  * }
  */
 class PublishersConfiguration(
-    val project: Project,
-    val filter: FilterConfiguration?
+    val project: Project
 ) {
     /**
      * Access to the configuration of InfluxDbPublisher
