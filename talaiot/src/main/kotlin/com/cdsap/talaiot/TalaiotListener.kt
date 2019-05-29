@@ -1,12 +1,6 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.entities.NodeArgument
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.filter.StringFilter
-import com.cdsap.talaiot.filter.StringFilterProcessor
-import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.BuildListener
 import org.gradle.BuildResult
@@ -32,7 +26,6 @@ class TalaiotListener(
     private val extension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
 
-    private val logTracker = LogTrackerImpl(LogTracker.Mode.INFO)
     private val talaiotTracker = TalaiotTracker()
 
     override fun settingsEvaluated(settings: Settings) {
@@ -69,45 +62,12 @@ class TalaiotListener(
     }
 
     override fun beforeExecute(task: Task) {
-        if (taskLengthFilter(extension.filter, task.path))
-            talaiotTracker.startTrackingTask(task)
+        talaiotTracker.startTrackingTask(task)
     }
 
     override fun afterExecute(task: Task, state: TaskState) {
-        if (taskLengthFilter(extension.filter, task.path))
-            talaiotTracker.finishTrackingTask(task, state)
-    }
-
-    private fun taskLengthFilter(filter: FilterConfiguration?, taskPath: String): Boolean {
-        var isTaskIncluded = true
-        var isModuleIncluded = true
-        filter?.let { filter ->
-
-            filter.modules?.let { moduleFilter ->
-                isModuleIncluded = executeFilterProcessor(moduleFilter, getModule(taskPath))
-            }
-            filter.tasks?.let { taskFilter ->
-                isTaskIncluded = executeFilterProcessor(taskFilter, taskPath)
-            }
-        }
-        return isTaskIncluded && isModuleIncluded
-    }
-
-    private fun getModule(path: String): String {
-        val module = path.split(":")
-
-        return if (module.size > 2) module.toList()
-            .dropLast(1)
-            .joinToString(separator = ":")
-        else "no_module"
-    }
-
-    private fun executeFilterProcessor(
-        filter: StringFilter, argument: String
-    ): Boolean {
-        return with(StringFilterProcessor(filter, logTracker)) {
-            matches(argument)
-        }
+        talaiotTracker.finishTrackingTask(task, state)
     }
 }
+
 

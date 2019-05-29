@@ -1,11 +1,9 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.FilterConfiguration
-import com.cdsap.talaiot.configuration.Order
+import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
-import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.nhaarman.mockitokotlin2.argForWhich
 import com.nhaarman.mockitokotlin2.inOrder
@@ -16,7 +14,7 @@ class OutputPublisherTest : BehaviorSpec({
     given("OutputPublisher configuration") {
         `when`("There are no tasks tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+            val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("shouldn't print anything") {
                 outputPublisher.publish(TaskMeasurementAggregated(emptyMap(), emptyList()))
@@ -31,7 +29,7 @@ class OutputPublisherTest : BehaviorSpec({
         `when`("There are tasks tracked") {
             val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+                val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
                     emptyMap(),
@@ -68,7 +66,7 @@ class OutputPublisherTest : BehaviorSpec({
                 }
             }
             then("should apply sorting asc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+                val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
                 outputPublisherConfiguration.order = Order.DESC
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
 
@@ -109,7 +107,7 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There is task tracked with 0 length") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+            val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -130,7 +128,7 @@ class OutputPublisherTest : BehaviorSpec({
         }
         `when`("There are different time units on the task tracked") {
             val logTracker: LogTracker = mock()
-            val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+            val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print length in the correct unit") {
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -162,7 +160,7 @@ class OutputPublisherTest : BehaviorSpec({
         `when`("There are tasks tracked and the configuration of the Publisher exceeds number of tasks ") {
             val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
-                val outputPublisherConfiguration = OutputPublisherConfiguration(getFilter())
+                val outputPublisherConfiguration = OutputPublisherConfiguration(FilterConfiguration())
                 outputPublisherConfiguration.numberOfTasks = 100
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
                 val taskMeasurementAggregated = TaskMeasurementAggregated(
@@ -200,8 +198,94 @@ class OutputPublisherTest : BehaviorSpec({
                 }
             }
         }
+        `when`("Filter threshold configuration is included") {
+            val logTracker: LogTracker = mock()
+            val outputPublisherConfiguration =
+                OutputPublisherConfiguration(FilterConfiguration().getFilterWithMinThreshold())
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
+            then("should filter tasks below the threshold") {
+                val taskMeasurementAggregated = TaskMeasurementAggregated(
+                    emptyMap(),
+                    listOf(
+                        TaskLength(2_000L, "secTask", ":secTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
+                        TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
+                        TaskLength(9L, "msTask", ":msTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                    )
+                )
+                outputPublisher.publish(taskMeasurementAggregated)
+                inOrder(logTracker) {
+                    verify(logTracker).log("================")
+                    verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("================")
+                    verify(logTracker).log(argForWhich {
+                        this.contains("secTask: 2sec")
+                    })
+                    verify(logTracker).log(argForWhich {
+                        this.contains("minTask: 1min")
+                    })
+                    verifyNoMoreInteractions()
+                }
+            }
+        }
+        `when`("Filter module configuration is included") {
+            val logTracker: LogTracker = mock()
+            val outputPublisherConfiguration =
+                OutputPublisherConfiguration(FilterConfiguration().getFilterWithModuleExcludes())
+            val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
+            then(
+                "should filter modules excluded") {
+                val taskMeasurementAggregated = TaskMeasurementAggregated (
+                    emptyMap(),
+            listOf(
+                TaskLength(2_000L, "secTask", ":app", TaskMessageState.EXECUTED, true, "app", emptyList()),
+                TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED, true, "lib", emptyList()),
+                TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED, true, "lib", emptyList())
+            )
+            )
+            outputPublisher.publish(taskMeasurementAggregated)
+            inOrder(logTracker) {
+                verify(logTracker).log("================")
+                verify(logTracker).log("OutputPublisher")
+                verify(logTracker).log("================")
+                verify(logTracker).log(argForWhich {
+                    this.contains("msTask: 10ms")
+                })
+                verify(logTracker).log(argForWhich {
+                    this.contains("minTask: 1min")
+                })
+                verifyNoMoreInteractions()
+            }
+        }
     }
+    `when`("Filter task configuration is included") {
+        val logTracker: LogTracker = mock()
+        val outputPublisherConfiguration =
+            OutputPublisherConfiguration(FilterConfiguration().getFilterWithTaskExcludes())
+        val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
+        then("should filter tasks excluded") {
+            val taskMeasurementAggregated = TaskMeasurementAggregated(
+                emptyMap(),
+                listOf(
+                    TaskLength(2_000L, "clean", ":secTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
+                    TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
+                    TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                )
+            )
+            outputPublisher.publish(taskMeasurementAggregated)
+            inOrder(logTracker) {
+                verify(logTracker).log("================")
+                verify(logTracker).log("OutputPublisher")
+                verify(logTracker).log("================")
+                verify(logTracker).log(argForWhich {
+                    this.contains("msTask: 10ms")
+                })
+                verify(logTracker).log(argForWhich {
+                    this.contains("minTask: 1min")
+                })
+                verifyNoMoreInteractions()
+            }
+        }
+    }
+}
+
 })
-
-
-fun getFilter() = FilterConfiguration()

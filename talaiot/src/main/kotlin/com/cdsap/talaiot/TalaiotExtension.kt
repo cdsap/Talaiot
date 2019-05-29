@@ -34,18 +34,19 @@ open class TalaiotExtension(val project: Project) {
     /**
      * Metrics general configuration
      */
-    var metrics: MetricsConfiguration =
-        MetricsConfiguration()
+    var metrics: MetricsConfiguration = MetricsConfiguration()
 
+    /**
+     * Filtering task configuration
+     */
     var filter: FilterConfiguration? = null
-
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }
 
     fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration(project,filter).also(block)
+        publishers = PublishersConfiguration(project, filter).also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {
@@ -83,5 +84,4 @@ open class TalaiotExtension(val project: Project) {
         closure.delegate = filter
         closure.call()
     }
-
 }

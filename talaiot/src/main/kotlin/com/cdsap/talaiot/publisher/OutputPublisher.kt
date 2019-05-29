@@ -4,6 +4,7 @@ import com.cdsap.talaiot.configuration.Order
 import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import java.util.concurrent.TimeUnit
 
@@ -20,13 +21,18 @@ class OutputPublisher(
      */
     private val logTracker: LogTracker
 ) : Publisher {
+
+    val filtering = TaskFilterProcessor(logTracker, outputPublisherConfiguration.filter)
+
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         logTracker.log("================")
         logTracker.log("OutputPublisher")
         logTracker.log("================")
 
         taskMeasurementAggregated.apply {
-            val orderedTiming = sort(taskMeasurement, outputPublisherConfiguration.order)
+            val tasksFiltered = taskMeasurement.filter { filtering.taskLengthFilter(it) }
+
+            val orderedTiming = sort(tasksFiltered, outputPublisherConfiguration.order)
             if (!orderedTiming.isEmpty()) {
                 val max = when (outputPublisherConfiguration.order) {
                     Order.ASC -> orderedTiming.last().ms
