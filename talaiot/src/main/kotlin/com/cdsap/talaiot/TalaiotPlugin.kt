@@ -1,8 +1,9 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
-import com.cdsap.talaiot.publisher.*
+import com.cdsap.talaiot.provider.MetricsProvider
+import com.cdsap.talaiot.provider.PublishersProvider
+import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -33,8 +34,16 @@ class TalaiotPlugin : Plugin<Project> {
      * @param project Gradle project used to to retrieve properties or general configurations.
      */
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
-        val publisher = TalaiotPublisherImpl(project, LogTrackerImpl(extension.logger))
-        val listener = TalaiotListener(publisher, extension)
+        val logger = LogTrackerImpl(extension.logger)
+        val metrics = MetricsProvider(project)
+        val publishers = PublishersProvider(project, logger)
+        val talaiotPublisher = TalaiotPublisherImpl(
+            project,
+            logger,
+            metrics,
+            publishers
+        )
+        val listener = TalaiotListener(talaiotPublisher, extension)
         project.gradle.addBuildListener(listener)
     }
 }

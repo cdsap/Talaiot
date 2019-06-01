@@ -4,6 +4,7 @@ import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.provider.PublishersProvider
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec

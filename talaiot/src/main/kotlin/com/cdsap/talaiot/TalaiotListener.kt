@@ -52,8 +52,8 @@ class TalaiotListener(
 
     override fun projectsEvaluated(gradle: Gradle) {
         gradle.startParameter.taskRequests.forEach {
-            it.args.forEach {
-                talaiotTracker.queue.add(NodeArgument(it, 0, 0))
+            it.args.forEach { task ->
+                talaiotTracker.queue.add(NodeArgument(task, 0, 0))
             }
         }
         if (talaiotTracker.queue.isNotEmpty()) {

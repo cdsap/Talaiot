@@ -8,7 +8,6 @@ import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
 import com.cdsap.talaiot.writer.DefaultWriter
 import com.cdsap.talaiot.writer.DotWriter
-import org.gradle.api.Project
 import java.util.concurrent.Executor
 
 /**
@@ -17,17 +16,13 @@ import java.util.concurrent.Executor
  */
 class TaskDependencyGraphPublisher(
     /**
-     * Gradle Project used to retrieve build and root information
-     */
-    val project: Project,
-    /**
      * General configuration for the publisher
      */
     private val graphConfiguration: TaskDependencyGraphConfiguration,
     /**
      * LogTracker to print in console depending on the Mode
      */
-    val logTracker: LogTracker,
+    private val logTracker: LogTracker,
     /**
      * Executor to schedule a task in Background
      */

@@ -102,8 +102,8 @@ abstract class DefaultDiskPublisher(
                     taskLength.state == TaskMessageState.FROM_CACHE
                 )
             }
-            it.taskDependencies.forEach {
-                edges += formatEdge(from = dependency.internalId, to = dependencies[it]?.internalId)
+            it.taskDependencies.forEach { task ->
+                edges += formatEdge(from = dependency.internalId, to = dependencies[task]?.internalId)
             }
 
             count++
