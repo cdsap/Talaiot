@@ -1,14 +1,7 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.configuration.getFilterWithMinThreshold
-import com.cdsap.talaiot.configuration.getFilterWithMinMaxThreshold
-import com.cdsap.talaiot.configuration.getFilterWithTaskIncludes
-import com.cdsap.talaiot.configuration.getFilterWithTaskExcludes
-import com.cdsap.talaiot.configuration.getFilterWithTaskExcludesAndIncludes
-import com.cdsap.talaiot.configuration.getFilterWithModuleIncludes
-import com.cdsap.talaiot.configuration.getFilterWithModuleExcludes
+
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated

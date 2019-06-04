@@ -1,9 +1,11 @@
 package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
-import com.cdsap.talaiot.publisher.TalaiotPublisher
+import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import org.gradle.BuildListener
 import org.gradle.BuildResult
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
@@ -19,7 +21,7 @@ class TalaiotListener(
     /**
      * Talaiot Publisher with the information of metrics and publishers defined in the configuration
      */
-    val talaiotPublisher: TalaiotPublisher,
+    val project: Project,
     /**
      * Extension with the main configuration of the plugin
      */
@@ -33,7 +35,11 @@ class TalaiotListener(
 
     override fun buildFinished(result: BuildResult) {
         if (shouldPublish()) {
-            talaiotPublisher.publish(talaiotTracker.taskLengthList)
+            TalaiotPublisherImpl(
+                project,
+                extension,
+                LogTrackerImpl(extension.logger)
+            ).publish(talaiotTracker.taskLengthList)
         }
     }
 

@@ -19,13 +19,14 @@ import org.gradle.api.Project
  */
 class TalaiotPublisherImpl(
     val project: Project,
+    extension: TalaiotExtension,
     val logger: LogTracker
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor
 
     init {
-        val extension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
         taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+
     }
 
     override fun provideMetrics(): Map<String, String> = MetricsProvider(project).get()

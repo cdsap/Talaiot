@@ -7,7 +7,7 @@ class LogTrackerImpl(
     /**
      * Mode applied to the logger
      */
-    private val mode: LogTracker.Mode = LogTracker.Mode.SILENT
+    private val mode: LogTracker.Mode = LogTracker.Mode.INFO
 ) : LogTracker {
 
 
