@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.request.SimpleRequest
@@ -14,7 +15,9 @@ class PublishersProvider(
     /**
      * Gradle Project used to retrieve the extension
      */
-    val project: Project
+    val project: Project,
+    val logger: LogTracker
+
 ) {
 
     /**
@@ -25,7 +28,6 @@ class PublishersProvider(
     fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-        val logger = LogTrackerImpl(talaiotExtension.logger)
         val executor = Executors.newSingleThreadExecutor()
 
         talaiotExtension.publishers?.apply {

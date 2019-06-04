@@ -2,7 +2,6 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
@@ -28,8 +27,6 @@ class InfluxDbPublisher(
      */
     private val executor: Executor
 ) : Publisher {
-
-    val filtering = TaskFilterProcessor(logTracker,influxDbPublisherConfiguration.filter)
 
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         logTracker.log("================")
@@ -61,7 +58,6 @@ class InfluxDbPublisher(
                     metrics += "$tag=$tagValue,"
                 }
                 taskMeasurement
-                    .filter { filtering.taskLengthFilter(it) }
                     .forEach {
                         content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
                                 ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"

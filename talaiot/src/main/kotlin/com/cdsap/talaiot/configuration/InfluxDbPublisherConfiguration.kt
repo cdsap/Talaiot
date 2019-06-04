@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.configuration
 
+import com.cdsap.talaiot.publisher.Publisher
 import groovy.lang.Closure
 
 /**
@@ -11,7 +12,7 @@ import groovy.lang.Closure
  *    urlMetric = "tracking*
  * }
  */
-class InfluxDbPublisherConfiguration(override var filter: FilterConfiguration?) : PublisherFilteredConfiguration {
+class InfluxDbPublisherConfiguration : PublisherConfiguration {
 
     /**
      * name of the publisher
