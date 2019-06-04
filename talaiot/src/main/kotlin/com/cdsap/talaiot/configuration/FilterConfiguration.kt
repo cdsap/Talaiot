@@ -5,8 +5,12 @@ import groovy.lang.Closure
 
 /**
  * Configuration to specify the filters for the tasks that should be processed by the publisher.
+ * Filters included: Task Name, Module Name and Threshold duration of the execution.
  *
- * Initially used in the InfluxDB Publisher
+ * Used in OutputConfiguration and InfluxDbConfiguration.
+ * Not used in TaskDependencyGraphConfiguration due to requirement to display dependency of the task build.
+ *
+ * Example:
  *
  *filter{
  *  tasks{
@@ -16,6 +20,10 @@ import groovy.lang.Closure
  *  modules{
  *      includes = arrayOf("feature.*")
  *      excludes = arrayOf("utils.*")
+ *  }
+ *  threshold{
+ *      maxValue = 3000
+ *      minValue = 10
  *  }
  * }
  */
@@ -31,6 +39,10 @@ class FilterConfiguration {
      */
     var modules: StringFilter? = null
 
+    /**
+     * A range to filter the duration of execution of the task
+     */
+    var threshold: ThresholdConfiguration? = null
 
     fun tasks(configuration: StringFilter.() -> Unit) {
         tasks = StringFilter().also(configuration)
@@ -50,6 +62,16 @@ class FilterConfiguration {
     fun modules(closure: Closure<*>) {
         modules = StringFilter()
         closure.delegate = modules
+        closure.call()
+    }
+
+    fun threshold(configuration: ThresholdConfiguration.() -> Unit) {
+        threshold = ThresholdConfiguration().also(configuration)
+    }
+
+    fun threshold(closure: Closure<*>) {
+        threshold = ThresholdConfiguration()
+        closure.delegate = threshold
         closure.call()
     }
 }

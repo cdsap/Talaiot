@@ -1,11 +1,19 @@
 package com.cdsap.talaiot.publisher
 
+import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.configuration.getFilterWithMinThreshold
+import com.cdsap.talaiot.configuration.getFilterWithMinMaxThreshold
+import com.cdsap.talaiot.configuration.getFilterWithTaskIncludes
+import com.cdsap.talaiot.configuration.getFilterWithTaskExcludes
+import com.cdsap.talaiot.configuration.getFilterWithTaskExcludesAndIncludes
+import com.cdsap.talaiot.configuration.getFilterWithModuleIncludes
+import com.cdsap.talaiot.configuration.getFilterWithModuleExcludes
+
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.request.Request
 import io.kotlintest.specs.BehaviorSpec
@@ -16,7 +24,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
         val logger = TestLogTrackerRecorder
 
         `when`("There is configuration with metrics and tasks ") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
@@ -43,7 +51,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There is configuration without metrics and tasks ") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
@@ -65,7 +73,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
             }
         }
         `when`("There is configuration with metrics and tags not supported by Line Protocol") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
@@ -90,14 +98,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There is a min threshold defined for one task") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                threshold {
-                    minExecutionTime = 10
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithMinThreshold()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -120,14 +126,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There is a min threshold defined for more than one task affecting only one") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                threshold {
-                    minExecutionTime = 10
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithMinThreshold()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -155,14 +159,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There max a min threshold defined for one task") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                threshold {
-                    maxExecutionTime = 100
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithMinMaxThreshold()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -185,14 +187,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("There is a max threshold defined for more than one task affecting only one") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                threshold {
-                    maxExecutionTime = 100
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithMinMaxThreshold()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -203,69 +203,27 @@ class InfluxDbPublisherTest : BehaviorSpec({
                     taskMeasurementAggregated = TaskMeasurementAggregated(
                         getMetrics(), listOf(
                             TaskLength(
-                                1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                12, "clean", ":clean", TaskMessageState.EXECUTED, false,
                                 "app", emptyList()
                             ),
                             TaskLength(
-                                120, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
+                                130, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
                                 "app", emptyList()
                             )
                         )
                     )
                 )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
-                assert(testRequest.url == "http://localhost:666/write?db=db")
-
-            }
-        }
-
-        `when`("There is a max and min threshold defined") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                threshold {
-                    maxExecutionTime = 100
-                    minExecutionTime = 10
-                }
-            }
-            val testRequest = TestRequest(logger)
-            val influxDbPublisher = InfluxDbPublisher(
-                influxDbConfiguration, logger, testRequest, TestExecutor()
-            )
-
-            then(" just one task is processed because is it in the range ") {
-                influxDbPublisher.publish(
-                    taskMeasurementAggregated = TaskMeasurementAggregated(
-                        getMetrics(), listOf(
-                            TaskLength(
-                                50, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                "app", emptyList()
-                            ),
-                            TaskLength(
-                                120, "clean2", ":clean2", TaskMessageState.EXECUTED, false,
-                                "app", emptyList()
-                            ),
-                            TaskLength(
-                                9, "clean3", ":clean3", TaskMessageState.EXECUTED, false,
-                                "app", emptyList()
-                            )
-                        )
-                    )
-                )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=50\n")
+                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=12\n")
                 assert(testRequest.url == "http://localhost:666/write?db=db")
 
             }
         }
 
         `when`("There is a threshold configuration but not ranges defined") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
-                threshold {
-                }
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
@@ -302,15 +260,10 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("negatives values are defined in the threshold configuration") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
-                threshold {
-                    minExecutionTime = -10
-                    maxExecutionTime = -5
-                }
-
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
@@ -347,13 +300,10 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("empty filter configuration is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+            val influxDbConfiguration = InfluxDbPublisherConfiguration(FilterConfiguration()).apply {
                 dbName = "db"
                 url = "http://localhost:666"
                 urlMetric = "log"
-                filter {
-
-                }
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
@@ -390,16 +340,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("includes filter configuration for tasks is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                filter {
-                    tasks {
-                        includes = arrayOf("clean.*")
-                    }
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithTaskIncludes()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -434,16 +380,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("excludes filter configuration for tasks is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                filter {
-                    tasks {
-                        excludes = arrayOf("clean.*")
-                    }
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithTaskExcludes()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -477,17 +419,13 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("excludes and includes filter configurations (with same values) for tasks is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                filter {
-                    tasks {
-                        excludes = arrayOf("clean.*")
-                        includes = arrayOf("cle.*")
-                    }
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithTaskExcludesAndIncludes()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
+
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -521,16 +459,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("includes filter configuration for modules is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                filter {
-                    modules {
-                        includes = arrayOf("app")
-                    }
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithModuleIncludes()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()
@@ -564,16 +498,12 @@ class InfluxDbPublisherTest : BehaviorSpec({
         }
 
         `when`("excludes filter configuration for modules is provided") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                urlMetric = "log"
-                filter {
-                    modules {
-                        excludes = arrayOf("app")
-                    }
+            val influxDbConfiguration =
+                InfluxDbPublisherConfiguration(FilterConfiguration().getFilterWithModuleExcludes()).apply {
+                    dbName = "db"
+                    url = "http://localhost:666"
+                    urlMetric = "log"
                 }
-            }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
                 influxDbConfiguration, logger, testRequest, TestExecutor()

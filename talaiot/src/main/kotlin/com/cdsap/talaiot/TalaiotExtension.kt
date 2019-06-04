@@ -1,5 +1,6 @@
 package com.cdsap.talaiot
 
+import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.configuration.MetricsConfiguration
@@ -29,19 +30,24 @@ open class TalaiotExtension(val project: Project) {
      * Configuration for ignoring the execution of the plugin in the build
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
-    
+
     /**
      * Metrics general configuration
      */
-    var metrics: MetricsConfiguration =
-        MetricsConfiguration()
+    var metrics: MetricsConfiguration = MetricsConfiguration()
+
+    /**
+     * Filtering task configuration, you can filter the reporting of the tasks
+     * by name, module and threshold time execution
+     */
+    var filter: FilterConfiguration? = null
 
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }
 
     fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration(project).also(block)
+        publishers = PublishersConfiguration(project, filter).also(block)
     }
 
     fun metrics(block: MetricsConfiguration.() -> Unit) {
@@ -49,7 +55,7 @@ open class TalaiotExtension(val project: Project) {
     }
 
     fun publishers(closure: Closure<*>) {
-        publishers = PublishersConfiguration(project)
+        publishers = PublishersConfiguration(project, filter)
         closure.delegate = publishers
         closure.call()
     }
@@ -69,4 +75,14 @@ open class TalaiotExtension(val project: Project) {
         closure.call()
     }
 
+
+    fun filter(configuration: FilterConfiguration.() -> Unit) {
+        filter = FilterConfiguration().also(configuration)
+    }
+
+    fun filter(closure: Closure<*>) {
+        filter = FilterConfiguration()
+        closure.delegate = filter
+        closure.call()
+    }
 }
