@@ -114,6 +114,42 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
         }
 
+        `when`("one filter has been configur2222ed") {
+            val project: Project = mock()
+            val extension = TalaiotExtension(project).apply {
+                filter {
+                    tasks {
+                        excludes = arrayOf("taskA")
+                    }
+                }
+                publishers {
+                    outputPublisher
+                    influxDbPublisher {
+                        dbName = "db"
+                        url = ""
+                        urlMetric = ""
+                    }
+                }
+
+                metricsConfiguration()
+            }
+            setUpMockExtension(project, extension)
+
+            val publishers: Provider<List<Publisher>> = mock()
+            val influxDbPublisher: Publisher = mock()
+            val graph: TaskDependencyGraphPublisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(graph))
+
+            TalaiotPublisherImpl(project, logger, getMetricsProvider(), publishers).publish(getTasks())
+
+            then("two publishers are processed and one task has been filtered ") {
+                assert(publishers.get().size == 1)
+                verify(publishers.get()[0]).publish(argThat {
+                    this.taskMeasurement.size == 2
+                })
+            }
+        }
+
 
         // TODO
         // CHECK IF IS POSSIBLE MOCK OR STUB A CONVRETE IMPLEMENTATION OF THE PUBLISHER TO FIT

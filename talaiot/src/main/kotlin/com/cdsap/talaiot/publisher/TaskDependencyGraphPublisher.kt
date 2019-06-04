@@ -14,7 +14,7 @@ import java.util.concurrent.Executor
  * Publisher used to export the task dependency graph in a DAG with different formats.
  * Current formats supported: Html, Gexf and PNG(dot format)
  */
-class TaskDependencyGraphPublisher(
+open class TaskDependencyGraphPublisher(
     /**
      * General configuration for the publisher
      */

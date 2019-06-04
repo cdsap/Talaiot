@@ -19,7 +19,7 @@ import org.gradle.api.Project
  */
 class TalaiotPublisherImpl(
     project: Project,
-    val logger: LogTracker,
+    logger: LogTracker,
     private val metricsProvider: Provider<Map<String, String>>,
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
