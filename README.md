@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.2.0) ](https://bintray.com/cdsap/maven/talaiot/0.2.0/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.3.0) ](https://bintray.com/cdsap/maven/talaiot/0.3.0/link)
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
@@ -57,6 +57,11 @@ talaiot {
         gitMetrics = false
         performanceMetrics = false
     }
+    filter {
+        threshold {
+            minExecutionTime = 10
+        }
+    }
 }
 ````
 This example adds the `InfluxDbPublisher` with the information of the InfluxDb Server where it will be posted the information tracked.
@@ -71,6 +76,7 @@ Additionally, we are disabling the metrics for Git and Performance.
 | generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
 | publishers     | Configuration to define where to submit the information of the build      |
 | metrics        | Additional information tracked during the execution of the task           |
+| filter         | Rules to filter the tasks to be reported                                  |
 
     
 ### Publishers
@@ -164,6 +170,33 @@ talaiot {
 }
 ````
  
+ ### Filters
+ For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
+ 
+ 
+ | Property      |      Description                                                                           |
+ |---------------|--------------------------------------------------------------------------------------------|
+ | tasks         |Configuration used to filter which tasks we want to exclude and include in the execution    |
+ | module        |Configuration used to filter which tasks we want to exclude and include in the execution    |
+ | threshold     |Configuration used to define time execution ranges to filter tasks to be reported           |
+ 
+ 
+ Example:
+ ```
+  filter {
+      tasks {
+          excludes = arrayOf("preDebugBuild", "processDebugResources")
+      }
+      modules {
+          excludes = arrayOf(":app")
+      }
+      threshold {
+          minExecutionTime = 10
+      }
+  }
+ ```
+
+ 
  ### IgnoreWhen
 
 | Property   |      Description      |
@@ -226,9 +259,6 @@ talaiot {
             dbName = "tracking"
             url = "http://localhost:8086"
             urlMetric = "tracking"
-            threshold {
-               minExecutionTime = 10
-            }
         }
     }
 }
