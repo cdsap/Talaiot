@@ -298,6 +298,18 @@ is great and you have the support from Gradle :)
 
 * [Kuronometer](https://github.com/pedrovgs/Kuronometer) Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)
 
+## Docs
+
+[Docs](https://cdsap.github.io/Talaiot/)
+
+## Articles
+ 
+[Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
+ 
+[Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
+
+[Graphs, Gradle and Talaiot](https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1)
+
 
 ## Contributing
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
@@ -311,15 +323,6 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 * [Iñaki Villar](https://github.com/cdsap/)
 
 
-## Articles
- 
-[Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
- 
-[Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
-
-[Graphs, Gradle and Talaiot](https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1)
-
-
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
 
@@ -330,3 +333,5 @@ Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-
 [Kohttp Library](https://github.com/rybalkinsd/kohttp)
 
 [Graphviz-java Library](https://github.com/nidi3/graphviz-java)
+
+[Orchid](https://orchid.netlify.com/)
