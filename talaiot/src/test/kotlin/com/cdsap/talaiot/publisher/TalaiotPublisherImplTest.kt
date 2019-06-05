@@ -34,7 +34,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
 
             val publisher = TalaiotPublisherImpl(
-                project, logger, getMetricsProvider(), publishers
+                extension, logger, getMetricsProvider(), publishers
             )
             publisher.publish(
                 mutableListOf(getSingleTask())
@@ -68,7 +68,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(project, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
@@ -104,7 +104,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val influxDbPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(project, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
@@ -140,7 +140,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val graph: TaskDependencyGraphPublisher = mock()
             whenever(publishers.get()).thenReturn(listOf(graph))
 
-            TalaiotPublisherImpl(project, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 1)

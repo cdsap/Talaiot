@@ -24,6 +24,7 @@ import groovy.lang.Closure
  *  threshold{
  *      maxValue = 3000
  *      minValue = 10
+ *  }
  * }
  */
 class FilterConfiguration {

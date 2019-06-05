@@ -6,7 +6,6 @@ import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
-import org.gradle.api.Project
 
 /**
  * Implementation of TalaiotPublisher.
@@ -18,23 +17,20 @@ import org.gradle.api.Project
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    project: Project,
+    extension: TalaiotExtension,
     logger: LogTracker,
     private val metricsProvider: Provider<Map<String, String>>,
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
-    private val taskFilterProcessor: TaskFilterProcessor
-
-    init {
-        val extension: TalaiotExtension? = project.extensions.getByType(TalaiotExtension::class.java)
-        taskFilterProcessor = TaskFilterProcessor(logger, extension?.filter)
-    }
+    private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
 
     override fun publish(taskLengthList: MutableList<TaskLength>) {
+
         val taskLengthListFiltered = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         val metrics = metricsProvider.get()
         val aggregatedData = TaskMeasurementAggregated(metrics, taskLengthList)
         val aggregatedDataFiltered = TaskMeasurementAggregated(metrics, taskLengthListFiltered)
+
         publisherProvider.get().forEach {
             if (it is TaskDependencyGraphPublisher) {
                 it.publish(aggregatedData)

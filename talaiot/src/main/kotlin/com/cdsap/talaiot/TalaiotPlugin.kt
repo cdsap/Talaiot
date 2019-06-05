@@ -34,16 +34,7 @@ class TalaiotPlugin : Plugin<Project> {
      * @param project Gradle project used to to retrieve properties or general configurations.
      */
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
-        val logger = LogTrackerImpl(extension.logger)
-        val metrics = MetricsProvider(project)
-        val publishers = PublishersProvider(project, logger)
-        val talaiotPublisher = TalaiotPublisherImpl(
-            project,
-            logger,
-            metrics,
-            publishers
-        )
-        val listener = TalaiotListener(talaiotPublisher, extension)
+        val listener = TalaiotListener(project, extension)
         project.gradle.addBuildListener(listener)
     }
 }

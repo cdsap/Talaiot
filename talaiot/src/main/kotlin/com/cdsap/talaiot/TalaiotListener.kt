@@ -1,9 +1,13 @@
 package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
-import com.cdsap.talaiot.publisher.TalaiotPublisher
+import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.provider.MetricsProvider
+import com.cdsap.talaiot.provider.PublishersProvider
+import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import org.gradle.BuildListener
 import org.gradle.BuildResult
+import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
@@ -17,9 +21,9 @@ import org.gradle.api.tasks.TaskState
  */
 class TalaiotListener(
     /**
-     * Talaiot Publisher with the information of metrics and publishers defined in the configuration
+     * Gradle project required to access the properties
      */
-    val talaiotPublisher: TalaiotPublisher,
+    val project: Project,
     /**
      * Extension with the main configuration of the plugin
      */
@@ -33,13 +37,19 @@ class TalaiotListener(
 
     override fun buildFinished(result: BuildResult) {
         if (shouldPublish()) {
-            talaiotPublisher.publish(talaiotTracker.taskLengthList)
+            val logger = LogTrackerImpl(extension.logger)
+            TalaiotPublisherImpl(
+                extension,
+                logger,
+                MetricsProvider(project),
+                PublishersProvider(project, logger)
+            ).publish(talaiotTracker.taskLengthList)
         }
     }
 
     /**
      * it checks if the executions has to be published, checking the  main ignoreWhen configuration and the
-     * state of the tracker.
+     * state of the tracker
      */
     private fun shouldPublish() = ((extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false)
             && talaiotTracker.isTracking)
@@ -59,6 +69,7 @@ class TalaiotListener(
         if (talaiotTracker.queue.isNotEmpty()) {
             talaiotTracker.initNodeArgument()
         }
+
     }
 
     override fun beforeExecute(task: Task) {
