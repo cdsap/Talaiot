@@ -177,7 +177,7 @@ talaiot {
  | Property      |      Description                                                                           |
  |---------------|--------------------------------------------------------------------------------------------|
  | tasks         |Configuration used to filter which tasks we want to exclude and include in the execution    |
- | module        |Configuration used to filter which tasks we want to exclude and include in the execution    |
+ | module        |Configuration used to filter which modules we want to exclude and include in the execution  |
  | threshold     |Configuration used to define time execution ranges to filter tasks to be reported           |
  
  
