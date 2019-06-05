@@ -136,7 +136,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             setUpMockExtension(project, extension)
 
             val publishers: Provider<List<Publisher>> = mock()
-            val influxDbPublisher: Publisher = mock()
             val graph: TaskDependencyGraphPublisher = mock()
             whenever(publishers.get()).thenReturn(listOf(graph))
 
@@ -149,12 +148,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 })
             }
         }
-
-
-        // TODO
-        // CHECK IF IS POSSIBLE MOCK OR STUB A CONVRETE IMPLEMENTATION OF THE PUBLISHER TO FIT
-        // THE COVERAGE(taskGradleDepenedencyGraph)
-
     }
 
 })
