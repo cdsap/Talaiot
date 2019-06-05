@@ -2,6 +2,8 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.provider.MetricsProvider
+import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import org.gradle.BuildListener
 import org.gradle.BuildResult
@@ -19,7 +21,7 @@ import org.gradle.api.tasks.TaskState
  */
 class TalaiotListener(
     /**
-     * Talaiot Publisher with the information of metrics and publishers defined in the configuration
+     * Gradle project required to access the properties
      */
     val project: Project,
     /**
@@ -35,17 +37,19 @@ class TalaiotListener(
 
     override fun buildFinished(result: BuildResult) {
         if (shouldPublish()) {
+            val logger = LogTrackerImpl(extension.logger)
             TalaiotPublisherImpl(
-                project,
                 extension,
-                LogTrackerImpl(extension.logger)
+                logger,
+                MetricsProvider(project),
+                PublishersProvider(project, logger)
             ).publish(talaiotTracker.taskLengthList)
         }
     }
 
     /**
      * it checks if the executions has to be published, checking the  main ignoreWhen configuration and the
-     * state of the tracker.
+     * state of the tracker
      */
     private fun shouldPublish() = ((extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false)
             && talaiotTracker.isTracking)
@@ -58,13 +62,14 @@ class TalaiotListener(
 
     override fun projectsEvaluated(gradle: Gradle) {
         gradle.startParameter.taskRequests.forEach {
-            it.args.forEach {
-                talaiotTracker.queue.add(NodeArgument(it, 0, 0))
+            it.args.forEach { task ->
+                talaiotTracker.queue.add(NodeArgument(task, 0, 0))
             }
         }
         if (talaiotTracker.queue.isNotEmpty()) {
             talaiotTracker.initNodeArgument()
         }
+
     }
 
     override fun beforeExecute(task: Task) {

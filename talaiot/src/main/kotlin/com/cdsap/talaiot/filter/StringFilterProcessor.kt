@@ -16,19 +16,19 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
         }
 
         //No config provided
-        if (includes == -1 && excludes == -1)
-            return true
+        return if (includes == -1 && excludes == -1)
+            true
         //Includes not provided,excludes provided
         else if (includes == -1 && excludes > -1)
-            return excludes == 0
+            excludes == 0
         //Excludes not provided , includes provided
         else if (excludes == -1 && includes > -1)
-            return includes == 1
+            includes == 1
         //Excludes and includes provided
         else {
             if (excludes == 1 && includes == 1)
                 logTracker.log("$string matches with inclusion and exclusion filter")
-            return includes == 1 && excludes == 0
+            includes == 1 && excludes == 0
         }
 
 

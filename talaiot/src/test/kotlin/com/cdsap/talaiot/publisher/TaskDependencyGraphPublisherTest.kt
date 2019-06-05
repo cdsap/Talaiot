@@ -176,7 +176,6 @@ private fun getGraphPublisher(
     doNothing().`when`(publisher).publish(any())
 
     return TaskDependencyGraphPublisher(
-        project,
         taskDependencyGraphPublisherConfiguration,
         logger,
         testExecutor,

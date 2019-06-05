@@ -1,7 +1,5 @@
 package com.cdsap.talaiot
 
-import com.cdsap.talaiot.logger.LogTrackerImpl
-import com.cdsap.talaiot.publisher.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

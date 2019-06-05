@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.metrics
 
 import org.gradle.api.Project
-import java.lang.IllegalStateException
 
 /**
  * GradleMetrics provided for the builds.

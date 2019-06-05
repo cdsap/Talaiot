@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.provider.MetricsProvider
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder

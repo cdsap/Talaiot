@@ -1,6 +1,7 @@
-package com.cdsap.talaiot.metrics
+package com.cdsap.talaiot.provider
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.metrics.*
 import org.gradle.api.Project
 
 /**
@@ -11,7 +12,7 @@ class MetricsProvider(
      * Gradle project required to access to the TalaiotExtension
      */
     private val project: Project
-) {
+) : Provider<Map<String, String>> {
 
     /**
      * Aggregates all metrics depending if there are enabled in the MetricsConfiguration.
@@ -19,9 +20,14 @@ class MetricsProvider(
      *
      * @return collection of Pairs.
      */
-    fun get(): Map<String, String> {
+    override fun get(): Map<String, String> {
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-        val metrics = mutableListOf<Metrics>(BaseMetrics(project, talaiotExtension.generateBuildId))
+        val metrics = mutableListOf<Metrics>(
+            BaseMetrics(
+                project,
+                talaiotExtension.generateBuildId
+            )
+        )
         talaiotExtension.metrics.apply {
             if (gitMetrics) {
                 metrics.add(GitMetrics())
