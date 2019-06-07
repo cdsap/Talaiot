@@ -94,5 +94,4 @@ class TemporaryFolder {
         }
         file.delete()
     }
-
 }
