@@ -23,17 +23,13 @@ gradlePlugin {
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
-            
+
             api("io.github.rybalkinsd:kohttp:0.8.0")
             api("guru.nidi:graphviz-java:0.8.3")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation(gradleTestKit())
             testImplementation("junit:junit:4.12")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            testImplementation("org.spockframework:spock-core:1.1-groovy-2.4") {
-                exclude(module = "groovy-all")
-            }
-
         }
     }
 }
@@ -117,21 +113,4 @@ repositories {
     mavenCentral()
     google()
     mavenLocal()
-}
-
-
-tasks.register("createClasspathManifest") {
-    val outputDir = file("$buildDir/$name")
-
-    inputs.files(sourceSets.main.get().runtimeClasspath)
-    outputs.dir(outputDir)
-
-    doLast {
-        outputDir.mkdirs()
-        file("$outputDir/plugin-classpath.txt").writeText(sourceSets.main.get().runtimeClasspath.joinToString("\n"))
-    }
-}
-
-dependencies {
-    testRuntimeOnly(files(tasks["createClasspathManifest"]))
 }
