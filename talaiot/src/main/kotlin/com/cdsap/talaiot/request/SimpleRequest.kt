@@ -14,14 +14,18 @@ class SimpleRequest(mode: LogTracker) : Request {
 
     override fun send(url: String, content: String) {
         val urlSpec = URL(url)
+        println("1")
+        println(url)
         logTracker.log(url)
         try {
             val query = urlSpec.query.split("=")
             httpPost {
                 url(urlSpec)
 
-                param {
-                    query[0] to query[1]
+                if (query.isNotEmpty()) {
+                    param {
+                        query[0] to query[1]
+                    }
                 }
 
                 body {
@@ -31,6 +35,7 @@ class SimpleRequest(mode: LogTracker) : Request {
                 logTracker.log(it.message())
             }
         } catch (e: Exception) {
+            println("error")
             logTracker.log(e.message ?: "error requesting $url")
         }
     }

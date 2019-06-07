@@ -31,6 +31,10 @@ class PublishersConfiguration(
      */
     var outputPublisher: OutputPublisherConfiguration? = null
     /**
+     * Access to the configuration of OutputPublisher
+     */
+    var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
+    /**
      * Access to the configuration of TaskDependencyGraphPublisher
      */
     var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
@@ -55,6 +59,10 @@ class PublishersConfiguration(
      */
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
         influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
+    }
+
+    fun pushGatewayPublisher(configuration: PushGatewayPublisherConfiguration.() -> Unit) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration().also(configuration)
     }
 
     /**

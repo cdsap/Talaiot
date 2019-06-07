@@ -2,11 +2,8 @@ package com.cdsap.talaiot.provider
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
-import com.cdsap.talaiot.publisher.InfluxDbPublisher
-import com.cdsap.talaiot.publisher.OutputPublisher
-import com.cdsap.talaiot.publisher.Publisher
-import com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors
@@ -57,6 +54,16 @@ class PublishersProvider(
                         logger,
                         executor,
                         GraphPublisherFactoryImpl()
+                    )
+                )
+            }
+            pushGatewayPublisher?.apply {
+                publishers.add(
+                    PushGatewayPublisher(
+                        this,
+                        logger,
+                        SimpleRequest(logger),
+                        executor
                     )
                 )
             }
