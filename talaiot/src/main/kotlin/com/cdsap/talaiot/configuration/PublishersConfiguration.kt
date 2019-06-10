@@ -114,4 +114,10 @@ class PublishersConfiguration(
         closure.delegate = outputPublisher
         closure.call()
     }
+
+    fun pushGatewayPublisher(closure: Closure<*>) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration()
+        closure.delegate = pushGatewayPublisher
+        closure.call()
+    }
 }

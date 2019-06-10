@@ -19,14 +19,13 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                    publishers {
-                      pushGatewayPublisher {
-                           url = "http://localhost:9091"
-                           jobName = "tracking"
-                      }
-                  }
-               }
+                     publishers {
+                         pushGatewayPublisher {
+                             url = "http://localhost:9091"
+                             nameJob = "tracking"
+                    }
+                }
+            }
             """
             )
             val result = GradleRunner.create()

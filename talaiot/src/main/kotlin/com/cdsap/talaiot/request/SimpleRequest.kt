@@ -16,19 +16,23 @@ class SimpleRequest(mode: LogTracker) : Request {
         val urlSpec = URL(url)
         println("1")
         println(url)
+        println("aloaoaoaoa")
+
         logTracker.log(url)
         try {
-            val query = urlSpec.query.split("=")
+          //  val query = urlSpec.query.split("=")
             httpPost {
                 url(urlSpec)
 
-                if (query.isNotEmpty()) {
-                    param {
-                        query[0] to query[1]
-                    }
-                }
+//                if (query.isNotEmpty()) {
+//                    param {
+//                        query[0] to query[1]
+//                    }
+//                }
 
                 body {
+                    println(content)
+
                     string(content)
                 }
             }.also {
@@ -36,6 +40,8 @@ class SimpleRequest(mode: LogTracker) : Request {
             }
         } catch (e: Exception) {
             println("error")
+           // logTracker.log("${e.toString()}")
+            logTracker.log("${e.stackTrace.toString()}")
             logTracker.log(e.message ?: "error requesting $url")
         }
     }
