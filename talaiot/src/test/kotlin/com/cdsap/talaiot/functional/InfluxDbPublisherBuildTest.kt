@@ -9,7 +9,6 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with InfluxDbPublisher") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """

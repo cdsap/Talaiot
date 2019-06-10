@@ -5,13 +5,13 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import java.io.File
 
-class TaskDependencyGraphPublisherTest : BehaviorSpec({
+class DependencyGraphPublisherTest : BehaviorSpec({
+
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with TaskDependencyGraph") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
-            val buildFile = testProjectDir.newFile("build.gradle")
+            var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """
                    plugins {
@@ -19,16 +19,17 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                       id 'talaiot'
                    }
 
-                  talaiot{
-                     publishers {
+                  talaiot {
+                    publishers {
                       taskDependencyGraphPublisher {
                           html = true
                           gexf = true
                       }
+                    }
                   }
-               }
             """
             )
+
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble")

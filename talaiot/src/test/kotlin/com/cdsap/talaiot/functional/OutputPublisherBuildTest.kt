@@ -9,7 +9,6 @@ class OutputPublisherBuildTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with OutputPublisher") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """

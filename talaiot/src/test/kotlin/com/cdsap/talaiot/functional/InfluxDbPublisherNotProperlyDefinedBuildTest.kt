@@ -8,7 +8,6 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with InfluxDbPublisher but missing the url") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """

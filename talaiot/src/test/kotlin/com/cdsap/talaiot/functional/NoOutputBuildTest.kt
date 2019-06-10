@@ -9,7 +9,6 @@ class NoOutputsBuildTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included but no logger mode included") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """
