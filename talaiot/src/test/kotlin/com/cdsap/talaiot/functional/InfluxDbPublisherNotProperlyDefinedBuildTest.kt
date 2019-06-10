@@ -2,12 +2,11 @@ package com.cdsap.talaiot.functional
 
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
 
-class InfluxDbPublisherBuildTest : BehaviorSpec({
+class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with InfluxDbPublisher") {
+        `when`("Talaiot is included with InfluxDbPublisher but missing the url") {
             testProjectDir.create()
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -18,11 +17,9 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
                       influxDbPublisher {
                            dbName = "tracking"
-                           url = "http://localhost:8086"
                            urlMetric = "tracking"
                       }
                   }
@@ -34,11 +31,8 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then("no logs are shown in the output") {
-                assert(result.output.contains("InfluxDbPublisher"))
-                assert(result.output.contains("tracking"))
-                assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
+            then("logs displays the InfluxDbPublisher error") {
+                assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName and urlMetrics"))
             }
             testProjectDir.delete()
         }
