@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
@@ -8,7 +7,7 @@ import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
 
 /**
- * Publisher using PushGateway and LineProtocol format to send the metrics
+ * Publisher using PushGateway format to send the metrics to an PushGateway server
  */
 class PushGatewayPublisher(
     /**
@@ -34,28 +33,26 @@ class PushGatewayPublisher(
         logTracker.log("PushGatewayPublisher")
         logTracker.log("================")
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
-            pushGatewayPublisherConfiguration.nameJob.isEmpty()
+            pushGatewayPublisherConfiguration.jobName.isEmpty()
         ) {
             println(
                 "PushGatewayPublisher not executed. Configuration requires url and urlMetrics: \n" +
                         "pushGatewayPublisher {\n" +
                         "            url = \"http://localhost:9093\"\n" +
-                        "            urlMetric = \"tracking\"\n" +
+                        "            jobName = \"tracking\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
 
         } else {
             val url =
-                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.nameJob}"
+                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.jobName}"
             var content = ""
 
             taskMeasurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
-                    val tag = formatToLineProtocol(it.key)
-                    val tagValue = formatToLineProtocol(it.value)
-                    metrics += "$tag=\"$tagValue\","
+                    metrics += "${it.key.formatTagPublisher()}=\"${it.value.formatTagPublisher()}\","
                 }
                 taskMeasurement
                     .forEach {
@@ -67,9 +64,7 @@ class PushGatewayPublisher(
                 logTracker.log(content)
             }
 
-            println("1212121")
             if (!content.isEmpty()) {
-                println("33333")
                 executor.execute {
                     requestPublisher.send(url, content)
                 }
@@ -78,13 +73,4 @@ class PushGatewayPublisher(
             }
         }
     }
-
-    /**
-     * Influx Line Protocol requires specific format, we need to replace values like ","
-     * @param tag value to be formatted
-     *
-     * @return value formatted
-     */
-    private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
-
 }

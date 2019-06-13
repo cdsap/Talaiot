@@ -19,9 +19,9 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration {
      */
     var url: String = ""
     /**
-     * metric to identify the measurement in PushGateway
+     * value to identify the job in PushGateway
      */
-    var nameJob: String = ""
+    var jobName: String = ""
 
 
 }

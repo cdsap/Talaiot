@@ -53,9 +53,7 @@ class InfluxDbPublisher(
             taskMeasurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
-                    val tag = formatToLineProtocol(it.key)
-                    val tagValue = formatToLineProtocol(it.value)
-                    metrics += "$tag=$tagValue,"
+                    metrics += "${it.key.formatTagPublisher()}=${it.value.formatTagPublisher()},"
                 }
                 taskMeasurement
                     .forEach {
@@ -74,13 +72,4 @@ class InfluxDbPublisher(
             }
         }
     }
-
-    /**
-     * Influx Line Protocol requires specific format, we need to replace values like ","
-     * @param tag value to be formatted
-     *
-     * @return value formatted
-     */
-    private fun formatToLineProtocol(tag: String) = tag.replace(Regex("""[ ,=,\,]"""), "")
-
 }

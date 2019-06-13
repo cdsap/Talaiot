@@ -7,9 +7,8 @@ import org.gradle.testkit.runner.TaskOutcome
 class PushGatewayPublisherBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with PushGateway") {
+        `when`("Talaiot is included with PushGatewayPublisher") {
             testProjectDir.create()
-            val settingsFile = testProjectDir.newFile("settings.gradle")
             var buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """
@@ -19,10 +18,11 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                     publishers {
+                      logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                      publishers {
                          pushGatewayPublisher {
                              url = "http://localhost:9091"
-                             nameJob = "tracking"
+                             jobName = "tracking"
                     }
                 }
             }
@@ -35,8 +35,8 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                 .build()
             then("no logs are shown in the output") {
                 println(result.output)
-                assert(result.output.contains("InfluxDbPublisher"))
-                assert(result.output.contains("tracking"))
+                assert(result.output.contains("PushGatewayPublisher"))
+                assert(result.output.contains("assemble"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 
             }
