@@ -4,10 +4,10 @@ import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 
-class InfluxDbPublisherBuildTest : BehaviorSpec({
+class PushGatewayPublisherBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with InfluxDbPublisher") {
+        `when`("Talaiot is included with PushGatewayPublisher") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -18,15 +18,14 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                    publishers {
-                      influxDbPublisher {
-                           dbName = "tracking"
-                           url = "http://localhost:8086"
-                           urlMetric = "tracking"
-                      }
-                  }
-               }
+                      logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                      publishers {
+                         pushGatewayPublisher {
+                             url = "http://localhost:9091"
+                             jobName = "tracking"
+                    }
+                }
+            }
             """
             )
             val result = GradleRunner.create()
@@ -34,9 +33,10 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then(" logs are shown in the output and including the InfluxLine format") {
-                assert(result.output.contains("InfluxDbPublisher"))
-                assert(result.output.contains("tracking"))
+            then("logs are shown in the output and including the pushGateway format") {
+                println(result.output)
+                assert(result.output.contains("PushGatewayPublisher"))
+                assert(result.output.contains(":assemble{state=\"EXECUTED\","))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 
             }

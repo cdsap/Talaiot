@@ -15,6 +15,8 @@ import org.gradle.api.Project
  *    }
  *    taskDependencyGraphPublisher{
  *    }
+ *    pushGatewayPublisher{
+ *    }
  *    customDependencies{
  *    }
  * }
@@ -30,6 +32,10 @@ class PublishersConfiguration(
      * Access to the configuration of OutputPublisher
      */
     var outputPublisher: OutputPublisherConfiguration? = null
+    /**
+     * Access to the configuration of PushGatewayPublisher
+     */
+    var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
     /**
      * Access to the configuration of TaskDependencyGraphPublisher
      */
@@ -55,6 +61,15 @@ class PublishersConfiguration(
      */
     fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
         influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration within the main PublisherConfiguration for the PushGatewayPublisher
+     * @param configuration Lambda with receiver for the PushGatewayPublisherConfiguration representing the configuration
+     * pushGatewayPublisher
+     */
+    fun pushGatewayPublisher(configuration: PushGatewayPublisherConfiguration.() -> Unit) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration().also(configuration)
     }
 
     /**
@@ -104,6 +119,17 @@ class PublishersConfiguration(
     fun outputPublisher(closure: Closure<*>) {
         outputPublisher = OutputPublisherConfiguration()
         closure.delegate = outputPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration within the main PublisherConfiguration for the PushGatewayPublisher, Groovy version
+     * @param closure closure PushGatewayPublisherConfiguration representing the configuration
+     * pushGatewayPublisher
+     */
+    fun pushGatewayPublisher(closure: Closure<*>) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration()
+        closure.delegate = pushGatewayPublisher
         closure.call()
     }
 }

@@ -16,12 +16,13 @@ class SimpleRequest(mode: LogTracker) : Request {
         val urlSpec = URL(url)
         logTracker.log(url)
         try {
-            val query = urlSpec.query.split("=")
             httpPost {
                 url(urlSpec)
-
-                param {
-                    query[0] to query[1]
+                if (urlSpec.query != null) {
+                    val query = urlSpec.query.split("=")
+                    param {
+                        query[0] to query[1]
+                    }
                 }
 
                 body {

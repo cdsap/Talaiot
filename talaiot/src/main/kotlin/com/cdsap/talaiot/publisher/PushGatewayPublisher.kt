@@ -1,19 +1,19 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
 
 /**
- * Publisher using InfluxDb and LineProtocol format to send the metrics
+ * Publisher using PushGateway format to send the metrics to an PushGateway server
  */
-class InfluxDbPublisher(
+class PushGatewayPublisher(
     /**
      * General configuration for the publisher
      */
-    private val influxDbPublisherConfiguration: InfluxDbPublisherConfiguration,
+    private val pushGatewayPublisherConfiguration: PushGatewayPublisherConfiguration,
     /**
      * LogTracker to print in console depending on the Mode
      */
@@ -30,35 +30,36 @@ class InfluxDbPublisher(
 
     override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
         logTracker.log("================")
-        logTracker.log("InfluxDbPublisher")
+        logTracker.log("PushGatewayPublisher")
         logTracker.log("================")
-        if (influxDbPublisherConfiguration.url.isEmpty() ||
-            influxDbPublisherConfiguration.dbName.isEmpty() ||
-            influxDbPublisherConfiguration.urlMetric.isEmpty()
+        if (pushGatewayPublisherConfiguration.url.isEmpty() ||
+            pushGatewayPublisherConfiguration.jobName.isEmpty()
         ) {
             println(
-                "InfluxDbPublisher not executed. Configuration requires url, dbName and urlMetrics: \n" +
-                        "influxDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            urlMetric = \"tracking\"\n" +
+                "PushGatewayPublisher not executed. Configuration requires url and jobName: \n" +
+                        "pushGatewayPublisher {\n" +
+                        "            url = \"http://localhost:9093\"\n" +
+                        "            jobName = \"tracking\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
 
         } else {
-            val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
+            val url =
+                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.jobName}"
             var content = ""
 
             taskMeasurementAggregated.apply {
                 var metrics = ""
                 values.forEach {
-                    metrics += "${it.key.formatTagPublisher()}=${it.value.formatTagPublisher()},"
+                    metrics += "${it.key.formatTagPublisher()}=\"${it.value.formatTagPublisher()}\","
                 }
                 taskMeasurement
                     .forEach {
-                        content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
-                                ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"
+                        content += "${it.taskPath}{state=\"${it.state}\"" +
+                                ",module=\"${it.module}\",rootNode=\"${it.rootNode}\",${metrics.dropLast(1)}} ${it.ms}\n"
+
+
                     }
                 logTracker.log(content)
             }
