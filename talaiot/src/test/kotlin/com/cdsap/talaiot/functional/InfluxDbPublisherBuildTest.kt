@@ -34,7 +34,7 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then("no logs are shown in the output") {
+            then(" logs are shown in the output and including the InfluxLine format") {
                 assert(result.output.contains("InfluxDbPublisher"))
                 assert(result.output.contains("tracking"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
