@@ -91,6 +91,7 @@ you can extend it and create your publisher for your requirements
 | OutputPublisher               | Publish the results of the build on the console, this Publisher will only print the task name and duration |
 | InfluxDbPublisher             | Publish the results of the build to the InfluxDb database defined in the configuration                     |
 | TaskDependencyGraphPublisher  | Publish the results of the build using the dependency graph of the tasks executed                          |
+| PushGatewayGraphPublisher     | Publish the results of the build to the PushGateway server defined in the configuration                    |
 
 
 
@@ -128,6 +129,16 @@ The output will be found `"${project.rootDir}/talaiot`:
 Example:
 
 ![](resources/graph_example_plaid.png) 
+
+#### PushGatewayPublisher
+Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
+
+
+| Property  |      Description                                                                  |
+|---------- |-----------------------------------------------------------------------------------|
+| jobName   | Name of the job required to be exported to Prometheus                             |
+| url       | Url of the PushGateway Server                                                     |
+
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.

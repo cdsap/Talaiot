@@ -26,8 +26,6 @@ class SimpleRequest(mode: LogTracker) : Request {
                 }
 
                 body {
-                    println(content)
-
                     string(content)
                 }
             }.also {

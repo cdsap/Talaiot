@@ -36,7 +36,7 @@ class PushGatewayPublisher(
             pushGatewayPublisherConfiguration.jobName.isEmpty()
         ) {
             println(
-                "PushGatewayPublisher not executed. Configuration requires url and urlMetrics: \n" +
+                "PushGatewayPublisher not executed. Configuration requires url and jobName: \n" +
                         "pushGatewayPublisher {\n" +
                         "            url = \"http://localhost:9093\"\n" +
                         "            jobName = \"tracking\"\n" +

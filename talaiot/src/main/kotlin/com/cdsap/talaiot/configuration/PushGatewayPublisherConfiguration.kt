@@ -1,11 +1,11 @@
 package com.cdsap.talaiot.configuration
 
 /**
- * Configuration for the InfluxDbPublisher. It belongs to the Publisher configurations
+ * Configuration for the PushGatewayPublisher. It belongs to the Publisher configurations
  *
  * pushGatewayPublisher {
  *    url = "url"
- *    nameJob = "tracking"
+ *    jobName = "tracking"
  * }
  */
 class PushGatewayPublisherConfiguration : PublisherConfiguration {
