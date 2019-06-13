@@ -11,7 +11,7 @@ class DependencyGraphPublisherTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with TaskDependencyGraph") {
             testProjectDir.create()
-            var buildFile = testProjectDir.newFile("build.gradle")
+            val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """
                    plugins {
