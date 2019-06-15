@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.3.0) ](https://bintray.com/cdsap/maven/talaiot/0.3.0/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=0.4.0) ](https://bintray.com/cdsap/maven/talaiot/0.4.0/link)
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
