@@ -34,5 +34,9 @@ data class TaskLength(
     /**
      * List of dependencies required to be executed before the current task
      */
-    val taskDependencies: List<String>
+    val taskDependencies: List<String>,
+    /**
+     * String id of gradle worker that executed this task
+     */
+    val workerId: String
 )
