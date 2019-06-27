@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
@@ -28,7 +28,7 @@ class PushGatewayPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
         logTracker.log("================")
         logTracker.log("PushGatewayPublisher")
         logTracker.log("================")
@@ -49,12 +49,12 @@ class PushGatewayPublisher(
                 "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.jobName}"
             var content = ""
 
-            taskMeasurementAggregated.apply {
+            measurements.apply {
                 var metrics = ""
-                values.forEach {
+                values().forEach {
                     metrics += "${it.key.formatTagPublisher()}=\"${it.value.formatTagPublisher()}\","
                 }
-                taskMeasurement
+                tasks()
                     .forEach {
                         content += "${it.taskPath}{state=\"${it.state}\"" +
                                 ",module=\"${it.module}\",rootNode=\"${it.rootNode}\",${metrics.dropLast(1)}} ${it.ms}\n"

@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
@@ -28,7 +28,7 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
         logTracker.log("================")
@@ -50,12 +50,12 @@ class InfluxDbPublisher(
             val url = "${influxDbPublisherConfiguration.url}/write?db=${influxDbPublisherConfiguration.dbName}"
             var content = ""
 
-            taskMeasurementAggregated.apply {
+            measurements.apply {
                 var metrics = ""
-                values.forEach {
+                values().forEach {
                     metrics += "${it.key.formatTagPublisher()}=${it.value.formatTagPublisher()},"
                 }
-                taskMeasurement
+                tasks()
                     .forEach {
                         content += "${influxDbPublisherConfiguration.urlMetric},state=${it.state}" +
                                 ",module=${it.module},rootNode=${it.rootNode},task=${it.taskPath},${metrics.dropLast(1)} value=${it.ms}\n"

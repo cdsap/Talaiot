@@ -29,7 +29,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should contains formatted the url and content the Request") {
                 influxDbPublisher.publish(
-                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                    measurements = TaskMeasurementAggregated(
                         getMetrics(), listOf(
                             TaskLength(
                                 1, "clean", ":clean", TaskMessageState.EXECUTED, false,
@@ -56,7 +56,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("should TestRequest be empty") {
                 influxDbPublisher.publish(
-                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                    measurements = TaskMeasurementAggregated(
                         emptyMap(), emptyList()
 
                     )
@@ -78,7 +78,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
 
             then("these metrics should be parsed to correct format ") {
                 influxDbPublisher.publish(
-                    taskMeasurementAggregated = TaskMeasurementAggregated(
+                    measurements = TaskMeasurementAggregated(
                         mapOf(
                             "me=tric1" to "va====lue1",
                             "metric2" to "val,,   , ue2"

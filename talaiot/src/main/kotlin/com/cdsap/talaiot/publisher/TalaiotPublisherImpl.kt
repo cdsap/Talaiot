@@ -3,9 +3,11 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.TaskMeasurementDetailed
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
+import com.cdsap.talaiot.publisher.json.DetailedMetrics
 
 /**
  * Implementation of TalaiotPublisher.
@@ -20,22 +22,28 @@ class TalaiotPublisherImpl(
     extension: TalaiotExtension,
     logger: LogTracker,
     private val metricsProvider: Provider<Map<String, String>>,
+    private val detailedProvider: Provider<DetailedMetrics>,
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
 
     override fun publish(taskLengthList: MutableList<TaskLength>) {
 
+        val detailedMetrics = detailedProvider.get()
         val taskLengthListFiltered = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         val metrics = metricsProvider.get()
         val aggregatedData = TaskMeasurementAggregated(metrics, taskLengthList)
         val aggregatedDataFiltered = TaskMeasurementAggregated(metrics, taskLengthListFiltered)
 
+
         publisherProvider.get().forEach {
-            if (it is TaskDependencyGraphPublisher) {
-                it.publish(aggregatedData)
-            } else {
+            if (it.acceptsFilteredTasks()) {
                 it.publish(aggregatedDataFiltered)
+            } else {
+                it.publish(aggregatedData)
+            }
+            if (it.canPublishDetailedMeasurements()) {
+                it.publishDetailed(TaskMeasurementDetailed(metrics, taskLengthListFiltered, detailedMetrics))
             }
         }
     }

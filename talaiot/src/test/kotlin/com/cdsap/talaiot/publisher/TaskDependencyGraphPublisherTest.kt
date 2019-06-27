@@ -1,14 +1,13 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
+import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
+import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
+import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
 import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.api.Project
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
 import java.util.concurrent.Executor
@@ -29,7 +28,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             }
             val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
+                getGraphPublisher(taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
             )
@@ -63,7 +62,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             }
             val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
+                getGraphPublisher(taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
 
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
@@ -85,7 +84,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             }
             val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
+                getGraphPublisher(taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
             )
@@ -107,7 +106,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             }
             val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
+                getGraphPublisher(taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
             )
@@ -132,7 +131,7 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
             }
             val graphPublisherFactory: GraphPublisherFactory = mock()
             val taskDependencyGraphPublisher =
-                getGraphPublisher(project, taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
+                getGraphPublisher(taskDependencyGraphPublisherConfiguration, graphPublisherFactory)
             taskDependencyGraphPublisher.publish(
                 taskMeasurementAggregatedWrongMetricsFormat()
             )
@@ -165,7 +164,6 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
 
 
 private fun getGraphPublisher(
-    project: Project,
     taskDependencyGraphPublisherConfiguration: TaskDependencyGraphConfiguration,
     graphPublisherFactory: GraphPublisherFactory
 ): TaskDependencyGraphPublisher {

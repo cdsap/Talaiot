@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
 import com.cdsap.talaiot.writer.FileWriter
@@ -27,10 +27,10 @@ class GexfPublisher(
      */
     private var internalCounterEdges = 0
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
         executor.execute {
             val content = contentComposer(
-                task = buildGraph(taskMeasurementAggregated),
+                task = buildGraph(measurements),
                 header = ResourcesGexf.HEADER,
                 footer = ResourcesGexf.FOOTER
             )
