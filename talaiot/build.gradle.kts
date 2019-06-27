@@ -53,6 +53,10 @@ publishing {
                 password = ""
             }
         }
+        maven {
+            name = "Local"
+            setUrl("${project.rootDir}/build/repository")
+        }
     }
 }
 

@@ -38,7 +38,7 @@ data class TaskLength(
     /**
      * String id of gradle worker that executed this task
      */
-    val workerId: String,
-    val startMs: Long,
-    val stopMs: Long
+    val workerId: String = "",
+    val startMs: Long = 0L,
+    val stopMs: Long = 0L
 )
