@@ -8,11 +8,10 @@ data class JsonReport(
     val switches: Switches,
     val customProperties: CustomProperties,
     val plugins: List<Plugin>,
-    val startMs: Long,
+    val beginMs: Long,
     val endMs: Long,
     val durationMs: Long
 )
-
 
 data class Environment(
     val cpuCount: Int,
