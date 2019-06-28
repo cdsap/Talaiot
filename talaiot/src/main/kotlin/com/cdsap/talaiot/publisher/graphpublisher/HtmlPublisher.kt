@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml.LEGEND_HEADER
@@ -23,11 +23,11 @@ class HtmlPublisher(
      */
     private val fileName: String = "htmlTaskDependency.html"
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
         executor.execute {
             val content = contentComposer(
-                task = buildGraph(taskMeasurementAggregated),
-                legend = legend(taskMeasurementAggregated),
+                task = buildGraph(measurements),
+                legend = legend(measurements),
                 header = ResourcesHtml.HEADER,
                 footer = ResourcesHtml.FOOTER
             )
@@ -58,10 +58,10 @@ class HtmlPublisher(
      *
      * @return the aggregated legend for all the modules
      */
-    private fun legend(taskMeasurementAggregated: TaskMeasurementAggregated): String {
+    private fun legend(measurements: AggregatedMeasurements): String {
         var count = 10000
         var nodes = LEGEND_HEADER
-        taskMeasurementAggregated.taskMeasurement.distinctBy {
+        measurements.tasks().distinctBy {
             it.module
         }.forEach {
             count++

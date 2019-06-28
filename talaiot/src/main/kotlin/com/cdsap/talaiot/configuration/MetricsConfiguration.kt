@@ -14,6 +14,10 @@ class MetricsConfiguration {
      */
     var gitMetrics: Boolean = true
     /**
+     * enable detailed metrics
+     */
+    var detailedMetrics: Boolean = true
+    /**
      * enable the use of the performance metrics
      */
     var performanceMetrics: Boolean = true

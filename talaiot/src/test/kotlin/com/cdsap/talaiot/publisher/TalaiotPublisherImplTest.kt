@@ -6,7 +6,11 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.Provider
-import com.nhaarman.mockitokotlin2.*
+import com.cdsap.talaiot.publisher.json.DetailedMetrics
+import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
@@ -34,7 +38,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
 
             val publisher = TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), publishers
+                extension, logger, getMetricsProvider(), getDetailedProvider(), publishers
             )
             publisher.publish(
                 mutableListOf(getSingleTask())
@@ -42,7 +46,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.taskMeasurement.size == 1
+                    this.tasks().size == 1
                 })
 
             }
@@ -68,12 +72,14 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+                getTasks()
+            )
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.taskMeasurement.size == 2
+                    this.tasks().size == 2
                 })
 
             }
@@ -102,14 +108,18 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: Provider<List<Publisher>> = mock()
             val outputPublisher: Publisher = mock()
             val influxDbPublisher: Publisher = mock()
+            whenever(outputPublisher.acceptsFilteredTasks()).thenReturn(true)
+            whenever(influxDbPublisher.acceptsFilteredTasks()).thenReturn(true)
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+                getTasks()
+            )
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.taskMeasurement.size == 1
+                    this.tasks().size == 1
                 })
             }
         }
@@ -139,12 +149,14 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val graph: TaskDependencyGraphPublisher = mock()
             whenever(publishers.get()).thenReturn(listOf(graph))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(getTasks())
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+                getTasks()
+            )
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.taskMeasurement.size == 2
+                    this.tasks().size == 2
                 })
             }
         }
@@ -164,6 +176,10 @@ private fun getMetricsProvider(): Provider<Map<String, String>> {
     val metrics: Provider<Map<String, String>> = mock()
     whenever(metrics.get()).thenReturn(emptyMap())
     return metrics
+}
+
+private fun getDetailedProvider(): Provider<DetailedMetrics> {
+    return mock()
 }
 
 private fun metricsConfiguration() = MetricsConfiguration().apply {

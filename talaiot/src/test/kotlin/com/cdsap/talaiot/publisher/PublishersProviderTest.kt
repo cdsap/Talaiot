@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublishersProvider
@@ -112,7 +112,7 @@ class PublishersProviderTest : BehaviorSpec({
 })
 
 class TestPublisher : Publisher {
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
 
     }
 

@@ -4,6 +4,20 @@ import com.cdsap.talaiot.entities.TaskLength
 
 data class JsonReport(
     val tasks: List<TaskLength>,
+    val metrics: DetailedMetrics
+)
+
+interface DetailedMetrics {
+    fun environment(): Environment
+    fun switches(): Switches
+    fun customProperties(): CustomProperties
+    fun plugins(): List<Plugin>
+    fun beginMs(): Long
+    fun endMs(): Long
+    fun durationMs(): Long
+}
+
+data class DetailedMetricsData(
     val environment: Environment,
     val switches: Switches,
     val customProperties: CustomProperties,
@@ -11,7 +25,21 @@ data class JsonReport(
     val beginMs: Long,
     val endMs: Long,
     val durationMs: Long
-)
+) : DetailedMetrics {
+    override fun environment() = environment
+
+    override fun switches() = switches
+
+    override fun customProperties() = customProperties
+
+    override fun plugins() = plugins
+
+    override fun beginMs() = beginMs
+
+    override fun endMs() = endMs
+
+    override fun durationMs() = durationMs
+}
 
 data class Environment(
     val cpuCount: Int,
@@ -51,11 +79,19 @@ data class Switches(
 )
 
 data class CustomProperties(
-    val properties: Map<String ,String>
+    val properties: Map<String, String>
 )
 
 data class Plugin(
     val id: String,
     val mainClass: String,
     val version: String
-)
+) {
+    val versionKey by lazy {
+        "plugin.$id.version"
+    }
+
+    val classKey by lazy {
+        "plugin.$id.class"
+    }
+}

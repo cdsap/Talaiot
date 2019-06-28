@@ -1,11 +1,10 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.entities.TaskDependencyNode
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter
-import java.lang.StringBuilder
 
 /**
  * Abstract class implementing DiskPublisher.
@@ -83,17 +82,17 @@ abstract class DefaultDiskPublisher(
      * The implementations of the abstract class will require the construction of the graph. The format of the graph is
      * given by the formatNode and formatEdge of this class.
      *
-     * @param taskMeasurementAggregated Aggregated entity with the results of the build
+     * @param measurements Aggregated entity with the results of the build
      *
      * @return a String with the nodes and edges formatted by the implementations of the class
      */
-    fun buildGraph(taskMeasurementAggregated: TaskMeasurementAggregated): String {
+    fun buildGraph(measurements: AggregatedMeasurements): String {
         var count = 0
         var nodes = ""
         var edges = ""
         val dependencies = hashMapOf<String, TaskDependencyNode>()
 
-        taskMeasurementAggregated.taskMeasurement.forEach {
+        measurements.tasks().forEach {
             val dependency = TaskDependencyNode(it, count)
             dependencies[it.taskPath] = dependency
             with(dependency) {

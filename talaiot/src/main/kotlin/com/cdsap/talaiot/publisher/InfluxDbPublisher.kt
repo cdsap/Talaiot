@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.AggregatedMeasurements
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import okhttp3.OkHttpClient
@@ -36,7 +36,7 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(measurements: AggregatedMeasurements) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
         logTracker.log("================")

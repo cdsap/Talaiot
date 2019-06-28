@@ -2,6 +2,7 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.provider.DetailedProvider
 import com.cdsap.talaiot.provider.MetricsProvider
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
@@ -32,6 +33,9 @@ class TalaiotListener(
 
     private val talaiotTracker = TalaiotTracker()
 
+    // detailed provider has to be instantiated early
+    private val detailedProvider = DetailedProvider(project)
+
     override fun settingsEvaluated(settings: Settings) {
     }
 
@@ -42,6 +46,7 @@ class TalaiotListener(
                 extension,
                 logger,
                 MetricsProvider(project),
+                detailedProvider,
                 PublishersProvider(project, logger)
             ).publish(talaiotTracker.taskLengthList)
         }
