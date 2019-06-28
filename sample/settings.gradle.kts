@@ -1,7 +1,6 @@
 pluginManagement {
     repositories {
         maven { url = uri("$rootDir/../build/repository") }
-        mavenCentral()
     }
     resolutionStrategy {
         eachPlugin {
