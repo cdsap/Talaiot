@@ -25,6 +25,7 @@ gradlePlugin {
         dependencies {
             api("io.github.rybalkinsd:kohttp:0.8.0")
             api("guru.nidi:graphviz-java:0.8.3")
+            api("org.influxdb:influxdb-java:2.15")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation(gradleTestKit())
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
