@@ -41,7 +41,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, getMetricsProvider(), getDetailedProvider(), publishers
             )
             publisher.publish(
-                mutableListOf(getSingleTask())
+                mutableListOf(getSingleTask()),
+                start,
+                end
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
@@ -59,7 +61,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     influxDbPublisher {
                         dbName = "db"
                         url = ""
-                        urlMetric = ""
+                        taskMetricName = ""
                     }
                 }
                 metricsConfiguration()
@@ -73,7 +75,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
             TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
-                getTasks()
+                getTasks(),
+                start,
+                end
             )
 
             then("two publishers are processed ") {
@@ -97,7 +101,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     influxDbPublisher {
                         dbName = "db"
                         url = ""
-                        urlMetric = ""
+                        taskMetricName = ""
                     }
                 }
 
@@ -113,7 +117,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
             TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
-                getTasks()
+                getTasks(),
+                start,
+                end
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -137,7 +143,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     influxDbPublisher {
                         dbName = "db"
                         url = ""
-                        urlMetric = ""
+                        taskMetricName = ""
                     }
                 }
 
@@ -150,7 +156,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             whenever(publishers.get()).thenReturn(listOf(graph))
 
             TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
-                getTasks()
+                getTasks(),
+                start,
+                end
             )
 
             then("two publishers are processed and one task has been filtered ") {

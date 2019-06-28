@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.entities.AggregatedMeasurements
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import okhttp3.OkHttpClient
@@ -36,21 +36,21 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(measurements: AggregatedMeasurements) {
+    override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
         logTracker.log("================")
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
-            influxDbPublisherConfiguration.urlMetric.isEmpty()
+            influxDbPublisherConfiguration.taskMetricName.isEmpty()
         ) {
             println(
                 "InfluxDbPublisher not executed. Configuration requires url, dbName and urlMetrics: \n" +
                         "influxDbPublisher {\n" +
                         "            dbName = \"tracking\"\n" +
                         "            url = \"http://localhost:8086\"\n" +
-                        "            urlMetric = \"tracking\"\n" +
+                        "            taskMetricName = \"tracking\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
@@ -59,28 +59,32 @@ class InfluxDbPublisher(
 
         val _db = createDb()
 
-        val tasks = taskMeasurementAggregated.taskMeasurement
-        val meta = taskMeasurementAggregated.values
-
-        val measurements = tasks.map { task ->
-            Point.measurement(influxDbPublisherConfiguration.urlMetric)
+        val measurements = report.tasks?.map { task ->
+            Point.measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag("state", task.state.name)
                 .tag("module", task.module)
                 .tag("rootNode", task.rootNode.toString())
                 .tag("task", task.taskPath)
-                .apply {
-                    meta.forEach {
-                        tag(it.key.formatTagPublisher(), it.value.formatTagPublisher())
-                    }
-                }
                 .addField("value", task.ms)
                 .build()
         }
 
-        if (measurements.isNotEmpty()) {
+        val buildMeta = report.flattenBuildEnv()
+        val buildMeasurement = Point.measurement(influxDbPublisherConfiguration.buildMetricName)
+            .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .apply {
+                buildMeta.forEach { (k, v) ->
+                    tag(k, v)
+                }
+            }
+            .addField("value", report.durationMs?.toLong() ?: 0L)
+            .build()
+
+        if (!measurements.isNullOrEmpty()) {
             val points = BatchPoints.builder()
                 .points(measurements)
+                .point(buildMeasurement)
                 .build()
 
             executor.execute {

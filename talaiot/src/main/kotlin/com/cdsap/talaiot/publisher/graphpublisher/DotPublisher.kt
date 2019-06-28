@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
 
-import com.cdsap.talaiot.entities.AggregatedMeasurements
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter
@@ -40,11 +40,11 @@ class DotPublisher(
      *
      * @return a list of LinkSources representing the relations of the tasks/nodes.
      */
-    private fun getLinkSources(measurements: AggregatedMeasurements): List<LinkSource> {
+    private fun getLinkSources(report: ExecutionReport): List<LinkSource> {
         val mapNodes = mutableMapOf<String, Node>()
         val nodes = mutableListOf<LinkSource>()
 
-        measurements.tasks().forEach {
+        report.tasks?.forEach {
 
             mapNodes[it.taskPath] = node(it.taskPath)
 
@@ -61,14 +61,14 @@ class DotPublisher(
         return nodes.toList()
     }
 
-    override fun publish(measurements: AggregatedMeasurements) {
+    override fun publish(report: ExecutionReport) {
         executor.execute {
             try {
                 logTracker.log("DotPublisher: creating graph")
                 val g = graph("Talaiot").directed()
                     .strict()
                     .graphAttr().with(RankDir.TOP_TO_BOTTOM)
-                    .with(getLinkSources(measurements))
+                    .with(getLinkSources(report))
 
                 logTracker.log("DotPublisher: writing png")
                 fileWriter.prepareFile(

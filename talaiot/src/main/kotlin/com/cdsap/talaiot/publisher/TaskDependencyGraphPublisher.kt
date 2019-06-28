@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
-import com.cdsap.talaiot.entities.AggregatedMeasurements
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
@@ -33,8 +33,7 @@ open class TaskDependencyGraphPublisher(
     private val graphPublisherFactory: GraphPublisherFactory
 ) : Publisher {
 
-    override fun acceptsFilteredTasks(): Boolean = false
-    override fun publish(measurements: AggregatedMeasurements) {
+    override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("TaskDependencyGraphPublisher")
         logTracker.log("================")
@@ -69,8 +68,9 @@ open class TaskDependencyGraphPublisher(
                     )
                 }
 
+                val filteredReport = report.copy(tasks = report.unfilteredTasks)
                 listOfPublishers.forEach {
-                    it.publish(measurements)
+                    it.publish(filteredReport)
                 }
 
             } else {

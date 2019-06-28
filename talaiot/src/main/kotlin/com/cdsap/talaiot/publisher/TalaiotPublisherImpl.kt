@@ -2,12 +2,10 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMeasurementDetailed
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
-import com.cdsap.talaiot.publisher.json.DetailedMetrics
+import com.cdsap.talaiot.entities.ExecutionReport
 
 /**
  * Implementation of TalaiotPublisher.
@@ -21,30 +19,30 @@ import com.cdsap.talaiot.publisher.json.DetailedMetrics
 class TalaiotPublisherImpl(
     private val extension: TalaiotExtension,
     logger: LogTracker,
-    private val metricsProvider: Provider<Map<String, String>>,
-    private val detailedProvider: Provider<DetailedMetrics>,
+    private val metricsProvider: Provider<ExecutionReport>,
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
 
-    override fun publish(taskLengthList: MutableList<TaskLength>) {
+    override fun publish(
+        taskLengthList: MutableList<TaskLength>,
+        startMs: Long,
+        endMs: Long
+    ) {
+        val report = metricsProvider.get().apply {
+            tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+            unfilteredTasks = taskLengthList
+            this.beginMs = startMs?.toString()
+            this.endMs = endMs?.toString()
 
-        val taskLengthListFiltered = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
-        val metrics = metricsProvider.get()
-        val aggregatedData = TaskMeasurementAggregated(metrics, taskLengthList)
-        val aggregatedDataFiltered = TaskMeasurementAggregated(metrics, taskLengthListFiltered)
+            durationMs = when {
+                startMs != null && endMs != null -> (endMs - startMs).toString()
+                else -> null
+            }
+        }
 
         publisherProvider.get().forEach {
-            if (it.acceptsFilteredTasks()) {
-                it.publish(aggregatedDataFiltered)
-            } else {
-                it.publish(aggregatedData)
-            }
-            if (extension.metrics.detailedMetrics) {
-                if (it.canPublishDetailedMeasurements()) {
-                    it.publishDetailed(TaskMeasurementDetailed(metrics, taskLengthListFiltered, detailedProvider.get()))
-                }
-            }
+            it.publish(report)
         }
     }
 }

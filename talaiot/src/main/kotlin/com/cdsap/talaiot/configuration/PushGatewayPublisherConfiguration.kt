@@ -5,7 +5,7 @@ package com.cdsap.talaiot.configuration
  *
  * pushGatewayPublisher {
  *    url = "url"
- *    jobName = "tracking"
+ *    taskJobName = "tracking"
  * }
  */
 class PushGatewayPublisherConfiguration : PublisherConfiguration {
@@ -21,7 +21,8 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration {
     /**
      * value to identify the job in PushGateway
      */
-    var jobName: String = ""
+    var taskJobName: String = "task"
+    var buildJobName: String = "build"
 
 
 }

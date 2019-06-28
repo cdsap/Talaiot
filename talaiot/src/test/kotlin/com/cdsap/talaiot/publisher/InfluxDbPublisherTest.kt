@@ -4,7 +4,6 @@ import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 
 
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
@@ -20,7 +19,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
             val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
-                urlMetric = "log"
+                taskMetricName = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
@@ -47,7 +46,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
             val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
-                urlMetric = "log"
+                taskMetricName = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(
@@ -69,7 +68,7 @@ class InfluxDbPublisherTest : BehaviorSpec({
             val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
                 dbName = "db"
                 url = "http://localhost:666"
-                urlMetric = "log"
+                taskMetricName = "log"
             }
             val testRequest = TestRequest(logger)
             val influxDbPublisher = InfluxDbPublisher(

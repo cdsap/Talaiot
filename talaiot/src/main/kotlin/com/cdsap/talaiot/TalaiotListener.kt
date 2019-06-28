@@ -2,7 +2,6 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.logger.LogTrackerImpl
-import com.cdsap.talaiot.provider.DetailedProvider
 import com.cdsap.talaiot.provider.MetricsProvider
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
@@ -32,23 +31,23 @@ class TalaiotListener(
 ) : BuildListener, TaskExecutionListener {
 
     private val talaiotTracker = TalaiotTracker()
-
-    // detailed provider has to be instantiated early
-    private val detailedProvider = DetailedProvider(project)
+    private var start: Long = System.currentTimeMillis()
 
     override fun settingsEvaluated(settings: Settings) {
     }
 
     override fun buildFinished(result: BuildResult) {
         if (shouldPublish()) {
+            val end = System.currentTimeMillis()
             val logger = LogTrackerImpl(extension.logger)
             TalaiotPublisherImpl(
                 extension,
                 logger,
                 MetricsProvider(project),
-                detailedProvider,
                 PublishersProvider(project, logger)
-            ).publish(talaiotTracker.taskLengthList)
+            ).publish(taskLengthList = talaiotTracker.taskLengthList,
+                startMs = start,
+                endMs = end)
         }
     }
 
@@ -63,6 +62,7 @@ class TalaiotListener(
     }
 
     override fun buildStarted(gradle: Gradle) {
+        //This never gets called because we're registering after the build has already started
     }
 
     override fun projectsEvaluated(gradle: Gradle) {

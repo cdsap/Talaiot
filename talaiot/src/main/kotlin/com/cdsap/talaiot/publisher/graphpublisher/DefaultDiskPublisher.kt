@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
-import com.cdsap.talaiot.entities.AggregatedMeasurements
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskDependencyNode
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
@@ -86,13 +86,13 @@ abstract class DefaultDiskPublisher(
      *
      * @return a String with the nodes and edges formatted by the implementations of the class
      */
-    fun buildGraph(measurements: AggregatedMeasurements): String {
+    fun buildGraph(report: ExecutionReport): String {
         var count = 0
         var nodes = ""
         var edges = ""
         val dependencies = hashMapOf<String, TaskDependencyNode>()
 
-        measurements.tasks().forEach {
+        report.tasks?.forEach {
             val dependency = TaskDependencyNode(it, count)
             dependencies[it.taskPath] = dependency
             with(dependency) {

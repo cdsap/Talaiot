@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.mock
 
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 
 object TaskMeasurementAggregatedMock {

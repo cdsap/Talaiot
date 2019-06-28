@@ -2,7 +2,6 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.Order
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.logger.LogTracker

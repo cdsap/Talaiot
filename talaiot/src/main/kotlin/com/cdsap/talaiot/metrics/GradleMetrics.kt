@@ -1,63 +1,108 @@
 package com.cdsap.talaiot.metrics
 
-import org.gradle.api.Project
+import com.cdsap.talaiot.extensions.toBytes
+import com.cdsap.talaiot.metrics.base.GradleMetric
+import com.cdsap.talaiot.metrics.base.JvmArgsMetric
+import org.gradle.api.internal.project.DefaultProject
+import org.gradle.api.internal.project.ProjectInternal
+import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo
 
-/**
- * GradleMetrics provided for the builds.
- * Metrics included:
- *  -- gradleCaching
- *  -- gradleDaemon
- *  -- gradleParallel
- *  -- gradleConfigurationOnDemand
- *  -- gradleVersion
- *
- * It will change in the future to use the proper Gradle configuration.
- * check https://github.com/cdsap/Talaiot/issues/34
- *
- */
-class GradleMetrics(
-    /**
-     * Gradle project required to access the properties
-     */
-    private val project: Project
-) : Metrics {
+class RootProjectNameMetric : GradleMetric<String>(
+    provider = { it.gradle.rootProject.name },
+    assigner = { report, value -> report.rootProject = value }
+)
 
-    /**
-     * Retrieve the values for the GradleMetrics defined
-     *
-     * @return collection of GradleMetrics
-     */
-    override fun get(): Map<String, String> {
-        val gradleMetrics = mutableMapOf<String, String>()
-        if (hasProperty("org.gradle.caching")) {
-            gradleMetrics["gradleCaching"] = property("org.gradle.caching") as String
+class GradleVersionMetric : GradleMetric<String>(
+    provider = { it.gradle.gradleVersion },
+    assigner = { report, value -> report.environment.gradleVersion = value }
+)
+
+class GradleSwitchCachingMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isBuildCacheEnabled.toString() },
+    assigner = { report, value -> report.environment.switches.buildCache = value })
+
+class GradleSwitchBuildScanMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isBuildScan.toString() },
+    assigner = { report, value -> report.environment.switches.buildScan = value })
+
+class GradleSwitchConfigureOnDemandMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isConfigureOnDemand.toString() },
+    assigner = { report, value -> report.environment.switches.configurationOnDemand = value })
+
+class GradleSwitchParallelMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isParallelProjectExecutionEnabled.toString() },
+    assigner = { report, value -> report.environment.switches.parallel = value })
+
+class GradleSwitchRerunTasksMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isRerunTasks.toString() },
+    assigner = { report, value -> report.environment.switches.rerunTasks = value })
+
+class GradleSwitchDryRunMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isDryRun.toString() },
+    assigner = { report, value -> report.environment.switches.dryRun = value })
+
+class GradleSwitchOfflineMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isOffline.toString() },
+    assigner = { report, value -> report.environment.switches.offline = value })
+
+class GradleSwitchRefreshDependenciesMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.isRefreshDependencies.toString() },
+    assigner = { report, value -> report.environment.switches.refreshDependencies = value })
+
+
+class GradleSwitchDaemonMetric : GradleMetric<String>(
+    provider = {
+        val daemonScanInfo: DaemonScanInfo? =
+            (it.rootProject as DefaultProject).services.get(DaemonScanInfo::class.java)
+        daemonScanInfo?.isSingleUse?.toString() ?: "undefined"
+    },
+    assigner = { report, value -> report.environment.switches.daemon = value }
+)
+
+class GradleMaxWorkersMetric : GradleMetric<String>(
+    provider = { it.gradle.startParameter.maxWorkerCount.toString() },
+    assigner = { report, value -> report.environment.maxWorkers = value }
+)
+
+class JvmXmxMetric() : JvmArgsMetric(
+    argProvider = { paramList: List<String> ->
+        val xmxParam = paramList.find { param -> param.contains("Xmx") }
+        xmxParam?.split("Xmx")?.get(1)?.toBytes() ?: "undefined"
+    },
+    assigner = { report, value -> report.environment.javaXmxBytes = value }
+)
+
+class JvmXmsMetric() : JvmArgsMetric(
+    argProvider = { paramList: List<String> ->
+        val xmsParam = paramList.find { param -> param.contains("Xmx") }
+        xmsParam?.split("Xms")?.get(1)?.toBytes() ?: "undefined"
+    },
+    assigner = { report, value -> report.environment.javaXmsBytes = value }
+)
+
+class JvmMaxPermSizeMetric() : JvmArgsMetric(
+    argProvider = { paramList: List<String> ->
+        val maxPermSize = paramList.find { param -> param.contains("MaxPermSize") }
+        maxPermSize?.split("=")?.get(1)?.toBytes() ?: "undefined"
+    },
+    assigner = { report, value -> report.environment.javaMaxPermSize = value }
+)
+
+class GradleBuildCacheModeMetric : GradleMetric<String>(
+    provider = {
+        val settings = (it.rootProject as ProjectInternal).gradle.settings
+        when {
+            settings.buildCache.remote == null -> "local"
+            else -> "remote"
         }
-        if (hasProperty("org.gradle.daemon")) {
-            gradleMetrics["gradleDaemon"] = property("org.gradle.daemon") as String
-        }
-        if (hasProperty("org.gradle.parallel")) {
-            gradleMetrics["gradleParallel"] = property("org.gradle.parallel") as String
-        }
-        if (hasProperty("org.gradle.configureondemand")) {
-            gradleMetrics["gradleConfigurationOnDemand"] = property("org.gradle.configureondemand") as String
-        }
-        gradleMetrics["gradleVersion"] = project.gradle.gradleVersion
-        return gradleMetrics
+    },
+    assigner = { report, value -> report.environment.cacheMode = value }
+)
 
-    }
-
-    /**
-     * Check if a property exists in the Gradle project given a property name
-     * @param property name of the property to check
-     * @return if the property is present in the configuration
-     */
-    private fun hasProperty(property: String) = project.gradle.rootProject.hasProperty(property)
-
-
-    /**
-     * Get property from the Gradle project given a property name
-     * @param property name of the property to retrieve
-     * @return value of the property
-     */
-    private fun property(property: String) = project.property(property)
-}
+class GradleBuildCachePushEnabled : GradleMetric<String>(
+    provider = {
+        val settings = (it.rootProject as ProjectInternal).gradle.settings
+        settings.buildCache.remote?.isPush?.toString() ?: "undefined"
+    },
+    assigner = { report, value -> report.environment.cachePushEnabled = value }
+)

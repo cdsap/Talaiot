@@ -23,7 +23,7 @@ class InfluxDbPublisherBuildTest : BehaviorSpec({
                       influxDbPublisher {
                            dbName = "tracking"
                            url = "http://localhost:8086"
-                           urlMetric = "tracking"
+                           taskMetricName = "tracking"
                       }
                   }
                }

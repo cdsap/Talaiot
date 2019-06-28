@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.entities.AggregatedMeasurements
-import com.cdsap.talaiot.entities.DetailedMeasurements
+import com.cdsap.talaiot.entities.ExecutionReport
 
 /**
  * Publisher: Contract required to publish the results of the build.
@@ -13,23 +12,6 @@ import com.cdsap.talaiot.entities.DetailedMeasurements
 interface Publisher {
     /**
      * Publish the results given one Publisher implementation
-     *
-     * @param taskMeasurementAggregated: Aggregated entity with the results of the build
      */
-    fun publish(measurements: AggregatedMeasurements)
-
-    /**
-     * Publish detailed measurements
-     */
-    fun publishDetailed(measurements: DetailedMeasurements) = Unit
-
-    /**
-     * @return true if publisher can publish filtered tasks list
-     */
-    fun acceptsFilteredTasks(): Boolean = true
-
-    /**
-     * @return true if publisher can publish detailed measurements
-     */
-    fun canPublishDetailedMeasurements(): Boolean = false
+    fun publish(report: ExecutionReport)
 }

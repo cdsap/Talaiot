@@ -6,7 +6,7 @@ package com.cdsap.talaiot.configuration
  * influxDbPublisher {
  *    dbName = "tracking"
  *    url = "url"
- *    urlMetric = "tracking*
+ *    taskMetricName = "tracking*
  * }
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
@@ -26,7 +26,8 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     /**
      * metric to identify the measurement in InfluxDb
      */
-    var urlMetric: String = ""
+    var taskMetricName: String = ""
+    var buildMetricName: String = ""
     var username: String = ""
     var password: String = ""
 
