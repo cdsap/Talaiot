@@ -6,61 +6,77 @@ data class ExecutionReport(
     var beginMs: String? = null,
     var endMs: String? = null,
     var durationMs: String? = null,
+    var configurationDurationMs: String? = null,
     var tasks: List<TaskLength>? = null,
     var unfilteredTasks: List<TaskLength>? = null,
     var buildId: String? = null,
-    var rootProject: String? = null
+    var rootProject: String? = null,
+    var requestedTasks: String? = null,
+    var success: Boolean = false,
+    var scanLink: String? = null,
+    var buildInvocationId: String? = null
 ) {
+
+    val cacheRatio: String?
+        get() = tasks?.let {
+            it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
+        }?.toString()
+
     fun flattenBuildEnv(): Map<String, String> {
         val map = mutableMapOf<String, String>()
 
         with(environment) {
-            cpuCount?.let { map["cpuCount"] = it }
-            osVersion?.let { map["osVersion"] = it }
-            maxWorkers?.let { map["maxWorkers"] = it }
-            javaRuntime?.let { map["javaRuntime"] = it }
-            javaVmName?.let { map["javaVmName"] = it }
-            javaXmsBytes?.let { map["javaXmsBytes"] = it }
-            javaXmxBytes?.let { map["javaXmxBytes"] = it }
-            javaMaxPermSize?.let { map["javaMaxPermSize"] = it }
-            totalRamAvailableBytes?.let { map["totalRamAvailableBytes"] = it }
-            locale?.let { map["locale"] = it }
-            username?.let { map["username"] = it }
-            publicIp?.let { map["publicIp"] = it }
-            defaultChartset?.let { map["defaultCharset"] = it }
-            ideVersion?.let { map["ideVersion"] = it }
-            gradleVersion?.let { map["gradleVersion"] = it }
             cacheMode?.let { map["cacheMode"] = it }
             cachePushEnabled?.let { map["cachePushEnabled"] = it }
             cacheUrl?.let { map["cacheUrl"] = it }
             cacheHit?.let { map["cacheHit"] = it }
             cacheMiss?.let { map["cacheMiss"] = it }
             cacheStore?.let { map["cacheStore"] = it }
-            gitBranch?.let { map["gitBranch"] = it }
-            gitUser?.let { map["gitUser"] = it }
 
-            switches?.let {
-                it.buildCache?.let { map["switch.cache"] = it }
-                it.buildScan?.let { map["switch.scan"] = it }
-                it.configurationOnDemand?.let { map["switch.configurationOnDemand"] = it }
-                it.continueOnFailure?.let { map["switch.continueOnFailure"] = it }
-                it.daemon?.let { map["switch.daemon"] = it }
-                it.dryRun?.let { map["switch.dryRun"] = it }
-                it.offline?.let { map["switch.offline"] = it }
-                it.parallel?.let { map["switch.parallel"] = it }
-                it.refreshDependencies?.let { map["switch.refreshDependencies"] = it }
-                it.rerunTasks?.let { map["switch.rerunTasks"] = it }
-            }
+            switches.buildCache?.let { map["switch.cache"] = it }
+            switches.buildScan?.let { map["switch.scan"] = it }
+            switches.configurationOnDemand?.let { map["switch.configurationOnDemand"] = it }
+            switches.continueOnFailure?.let { map["switch.continueOnFailure"] = it }
+            switches.daemon?.let { map["switch.daemon"] = it }
+            switches.dryRun?.let { map["switch.dryRun"] = it }
+            switches.offline?.let { map["switch.offline"] = it }
+            switches.parallel?.let { map["switch.parallel"] = it }
+            switches.refreshDependencies?.let { map["switch.refreshDependencies"] = it }
+            switches.rerunTasks?.let { map["switch.rerunTasks"] = it }
         }
 
-        durationMs?.let { map["duration"] = it }
+        environment.osVersion?.let { map["osVersion"] = it }
+        environment.javaVmName?.let { map["javaVmName"] = it }
+        environment.cpuCount?.let { map["cpuCount"] = it }
+        environment.username?.let { map["username"] = it }
+        environment.gradleVersion?.let { map["gradleVersion"] = it }
+
         buildId?.let { map["buildId"] = it }
         rootProject?.let { map["rootProject"] = it }
+        requestedTasks?.let { map["requestedTasks"] = it }
 
         //These come last to have an ability to override calculation
         map.putAll(customProperties.properties)
 
-        return map
+        return map.filter { (k, v) -> v != "undefined" }
+    }
+
+    /**
+     * This would be a lot faster if it was actually a weighted graph
+     */
+    fun estimateCriticalPath() {
+        var currentRoot: TaskLength? = tasks?.find { it.rootNode } ?: return
+
+        while(currentRoot != null) {
+            currentRoot.critical = true
+
+            val dependencies = currentRoot.taskDependencies
+                .mapNotNull { dep ->
+                    tasks?.find { it.taskPath == dep }
+                }
+
+            currentRoot = dependencies.maxBy { it.stopMs } ?: null
+        }
     }
 }
 
@@ -89,7 +105,9 @@ data class Environment(
     var plugins: List<Plugin> = emptyList(),
     var gitBranch: String? = null,
     var gitUser: String? = null,
-    var switches: Switches = Switches()
+    var switches: Switches = Switches(),
+    var hostname: String? = null,
+    var osManufacturer: String? = null
 )
 
 data class Switches(

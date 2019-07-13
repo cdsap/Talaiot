@@ -52,6 +52,6 @@ interface FileWriter {
     fun dirExist() = Files.exists(Paths.get("${project.rootDir}/$TALAIOT_OUTPUT_DIR"))
 
     companion object {
-        const val TALAIOT_OUTPUT_DIR = "talaiot"
+        const val TALAIOT_OUTPUT_DIR = "build/reports/talaiot"
     }
 }

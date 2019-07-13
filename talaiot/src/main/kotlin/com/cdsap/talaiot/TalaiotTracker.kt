@@ -63,7 +63,7 @@ class TalaiotTracker {
      * Clean is handled as exception, by default task name and task argument on general
      * clean tasks are the same.
      */
-    fun finishTrackingTask(task: Task, state: TaskState) {
+    fun finishTrackingTask(task: Task, state: TaskState, workerName: String) {
         val currentTimeMillis = System.currentTimeMillis()
         if (((currentNode.task == task.name) || ((currentNode.task != task.name && currentNode.task == task.path)))) {
             val durationMs = if (currentNode.counter > 1) {
@@ -79,7 +79,8 @@ class TalaiotTracker {
                     state = TaskMessageState.EXECUTED,
                     rootNode = currentNode.task != "clean",
                     startMs = currentTimeMillis - durationMs,
-                    stopMs = currentTimeMillis
+                    stopMs = currentTimeMillis,
+                    workerId = workerName
                 )
             )
 
@@ -100,7 +101,8 @@ class TalaiotTracker {
                     },
                     rootNode = false,
                     startMs = currentTimeMillis - durationMs,
-                    stopMs = currentTimeMillis
+                    stopMs = currentTimeMillis,
+                    workerId = workerName
                 )
             )
         }
@@ -121,17 +123,20 @@ class TalaiotTracker {
         ms: Long,
         task: Task,
         state: TaskMessageState,
-        rootNode: Boolean, startMs:
-        Long, stopMs: Long
+        rootNode: Boolean,
+        startMs: Long,
+        stopMs: Long,
+        workerId: String
     ): TaskLength =
         TaskLength(
             ms = ms,
             taskName = task.name,
             taskPath = task.path,
-            module = getModule(task.path),
             state = state,
             rootNode = rootNode,
+            module = getModule(task.path),
             taskDependencies = taskDependencies(task),
+            workerId = workerId,
             startMs = startMs,
             stopMs = stopMs
         )

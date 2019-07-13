@@ -50,11 +50,11 @@ class GradleSwitchRefreshDependenciesMetric : GradleMetric<String>(
     assigner = { report, value -> report.environment.switches.refreshDependencies = value })
 
 
-class GradleSwitchDaemonMetric : GradleMetric<String>(
+class GradleSwitchDaemonMetric : GradleMetric<String?>(
     provider = {
         val daemonScanInfo: DaemonScanInfo? =
             (it.rootProject as DefaultProject).services.get(DaemonScanInfo::class.java)
-        daemonScanInfo?.isSingleUse?.toString() ?: "undefined"
+        daemonScanInfo?.isSingleUse?.toString()
     },
     assigner = { report, value -> report.environment.switches.daemon = value }
 )
@@ -67,15 +67,15 @@ class GradleMaxWorkersMetric : GradleMetric<String>(
 class JvmXmxMetric() : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
         val xmxParam = paramList.find { param -> param.contains("Xmx") }
-        xmxParam?.split("Xmx")?.get(1)?.toBytes() ?: "undefined"
+        xmxParam?.split("Xmx")?.get(1)?.toBytes()
     },
     assigner = { report, value -> report.environment.javaXmxBytes = value }
 )
 
 class JvmXmsMetric() : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
-        val xmsParam = paramList.find { param -> param.contains("Xmx") }
-        xmsParam?.split("Xms")?.get(1)?.toBytes() ?: "undefined"
+        val xmsParam = paramList.find { param -> param.contains("Xms") }
+        xmsParam?.split("Xms")?.get(1)?.toBytes()
     },
     assigner = { report, value -> report.environment.javaXmsBytes = value }
 )
@@ -83,7 +83,7 @@ class JvmXmsMetric() : JvmArgsMetric(
 class JvmMaxPermSizeMetric() : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
         val maxPermSize = paramList.find { param -> param.contains("MaxPermSize") }
-        maxPermSize?.split("=")?.get(1)?.toBytes() ?: "undefined"
+        maxPermSize?.split("=")?.get(1)?.toBytes()
     },
     assigner = { report, value -> report.environment.javaMaxPermSize = value }
 )
@@ -99,10 +99,24 @@ class GradleBuildCacheModeMetric : GradleMetric<String>(
     assigner = { report, value -> report.environment.cacheMode = value }
 )
 
-class GradleBuildCachePushEnabled : GradleMetric<String>(
+class GradleBuildCachePushEnabled : GradleMetric<String?>(
     provider = {
         val settings = (it.rootProject as ProjectInternal).gradle.settings
-        settings.buildCache.remote?.isPush?.toString() ?: "undefined"
+        settings.buildCache.remote?.isPush?.toString()
     },
     assigner = { report, value -> report.environment.cachePushEnabled = value }
 )
+
+class GradleRequestedTasksMetric : GradleMetric<String>(
+    provider = {
+        it.gradle.startParameter.taskNames.joinToString(separator = " ")
+    },
+    assigner = { report, value -> report.requestedTasks = value}
+)
+
+//class GradleScanUrlMetric : GradleMetric<String>(
+//    provider = {},
+//    assigner = {}
+//)
+//
+//const val PUBLISHING_BUILD_SCAN_PREFIX = "Publishing build scan"

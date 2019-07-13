@@ -27,8 +27,11 @@ gradlePlugin {
             api("guru.nidi:graphviz-java:0.8.3")
             api("org.influxdb:influxdb-java:2.15")
             api("com.github.oshi:oshi-core:3.13.3")
+            api("com.google.code.gson:gson:2.8.5")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation(gradleTestKit())
+            testImplementation("org.testcontainers:testcontainers:1.11.3")
+            testImplementation("org.testcontainers:influxdb:1.11.3")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
     }

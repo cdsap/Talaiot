@@ -2,11 +2,12 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.configuration.MetricsConfiguration
+import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.Provider
-import com.cdsap.talaiot.publisher.json.DetailedMetrics
 import com.nhaarman.mockitokotlin2.argThat
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -38,17 +39,20 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
 
             val publisher = TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), getDetailedProvider(), publishers
+                extension, logger, getMetricsProvider(), publishers
             )
             publisher.publish(
                 mutableListOf(getSingleTask()),
-                start,
-                end
+                0,
+                100,
+                200,
+                true,
+                null
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.tasks().size == 1
+                    this.tasks!!.size == 1
                 })
 
             }
@@ -74,16 +78,19 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(
                 getTasks(),
-                start,
-                end
+                0,
+                100,
+                200,
+                true,
+                null
             )
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.tasks().size == 2
+                    this.tasks!!.size == 2
                 })
 
             }
@@ -112,20 +119,21 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: Provider<List<Publisher>> = mock()
             val outputPublisher: Publisher = mock()
             val influxDbPublisher: Publisher = mock()
-            whenever(outputPublisher.acceptsFilteredTasks()).thenReturn(true)
-            whenever(influxDbPublisher.acceptsFilteredTasks()).thenReturn(true)
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(
                 getTasks(),
-                start,
-                end
+                0,
+                100,
+                200,
+                true,
+                null
             )
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.tasks().size == 1
+                    this.tasks!!.size == 1
                 })
             }
         }
@@ -139,7 +147,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     }
                 }
                 publishers {
-                    outputPublisher
+                    outputPublisher = OutputPublisherConfiguration()
                     influxDbPublisher {
                         dbName = "db"
                         url = ""
@@ -155,16 +163,19 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val graph: TaskDependencyGraphPublisher = mock()
             whenever(publishers.get()).thenReturn(listOf(graph))
 
-            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), getDetailedProvider(), publishers).publish(
+            TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publishers).publish(
                 getTasks(),
-                start,
-                end
+                0,
+                100,
+                200,
+                true,
+                null
             )
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat {
-                    this.tasks().size == 2
+                    this.tasks!!.size == 1
                 })
             }
         }
@@ -180,21 +191,13 @@ private fun setUpMockExtension(project: Project, extension: TalaiotExtension) {
     whenever(extensionContainer.getByName("talaiot")).thenReturn(extension)
 }
 
-private fun getMetricsProvider(): Provider<Map<String, String>> {
-    val metrics: Provider<Map<String, String>> = mock()
-    whenever(metrics.get()).thenReturn(emptyMap())
-    return metrics
+private fun getMetricsProvider(): Provider<ExecutionReport> {
+    return object: Provider<ExecutionReport> {
+        override fun get() = ExecutionReport()
+    }
 }
 
-private fun getDetailedProvider(): Provider<DetailedMetrics> {
-    return mock()
-}
-
-private fun metricsConfiguration() = MetricsConfiguration().apply {
-    gradleMetrics = false
-    performanceMetrics = false
-    gitMetrics = false
-}
+private fun metricsConfiguration() = MetricsConfiguration()
 
 private fun getTasks() = mutableListOf(
     getSingleTask(),
@@ -202,10 +205,11 @@ private fun getTasks() = mutableListOf(
         ms = 1L,
         taskName = "taskA",
         taskPath = ":app:clean",
-        taskDependencies = emptyList(),
         state = TaskMessageState.EXECUTED,
         rootNode = false,
-        module = "app"
+        module = "app",
+        taskDependencies = emptyList(),
+        critical =
     )
 )
 
@@ -213,9 +217,10 @@ private fun getSingleTask() = TaskLength(
     ms = 1L,
     taskName = "a",
     taskPath = ":app:a",
-    taskDependencies = emptyList(),
     state = TaskMessageState.EXECUTED,
     rootNode = false,
-    module = "app"
+    module = "app",
+    taskDependencies = emptyList(),
+    critical =
 )
 

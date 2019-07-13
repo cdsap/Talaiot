@@ -1,4 +1,5 @@
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 
 repositories {
     jcenter()
@@ -15,7 +16,7 @@ plugins {
 talaiot {
     logger = LogTracker.Mode.INFO
     publishers {
-        outputPublisher
+        customPublisher = TimelinePublisher(gradle)
         taskDependencyGraphPublisher {
             html = true
         }

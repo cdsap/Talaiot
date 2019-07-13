@@ -2,7 +2,11 @@ package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.metrics.base.Metric
 import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.metrics.base.GradleMetric
+import org.gradle.api.Project
+import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.internal.scan.scopeids.BuildScanScopeIds
 import oshi.SystemInfo
 import java.util.*
 
@@ -25,6 +29,22 @@ class BuildIdMetric : SimpleMetric<String>(
     assigner = { report, value -> report.buildId = value }
 )
 
+/**
+ * As described in the source of gradle:
+ * The ID of a single build invocation.
+ *
+ * Here, the term "build" is used to represent the overall invocation.
+ * For example, buildSrc shares the same build scope ID as the overall build.
+ * All composite participants also share the same build scope ID.
+ * That is, all “nested” builds (in terms of GradleLauncher etc.) share the same build ID.
+ *
+ * This ID is, by definition, not persistent.
+*/
+class GradleBuildInvocationIdMetric : GradleMetric<String>(
+    provider = { project: Project -> (project.gradle as GradleInternal).services[BuildScanScopeIds::class.java].buildInvocationId },
+    assigner = { report, value -> report.buildInvocationId = value }
+)
+
 class ProcessorCountMetric : SimpleMetric<String>(
     provider = { Runtime.getRuntime().availableProcessors().toString() },
     assigner = { report, value -> report.environment.cpuCount = value }
@@ -35,8 +55,11 @@ class RamAvailableMetric : SimpleMetric<String>(
     assigner = { report, value -> report.environment.totalRamAvailableBytes = value }
 )
 
+/**
+ * see https://docs.oracle.com/javase/9/docs/api/java/lang/Runtime.html#version--
+ */
 class JavaRuntimeMetric : SimpleMetric<String>(
-    provider = { Runtime.getRuntime().toString() },
+    provider = { TODO("implement") },
     assigner = { report, value -> report.environment.javaRuntime = value }
 )
 
@@ -48,6 +71,16 @@ class JavaVmNameMetric : SimpleMetric<String>(
 class LocaleMetric : SimpleMetric<String>(
     provider = { System.getProperty("user.language") },
     assigner = { report, value -> report.environment.locale = value }
+)
+
+class OsManufacturerMetric : SimpleMetric<String>(
+    provider = { SystemInfo().operatingSystem.manufacturer },
+    assigner = { report, value -> report.environment.osManufacturer = value }
+)
+
+class HostnameMetric : SimpleMetric<String>(
+    provider = { SystemInfo().operatingSystem.manufacturer },
+    assigner = { report, value -> report.environment.hostname = value }
 )
 
 class PublicIpMetric : SimpleMetric<String>(

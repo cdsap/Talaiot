@@ -59,27 +59,8 @@ class InfluxDbPublisher(
 
         val _db = createDb()
 
-        val measurements = report.tasks?.map { task ->
-            Point.measurement(influxDbPublisherConfiguration.taskMetricName)
-                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag("state", task.state.name)
-                .tag("module", task.module)
-                .tag("rootNode", task.rootNode.toString())
-                .tag("task", task.taskPath)
-                .addField("value", task.ms)
-                .build()
-        }
-
-        val buildMeta = report.flattenBuildEnv()
-        val buildMeasurement = Point.measurement(influxDbPublisherConfiguration.buildMetricName)
-            .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-            .apply {
-                buildMeta.forEach { (k, v) ->
-                    tag(k, v)
-                }
-            }
-            .addField("value", report.durationMs?.toLong() ?: 0L)
-            .build()
+        val measurements = createTaskPoints(report)
+        val buildMeasurement = createBuildPoint(report)
 
         if (!measurements.isNullOrEmpty()) {
             val points = BatchPoints.builder()
@@ -93,6 +74,70 @@ class InfluxDbPublisher(
         } else {
             logTracker.log("Empty content")
         }
+    }
+
+    private fun createTaskPoints(report: ExecutionReport): List<Point>? {
+        val measurements = report.tasks?.map { task ->
+            Point.measurement(influxDbPublisherConfiguration.taskMetricName)
+                .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                .tag("state", task.state.name)
+                .tag("module", task.module)
+                .tag("rootNode", task.rootNode.toString())
+                .tag("task", task.taskPath)
+                .tag("workerId", task.workerId)
+                .tag("critical", task.critical.toString())
+                .apply {
+                    report.customProperties.properties.forEach { (k, v) ->
+                        tag(k, v)
+                    }
+                }
+                .addField("value", task.ms)
+                .build()
+        }
+        return measurements
+    }
+
+    private fun createBuildPoint(report: ExecutionReport): Point {
+        val buildMeta = report.flattenBuildEnv()
+        val buildMeasurement = Point.measurement(influxDbPublisherConfiguration.buildMetricName)
+            .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .apply {
+                buildMeta.forEach { (k, v) ->
+                    tag(k, v)
+                }
+            }
+            .addField("duration", report.durationMs?.toLong() ?: 0L)
+            .addField("configuration", report.configurationDurationMs?.toLong() ?: 0L)
+            .addField("success", report.success)
+            .apply {
+                report.environment.osVersion?.let { addField("osVersion", it) }
+                report.environment.maxWorkers?.let { addField("maxWorkers", it.toLong()) }
+                report.environment.javaRuntime?.let { addField("javaRuntime", it) }
+                report.environment.javaVmName?.let { addField("javaVmName", it) }
+                report.environment.javaXmsBytes?.let { addField("javaXmsBytes", it.toLong()) }
+                report.environment.javaXmxBytes?.let { addField("javaXmxBytes", it.toLong()) }
+                report.environment.javaMaxPermSize?.let { addField("javaMaxPermSize", it.toLong()) }
+                report.environment.totalRamAvailableBytes?.let { addField("totalRamAvailableBytes", it.toLong()) }
+
+                report.environment.cpuCount?.let { addField("cpuCount", it.toLong()) }
+                report.environment.locale?.let { addField("locale", it) }
+                report.environment.username?.let { addField("username", it) }
+                report.environment.publicIp?.let { addField("publicIp", it) }
+                report.environment.defaultChartset?.let { addField("defaultCharset", it) }
+                report.environment.ideVersion?.let { addField("ideVersion", it) }
+                report.environment.gradleVersion?.let { addField("gradleVersion", it) }
+                report.environment.gitBranch?.let { addField("gitBranch", it) }
+                report.environment.gitUser?.let { addField("gitUser", it) }
+                report.cacheRatio?.let { addField("cacheRatio", it.toDouble()) }
+
+                report.beginMs?.let { addField("start", it.toDouble()) }
+                report.rootProject?.let { addField("rootProject", it) }
+                report.requestedTasks?.let { addField("requestedTasks", it) }
+                report.scanLink?.let { addField("scanLink", it) }
+            }
+
+            .build()
+        return buildMeasurement
     }
 
     private fun createDb(): InfluxDB {
@@ -126,10 +171,10 @@ class InfluxDbPublisher(
             val isDefault = retentionPolicyConfiguration.isDefault
 
             influxDb.createRetentionPolicy(rpName, dbName, duration, shardDuration, replicationFactor, isDefault)
+            influxDb.setRetentionPolicy(rpName)
         }
 
         influxDb.setDatabase(dbName)
-        influxDb.setRetentionPolicy(rpName)
         influxDb.enableBatch()
         influxDb.enableGzip()
         return influxDb

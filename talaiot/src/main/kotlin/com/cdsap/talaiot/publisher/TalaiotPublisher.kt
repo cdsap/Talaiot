@@ -10,6 +10,9 @@ interface TalaiotPublisher {
     fun publish(
         taskLengthList: MutableList<TaskLength>,
         start: Long,
-        end: Long
+        configuraionMs: Long?,
+        end: Long,
+        success: Boolean,
+        scanLink: String?
     )
 }

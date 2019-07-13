@@ -1,99 +1,97 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.entities.CustomProperties
+import com.cdsap.talaiot.entities.ExecutionReport
 
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
 import com.cdsap.talaiot.request.Request
+import io.kotlintest.Description
+import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
+import org.influxdb.dto.Query
 
 
-class InfluxDbPublisherTest : BehaviorSpec({
-    given("InfluxDbPublisher configuration") {
-        val logger = TestLogTrackerRecorder
+class InfluxDbPublisherTest : BehaviorSpec() {
 
-        `when`("There is configuration with metrics and tasks ") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                taskMetricName = "log"
-            }
-            val testRequest = TestRequest(logger)
-            val influxDbPublisher = InfluxDbPublisher(
-                influxDbConfiguration, logger, testRequest, TestExecutor()
-            )
+    val database = "talaiot"
+    val container = KInfluxDBContainer().withAuthEnabled(false)
+    override fun beforeSpec(description: Description, spec: Spec) {
+        super.beforeSpec(description, spec)
+        container.start()
+    }
 
-            then("should contains formatted the url and content the Request") {
-                influxDbPublisher.publish(
-                    measurements = TaskMeasurementAggregated(
-                        getMetrics(), listOf(
-                            TaskLength(
-                                1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                "app", emptyList()
+    override fun afterSpec(description: Description, spec: Spec) {
+        super.afterSpec(description, spec)
+        container.stop()
+    }
+
+    val influxDB by lazy {
+        container.newInfluxDB
+    }
+
+    init {
+        given("InfluxDbPublisher configuration") {
+            val logger = TestLogTrackerRecorder
+
+            `when`("There is configuration with metrics and tasks ") {
+                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                    dbName = database
+                    url = container.url
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                }
+                val testRequest = TestRequest(logger)
+                val influxDbPublisher = InfluxDbPublisher(
+                    influxDbConfiguration, logger, testRequest, TestExecutor()
+                )
+
+                then("should push all task present") {
+                    influxDbPublisher.publish(
+                        ExecutionReport(
+                            customProperties = CustomProperties(getMetrics()),
+
+                            tasks = listOf(
+                                TaskLength(
+                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    "app", emptyList(), critical =
+                                )
                             )
                         )
                     )
-                )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=false,task=:clean,metric1=value1,metric2=value2 value=1\n")
-                assert(testRequest.url == "http://localhost:666/write?db=db")
-            }
-        }
+                    val taskResult = influxDB.query(Query("select value,state,module,rootNode,task,metric1,metric2 from $database.rpTalaiot.task"))
 
-        `when`("There is configuration without metrics and tasks ") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                taskMetricName = "log"
-            }
-            val testRequest = TestRequest(logger)
-            val influxDbPublisher = InfluxDbPublisher(
-                influxDbConfiguration, logger, testRequest, TestExecutor()
-            )
+                    val combinedTaskColumns =
+                        taskResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
+                    assert(combinedTaskColumns == "time, value, state, module, rootNode, task, metric1, metric2")
 
-            then("should TestRequest be empty") {
-                influxDbPublisher.publish(
-                    measurements = TaskMeasurementAggregated(
-                        emptyMap(), emptyList()
+                    val combinedTaskValues =
+                        taskResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
+                    assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :clean, value1, value2\]""".toRegex()))
 
-                    )
-                )
-                assert(testRequest.content.isEmpty())
-                assert(testRequest.url.isEmpty())
-            }
-        }
-        `when`("There is configuration with metrics and tags not supported by Line Protocol") {
-            val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                dbName = "db"
-                url = "http://localhost:666"
-                taskMetricName = "log"
-            }
-            val testRequest = TestRequest(logger)
-            val influxDbPublisher = InfluxDbPublisher(
-                influxDbConfiguration, logger, testRequest, TestExecutor()
-            )
+                    val buildResult = influxDB.query(Query("select \"duration\",configuration,success from $database.rpTalaiot.build"))
 
-            then("these metrics should be parsed to correct format ") {
-                influxDbPublisher.publish(
-                    measurements = TaskMeasurementAggregated(
-                        mapOf(
-                            "me=tric1" to "va====lue1",
-                            "metric2" to "val,,   , ue2"
-                        ), listOf(TaskLength(1, "clean", ":clean", TaskMessageState.EXECUTED, true, "app", emptyList()))
-                    )
-                )
-                assert(testRequest.content == "log,state=EXECUTED,module=app,rootNode=true,task=:clean,metric1=value1,metric2=value2 value=1\n")
-                assert(testRequest.url == "http://localhost:666/write?db=db")
+                    val combinedBuildColumns =
+                        buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
+                    assert(combinedBuildColumns == "time, duration, configuration, success")
+
+                    val combinedBuildValues =
+                        buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
+                    assert(combinedBuildValues.matches("""\[.+, 0\.0, 0\.0, false\]""".toRegex()))
+                }
             }
         }
     }
-})
 
+}
 
-private fun getMetrics(): Map<String, String> {
-    return mapOf(
+private fun getMetrics(): MutableMap<String, String> {
+    return mutableMapOf(
         "metric1" to "value1",
         "metric2" to "value2"
     )

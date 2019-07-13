@@ -40,5 +40,10 @@ data class TaskLength(
      */
     val workerId: String = "",
     val startMs: Long = 0L,
-    val stopMs: Long = 0L
+    val stopMs: Long = 0L,
+
+    /**
+     * task is on the critical path of execution
+     */
+    var critical: Boolean = false
 )
