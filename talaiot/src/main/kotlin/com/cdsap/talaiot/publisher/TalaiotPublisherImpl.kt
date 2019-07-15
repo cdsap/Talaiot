@@ -1,11 +1,11 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
-import com.cdsap.talaiot.entities.ExecutionReport
 
 /**
  * Implementation of TalaiotPublisher.
@@ -29,8 +29,7 @@ class TalaiotPublisherImpl(
         startMs: Long,
         configuraionMs: Long?,
         endMs: Long,
-        success: Boolean,
-        scanLink: String?
+        success: Boolean
     ) {
         val report = metricsProvider.get().apply {
             tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
@@ -38,7 +37,6 @@ class TalaiotPublisherImpl(
             this.beginMs = startMs.toString()
             this.endMs = endMs.toString()
             this.success = success
-            this.scanLink = scanLink
 
             this.durationMs = (endMs - startMs).toString()
 

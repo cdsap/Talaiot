@@ -12,7 +12,6 @@ interface TalaiotPublisher {
         start: Long,
         configuraionMs: Long?,
         end: Long,
-        success: Boolean,
-        scanLink: String?
+        success: Boolean
     )
 }

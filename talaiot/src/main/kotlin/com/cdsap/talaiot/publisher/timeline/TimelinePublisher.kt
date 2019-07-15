@@ -4,9 +4,6 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.publisher.Publisher
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.malinskiy.marathon.report.debug.timeline.Data
-import com.malinskiy.marathon.report.debug.timeline.ExecutionResult
-import com.malinskiy.marathon.report.debug.timeline.Measure
 import org.gradle.api.invocation.Gradle
 import java.io.BufferedWriter
 import java.io.File
@@ -20,7 +17,7 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
             ?.groupBy { it.workerId }
         val timelineMeasures = measures?.map {
             Measure(it.key, it.value.map { task ->
-                Data(
+                TimelineTaskMeasurement(
                     task.taskPath,
                     task.state,
                     task.critical,

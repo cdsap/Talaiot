@@ -59,7 +59,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                    "app", emptyList(), critical =
+                                    "app", emptyList()
                                 )
                             )
                         )

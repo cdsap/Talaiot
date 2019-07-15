@@ -28,6 +28,7 @@ class MetricsConfiguration {
         add(GradleVersionMetric())
         add(GradleBuildCacheModeMetric())
         add(GradleBuildCachePushEnabled())
+        add(GradleScanLinkMetric())
         this@MetricsConfiguration
     }
 

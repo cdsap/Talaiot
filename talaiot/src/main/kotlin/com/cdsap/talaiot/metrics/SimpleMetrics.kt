@@ -1,13 +1,14 @@
 package com.cdsap.talaiot.metrics
 
-import com.cdsap.talaiot.metrics.base.Metric
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.base.GradleMetric
+import com.cdsap.talaiot.metrics.base.Metric
 import org.gradle.api.Project
 import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.internal.scan.scopeids.BuildScanScopeIds
 import oshi.SystemInfo
+import java.nio.charset.Charset
 import java.util.*
 
 open class SimpleMetric<T>(provider: (Unit) -> T, assigner: (ExecutionReport, T) -> Unit) :
@@ -83,17 +84,19 @@ class HostnameMetric : SimpleMetric<String>(
     assigner = { report, value -> report.environment.hostname = value }
 )
 
-class PublicIpMetric : SimpleMetric<String>(
-    provider = { TODO("implement") },
+class PublicIpMetric : SimpleMetric<String?>(
+    provider = {
+        /**
+         * For simplicity we get the first available ip of the first network device
+         */
+        SystemInfo().hardware.networkIFs.firstOrNull()?.let { nif ->
+            nif.iPv4addr.firstOrNull()
+        } ?: null
+    },
     assigner = { report, value -> report.environment.publicIp = value }
 )
 
 class DefaultCharsetMetric : SimpleMetric<String>(
-    provider = { TODO("implement") },
+    provider = { Charset.defaultCharset().toString() },
     assigner = { report, value -> report.environment.defaultChartset = value }
-)
-
-class IDEVersionCharsetMetric : SimpleMetric<String>(
-    provider = { TODO("implement") },
-    assigner = { report, value -> report.environment.ideVersion = value }
 )

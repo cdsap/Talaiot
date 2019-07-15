@@ -113,10 +113,3 @@ class GradleRequestedTasksMetric : GradleMetric<String>(
     },
     assigner = { report, value -> report.requestedTasks = value}
 )
-
-//class GradleScanUrlMetric : GradleMetric<String>(
-//    provider = {},
-//    assigner = {}
-//)
-//
-//const val PUBLISHING_BUILD_SCAN_PREFIX = "Publishing build scan"

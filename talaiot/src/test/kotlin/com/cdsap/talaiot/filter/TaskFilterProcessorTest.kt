@@ -82,7 +82,5 @@ fun getTask(module: String, name: String, duration: Long = 1L) = TaskLength(
     state = TaskMessageState.EXECUTED,
     rootNode = false,
     module = module,
-    taskDependencies = emptyList(),
-    critical =
-
+    taskDependencies = emptyList()
 )

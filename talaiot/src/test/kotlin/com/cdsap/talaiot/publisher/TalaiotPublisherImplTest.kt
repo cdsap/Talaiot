@@ -46,8 +46,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 0,
                 100,
                 200,
-                true,
-                null
+                true
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
@@ -83,8 +82,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 0,
                 100,
                 200,
-                true,
-                null
+                true
             )
 
             then("two publishers are processed ") {
@@ -126,8 +124,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 0,
                 100,
                 200,
-                true,
-                null
+                true
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -168,8 +165,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 0,
                 100,
                 200,
-                true,
-                null
+                true
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -208,8 +204,7 @@ private fun getTasks() = mutableListOf(
         state = TaskMessageState.EXECUTED,
         rootNode = false,
         module = "app",
-        taskDependencies = emptyList(),
-        critical =
+        taskDependencies = emptyList()
     )
 )
 
@@ -220,7 +215,6 @@ private fun getSingleTask() = TaskLength(
     state = TaskMessageState.EXECUTED,
     rootNode = false,
     module = "app",
-    taskDependencies = emptyList(),
-    critical =
+    taskDependencies = emptyList()
 )
 

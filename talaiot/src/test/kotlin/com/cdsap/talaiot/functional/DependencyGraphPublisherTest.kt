@@ -36,8 +36,8 @@ class DependencyGraphPublisherTest : BehaviorSpec({
                 .withPluginClasspath()
                 .build()
             then("html and gexf files are generated") {
-                assert(File("${testProjectDir.getRoot()}/talaiot/htmlTaskDependency.html").exists())
-                assert(File("${testProjectDir.getRoot()}/talaiot/gexfTaskDependency.gexf").exists())
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/htmlTaskDependency.html").exists())
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/gexfTaskDependency.gexf").exists())
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
             }
             testProjectDir.delete()

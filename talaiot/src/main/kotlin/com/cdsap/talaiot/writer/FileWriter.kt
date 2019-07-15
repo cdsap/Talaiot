@@ -3,7 +3,6 @@ package com.cdsap.talaiot.writer
 import com.cdsap.talaiot.logger.LogTracker
 import org.gradle.api.Project
 import java.io.File
-import java.lang.Exception
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -40,8 +39,8 @@ interface FileWriter {
             if (dirExist()) {
                 func()
             } else {
-                val dir = File("${project.rootDir}/$TALAIOT_OUTPUT_DIR")
-                dir.mkdir()
+                val dir = File(project.rootDir, TALAIOT_OUTPUT_DIR)
+                dir.mkdirs()
                 func()
             }
         } catch (e: Exception) {

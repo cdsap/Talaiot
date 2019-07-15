@@ -14,15 +14,9 @@ import org.gradle.api.initialization.Settings
 import org.gradle.api.internal.GradleInternal
 import org.gradle.api.invocation.Gradle
 import org.gradle.api.tasks.TaskState
-import org.gradle.internal.logging.LoggingManagerInternal
-import org.gradle.internal.logging.events.StyledTextOutputEvent
-import org.gradle.internal.scan.eob.BuildScanEndOfBuildNotifier
-import org.gradle.internal.scan.eob.DefaultBuildScanEndOfBuildNotifier
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
-import org.gradle.util.GradleVersion
-import javax.annotation.Nullable
 
 
 /**
@@ -53,76 +47,20 @@ class TalaiotListener(
             val end = System.currentTimeMillis()
             val logger = LogTrackerImpl(extension.logger)
 
-            val scanLink = forceGradleScanPublishing(result)
-
             TalaiotPublisherImpl(
                 extension,
                 logger,
-                MetricsProvider(project),
+                MetricsProvider(project, result),
                 PublishersProvider(project, logger)
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
                 startMs = start,
                 configuraionMs = configurationEnd,
-                endMs = end,
-                scanLink = scanLink
+                endMs = end
             )
         }
     }
-
-    /**
-     * Be warned: super hacky
-     * The link output happens after the build actually already finishes
-     */
-    private fun forceGradleScanPublishing(result: BuildResult): String? {
-        val services = (result.gradle as GradleInternal).services
-
-        val endOfBuildNotifier = when {
-            GradleVersion.current() > GradleVersion.version("5.0") -> {
-                services.get(
-                    DefaultBuildScanEndOfBuildNotifier::class.java
-                ) as DefaultBuildScanEndOfBuildNotifier
-            }
-            else -> {
-                /**
-                 * Previously the code registered a regular buildListener
-                 * This is unsupported currently
-                 */
-
-                return null
-            }
-        }
-
-        val loggingManager = (project.gradle as GradleInternal).services.get(LoggingManagerInternal::class.java)
-
-        var shouldCaptureNext = false
-        var link: String? = null
-        loggingManager.addOutputEventListener {
-            if (it is StyledTextOutputEvent) {
-                if (it.spans.any { span -> span.text.contains("Publishing build scan") }) {
-                    shouldCaptureNext = true
-                } else if (shouldCaptureNext) {
-                    shouldCaptureNext = false
-                    link = it.spans.map { it.text }.joinToString(separator = "").trim()
-                }
-            }
-        }
-
-        endOfBuildNotifier.fireBuildComplete(result.failure)
-        preventDoubleScanReport(endOfBuildNotifier)
-
-        return link
-    }
-
-    private fun preventDoubleScanReport(endOfBuildNotifier: DefaultBuildScanEndOfBuildNotifier) {
-        val listenerField = findListenerField(endOfBuildNotifier)
-        listenerField.isAccessible = true
-        listenerField.set(endOfBuildNotifier, null)
-    }
-
-    private fun findListenerField(endOfBuildNotifier: DefaultBuildScanEndOfBuildNotifier) =
-        endOfBuildNotifier::class.java.getDeclaredField("listener")
 
     /**
      * it checks if the executions has to be published, checking the  main ignoreWhen configuration and the

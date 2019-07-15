@@ -1,3 +1,3 @@
-package com.malinskiy.marathon.report.debug.timeline
+package com.cdsap.talaiot.publisher.timeline
 
 data class ExecutionResult(val measures: List<Measure>)

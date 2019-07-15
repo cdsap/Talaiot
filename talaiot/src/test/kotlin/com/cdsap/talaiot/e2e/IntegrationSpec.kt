@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.integration
+package com.cdsap.talaiot.e2e
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.functional.TemporaryFolder
@@ -38,6 +38,7 @@ class DefaultConfigurationSpec : StringSpec({
                 talaiot {
                     logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
+                        jsonPublisher = true
                         customPublisher = new JsonPublisher(getGradle())
                     }
                 }

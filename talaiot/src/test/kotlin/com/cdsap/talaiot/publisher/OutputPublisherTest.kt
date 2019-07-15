@@ -1,10 +1,10 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.Order
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.entities.TaskLength
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.nhaarman.mockitokotlin2.argForWhich
 import com.nhaarman.mockitokotlin2.inOrder
@@ -41,8 +41,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             30L,
@@ -51,8 +50,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             10L,
@@ -61,8 +59,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         )
                     )
                 )
@@ -98,8 +95,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             30L,
@@ -108,8 +104,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             10L,
@@ -118,8 +113,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         )
                     )
                 )
@@ -155,8 +149,7 @@ class OutputPublisherTest : BehaviorSpec({
                         TaskMessageState.EXECUTED,
                         true,
                         "app",
-                        emptyList(),
-                        critical =
+                        emptyList()
                     ))
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -185,8 +178,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             65_000L,
@@ -195,8 +187,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             10L,
@@ -205,8 +196,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         )
                     )
                 )
@@ -243,8 +233,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             30L,
@@ -253,8 +242,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         ),
                         TaskLength(
                             10L,
@@ -263,8 +251,7 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList(),
-                            critical =
+                            emptyList()
                         )
                     )
                 )

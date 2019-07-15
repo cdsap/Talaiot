@@ -1,19 +1,26 @@
 package com.cdsap.talaiot.extensions
 
 import java.math.BigDecimal
-import java.util.HashMap
 import java.util.regex.Pattern
 
 fun String.toBytes(): String? {
     val patt = Pattern.compile("([\\d.]+)([GMK])B?", Pattern.CASE_INSENSITIVE)
     val matcher = patt.matcher(this)
-    val powerMap = HashMap<String, Int>()
-    powerMap["G"] = 3
-    powerMap["M"] = 2
-    powerMap["K"] = 1
+    val powerMap = mapOf(
+        "G" to 3,
+        "M" to 2,
+        "K" to 1
+    )
     if (matcher.find()) {
         val number = matcher.group(1)
-        val pow = powerMap[matcher.group(2).toUpperCase()]!!
+
+        val pow = when (matcher.group(2).toUpperCase()) {
+            "G" -> 3
+            "M" -> 2
+            "K" -> 1
+            else -> return null
+        }
+
         var bytes = BigDecimal(number)
         bytes = bytes.multiply(BigDecimal.valueOf(1024).pow(pow))
         return bytes.toLong().toString()

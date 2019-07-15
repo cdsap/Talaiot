@@ -15,8 +15,7 @@ object TaskMeasurementAggregatedMock {
                 TaskMessageState.EXECUTED,
                 true,
                 "app",
-                emptyList(),
-                critical =
+                emptyList()
             ),
             TaskLength(
                 2,
@@ -25,8 +24,7 @@ object TaskMeasurementAggregatedMock {
                 TaskMessageState.EXECUTED,
                 false,
                 "app",
-                listOf("assemble"),
-                critical =
+                listOf("assemble")
 
             )
         )
@@ -42,7 +40,7 @@ object TaskMeasurementAggregatedMock {
         tasks = listOf(
             TaskLength(
                 1, "clean", ":clean", TaskMessageState.EXECUTED,
-                true, "app", emptyList(), critical =
+                true, "app", emptyList()
             )
         )
     )
