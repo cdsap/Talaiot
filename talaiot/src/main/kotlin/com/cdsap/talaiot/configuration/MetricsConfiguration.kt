@@ -95,6 +95,8 @@ class MetricsConfiguration {
         // If there was any customization then we assume that user populated everything manually, otherwise defaults
         if (metrics.isEmpty()) {
             default()
+            performance()
+            gradleSwithes()
         }
 
         if(generateBuildId) {
