@@ -41,6 +41,14 @@ class PublishersConfiguration(
      */
     var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
     /**
+     * Flag to enable [com.cdsap.talaiot.publisher.timeline.TimelinePublisher]
+     */
+    var timelinePublisher: Boolean = false
+    /**
+     * Flag to enable [com.cdsap.talaiot.publisher.JsonPublisher]
+     */
+    var jsonPublisher: Boolean = false
+    /**
      * Definition of the custom Publishers in the PublisherConfiguration. Requires implementation of Publisher
      */
     var customPublisher: Publisher? = null

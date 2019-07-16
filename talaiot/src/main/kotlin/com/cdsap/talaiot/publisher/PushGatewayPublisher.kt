@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import java.util.concurrent.Executor
@@ -28,43 +28,40 @@ class PushGatewayPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("PushGatewayPublisher")
         logTracker.log("================")
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
-            pushGatewayPublisherConfiguration.jobName.isEmpty()
+            pushGatewayPublisherConfiguration.taskJobName.isEmpty()
         ) {
             println(
-                "PushGatewayPublisher not executed. Configuration requires url and jobName: \n" +
+                "PushGatewayPublisher not executed. Configuration requires url and taskJobName: \n" +
                         "pushGatewayPublisher {\n" +
                         "            url = \"http://localhost:9093\"\n" +
-                        "            jobName = \"tracking\"\n" +
+                        "            taskJobName = \"tracking\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
 
         } else {
             val url =
-                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.jobName}"
+                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
             var content = ""
 
-            taskMeasurementAggregated.apply {
-                var metrics = ""
-                values.forEach {
-                    metrics += "${it.key.formatTagPublisher()}=\"${it.value.formatTagPublisher()}\","
-                }
-                taskMeasurement
-                    .forEach {
-                        content += "${it.taskPath}{state=\"${it.state}\"" +
-                                ",module=\"${it.module}\",rootNode=\"${it.rootNode}\",${metrics.dropLast(1)}} ${it.ms}\n"
-
-
-                    }
+            report.tasks?.forEach {
+                content += "${it.taskPath}{state=\"${it.state}\"" +
+                        ",module=\"${it.module}\",rootNode=\"${it.rootNode}\"} ${it.ms}\n"
                 logTracker.log(content)
             }
 
-            if (!content.isEmpty()) {
+            val buildTags =
+                report.flattenBuildEnv()
+                    .map { (k, v) -> "${k.formatTagPublisher()}=${v.formatTagPublisher()}" }
+                    .joinToString(separator = ",")
+            content += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
+
+            if (content.isNotEmpty()) {
                 executor.execute {
                     requestPublisher.send(url, content)
                 }

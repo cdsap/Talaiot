@@ -1,10 +1,10 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.Order
-import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
-import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
+import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.entities.TaskLength
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.nhaarman.mockitokotlin2.argForWhich
 import com.nhaarman.mockitokotlin2.inOrder
@@ -18,7 +18,7 @@ class OutputPublisherTest : BehaviorSpec({
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("shouldn't print anything") {
-                outputPublisher.publish(TaskMeasurementAggregated(emptyMap(), emptyList()))
+                outputPublisher.publish(ExecutionReport())
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
@@ -32,9 +32,8 @@ class OutputPublisherTest : BehaviorSpec({
             then("should apply sorting desc") {
                 val outputPublisherConfiguration = OutputPublisherConfiguration()
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
-                val taskMeasurementAggregated = TaskMeasurementAggregated(
-                    emptyMap(),
-                    listOf(
+                val taskMeasurementAggregated = ExecutionReport(
+                    tasks = listOf(
                         TaskLength(
                             20L,
                             "averageTask",
@@ -44,8 +43,24 @@ class OutputPublisherTest : BehaviorSpec({
                             "app",
                             emptyList()
                         ),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                        TaskLength(
+                            30L,
+                            "slowTask",
+                            ":slowTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        ),
+                        TaskLength(
+                            10L,
+                            "fastTask",
+                            ":fastTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        )
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -71,9 +86,8 @@ class OutputPublisherTest : BehaviorSpec({
                 outputPublisherConfiguration.order = Order.DESC
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
 
-                val taskMeasurementAggregated = TaskMeasurementAggregated(
-                    emptyMap(),
-                    listOf(
+                val taskMeasurementAggregated = ExecutionReport(
+                    tasks = listOf(
                         TaskLength(
                             20L,
                             "averageTask",
@@ -83,8 +97,24 @@ class OutputPublisherTest : BehaviorSpec({
                             "app",
                             emptyList()
                         ),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                        TaskLength(
+                            30L,
+                            "slowTask",
+                            ":slowTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        ),
+                        TaskLength(
+                            10L,
+                            "fastTask",
+                            ":fastTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        )
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -111,9 +141,16 @@ class OutputPublisherTest : BehaviorSpec({
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
-                val taskMeasurementAggregated = TaskMeasurementAggregated(
-                    emptyMap(),
-                    listOf(TaskLength(0L, "zeroTask", ":zeroTask", TaskMessageState.EXECUTED, true, "app", emptyList()))
+                val taskMeasurementAggregated = ExecutionReport(
+                    tasks = listOf(TaskLength(
+                        0L,
+                        "zeroTask",
+                        ":zeroTask",
+                        TaskMessageState.EXECUTED,
+                        true,
+                        "app",
+                        emptyList()
+                    ))
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
@@ -132,12 +169,35 @@ class OutputPublisherTest : BehaviorSpec({
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print length in the correct unit") {
-                val taskMeasurementAggregated = TaskMeasurementAggregated(
-                    emptyMap(),
-                    listOf(
-                        TaskLength(2_000L, "secTask", ":secTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
-                        TaskLength(65_000L, "minTask", ":minTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
-                        TaskLength(10L, "msTask", ":msTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                val taskMeasurementAggregated = ExecutionReport(
+                    tasks = listOf(
+                        TaskLength(
+                            2_000L,
+                            "secTask",
+                            ":secTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        ),
+                        TaskLength(
+                            65_000L,
+                            "minTask",
+                            ":minTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        ),
+                        TaskLength(
+                            10L,
+                            "msTask",
+                            ":msTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        )
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
@@ -164,9 +224,8 @@ class OutputPublisherTest : BehaviorSpec({
                 val outputPublisherConfiguration = OutputPublisherConfiguration()
                 outputPublisherConfiguration.numberOfTasks = 100
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
-                val taskMeasurementAggregated = TaskMeasurementAggregated(
-                    emptyMap(),
-                    listOf(
+                val taskMeasurementAggregated = ExecutionReport(
+                    tasks = listOf(
                         TaskLength(
                             20L,
                             "averageTask",
@@ -176,8 +235,24 @@ class OutputPublisherTest : BehaviorSpec({
                             "app",
                             emptyList()
                         ),
-                        TaskLength(30L, "slowTask", ":slowTask", TaskMessageState.EXECUTED, true, "app", emptyList()),
-                        TaskLength(10L, "fastTask", ":fastTask", TaskMessageState.EXECUTED, true, "app", emptyList())
+                        TaskLength(
+                            30L,
+                            "slowTask",
+                            ":slowTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        ),
+                        TaskLength(
+                            10L,
+                            "fastTask",
+                            ":fastTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        )
                     )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)

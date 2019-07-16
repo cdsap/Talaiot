@@ -22,7 +22,7 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                       publishers {
                          pushGatewayPublisher {
                              url = "http://localhost:9091"
-                             jobName = "tracking"
+                             taskJobName = "tracking"
                     }
                 }
             }

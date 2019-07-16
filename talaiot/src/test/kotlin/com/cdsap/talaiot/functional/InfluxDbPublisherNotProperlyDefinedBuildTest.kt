@@ -20,7 +20,7 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                     publishers {
                       influxDbPublisher {
                            dbName = "tracking"
-                           urlMetric = "tracking"
+                           taskMetricName = "tracking"
                       }
                   }
                }

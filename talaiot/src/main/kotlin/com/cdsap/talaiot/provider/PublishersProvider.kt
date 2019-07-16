@@ -4,6 +4,7 @@ import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors
@@ -66,6 +67,13 @@ class PublishersProvider(
                         executor
                     )
                 )
+            }
+            if (jsonPublisher) {
+                publishers.add(JsonPublisher(project.gradle))
+            }
+
+            if (timelinePublisher) {
+                publishers.add(TimelinePublisher(project.gradle))
             }
 
             customPublisher?.apply {

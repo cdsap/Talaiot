@@ -1,0 +1,23 @@
+import com.cdsap.talaiot.logger.LogTracker
+
+repositories {
+    jcenter()
+    mavenCentral()
+    google()
+    mavenLocal()
+}
+
+plugins {
+    kotlin("jvm") version "1.3.11"
+    id("talaiot") version "0.4.0-SNAPSHOT"
+}
+
+talaiot {
+    logger = LogTracker.Mode.INFO
+    publishers {
+        taskDependencyGraphPublisher {
+            html = true
+            gexf = true
+        }
+    }
+}

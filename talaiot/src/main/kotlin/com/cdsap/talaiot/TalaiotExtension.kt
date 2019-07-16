@@ -18,11 +18,6 @@ open class TalaiotExtension(val project: Project) {
      */
     var logger = LogTracker.Mode.SILENT
     /**
-     * Flag to specify the generation of the unique build id.
-     * In some cases could generate high cardinality problems like in basic InfluxDb setups, disabled by default
-     */
-    var generateBuildId = false
-    /**
      * General Publisher configuration included in the build
      */
     var publishers: PublishersConfiguration? = null

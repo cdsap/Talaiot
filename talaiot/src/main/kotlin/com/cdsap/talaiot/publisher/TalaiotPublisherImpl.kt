@@ -1,8 +1,8 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
@@ -17,26 +17,39 @@ import com.cdsap.talaiot.provider.Provider
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    extension: TalaiotExtension,
+    private val extension: TalaiotExtension,
     logger: LogTracker,
-    private val metricsProvider: Provider<Map<String, String>>,
+    private val metricsProvider: Provider<ExecutionReport>,
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
 
-    override fun publish(taskLengthList: MutableList<TaskLength>) {
+    override fun publish(
+        taskLengthList: MutableList<TaskLength>,
+        startMs: Long,
+        configuraionMs: Long?,
+        endMs: Long,
+        success: Boolean
+    ) {
+        val report = metricsProvider.get().apply {
+            tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+            unfilteredTasks = taskLengthList
+            this.beginMs = startMs.toString()
+            this.endMs = endMs.toString()
+            this.success = success
 
-        val taskLengthListFiltered = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
-        val metrics = metricsProvider.get()
-        val aggregatedData = TaskMeasurementAggregated(metrics, taskLengthList)
-        val aggregatedDataFiltered = TaskMeasurementAggregated(metrics, taskLengthListFiltered)
+            this.durationMs = (endMs - startMs).toString()
+
+            this.configurationDurationMs = when {
+                configuraionMs != null -> (configuraionMs - startMs).toString()
+                else -> "undefined"
+            }
+
+            this.estimateCriticalPath()
+        }
 
         publisherProvider.get().forEach {
-            if (it is TaskDependencyGraphPublisher) {
-                it.publish(aggregatedData)
-            } else {
-                it.publish(aggregatedDataFiltered)
-            }
+            it.publish(report)
         }
     }
 }

@@ -1,15 +1,18 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
 
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter
 import guru.nidi.graphviz.attribute.RankDir
-import guru.nidi.graphviz.engine.*
-import guru.nidi.graphviz.model.Factory.*
-import guru.nidi.graphviz.model.Node
+import guru.nidi.graphviz.engine.Engine
+import guru.nidi.graphviz.engine.Format
+import guru.nidi.graphviz.engine.Graphviz
+import guru.nidi.graphviz.model.Factory.graph
+import guru.nidi.graphviz.model.Factory.node
 import guru.nidi.graphviz.model.LinkSource
+import guru.nidi.graphviz.model.Node
 import java.util.concurrent.Executor
 
 /**
@@ -37,11 +40,11 @@ class DotPublisher(
      *
      * @return a list of LinkSources representing the relations of the tasks/nodes.
      */
-    private fun getLinkSources(measurementAggregated: TaskMeasurementAggregated): List<LinkSource> {
+    private fun getLinkSources(report: ExecutionReport): List<LinkSource> {
         val mapNodes = mutableMapOf<String, Node>()
         val nodes = mutableListOf<LinkSource>()
 
-        measurementAggregated.taskMeasurement.forEach {
+        report.tasks?.forEach {
 
             mapNodes[it.taskPath] = node(it.taskPath)
 
@@ -58,14 +61,14 @@ class DotPublisher(
         return nodes.toList()
     }
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(report: ExecutionReport) {
         executor.execute {
             try {
                 logTracker.log("DotPublisher: creating graph")
                 val g = graph("Talaiot").directed()
                     .strict()
                     .graphAttr().with(RankDir.TOP_TO_BOTTOM)
-                    .with(getLinkSources(taskMeasurementAggregated))
+                    .with(getLinkSources(report))
 
                 logTracker.log("DotPublisher: writing png")
                 fileWriter.prepareFile(

@@ -1,13 +1,13 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
-import com.cdsap.talaiot.writer.DefaultWriter
 import com.cdsap.talaiot.writer.DotWriter
+import com.cdsap.talaiot.writer.TaskGraphWriter
 import java.util.concurrent.Executor
 
 /**
@@ -33,7 +33,7 @@ open class TaskDependencyGraphPublisher(
     private val graphPublisherFactory: GraphPublisherFactory
 ) : Publisher {
 
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("TaskDependencyGraphPublisher")
         logTracker.log("================")
@@ -45,7 +45,7 @@ open class TaskDependencyGraphPublisher(
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.HTML,
-                            logTracker, DefaultWriter(project, logTracker), executor
+                            logTracker, TaskGraphWriter(project, logTracker), executor
                         )
                     )
                 }
@@ -54,7 +54,7 @@ open class TaskDependencyGraphPublisher(
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.GEXF,
-                            logTracker, DefaultWriter(project, logTracker), executor
+                            logTracker, TaskGraphWriter(project, logTracker), executor
                         )
                     )
                 }
@@ -68,8 +68,9 @@ open class TaskDependencyGraphPublisher(
                     )
                 }
 
+                val filteredReport = report.copy(tasks = report.unfilteredTasks)
                 listOfPublishers.forEach {
-                    it.publish(taskMeasurementAggregated)
+                    it.publish(filteredReport)
                 }
 
             } else {

@@ -9,15 +9,20 @@ import java.nio.file.Files
 /**
  * Implementation of FileWriter to writes bytes to a file
  */
-class DefaultWriter(
+class TaskGraphWriter(
     override var project: Project,
     override var logTracker: LogTracker
 ) : FileWriter {
     override fun prepareFile(content: Any, name: String) {
-        val fileName = File("${project.rootDir}/$TALAIOT_OUTPUT_DIR/$name")
+        val path = listOf(project.rootDir, TALAIOT_OUTPUT_DIR, "taskgraph").joinToString(separator = File.separator)
+        val dir = File(path).apply {
+            mkdirs()
+        }
+        val file = File(dir, name)
+
         createFile {
             if (content is String) {
-                Files.write(fileName.toPath(), content.toByteArray())
+                Files.write(file.toPath(), content.toByteArray())
             }
         }
     }

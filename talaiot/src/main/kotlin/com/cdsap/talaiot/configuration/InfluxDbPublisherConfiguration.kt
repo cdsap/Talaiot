@@ -6,7 +6,7 @@ package com.cdsap.talaiot.configuration
  * influxDbPublisher {
  *    dbName = "tracking"
  *    url = "url"
- *    urlMetric = "tracking*
+ *    taskMetricName = "tracking*
  * }
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
@@ -26,5 +26,22 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     /**
      * metric to identify the measurement in InfluxDb
      */
-    var urlMetric: String = ""
+    var taskMetricName: String = ""
+    var buildMetricName: String = ""
+    var username: String = ""
+    var password: String = ""
+
+    var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration.default
+}
+
+data class RetentionPolicyConfiguration(
+    val name: String,
+    val duration: String,
+    val shardDuration: String,
+    val replicationFactor: Int,
+    val isDefault: Boolean
+) {
+    companion object {
+        val default: RetentionPolicyConfiguration = RetentionPolicyConfiguration("rpTalaiot", "30d", "30m", 2, true)
+    }
 }

@@ -77,11 +77,10 @@ class TaskFilterProcessorTest : BehaviorSpec({
 
 fun getTask(module: String, name: String, duration: Long = 1L) = TaskLength(
     ms = duration,
-    module = module,
-    rootNode = false,
-    state = TaskMessageState.EXECUTED,
-    taskDependencies = emptyList(),
     taskName = name,
-    taskPath = "$module:$name"
-
+    taskPath = "$module:$name",
+    state = TaskMessageState.EXECUTED,
+    rootNode = false,
+    module = module,
+    taskDependencies = emptyList()
 )

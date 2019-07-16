@@ -7,5 +7,11 @@ import com.cdsap.talaiot.entities.TaskLength
  */
 interface TalaiotPublisher {
    
-    fun publish(taskLengthList: MutableList<TaskLength>)
+    fun publish(
+        taskLengthList: MutableList<TaskLength>,
+        start: Long,
+        configuraionMs: Long?,
+        end: Long,
+        success: Boolean
+    )
 }

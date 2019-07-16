@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.entities.TaskMeasurementAggregated
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublishersProvider
@@ -28,7 +28,7 @@ class PublishersProviderTest : BehaviorSpec({
             talaiotExtension.publishers {
                 influxDbPublisher {
                     url = ""
-                    urlMetric = ""
+                    taskMetricName = ""
                     dbName = ""
                 }
             }
@@ -94,7 +94,7 @@ class PublishersProviderTest : BehaviorSpec({
                 }
                 influxDbPublisher {
                     url = ""
-                    urlMetric = ""
+                    taskMetricName = ""
                     dbName = ""
                 }
             }
@@ -112,7 +112,7 @@ class PublishersProviderTest : BehaviorSpec({
 })
 
 class TestPublisher : Publisher {
-    override fun publish(taskMeasurementAggregated: TaskMeasurementAggregated) {
+    override fun publish(report: ExecutionReport) {
 
     }
 

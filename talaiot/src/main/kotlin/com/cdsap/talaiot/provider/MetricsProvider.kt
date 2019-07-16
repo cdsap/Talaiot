@@ -1,53 +1,47 @@
 package com.cdsap.talaiot.provider
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.metrics.*
+import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.metrics.SimpleMetric
+import com.cdsap.talaiot.metrics.base.BuildResultMetric
+import com.cdsap.talaiot.metrics.base.GradleMetric
+import org.gradle.BuildResult
 import org.gradle.api.Project
 
 /**
- * Provider for all metrics defined in the main MetricsConfiguration
+ * Provider for all metrics defined in the main [com.cdsap.talaiot.configuration.MetricsConfiguration].
  */
 class MetricsProvider(
     /**
-     * Gradle project required to access to the TalaiotExtension
+     * Gradle project required to access [TalaiotExtension]
      */
-    private val project: Project
-) : Provider<Map<String, String>> {
+    private val project: Project,
+    private val buildResult: BuildResult
+) : Provider<ExecutionReport> {
 
     /**
-     * Aggregates all metrics depending if there are enabled in the MetricsConfiguration.
+     * Aggregates all metrics based on the metrics configured in [com.cdsap.talaiot.configuration.MetricsConfiguration].
      * It access trough the Metrics interface
      *
-     * @return collection of Pairs.
+     * @return execution report
      */
-    override fun get(): Map<String, String> {
+    override fun get(): ExecutionReport {
+        val report = ExecutionReport()
+
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-        val metrics = mutableListOf<Metrics>(
-            BaseMetrics(
-                project,
-                talaiotExtension.generateBuildId
-            )
-        )
-        talaiotExtension.metrics.apply {
-            if (gitMetrics) {
-                metrics.add(GitMetrics())
-            }
+        val metrics = talaiotExtension.metrics.build()
 
-            if (performanceMetrics) {
-                metrics.add(PerformanceMetrics(project))
+        /**
+         * Could be optimized but for < 100 metrics performance shouldn't be an issue
+         */
+        metrics.forEach { metric ->
+            when (metric) {
+                is GradleMetric -> metric.get(project, report)
+                is SimpleMetric -> metric.get(Unit, report)
+                is BuildResultMetric -> metric.get(buildResult, report)
             }
-
-            if (customMetrics.isNotEmpty()) {
-                metrics.add(CustomMetrics(customMetrics))
-            }
-
-            if (gradleMetrics) {
-                metrics.add(GradleMetrics(project))
-            }
-
         }
-        return metrics.fold(mutableMapOf()) { acc, f ->
-            (f.get().toMutableMap() + acc.toMutableMap()) as MutableMap<String, String>
-        }
+
+        return report
     }
 }
