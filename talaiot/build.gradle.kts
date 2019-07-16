@@ -99,7 +99,7 @@ afterEvaluate {
                     id.set("inaki.seri@gmail.com")
                     name.set("Inaki Villar")
                 }
-                develeoper {
+                developer {
                     id.set("pkun.zip.rus@gmail.com")
                     name.set("Anton Malinskiy")
                 }
