@@ -49,13 +49,10 @@ talaiot {
         influxDbPublisher {
             dbName = "tracking"
             url = "http://localhost:8086"
-            urlMetric = "tracking"
+            taskMetricName = "task"
+            buildMetricName = "build"
         }
 
-    }
-    metrics {
-        gitMetrics = false
-        performanceMetrics = false
     }
     filter {
         threshold {
@@ -92,6 +89,8 @@ you can extend it and create your publisher for your requirements
 | InfluxDbPublisher             | Publish the results of the build to the InfluxDb database defined in the configuration                     |
 | TaskDependencyGraphPublisher  | Publish the results of the build using the dependency graph of the tasks executed                          |
 | PushGatewayGraphPublisher     | Publish the results of the build to the PushGateway server defined in the configuration                    |
+| JsonPublisher                 | Publish the results of the build with a json format                                                        |
+| TimelinePublisher             | Publish the results of the build decompose by the different workers used in the execution                  |
 
 
 
@@ -99,12 +98,15 @@ you can extend it and create your publisher for your requirements
 Talaiot will send to the InfluxDb server defined in the configuration the values collected during the execution
 
 
-| Property  |      Description                                                                  |
-|---------- |-----------------------------------------------------------------------------------|
-| dbName    | Name of the database                                                              |
-| url       | Url of the InfluxDb Server                                                        |
-| urlMetric | Name of the metric used in the execution                                          |
-| threshold | Configuration used to define time execution ranges to filter tasks to be reported |
+| Property                     |      Description                                                                    |
+|----------------------------- |-------------------------------------------------------------------------------------|
+| dbName                       | Name of the database                                                                |
+| url                          | Url of the InfluxDb Server                                                          |
+| taskMetricName               | Name of the metric used for specific task in the execution                          |
+| buildMetricName              | Name of the metric used for the overall information of the build in the execution   |
+| username                     | username which is used to authorize against the influxDB instance (optional)        |
+| password                     | password for the username which is used to authorize against the influxDB (optional)|                                                                          |
+| retentionPolicyConfiguration | retention policy which is used for writing points                                   |
 
 
 #### TaskDependencyGraphPublisher
@@ -139,36 +141,35 @@ Talaiot will send to the PushGateway server defined in the configuration the val
 | jobName   | Name of the job required to be exported to Prometheus                             |
 | url       | Url of the PushGateway Server                                                     |
 
+#### JsonPublisher
+Talaiot will Publish the results of the build with a json format .
+
+```
+    publishers {
+        jsonPublisher = true
+   
+    }
+```
+
+#### TimelinePublisher
+Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
+in the different workers.
+
+![](resources/timeline.png)
+
+```
+    publishers {
+        timelinePublisher = true
+   
+    }
+```
+
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
 Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) how to define a custom publisher
 
 ### Metrics
-For every measurement done, Talaiot adds metrics to help you later to analyze the data and detect problems.
-Metrics are categorized by different configurations. The Default Configuration of Metrics includes:
-
-| Property               |      Description                                                     |
-|----------------------- |----------------------------------------------------------------------|
-| baseMetrics            |Collects information about the project, build, OS Id and user         |
-| gitMetrics             |Metrics related to the Git configuration of the project               |
-| performanceMetrics     |Metrics related to the Java arguments defined on the Gradle Build.    |
-| gradleMetrics          |Metrics related to Gradle arguments                                   |
-
-By default all the metrics are available but if you want to disable some group define the configuration like:
-```
-  metrics {
-        gitMetrics = false
-        perfomanceMetrics = false
-  }
-```
-
-
-Check the [Wiki](https://github.com/cdsap/Talaiot/wiki/Metrics) to know more about the existing metrics
-
-#### Extending metrics
-
-
 If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
 
 ````
@@ -267,9 +268,10 @@ This repository includes the `InfluxDbPubluser` configuration pointing to the In
 talaiot {
     publishers {
         influxDbPublisher {
-            dbName = "tracking"
-            url = "http://localhost:8086"
-            urlMetric = "tracking"
+                    dbName = "tracking"
+                    url = "http://localhost:8086"
+                    taskMetricName = "task"
+                    buildMetricName = "build"
         }
     }
 }
@@ -327,6 +329,8 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 
 ## Contributors
 
+* [Anton Malinskiy](https://github.com/Malinskiy): New format metrics, rework InfluxdbPublisher and new Publishers Json and Timeline.
+
 * [Sergey Rybalkin](https://github.com/rybalkinsd)
 
 * [Satyarth Sampath](https://github.com/satyarths)
@@ -336,8 +340,6 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 
 ## Thanks
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
-
-[Anton Malinskiy](https://github.com/Malinskiy).
 
 [Bintray release plugin](https://github.com/novoda/bintray-release) plugin by Novoda
 

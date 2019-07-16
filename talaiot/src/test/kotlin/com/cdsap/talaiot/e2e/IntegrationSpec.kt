@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.e2e
 
 import com.cdsap.talaiot.entities.ExecutionReport
-import com.cdsap.talaiot.functional.TemporaryFolder
 import com.google.gson.Gson
 import io.kotlintest.forAll
 import io.kotlintest.shouldBe

@@ -46,9 +46,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     taskMetricName = "task"
                     buildMetricName = "build"
                 }
-                val testRequest = TestRequest(logger)
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, testRequest, TestExecutor()
+                    influxDbConfiguration, logger, TestExecutor()
                 )
 
                 then("should push all task present") {
@@ -95,16 +94,4 @@ private fun getMetrics(): MutableMap<String, String> {
         "metric1" to "value1",
         "metric2" to "value2"
     )
-}
-
-class TestRequest(
-    override var logTracker: LogTracker
-) : Request {
-
-    var url = ""
-    var content = ""
-    override fun send(url: String, content: String) {
-        this.url = url
-        this.content = content
-    }
 }

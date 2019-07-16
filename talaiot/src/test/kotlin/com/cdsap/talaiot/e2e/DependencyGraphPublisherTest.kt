@@ -1,13 +1,15 @@
-package com.cdsap.talaiot.functional
+package com.cdsap.talaiot.e2e
 
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import java.io.File
 
-class OutputPublisherBuildTest : BehaviorSpec({
+class DependencyGraphPublisherTest : BehaviorSpec({
+
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with OutputPublisher") {
+        `when`("Talaiot is included with TaskDependencyGraph") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -17,24 +19,26 @@ class OutputPublisherBuildTest : BehaviorSpec({
                       id 'talaiot'
                    }
 
-                  talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                     publishers {
-                      outputPublisher {}
+                  talaiot {
+                    publishers {
+                      taskDependencyGraphPublisher {
+                          html = true
+                          gexf = true
+                      }
+                    }
                   }
-               }
             """
             )
+
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then("logs are shown in the output with the shrugged") {
-                assert(result.output.contains("OutputPublisher"))
-                assert(result.output.contains("¯\\_(ツ)_/¯"))
+            then("html and gexf files are generated") {
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/htmlTaskDependency.html").exists())
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/gexfTaskDependency.gexf").exists())
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
             }
             testProjectDir.delete()
         }

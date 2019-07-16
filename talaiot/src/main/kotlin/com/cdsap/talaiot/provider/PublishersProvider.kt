@@ -43,7 +43,6 @@ class PublishersProvider(
                     InfluxDbPublisher(
                         this,
                         logger,
-                        SimpleRequest(logger),
                         executor
                     )
                 )
