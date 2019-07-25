@@ -4,13 +4,15 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 /**
- * Talaiot main Plugin.
- * Talaiot is a simple and extensible plugin targeting teams using Gradle Build System. It records the duration of
- * your Gradle tasks helping to understand problems of the build and detecting bottlenecks. For every record,
- * it will add additional information defined by default or custom metrics.
+ * Talaiot main [Plugin].
+ *
+ * Talaiot is a simple and extensible plugin for teams that use Gradle Build System. It stores information about
+ * your Gradle tasks and helps you detect problems and bottlenecks of your builds. For every tracked task and build
+ * it will add additional information defined by default and custom metrics
+ * specified in [com.cdsap.talaiot.configuration.MetricsConfiguration].
  *
  * usage:
- * plugins{
+ * plugins {
  *   id("talaiot")
  * }
  */
@@ -22,12 +24,14 @@ class TalaiotPlugin : Plugin<Project> {
     }
 
     /**
-     * Initialization of the plugin. The plugin requires a hook in the TaskExecutionListener and BuildListener to start
-     * tracking the information of the tasks.
-     * Additionally we need the information of which metrics and providers will be used in the execution.
+     * Initialization of the plugin. The plugin needs to receive callbacks
+     * from the [org.gradle.api.execution.TaskExecutionListener]
+     * and [org.gradle.BuildListener] to start tracking the information of the tasks.
+     *
+     * Additionally we need the a list of metrics and providers that will be used during the execution.
      *
      * @param extension Talaiot extension that contains the configuration
-     * @param project Gradle project used to to retrieve properties or general configurations.
+     * @param project Gradle project used to to retrieve buildProperties and build information.
      */
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
         val listener = TalaiotListener(project, extension)

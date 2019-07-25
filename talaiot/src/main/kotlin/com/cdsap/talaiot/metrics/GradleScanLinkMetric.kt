@@ -10,7 +10,9 @@ import org.gradle.util.GradleVersion
 
 /**
  * Be warned: super hacky
- * The link output happens after the build actually already finishes
+ *
+ * The metrics upload and link creation happens after the build actually already finishes in the
+ * official lifecycle [org.gradle.BuildListener]
  */
 class GradleScanLinkMetric : BuildResultMetric<String?>(
     provider = { result ->

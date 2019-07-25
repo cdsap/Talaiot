@@ -10,7 +10,7 @@ import org.gradle.api.Project
 import java.util.concurrent.Executors
 
 /**
- * Provides the Publishers defined in the  PublisherConfiguration of the Extension
+ * Provides the [Publisher]s defined in the [com.cdsap.talaiot.configuration.PublishersConfiguration] of the [TalaiotExtension]
  */
 class PublishersProvider(
     /**
@@ -22,8 +22,9 @@ class PublishersProvider(
 ) : Provider<List<Publisher>> {
 
     /**
-     * Check the main TalaiotExtension which Publishers have been enabled.
+     * Check the main [TalaiotExtension] which publishers have been enabled.
      * When one publisher is enabled it initialize it with the required parameters
+     *
      * @return list of available Publisher for the configuration
      */
     override fun get(): List<Publisher> {
@@ -43,7 +44,6 @@ class PublishersProvider(
                     InfluxDbPublisher(
                         this,
                         logger,
-                        SimpleRequest(logger),
                         executor
                     )
                 )

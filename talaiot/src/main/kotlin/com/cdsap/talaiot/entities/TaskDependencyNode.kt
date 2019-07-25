@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.entities
 
 /**
- * Wrapper of TaskLength, adding an Int to be identified in a HashTables
+ *  Wrapper of [TaskLength], adding an [Int] to be identified in a HashTables
  */
 data class TaskDependencyNode(
     /**

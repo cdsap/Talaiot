@@ -1,8 +1,8 @@
 package com.cdsap.talaiot.configuration
 
 /**
- * Configuration to specify thresholds to allow more flexibility at time which tasks we want to process in the
- * publishers
+ * Task filtering configuration
+ * If specified Talaiot will report only tasks that are between [minExecutionTime] and [maxExecutionTime]
  */
 class ThresholdConfiguration {
     /**

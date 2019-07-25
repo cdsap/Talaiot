@@ -9,7 +9,7 @@ import groovy.lang.Closure
 import org.gradle.api.Project
 
 /**
- * Main configuration file for the Talaiot Plugin
+ * Main configuration file for the [TalaiotPlugin]
  */
 @Suppress("PropertyName")
 open class TalaiotExtension(val project: Project) {

@@ -4,7 +4,7 @@ import groovy.lang.Closure
 import org.gradle.api.Project
 
 /**
- * TaskDependencyGraphConfiguration: Configuration extension @see TaskDependencyGraphPublisher
+ * Configuration for [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
  * taskDependencyGraphPublisher{
  *    gexf = true
  *    html = false
@@ -21,29 +21,31 @@ class TaskDependencyGraphConfiguration(val project: Project) {
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
     /**
-     * Configuration for GexfPublisher in the TaskDependencyGraphConfiguration
+     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.GexfPublisher]
      */
     var gexf = false
     /**
-     * Configuration for HtmlPublisher in the TaskDependencyGraphConfiguration
+     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.HtmlPublisher]
      */
     var html = false
     /**
-     * Configuration for DotPublisher in the TaskDependencyGraphConfiguration
+     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.DotPublisher]
      */
     var dot = false
 
     /**
-     * Configuration within the TaskDependencyGraphConfiguration for the ignoreWhen
-     * @param block Lambda with receiver for the IgnoreWhenConfiguration
+     * Kotlin accessor for the [IgnoreWhenConfiguration]
+     *
+     * @param block Lambda with receiver for the [IgnoreWhenConfiguration]
      */
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }
 
     /**
-     * Configuration within the TaskDependencyGraphConfiguration for the ignoreWhen, Groovy version
-     * @param closure closure for the IgnoreWhenConfiguration
+     * Groovy accessor for the [IgnoreWhenConfiguration]
+     *
+     * @param closure closure for the [IgnoreWhenConfiguration]
      */
     fun ignoreWhen(closure: Closure<*>) {
         ignoreWhen = IgnoreWhenConfiguration(project)

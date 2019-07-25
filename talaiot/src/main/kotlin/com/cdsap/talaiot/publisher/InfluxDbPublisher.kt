@@ -7,6 +7,7 @@ import com.cdsap.talaiot.request.Request
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBFactory
+import org.influxdb.InfluxDBIOException
 import org.influxdb.dto.BatchPoints
 import org.influxdb.dto.Point
 import java.util.concurrent.Executor
@@ -27,10 +28,6 @@ class InfluxDbPublisher(
      */
     private val logTracker: LogTracker,
     /**
-     * Interface to send the measurements to an external service
-     */
-    private val requestPublisher: Request,
-    /**
      * Executor to schedule a task in Background
      */
     private val executor: Executor
@@ -43,36 +40,42 @@ class InfluxDbPublisher(
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
-            influxDbPublisherConfiguration.taskMetricName.isEmpty()
+            influxDbPublisherConfiguration.taskMetricName.isEmpty() ||
+            influxDbPublisherConfiguration.buildMetricName.isEmpty()
         ) {
             println(
-                "InfluxDbPublisher not executed. Configuration requires url, dbName and urlMetrics: \n" +
+                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
                         "influxDbPublisher {\n" +
                         "            dbName = \"tracking\"\n" +
                         "            url = \"http://localhost:8086\"\n" +
-                        "            taskMetricName = \"tracking\"\n" +
+                        "            buildMetricName = \"build\"\n" +
+                        "            taskMetricName = \"task\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
             return
         }
 
-        val _db = createDb()
+        try {
+            val _db = createDb()
 
-        val measurements = createTaskPoints(report)
-        val buildMeasurement = createBuildPoint(report)
+            val measurements = createTaskPoints(report)
+            val buildMeasurement = createBuildPoint(report)
 
-        if (!measurements.isNullOrEmpty()) {
-            val points = BatchPoints.builder()
-                .points(measurements)
-                .point(buildMeasurement)
-                .build()
+            if (!measurements.isNullOrEmpty()) {
+                val points = BatchPoints.builder()
+                    .points(measurements)
+                    .point(buildMeasurement)
+                    .build()
 
-            executor.execute {
-                _db.write(points)
+                executor.execute {
+                    _db.write(points)
+                }
+            } else {
+                logTracker.log("Empty content")
             }
-        } else {
-            logTracker.log("Empty content")
+        } catch (e: InfluxDBIOException) {
+            logTracker.log("InfluxDb Error: ${e.message}")
         }
     }
 
@@ -87,7 +90,7 @@ class InfluxDbPublisher(
                 .tag("workerId", task.workerId)
                 .tag("critical", task.critical.toString())
                 .apply {
-                    report.customProperties.properties.forEach { (k, v) ->
+                    report.customProperties.taskProperties.forEach { (k, v) ->
                         tag(k, v)
                     }
                 }
@@ -99,7 +102,7 @@ class InfluxDbPublisher(
 
     private fun createBuildPoint(report: ExecutionReport): Point {
         val buildMeta = report.flattenBuildEnv()
-        val buildMeasurement = Point.measurement(influxDbPublisherConfiguration.buildMetricName)
+        return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
             .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
             .apply {
                 buildMeta.forEach { (k, v) ->
@@ -109,6 +112,11 @@ class InfluxDbPublisher(
             .addField("duration", report.durationMs?.toLong() ?: 0L)
             .addField("configuration", report.configurationDurationMs?.toLong() ?: 0L)
             .addField("success", report.success)
+            .apply {
+                report.customProperties.buildProperties.forEach { (k, v) ->
+                    tag(k, v)
+                }
+            }
             .apply {
                 report.environment.osVersion?.let { addField("osVersion", it) }
                 report.environment.maxWorkers?.let { addField("maxWorkers", it.toLong()) }
@@ -137,7 +145,6 @@ class InfluxDbPublisher(
             }
 
             .build()
-        return buildMeasurement
     }
 
     private fun createDb(): InfluxDB {

@@ -1,4 +1,5 @@
 version: 2
+executorType: machine
 jobs:
   build:
     docker:
@@ -15,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew build test
+          command: ./gradlew build
 
       - store_test_results:
           path: talaiot/build/reports/tests/

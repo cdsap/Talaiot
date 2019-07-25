@@ -39,9 +39,14 @@ data class TaskLength(
      * String id of gradle worker that executed this task
      */
     val workerId: String = "",
+    /**
+     * Timestamp of start in millis
+     */
     val startMs: Long = 0L,
+    /**
+     * Timestamp of finish in millis
+     */
     val stopMs: Long = 0L,
-
     /**
      * task is on the critical path of execution
      */

@@ -5,7 +5,7 @@ package com.cdsap.talaiot.logger
  */
 interface LogTracker {
     /**
-     * Main modes of for the LogTrackers implementations.
+     * Main modes of for the [LogTracker] implementations.
      */
     enum class Mode {
         SILENT,

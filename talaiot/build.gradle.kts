@@ -10,7 +10,7 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
-val versionTalaiot = "0.4.0-SNAPSHOT"
+val versionTalaiot = "0.1.0"
 
 
 group = "com.cdsap"
@@ -98,6 +98,10 @@ afterEvaluate {
                 developer {
                     id.set("inaki.seri@gmail.com")
                     name.set("Inaki Villar")
+                }
+                developer {
+                    id.set("pkun.zip.rus@gmail.com")
+                    name.set("Anton Malinskiy")
                 }
             }
 
