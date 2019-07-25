@@ -116,6 +116,9 @@ class TalaiotTracker {
      * @param task current task
      * @param state Custom TaskState
      * @param rootNode is the current task a rootNode
+     * @param startMs timestamp of start
+     * @param stopMs timestamp of stop
+     * @param workerId unique id of the gradle [org.gradle.workers.internal.Worker] that executed this task
      *
      * @return instance of TaskLength for the current task
      */

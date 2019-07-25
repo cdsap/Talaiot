@@ -5,11 +5,56 @@ import com.cdsap.talaiot.metrics.base.Metric
 
 /**
  * Configuration for the Metrics extensions
- * It will process the default metrics defined and the custom ones.
+ *
  * metrics{
- *   gitMetrics = true
- *   performanceMetrics = false
+ *   default()
+ *   git()
+ *   performance()
+ *   gradleSwitches()
  * }
+ *
+ * By default [default] is called unless user has specified anything at all in this configuration.
+ *
+ * Default includes:
+ *  [RootProjectNameMetric]
+ *  [GradleRequestedTasksMetric]
+ *  [GradleVersionMetric]
+ *  [GradleBuildCacheModeMetric]
+ *  [GradleBuildCachePushEnabled]
+ *  [GradleScanLinkMetric]
+ *
+ * Git includes:
+ *  [GitUserMetric]
+ *  [GitBranchMetric]
+ *
+ * Performance includes:
+ *  [UserMetric]
+ *  [OsMetric]
+ *  [ProcessorCountMetric]
+ *  [RamAvailableMetric]
+ *  [JavaVmNameMetric]
+ *  [LocaleMetric]
+ *  [GradleMaxWorkersMetric]
+ *  [JvmXmsMetric]
+ *  [JvmXmxMetric]
+ *  [JvmMaxPermSizeMetric]
+ *
+ * Gradle switches includes:
+ *  [GradleSwitchCachingMetric]
+ *  [GradleSwitchBuildScanMetric]
+ *  [GradleSwitchParallelMetric]
+ *  [GradleSwitchConfigureOnDemandMetric]
+ *  [GradleSwitchDryRunMetric]
+ *  [GradleSwitchRefreshDependenciesMetric]
+ *  [GradleSwitchRerunTasksMetric]
+ *  [GradleSwitchDaemonMetric]
+ *
+ *  If you want to define a custom metrics:
+ *
+ *  metrics {
+ *    customBuildMetrics["key"] = "value"
+ *    customTaskMetrics["key"] = "value"
+ *  }
  */
 class MetricsConfiguration {
     /**
@@ -20,7 +65,8 @@ class MetricsConfiguration {
 
     var metrics: MutableList<Metric<*, *>> = mutableListOf()
 
-    var customMetrics: MutableMap<String, String> = mutableMapOf()
+    var customBuildMetrics: MutableMap<String, String> = mutableMapOf()
+    var customTaskMetrics: MutableMap<String, String> = mutableMapOf()
 
     fun default() = metrics.run {
         add(RootProjectNameMetric())
@@ -29,6 +75,7 @@ class MetricsConfiguration {
         add(GradleBuildCacheModeMetric())
         add(GradleBuildCachePushEnabled())
         add(GradleScanLinkMetric())
+
         this@MetricsConfiguration
     }
 
@@ -64,31 +111,31 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
-    /**
-     * process the metrics defined in the configuration
-     * @param pair one or more pairs of strings representing custom the metrics
-     */
-    fun customMetrics(vararg pair: Pair<String, String>) {
+    fun customBuildMetrics(vararg pair: Pair<String, String>) {
         pair.forEach {
-            customMetrics[it.first] = it.second
+            customBuildMetrics[it.first] = it.second
+        }
+    }
+    fun customBuildMetrics(pair: Pair<String, String>) {
+        customBuildMetrics[pair.first] = pair.second
+    }
+    fun customBuildMetrics(metrics: Map<String, String>) {
+        metrics.forEach {
+            customBuildMetrics[it.key] = it.value
         }
     }
 
-    /**
-     * process the metrics defined in the configuration
-     * @param pair one pair of strings representing a custom metric
-     */
-    fun customMetrics(pair: Pair<String, String>) {
-        customMetrics[pair.first] = pair.second
+    fun customTaskMetrics(vararg pair: Pair<String, String>) {
+        pair.forEach {
+            customTaskMetrics[it.first] = it.second
+        }
     }
-
-    /**
-     * process the metrics defined in the configuration
-     * @param metrics a Map of strings representing  custom metrics
-     */
-    fun customMetrics(metrics: Map<String, String>) {
+    fun customTaskMetrics(pair: Pair<String, String>) {
+        customTaskMetrics[pair.first] = pair.second
+    }
+    fun customTaskMetrics(metrics: Map<String, String>) {
         metrics.forEach {
-            customMetrics[it.key] = it.value
+            customTaskMetrics[it.key] = it.value
         }
     }
 
@@ -100,21 +147,32 @@ class MetricsConfiguration {
             gradleSwithes()
         }
 
-        if(generateBuildId) {
+        if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
 
-        addCustomMetrics()
+        addCustomBuildMetrics()
 
         return metrics
     }
 
-    private fun addCustomMetrics() {
-        customMetrics.forEach { metric ->
+    private fun addCustomBuildMetrics() {
+        customBuildMetrics.forEach { metric ->
             metrics.add(
                 SimpleMetric(
                     provider = { metric.value },
-                    assigner = { report, value -> report.customProperties.properties[metric.key] = value }
+                    assigner = { report, value -> report.customProperties.buildProperties[metric.key] = value }
+                )
+            )
+        }
+    }
+
+    private fun addCustomTaskMetrics() {
+        customTaskMetrics.forEach { metric ->
+            metrics.add(
+                SimpleMetric(
+                    provider = { metric.value },
+                    assigner = { report, value -> report.customProperties.taskProperties[metric.key] = value }
                 )
             )
         }

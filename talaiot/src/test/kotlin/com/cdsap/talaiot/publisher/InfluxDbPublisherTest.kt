@@ -53,8 +53,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 then("should push all task present") {
                     influxDbPublisher.publish(
                         ExecutionReport(
-                            customProperties = CustomProperties(getMetrics()),
-
+                            customProperties = CustomProperties(taskProperties = getMetrics()),
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,

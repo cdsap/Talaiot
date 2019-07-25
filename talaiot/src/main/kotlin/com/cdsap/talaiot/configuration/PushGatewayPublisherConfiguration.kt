@@ -1,11 +1,12 @@
 package com.cdsap.talaiot.configuration
 
 /**
- * Configuration for the PushGatewayPublisher. It belongs to the Publisher configurations
+ * Configuration for the [com.cdsap.talaiot.publisher.PushGatewayPublisher]
  *
  * pushGatewayPublisher {
- *    url = "url"
- *    taskJobName = "tracking"
+ *    url = "http://some.company:8086"
+ *    taskJobName = "task"
+ *    buildJobName = "build"
  * }
  */
 class PushGatewayPublisherConfiguration : PublisherConfiguration {

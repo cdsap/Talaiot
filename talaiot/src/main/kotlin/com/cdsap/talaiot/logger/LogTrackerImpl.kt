@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.logger
 
 /**
- * Main implementation of the LogTracker
+ * Main implementation of the [LogTracker]
  */
 class LogTrackerImpl(
     /**

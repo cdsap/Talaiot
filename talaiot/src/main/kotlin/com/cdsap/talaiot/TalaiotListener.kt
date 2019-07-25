@@ -20,17 +20,21 @@ import org.gradle.invocation.DefaultGradle
 
 
 /**
- * Custom listener that combines the BuildListener and TaskExecutionListener. For each Task we need to record information
- * like duration or state, it's helped by the TalaiotTracker to track the information.
- * Once the build is finished it will publish the data for all the publishers included in the configuration
+ * Custom listener that combines the [BuildListener] and [TaskExecutionListener]. For each [Task] we need to
+ * store information (such as duration and state) in [TalaiotTracker].
+ *
+ * Upon completion of the build this listener will publish the execution data using the publishers specified
+ * via the configuration
  */
 class TalaiotListener(
     /**
-     * Gradle project required to access the properties
+     * Gradle project that this listener is attached to
+     *
+     * Might be needed by metrics and/or providers
      */
     val project: Project,
     /**
-     * Extension with the main configuration of the plugin
+     * Talaiot plugin extension. Contains main configuration of the plugin
      */
     private val extension: TalaiotExtension
 ) : BuildListener, TaskExecutionListener {
@@ -63,8 +67,8 @@ class TalaiotListener(
     }
 
     /**
-     * it checks if the executions has to be published, checking the  main ignoreWhen configuration and the
-     * state of the tracker
+     * This method checks if the executions has to be published by checking the main [TalaiotExtension.ignoreWhen]
+     * configuration and the state of the [TalaiotTracker]
      */
     private fun shouldPublish() = ((extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false)
             && talaiotTracker.isTracking)

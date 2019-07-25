@@ -2,7 +2,6 @@ package com.cdsap.talaiot.configuration
 
 /**
  * Configuration for the OutputPublisher
- *
  */
 class OutputPublisherConfiguration : PublisherConfiguration {
     override var name: String = "output"

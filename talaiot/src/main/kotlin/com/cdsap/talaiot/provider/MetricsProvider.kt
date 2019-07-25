@@ -20,8 +20,7 @@ class MetricsProvider(
 ) : Provider<ExecutionReport> {
 
     /**
-     * Aggregates all metrics based on the metrics configured in [com.cdsap.talaiot.configuration.MetricsConfiguration].
-     * It access trough the Metrics interface
+     * Aggregates all metrics based on [com.cdsap.talaiot.configuration.MetricsConfiguration].
      *
      * @return execution report
      */

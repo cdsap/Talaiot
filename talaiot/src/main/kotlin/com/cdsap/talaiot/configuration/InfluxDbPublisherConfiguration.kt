@@ -16,7 +16,7 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      */
     override var name: String = "influxDb"
     /**
-     * name of the InfluxDb database, it should be created before the first tracking
+     * name of the InfluxDb database, will be automatically created
      */
     var dbName: String = ""
     /**
@@ -27,10 +27,21 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      * metric to identify the measurement in InfluxDb
      */
     var taskMetricName: String = ""
+    /**
+     * metric name to identify the build measurements in InfluxDb
+     */
     var buildMetricName: String = ""
+    /**
+     * optional username for authentication
+     */
     var username: String = ""
+    /**
+     * optional password for authorization
+     */
     var password: String = ""
-
+    /**
+     * metrics retention policy. By default it's named as rpTalaiot and duration is 30 days
+     */
     var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration.default
 }
 

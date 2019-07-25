@@ -6,6 +6,9 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.IllegalStateException
 
+/**
+ * [Metric] that operates on some command line action output
+ */
 open class CmdMetric(val cmd: String, assigner: (ExecutionReport, String) -> Unit): SimpleMetric<String>(
     provider = {
         val runtime = Runtime.getRuntime()
