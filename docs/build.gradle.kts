@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     orchidRuntime("io.github.javaeden.orchid:OrchidAll:0.17.1")
+    orchidRuntime("io.github.javaeden.orchid:OrchidGithub:0.17.1")
 }
 
 orchid {

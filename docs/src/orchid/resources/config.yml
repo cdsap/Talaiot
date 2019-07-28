@@ -26,8 +26,6 @@ kotlindoc:
 services:
   publications:
     stages:
-      ghPages:
-        branch: gh-pages
+      - type: githubPages
         repo: 'cdsap/Talaiot'
         username: 'cdsap'
-        githubUrl: github.com
