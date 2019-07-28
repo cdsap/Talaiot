@@ -1,0 +1,31 @@
+{
+  "ownKey": "home",
+  "ownPages": [
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://cdsap.github.io/Talaiot",
+        "fileName": "",
+        "extension": "html",
+        "usePrettyUrl": true,
+        "link": "https://cdsap.github.io/Talaiot"
+      },
+      "description": "",
+      "title": "Talaiot",
+      "content": ""
+    },
+    {
+      "reference": {
+        "path": "",
+        "baseUrl": "https://cdsap.github.io/Talaiot",
+        "fileName": "404",
+        "extension": "html",
+        "usePrettyUrl": false,
+        "link": "https://cdsap.github.io/Talaiot/404.html"
+      },
+      "description": "",
+      "title": "Talaiot",
+      "content": ""
+    }
+  ]
+}

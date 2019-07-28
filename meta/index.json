@@ -1,0 +1,44 @@
+{
+  "ownKey": "index",
+  "childrenPages": {"meta": {
+    "ownKey": "meta",
+    "ownPages": [
+      {
+        "reference": {
+          "path": "meta",
+          "baseUrl": "https://cdsap.github.io/Talaiot",
+          "fileName": "home.index",
+          "extension": "json",
+          "usePrettyUrl": false,
+          "link": "https://cdsap.github.io/Talaiot/meta/home.index.json"
+        },
+        "description": "",
+        "title": "Home . Index"
+      },
+      {
+        "reference": {
+          "path": "meta",
+          "baseUrl": "https://cdsap.github.io/Talaiot",
+          "fileName": "kotlindoc.index",
+          "extension": "json",
+          "usePrettyUrl": false,
+          "link": "https://cdsap.github.io/Talaiot/meta/kotlindoc.index.json"
+        },
+        "description": "",
+        "title": "Kotlindoc . Index"
+      },
+      {
+        "reference": {
+          "path": "meta",
+          "baseUrl": "https://cdsap.github.io/Talaiot",
+          "fileName": "all.index",
+          "extension": "json",
+          "usePrettyUrl": false,
+          "link": "https://cdsap.github.io/Talaiot/meta/all.index.json"
+        },
+        "description": "",
+        "title": "All . Index"
+      }
+    ]
+  }}
+}

@@ -1,0 +1,1462 @@
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.17.1"/>
+<link rel="icon" href="https://cdsap.github.io/Talaiot/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>Talaiot</title>
+
+
+<meta name="description" content="Build Tracker">
+
+
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.17.1","baseUrl":"https://cdsap.github.io/Talaiot","environment":"debug","version":"1.0.0"};
+</script>
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: Editorial -->
+<!-- Class: com.eden.orchid.editorial.EditorialTheme -->
+
+<!-- PAGE -->
+<!-- Type: frontPage -->
+<!-- Class: com.eden.orchid.api.theme.pages.OrchidPage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: frontPage, page -->
+<!-- Resolved Page Template:  -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.api.resources.resource.FileResource -->
+<!-- Source Filename: homepage.md -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"","baseUrl":"https://cdsap.github.io/Talaiot","fileName":"","extension":"html","usePrettyUrl":true,"link":"https://cdsap.github.io/Talaiot"},"description":"","title":"Talaiot"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/css/editorial_main.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/css/editorial_orchidCustomizations.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/css/orchidSearch.css"/>
+<!-- end:inject styles -->
+
+</head>
+<body class="is-loading">
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            
+                <header id="header">
+    <a href="https://cdsap.github.io/Talaiot" class="logo">Talaiot</a>
+    <ul class="icons">
+    
+    
+        <li>
+            <a href="https://github.com/cdsap/Talaiot" class="icon fa-github">
+                <span class="label">github</span>
+            </a>
+        </li>
+    
+    
+    </ul>
+</header>
+            
+            
+            
+            
+                <section id="pageContent">
+                    <header class="major"><h2>Talaiot</h2></header>
+                    <article>
+                        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        
+                    
+                
+            
+        
+            
+                
+                    
+                        <div class="component component-readme component-order-0">
+                            <h1 id="talaiot">Talaiot</h1>
+<p><a href="https://bintray.com/cdsap/maven/talaiot/1.0.0/link"><img src="https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.0" alt="Download" /></a></p>
+<p>Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
+It records the duration of your Gradle tasks helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics.</p>
+<p>Some of the features are:</p>
+<ul>
+<li>Integration with Time/Series systems</li>
+<li>Extensible definition of metrics depending on the requirements.</li>
+<li>Definition of custom publishers</li>
+<li>Develop it entirely with Kotlin</li>
+<li>Generation Task Dependency Graph for the build</li>
+</ul>
+<p><img src="resources/dashboard.png" alt="" /></p>
+<p><strong><em>What is Talaiot?</em></strong></p>
+<p><em>&quot;... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers...&quot;</em></p>
+<p>https://en.wikipedia.org/wiki/Talaiot</p>
+<h2 id="setup-plugin">Setup Plugin</h2>
+<p>Include in the classpath the latest version of Talaiot:</p>
+<pre><code>classpath(&quot;com.cdsap:talaiot:&lt;latest_version&gt;&quot;)
+</code></pre>
+<p>Apply the plugin:</p>
+<pre><code>plugins {
+    id(&quot;talaiot&quot;)
+}
+</code></pre>
+<p>Check <a href="https://github.com/cdsap/Talaiot/wiki/Groovy-setup">this</a> article to see how to setup Talaiot with  Groovy(all the examples in the README are in KTS.</p>
+<h2 id="basic-configuration">Basic configuration</h2>
+<pre><code>talaiot {
+    publishers {
+        influxDbPublisher {
+            dbName = &quot;tracking&quot;
+            url = &quot;http://localhost:8086&quot;
+            taskMetricName = &quot;task&quot;
+            buildMetricName = &quot;build&quot;
+        }
+
+    }
+    filter {
+        threshold {
+            minExecutionTime = 10
+        }
+    }
+}
+</code></pre>
+<p>This example adds the <code>InfluxDbPublisher</code> with the information of the InfluxDb Server where it will be posted the information tracked.
+Additionally, we are disabling the metrics for Git and Performance.</p>
+<h2 id="talaiot-extension">Talaiot Extension</h2>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>logger</td><td>Mode for logging (Silent,Info)</td></tr>
+<tr><td>ignoreWhen</td><td>Configuration to ignore the execution of Talaiot</td></tr>
+<tr><td>generateBuildId</td><td>Generation of unique identifier for each execution(disabled by default)</td></tr>
+<tr><td>publishers</td><td>Configuration to define where to submit the information of the build</td></tr>
+<tr><td>metrics</td><td>Additional information tracked during the execution of the task</td></tr>
+<tr><td>filter</td><td>Rules to filter the tasks to be reported</td></tr>
+</tbody>
+</table>
+<h3 id="publishers">Publishers</h3>
+<p>In terms of publishing Talaiot includes some default Publishers, but at the same time
+you can extend it and create your publisher for your requirements</p>
+<h4 id="predefined-publishers">Predefined Publishers</h4>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>OutputPublisher</td><td>Publish the results of the build on the console, this Publisher will only print the task name and duration</td></tr>
+<tr><td>InfluxDbPublisher</td><td>Publish the results of the build to the InfluxDb database defined in the configuration</td></tr>
+<tr><td>TaskDependencyGraphPublisher</td><td>Publish the results of the build using the dependency graph of the tasks executed</td></tr>
+<tr><td>PushGatewayGraphPublisher</td><td>Publish the results of the build to the PushGateway server defined in the configuration</td></tr>
+<tr><td>JsonPublisher</td><td>Publish the results of the build with a json format</td></tr>
+<tr><td>TimelinePublisher</td><td>Publish the results of the build decompose by the different workers used in the execution</td></tr>
+</tbody>
+</table>
+<h4 id="influxdbpublisher">InfluxDbPublisher</h4>
+<p>Talaiot will send to the InfluxDb server defined in the configuration the values collected during the execution</p>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>dbName</td><td>Name of the database</td></tr>
+<tr><td>url</td><td>Url of the InfluxDb Server</td></tr>
+<tr><td>taskMetricName</td><td>Name of the metric used for specific task in the execution</td></tr>
+<tr><td>buildMetricName</td><td>Name of the metric used for the overall information of the build in the execution</td></tr>
+<tr><td>username</td><td>username which is used to authorize against the influxDB instance (optional)</td></tr>
+<tr><td>password</td><td>password for the username which is used to authorize against the influxDB (optional)</td><td> </td></tr>
+<tr><td>retentionPolicyConfiguration</td><td>retention policy which is used for writing points</td></tr>
+</tbody>
+</table>
+<h4 id="taskdependencygraphpublisher">TaskDependencyGraphPublisher</h4>
+<p>Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration</p>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>ignoreWhen</td><td>Configuration to ignore the execution of the publisher</td></tr>
+<tr><td>html</td><td>Export the task dependency graph in Html format with support of <a href="http://visjs.org/">vis.js</a></td></tr>
+<tr><td>gexf</td><td>Export the task dependency graph in <a href="https://gephi.org/gexf/format/">gexf format</a></td></tr>
+<tr><td>dot</td><td>Export the task dependency graph in png format. See <a href="https://graphviz.gitlab.io/">Graphviz</a></td></tr>
+</tbody>
+</table>
+<p>This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
+parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is
+use this publisher and collect the files on CI.</p>
+<p>The output will be found <code>&quot;${project.rootDir}/talaiot</code>:</p>
+<p><img src="resources/output_graph_publisher.png" alt="" /></p>
+<p>Example:</p>
+<p><img src="resources/graph_example_plaid.png" alt="" /></p>
+<h4 id="pushgatewaypublisher">PushGatewayPublisher</h4>
+<p>Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.</p>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>jobName</td><td>Name of the job required to be exported to Prometheus</td></tr>
+<tr><td>url</td><td>Url of the PushGateway Server</td></tr>
+</tbody>
+</table>
+<h4 id="jsonpublisher">JsonPublisher</h4>
+<p>Talaiot will Publish the results of the build with a json format .</p>
+<pre><code>    publishers {
+        jsonPublisher = true
+   
+    }
+</code></pre>
+<h4 id="timelinepublisher">TimelinePublisher</h4>
+<p>Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
+in the different workers.</p>
+<p><img src="resources/timeline.png" alt="" /></p>
+<pre><code>    publishers {
+        timelinePublisher = true
+   
+    }
+</code></pre>
+<h4 id="custom-publishers">Custom Publishers</h4>
+<p>Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
+Check <a href="https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher">here</a> how to define a custom publisher</p>
+<h3 id="metrics">Metrics</h3>
+<p>If you need to add more information on the builds you can add more metrics under the <code>customMetrics</code> on the <code>MetricsConfiguration</code></p>
+<pre><code>talaiot {
+    metrics {
+        customMetrics( &quot;versionApp&quot; to $version,
+                       &quot;customProperty&quot; to getCustomProperty() 
+                      )
+    }
+}
+</code></pre>
+<h3 id="filters">Filters</h3>
+<p>For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:</p>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>tasks</td><td>Configuration used to filter which tasks we want to exclude and include in the execution</td></tr>
+<tr><td>module</td><td>Configuration used to filter which modules we want to exclude and include in the execution</td></tr>
+<tr><td>threshold</td><td>Configuration used to define time execution ranges to filter tasks to be reported</td></tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code> filter {
+     tasks {
+         excludes = arrayOf(&quot;preDebugBuild&quot;, &quot;processDebugResources&quot;)
+     }
+     modules {
+         excludes = arrayOf(&quot;:app&quot;)
+     }
+     threshold {
+         minExecutionTime = 10
+     }
+ }
+</code></pre>
+<h3 id="ignorewhen">IgnoreWhen</h3>
+<table>
+<thead>
+<tr><th>Property</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>envName</td><td>Name of the Property</td></tr>
+<tr><td>envValue</td><td>Value of the Property</td></tr>
+</tbody>
+</table>
+<p>We will use IgnoreWhen when we want to ignore publishing the results of the build. One use case is to ignore it when we
+are building on CI:</p>
+<pre><code>talaiot {
+    ignoreWhen {
+        envName = &quot;CI&quot;
+        envValue = &quot;true&quot;
+    }
+}
+</code></pre>
+<h2 id="example-analyzing-data-provided-by-talaiot">Example: Analyzing Data provided by Talaiot</h2>
+<h3 id="docker-influxdb-and-grafana">Docker, InfluxDb and Grafana</h3>
+<p>To have a quick setup to see the possibilities of <code>Talaiot</code> we are providing a Docker image to setup a Grafana + InfluxDb instances(based on <a href="https://github.com/philhawthorne/docker-influxdb-grafana">this</a> great repo).</p>
+<p>Additionally, the Docker image is creating a default database, a provisioned dashboard and the default datasource for InfluxDb.
+The source is <a href="docker/Dockerfile">here</a>:</p>
+<p>To run the Docker Image:</p>
+<pre><code class="language-sh">docker run -d \
+  -p 3003:3003 \
+  -p 3004:8083 \
+  -p 8086:8086 \
+  -p 22022:22 \
+  -v /var/lib/influxdb \
+  -v /var/lib/grafana \
+  cdsap/talaiot:latest
+</code></pre>
+<p>You can access to the local instance of Grafana:</p>
+<p><code>http://localhost:3003</code> root/root</p>
+<h3 id="populating-data">Populating data</h3>
+<p>If you access to the provisioned Dashboard included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1), you will see an empty dashboard like:</p>
+<p><img src="resources/empty_dashboard.png" alt="" /></p>
+<p>To see Talaiot in action, you need to populate the data. We are providing a script to populate data based in this
+example repository:
+https://github.com/cdsap/TalaiotClientExample</p>
+<p>This repository includes the <code>InfluxDbPubluser</code> configuration pointing to the InfluxDb and datastore defined in the Docker image:</p>
+<pre><code>talaiot {
+    publishers {
+        influxDbPublisher {
+                    dbName = &quot;tracking&quot;
+                    url = &quot;http://localhost:8086&quot;
+                    taskMetricName = &quot;task&quot;
+                    buildMetricName = &quot;build&quot;
+        }
+    }
+}
+</code></pre>
+<p>You can execute the script:</p>
+<p><code>bash scripts/populate.sh</code></p>
+<p>The script will download the repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler)
+will trigger number of builds defined in the scenario file:</p>
+<pre><code>    assemble {
+    tasks = [&quot;clean&quot;]
+    }
+    clean_build {
+    versions = [&quot;5.1&quot;,&quot;4.10.2&quot;]
+    tasks = [&quot;assembleDebug&quot;]
+    gradle-args = [&quot;--parallel&quot;]
+    cleanup-tasks = [&quot;clean&quot;]
+    run-using = cli
+    warm-ups = 20
+    }
+</code></pre>
+<p>Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1</p>
+<h2 id="other-plugins">Other Plugins</h2>
+<p>Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:</p>
+<ul>
+<li>
+<p><a href="https://gradle.com/#">Gradle Enterprise</a>: If you are using Gradle Enterprise Talaiot is useless because the aggregation
+is great and you have the support from Gradle :)</p>
+</li>
+<li>
+<p><a href="https://github.com/passy/build-time-tracker-plugin">Build Time Tracker</a> by Pascal Hartig(@passy).</p>
+</li>
+<li>
+<p><a href="https://github.com/pedrovgs/Kuronometer">Kuronometer</a> Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)</p>
+</li>
+</ul>
+<h2 id="docs">Docs</h2>
+<p><a href="https://cdsap.github.io/Talaiot/">Docs</a></p>
+<h2 id="articles">Articles</h2>
+<p><a href="https://proandroiddev.com/understanding-talaiot-5da62594b00c">Understanding Talaiot</a></p>
+<p><a href="https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec">Exploring the InfluxDbPublisher in Talaiot</a></p>
+<p><a href="https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1">Graphs, Gradle and Talaiot</a></p>
+<h2 id="contributing">Contributing</h2>
+<p>Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.</p>
+<h2 id="contributors">Contributors</h2>
+<ul>
+<li>
+<p><a href="https://github.com/Malinskiy">Anton Malinskiy</a>: New format metrics, rework InfluxdbPublisher and new Publishers Json and Timeline.</p>
+</li>
+<li>
+<p><a href="https://github.com/rybalkinsd">Sergey Rybalkin</a></p>
+</li>
+<li>
+<p><a href="https://github.com/satyarths">Satyarth Sampath</a></p>
+</li>
+<li>
+<p><a href="https://github.com/cdsap/">Iñaki Villar</a></p>
+</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<p>Pascal Hartig, <a href="https://github.com/passy/build-time-tracker-plugin">Build Time Tracker</a> it was an inspiration to build this plugin.</p>
+<p><a href="https://github.com/novoda/bintray-release">Bintray release plugin</a> plugin by Novoda</p>
+<p><a href="https://github.com/rybalkinsd/kohttp">Kohttp Library</a></p>
+<p><a href="https://github.com/nidi3/graphviz-java">Graphviz-java Library</a></p>
+<p><a href="https://orchid.netlify.com/">Orchid</a></p>
+
+                        </div>
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+                    </article>
+                </section>
+            
+        </div>
+        <hr>
+
+        <!-- Page Footer -->
+        <div class="inner">
+    <footer id="footer">
+        <div class="clearfix">
+            
+            
+        </div>
+    </footer>
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form data-orchid-search="">
+                <input type="text" name="query" id="query" placeholder="Search"/>
+            </form>
+            <div class="box" id="search-results" data-orchid-search-results style="display: none;">
+                <b>Search Results</b>
+                <ul></ul>
+            </div>
+            <div class="box" id="search-progress" data-orchid-search-progress style="display: none;">
+                <div class="loader">Loading...</div>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <header class="major">
+                <h2>Talaiot</h2>
+            </header>
+            <ul class="top-level">
+                
+                    
+    
+    <li>
+        <a class="subheader">API Docs</a>
+    </li>
+    
+
+                
+                    
+    <li>
+        <span class="opener">All Packages</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot">com.cdsap.talaiot</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration">com.cdsap.talaiot.configuration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities">com.cdsap.talaiot.entities</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/extensions">com.cdsap.talaiot.extensions</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter">com.cdsap.talaiot.filter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger">com.cdsap.talaiot.logger</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics">com.cdsap.talaiot.metrics</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base">com.cdsap.talaiot.metrics.base</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider">com.cdsap.talaiot.provider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher">com.cdsap.talaiot.publisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher">com.cdsap.talaiot.publisher.graphpublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources">com.cdsap.talaiot.publisher.graphpublisher.resources</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline">com.cdsap.talaiot.publisher.timeline</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request">com.cdsap.talaiot.request</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer">com.cdsap.talaiot.writer</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+                    
+    <li>
+        <span class="opener">All Classes</span>
+        <ul>
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/BuildIdMetric">BuildIdMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/BuildResultMetric">BuildResultMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/CmdMetric">CmdMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/CustomProperties">CustomProperties</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/DefaultCharsetMetric">DefaultCharsetMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DefaultDiskPublisher">DefaultDiskPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DiskPublisher">DiskPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DotPublisher">DotPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/DotWriter">DotWriter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Environment">Environment</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/ExecutionReport">ExecutionReport</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/ExecutionResult">ExecutionResult</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/FileWriter">FileWriter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/FilterConfiguration">FilterConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GexfPublisher">GexfPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitBranchMetric">GitBranchMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitUserMetric">GitUserMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCacheModeMetric">GradleBuildCacheModeMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCachePushEnabled">GradleBuildCachePushEnabled</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildInvocationIdMetric">GradleBuildInvocationIdMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleMaxWorkersMetric">GradleMaxWorkersMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradleMetric">GradleMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradlePropertyMetric">GradlePropertyMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleRequestedTasksMetric">GradleRequestedTasksMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleScanLinkMetric">GradleScanLinkMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchBuildScanMetric">GradleSwitchBuildScanMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchCachingMetric">GradleSwitchCachingMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchConfigureOnDemandMetric">GradleSwitchConfigureOnDemandMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDaemonMetric">GradleSwitchDaemonMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDryRunMetric">GradleSwitchDryRunMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchOfflineMetric">GradleSwitchOfflineMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchParallelMetric">GradleSwitchParallelMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRefreshDependenciesMetric">GradleSwitchRefreshDependenciesMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRerunTasksMetric">GradleSwitchRerunTasksMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleVersionMetric">GradleVersionMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactory">GraphPublisherFactory</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactoryImpl">GraphPublisherFactoryImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherType">GraphPublisherType</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/HostnameMetric">HostnameMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/HtmlPublisher">HtmlPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/IgnoreWhenConfiguration">IgnoreWhenConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/InfluxDbPublisher">InfluxDbPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/InfluxDbPublisherConfiguration">InfluxDbPublisherConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaRuntimeMetric">JavaRuntimeMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaVmNameMetric">JavaVmNameMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/JsonPublisher">JsonPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/JvmArgsMetric">JvmArgsMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmMaxPermSizeMetric">JvmMaxPermSizeMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmsMetric">JvmXmsMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmxMetric">JvmXmxMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/LocaleMetric">LocaleMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker">LogTracker</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTrackerImpl">LogTrackerImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/Measure">Measure</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/Metric">Metric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/MetricsConfiguration">MetricsConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/MetricsProvider">MetricsProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker/Mode">Mode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/NodeArgument">NodeArgument</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/Order">Order</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsManufacturerMetric">OsManufacturerMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsMetric">OsMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/OutputPublisher">OutputPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/OutputPublisherConfiguration">OutputPublisherConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Plugin">Plugin</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/ProcessorCountMetric">ProcessorCountMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/Provider">Provider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/PublicIpMetric">PublicIpMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/Publisher">Publisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublisherConfiguration">PublisherConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublishersConfiguration">PublishersConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/PublishersProvider">PublishersProvider</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/PushGatewayPublisher">PushGatewayPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PushGatewayPublisherConfiguration">PushGatewayPublisherConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RamAvailableMetric">RamAvailableMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/Request">Request</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesGexf">ResourcesGexf</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesHtml">ResourcesHtml</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/RetentionPolicyConfiguration">RetentionPolicyConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RootProjectNameMetric">RootProjectNameMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/SimpleMetric">SimpleMetric</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/SimpleRequest">SimpleRequest</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilter">StringFilter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilterProcessor">StringFilterProcessor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Switches">Switches</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotExtension">TalaiotExtension</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotListener">TalaiotListener</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotPlugin">TalaiotPlugin</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisher">TalaiotPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisherImpl">TalaiotPublisherImpl</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotTracker">TalaiotTracker</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/TaskDependencyGraphConfiguration">TaskDependencyGraphConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TaskDependencyGraphPublisher">TaskDependencyGraphPublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskDependencyNode">TaskDependencyNode</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/TaskFilterProcessor">TaskFilterProcessor</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/TaskGraphWriter">TaskGraphWriter</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskLength">TaskLength</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskMessageState">TaskMessageState</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/ThresholdConfiguration">ThresholdConfiguration</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelinePublisher">TimelinePublisher</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelineTaskMeasurement">TimelineTaskMeasurement</a>
+    </li>
+    
+
+        
+            
+    
+    <li>
+        <a href="https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/UserMetric">UserMetric</a>
+    </li>
+    
+
+        
+        </ul>
+    </li>
+
+                
+            </ul>
+        </nav>
+        
+
+        <!-- Section -->
+        <section>
+            <p class="text-center">
+                Currently 1.0.0. Created with <a href="https://orchid.netlify.com">Orchid </a> and <b>Orchid Editorial Theme</b>.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright text-center">&copy; JavaEden. All rights reserved.<br>Design by <a href="https://html5up.net">HTML5 UP</a></p>
+        </footer>
+
+    </div>
+</div>
+</div>
+
+<!-- start:inject scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+<script src="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/js/editorial_util.js"></script>
+<script src="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/js/editorial_main.js"></script>
+<script src="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/js/editorial_orchidCustomizations.js"></script>
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+<script src="https://cdsap.github.io/Talaiot/Editorial/6e86288f/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+</body>
+</html>

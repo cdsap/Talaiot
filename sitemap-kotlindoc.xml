@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCachePushEnabled</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDryRunMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleRequestedTasksMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchCachingMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/UserMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchParallelMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitBranchMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/DefaultCharsetMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmsMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/SimpleMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleVersionMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/BuildIdMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/LocaleMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRerunTasksMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RamAvailableMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/HostnameMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaRuntimeMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCacheModeMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRefreshDependenciesMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmxMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitUserMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDaemonMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaVmNameMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RootProjectNameMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/PublicIpMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleScanLinkMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/ProcessorCountMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildInvocationIdMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchConfigureOnDemandMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsManufacturerMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradleMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradlePropertyMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/BuildResultMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/CmdMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/Metric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/JvmArgsMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleMaxWorkersMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchOfflineMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmMaxPermSizeMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchBuildScanMetric</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/FilterConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/RetentionPolicyConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/MetricsConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/ThresholdConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/InfluxDbPublisherConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PushGatewayPublisherConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/IgnoreWhenConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublisherConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/OutputPublisherConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/Order</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/TaskDependencyGraphConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublishersConfiguration</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTrackerImpl</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker/Mode</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/PushGatewayPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisherImpl</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/Publisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/JsonPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TaskDependencyGraphPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/InfluxDbPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/OutputPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/ExecutionResult</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/Measure</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelinePublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelineTaskMeasurement</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/HtmlPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GexfPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DiskPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactory</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesGexf</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesHtml</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherType</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactoryImpl</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DefaultDiskPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DotPublisher</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/MetricsProvider</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/Provider</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/PublishersProvider</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotPlugin</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/TaskGraphWriter</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/DotWriter</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/FileWriter</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotListener</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/Request</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/SimpleRequest</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotExtension</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilterProcessor</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/TaskFilterProcessor</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilter</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotTracker</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/NodeArgument</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/ExecutionReport</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskDependencyNode</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Switches</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/CustomProperties</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Plugin</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskMessageState</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskLength</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Environment</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    <url>
+        <loc>https://cdsap.github.io/Talaiot/com/cdsap/talaiot/extensions</loc>
+        <lastmod>2019-07-28</lastmod>
+        <priority>0.0</priority>
+        
+    </url>
+    
+</urlset>

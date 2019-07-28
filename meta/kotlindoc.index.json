@@ -1,0 +1,1909 @@
+{
+  "ownKey": "kotlindoc",
+  "childrenPages": {"com": {
+    "ownKey": "com",
+    "childrenPages": {"cdsap": {
+      "ownKey": "cdsap",
+      "childrenPages": {"talaiot": {
+        "ownKey": "talaiot",
+        "childrenPages": {
+          "TalaiotExtension": {
+            "ownKey": "TalaiotExtension",
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "TalaiotExtension",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotExtension"
+              },
+              "description": "",
+              "title": "TalaiotExtension",
+              "content": "<p>Main configuration file for the TalaiotPlugin<init>\nMain configuration file for the TalaiotPlugin\nlogger\nGeneral Logger for the whole plugin\npublishers\nGeneral Publisher configuration included in the build\nignoreWhen\nConfiguration for ignoring the execution of the plugin in the build\nmetrics\nMetrics general configuration\nfilter\nFiltering task configuration, you can filter the reporting of the tasks\nby name, module and threshold time execution\nproject<\/p>\n<p>ignoreWhen<\/p>\n<p>ignoreWhen<\/p>\n<p>publishers<\/p>\n<p>publishers<\/p>\n<p>metrics<\/p>\n<p>metrics<\/p>\n<p>logger<\/p>\n<p>filter<\/p>\n<p>filter<\/p>\n"
+            }]
+          },
+          "request": {
+            "ownKey": "request",
+            "childrenPages": {
+              "Request": {
+                "ownKey": "Request",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/request",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Request",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/Request"
+                  },
+                  "description": "",
+                  "title": "Request",
+                  "content": "<p>Type representing the action to send content to an url\nlogTracker\nLogTracker to print in console depending on the Mode\nsend<\/p>\n"
+                }]
+              },
+              "SimpleRequest": {
+                "ownKey": "SimpleRequest",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/request",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "SimpleRequest",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request/SimpleRequest"
+                  },
+                  "description": "",
+                  "title": "SimpleRequest",
+                  "content": "<p>Simple implementation of request.\nUsing KoHttp to create the request.<init>\nSimple implementation of request.\nUsing KoHttp to create the request.\nlogTracker\nLogTracker to print in console depending on the Mode\nsend<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "request",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/request"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.request",
+              "content": ""
+            }]
+          },
+          "configuration": {
+            "ownKey": "configuration",
+            "childrenPages": {
+              "Order": {
+                "ownKey": "Order",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Order",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/Order"
+                  },
+                  "description": "",
+                  "title": "Order",
+                  "content": "<p>Order enum to represent the order in a list of tasks<\/p>\n"
+                }]
+              },
+              "PushGatewayPublisherConfiguration": {
+                "ownKey": "PushGatewayPublisherConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PushGatewayPublisherConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PushGatewayPublisherConfiguration"
+                  },
+                  "description": "",
+                  "title": "PushGatewayPublisherConfiguration",
+                  "content": "<p>Configuration for the com.cdsap.talaiot.publisher.PushGatewayPublisher<p><span url=\"http://some.company:8086\" taskJobName=\"task\" buildJobName=\"build\">pushGatewayPublisher <\/span><\/p><init>\nConfiguration for the com.cdsap.talaiot.publisher.PushGatewayPublisher<p><span url=\"http://some.company:8086\" taskJobName=\"task\" buildJobName=\"build\">pushGatewayPublisher <\/span><\/p>\nname\nname of the publisher\nurl\nurl from the PushGateway instance required to send the measurements. For instance http://localhost:8086\ntaskJobName\nvalue to identify the job in PushGateway\nbuildJobName<\/p>\n"
+                }]
+              },
+              "MetricsConfiguration": {
+                "ownKey": "MetricsConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "MetricsConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/MetricsConfiguration"
+                  },
+                  "description": "",
+                  "title": "MetricsConfiguration",
+                  "content": "<p>Configuration for the Metrics extensions<p>metrics{\ndefault()\ngit()\nperformance()\ngradleSwitches()\n}<\/p><p>By default default is called unless user has specified anything at all in this configuration.<\/p><p>Default includes:\nRootProjectNameMetric\nGradleVersionMetric\nGradleBuildCachePushEnabled<\/p><p>Git includes:\nGitUserMetric<\/p><p>Performance includes:\nUserMetric\nProcessorCountMetric\nJavaVmNameMetric\nGradleMaxWorkersMetric\nJvmXmxMetric<\/p><p>Gradle switches includes:\nGradleSwitchCachingMetric\nGradleSwitchParallelMetric\nGradleSwitchDryRunMetric\nGradleSwitchRerunTasksMetric<\/p><p>If you want to define a custom metrics:<\/p><p>metrics {\ncustomBuildMetrics<a href=\"#\">key<\/a> = &quot;value&quot;\ncustomTaskMetrics<a href=\"#\">key<\/a> = &quot;value&quot;\n}<\/p><init>\nConfiguration for the Metrics extensions<p>metrics{\ndefault()\ngit()\nperformance()\ngradleSwitches()\n}<\/p><p>By default default is called unless user has specified anything at all in this configuration.<\/p><p>Default includes:\nRootProjectNameMetric\nGradleVersionMetric\nGradleBuildCachePushEnabled<\/p><p>Git includes:\nGitUserMetric<\/p><p>Performance includes:\nUserMetric\nProcessorCountMetric\nJavaVmNameMetric\nGradleMaxWorkersMetric\nJvmXmxMetric<\/p><p>Gradle switches includes:\nGradleSwitchCachingMetric\nGradleSwitchParallelMetric\nGradleSwitchDryRunMetric\nGradleSwitchRerunTasksMetric<\/p><p>If you want to define a custom metrics:<\/p><p>metrics {\ncustomBuildMetrics<a href=\"#\">key<\/a> = &quot;value&quot;\ncustomTaskMetrics<a href=\"#\">key<\/a> = &quot;value&quot;\n}<\/p>\ngenerateBuildId\nFlag to specify the generation of the unique build id.\nIn some cases could generate high cardinality problems like in basic InfluxDb setups, disabled by default\nmetrics<\/p>\n<p>customBuildMetrics<\/p>\n<p>customTaskMetrics<\/p>\n<p>default<\/p>\n<p>git<\/p>\n<p>performance<\/p>\n<p>gradleSwithes<\/p>\n<p>customBuildMetrics<\/p>\n<p>customBuildMetrics<\/p>\n<p>customBuildMetrics<\/p>\n<p>customTaskMetrics<\/p>\n<p>customTaskMetrics<\/p>\n<p>customTaskMetrics<\/p>\n"
+                }]
+              },
+              "ThresholdConfiguration": {
+                "ownKey": "ThresholdConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "ThresholdConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/ThresholdConfiguration"
+                  },
+                  "description": "",
+                  "title": "ThresholdConfiguration",
+                  "content": "<p>Task filtering configuration\nIf specified Talaiot will report only tasks that are between minExecutionTime and maxExecutionTime<init>\nTask filtering configuration\nIf specified Talaiot will report only tasks that are between minExecutionTime and maxExecutionTime\nminExecutionTime\nMinimum execution time of one task to be consider valid to be reported\nmaxExecutionTime\nMaximum execution time of one task to be consider valid to be reported<\/p>\n"
+                }]
+              },
+              "OutputPublisherConfiguration": {
+                "ownKey": "OutputPublisherConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "OutputPublisherConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/OutputPublisherConfiguration"
+                  },
+                  "description": "",
+                  "title": "OutputPublisherConfiguration",
+                  "content": "<p>Configuration for the OutputPublisher<init>\nConfiguration for the OutputPublisher\nname<\/p>\n<p>order\nRepresents the displayed orientation in the results\nnumberOfTasks\nNumber of tasks we want to display in the results<\/p>\n"
+                }]
+              },
+              "InfluxDbPublisherConfiguration": {
+                "ownKey": "InfluxDbPublisherConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "InfluxDbPublisherConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/InfluxDbPublisherConfiguration"
+                  },
+                  "description": "",
+                  "title": "InfluxDbPublisherConfiguration",
+                  "content": "<p>Configuration for the InfluxDbPublisher. It belongs to the Publisher configurations<p>influxDbPublisher {\ndbName = &quot;tracking&quot;\nurl = &quot;url&quot;\ntaskMetricName = &quot;tracking&quot;\nbuildMetricName = &quot;buildMetric&quot;<\/p><p>}<\/p><init>\nConfiguration for the InfluxDbPublisher. It belongs to the Publisher configurations<p>influxDbPublisher {\ndbName = &quot;tracking&quot;\nurl = &quot;url&quot;\ntaskMetricName = &quot;tracking&quot;\nbuildMetricName = &quot;buildMetric&quot;<\/p><p>}<\/p>\nname\nname of the publisher\ndbName\nname of the InfluxDb database, will be automatically created\nurl\nurl from the InfluxDb instance required to send the measurements. For instance http://localhost:8086\ntaskMetricName\nmetric to identify the measurement in InfluxDb\nbuildMetricName\nmetric name to identify the build measurements in InfluxDb\nusername\noptional username for authentication\npassword\noptional password for authorization\nretentionPolicyConfiguration\nmetrics retention policy. By default it's named as rpTalaiot and duration is 30 days<\/p>\n"
+                }]
+              },
+              "RetentionPolicyConfiguration": {
+                "ownKey": "RetentionPolicyConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "RetentionPolicyConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/RetentionPolicyConfiguration"
+                  },
+                  "description": "",
+                  "title": "RetentionPolicyConfiguration",
+                  "content": "<p><init><\/p>\n<p>name<\/p>\n<p>duration<\/p>\n<p>shardDuration<\/p>\n<p>replicationFactor<\/p>\n<p>isDefault<\/p>\n"
+                }]
+              },
+              "FilterConfiguration": {
+                "ownKey": "FilterConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "FilterConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/FilterConfiguration"
+                  },
+                  "description": "",
+                  "title": "FilterConfiguration",
+                  "content": "<p>Configuration to specify the filters for the tasks that should be processed by the publisher.\nFilters included: Task Name, Module Name and Threshold duration of the execution.<p>Used in OutputConfiguration and InfluxDbConfiguration.\nNot used in TaskDependencyGraphConfiguration due to requirement to display dependency of the task build.<\/p><p>Example:<\/p><p>filter{\ntasks{\nincludes = arrayOf(&quot;cle.<i>&quot;)    excludes = arrayOf(&quot;taskA&quot;)}modules{    includes = arrayOf(&quot;feature.<\/i>&quot;)\nexcludes = arrayOf(&quot;utils.<em><span maxValue=\"3000\" minValue=\"10\">&quot;)\n}\nthreshold<\/span>\n}<\/p><init>\nConfiguration to specify the filters for the tasks that should be processed by the publisher.\nFilters included: Task Name, Module Name and Threshold duration of the execution.<p>Used in OutputConfiguration and InfluxDbConfiguration.\nNot used in TaskDependencyGraphConfiguration due to requirement to display dependency of the task build.<\/p><p>Example:<\/p><p>filter{\ntasks{\nincludes = arrayOf(&quot;cle.<i>&quot;)    excludes = arrayOf(&quot;taskA&quot;)}modules{    includes = arrayOf(&quot;feature.<\/i>&quot;)\nexcludes = arrayOf(&quot;utils.<\/em><span maxValue=\"3000\" minValue=\"10\">&quot;)\n}\nthreshold<\/span>\n}<\/p>\ntasks\nA regex based filter to include and exclude tasks\nmodules\nA regex based filter to include and exclude module\nthreshold\nA range to filter the duration of execution of the task\ntasks<\/p>\n<p>tasks<\/p>\n<p>modules<\/p>\n<p>modules<\/p>\n<p>threshold<\/p>\n<p>threshold<\/p>\n"
+                }]
+              },
+              "IgnoreWhenConfiguration": {
+                "ownKey": "IgnoreWhenConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "IgnoreWhenConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/IgnoreWhenConfiguration"
+                  },
+                  "description": "",
+                  "title": "IgnoreWhenConfiguration",
+                  "content": "<p><span envName=\"CI\" envValue=\"true\">Configuration for the ignoreWhen property. Used in General Talaiot configuration and TaskDependencyGraph.\nIt expects an environment Name and Value variables.\nIn some scenarios we want to ignore the execution of the Publishers, for instance we don't want to execute it in\nCI environments.\nWe can define this ignore rule:\nignoreWhen<\/span><init><span envName=\"CI\" envValue=\"true\">\nConfiguration for the ignoreWhen property. Used in General Talaiot configuration and TaskDependencyGraph.\nIt expects an environment Name and Value variables.\nIn some scenarios we want to ignore the execution of the Publishers, for instance we don't want to execute it in\nCI environments.\nWe can define this ignore rule:\nignoreWhen<\/span>\nenvName\nname of the environment variable or property project\nenvValue\nvalue of the environment variable or property project\nshouldIgnore\nGiven a name and value not empty it will check if:\n1st: there is an environment variable defined with the same name, in that case will check if the value matches.\n2nd: in case there is no environment variable it will check if there is one property in the project with the given\nname, in that case will check if the value matches<\/p>\n"
+                }]
+              },
+              "TaskDependencyGraphConfiguration": {
+                "ownKey": "TaskDependencyGraphConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskDependencyGraphConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/TaskDependencyGraphConfiguration"
+                  },
+                  "description": "",
+                  "title": "TaskDependencyGraphConfiguration",
+                  "content": "<p><span envName=\"CI\" envValue=\"false\">Configuration for com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher\ntaskDependencyGraphPublisher{\ngexf = true\nhtml = false\ndot = true\nignoreWhen<\/span>\n}<init><span envName=\"CI\" envValue=\"false\">\nConfiguration for com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher\ntaskDependencyGraphPublisher{\ngexf = true\nhtml = false\ndot = true\nignoreWhen<\/span>\n}\nignoreWhen\nConfiguration for the ignoreWhen property.\ngexf\nFlag to enable com.cdsap.talaiot.publisher.graphpublisher.GexfPublisher\nhtml\nFlag to enable com.cdsap.talaiot.publisher.graphpublisher.HtmlPublisher\ndot\nFlag to enable com.cdsap.talaiot.publisher.graphpublisher.DotPublisher\nproject<\/p>\n<p>ignoreWhen\nKotlin accessor for the IgnoreWhenConfiguration\nignoreWhen\nGroovy accessor for the IgnoreWhenConfiguration<\/p>\n"
+                }]
+              },
+              "PublishersConfiguration": {
+                "ownKey": "PublishersConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PublishersConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublishersConfiguration"
+                  },
+                  "description": "",
+                  "title": "PublishersConfiguration",
+                  "content": "<p>Main configuration for the publishers.<p>It offers the accessors for Groovy and KTS<\/p><p>publishers {\ninfluxDbPublisher {\n}\noutputPublisher {\n}\ntaskDependencyGraphPublisher {\n}\npushGatewayPublisher {\n}\ncustomDependencies {\n}\n}<\/p><init>\nMain configuration for the publishers.<p>It offers the accessors for Groovy and KTS<\/p><p>publishers {\ninfluxDbPublisher {\n}\noutputPublisher {\n}\ntaskDependencyGraphPublisher {\n}\npushGatewayPublisher {\n}\ncustomDependencies {\n}\n}<\/p>\ninfluxDbPublisher\nAccess to the configuration of com.cdsap.talaiot.publisher.InfluxDbPublisher\noutputPublisher\nAccess to the configuration of com.cdsap.talaiot.publisher.OutputPublisher\npushGatewayPublisher\nAccess to the configuration of com.cdsap.talaiot.publisher.PushGatewayPublisher\ntaskDependencyGraphPublisher\nAccess to the configuration of com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher\ntimelinePublisher\nFlag to enable com.cdsap.talaiot.publisher.timeline.TimelinePublisher<p>Generates an html report with the timeline of task execution<\/p>\njsonPublisher\nFlag to enable com.cdsap.talaiot.publisher.JsonPublisher<p>Generates a json representation of com.cdsap.talaiot.entities.ExecutionReport<\/p>\ncustomPublisher\nDefinition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.<p>Some users of plugin might need to use a custom publisher to push to internal analytics for example.<\/p>\nproject<\/p>\n<p>taskDependencyGraphPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher\ntaskDependencyGraphPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher\ninfluxDbPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.InfluxDbPublisher\ninfluxDbPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.InfluxDbPublisher\npushGatewayPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.PushGatewayPublisher\npushGatewayPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.PushGatewayPublisher\noutputPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.OutputPublisher\noutputPublisher\nConfiguration accessor within the PublishersConfiguration for the com.cdsap.talaiot.publisher.OutputPublisher\ncustomPublisher\nConfiguration accessor within the PublishersConfiguration for the custom implementation for Publisher<p>Will override another custom publisher instance if present<\/p><\/p>\n"
+                }]
+              },
+              "PublisherConfiguration": {
+                "ownKey": "PublisherConfiguration",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/configuration",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PublisherConfiguration",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration/PublisherConfiguration"
+                  },
+                  "description": "",
+                  "title": "PublisherConfiguration",
+                  "content": "<p>name<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "configuration",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/configuration"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.configuration",
+              "content": ""
+            }]
+          },
+          "logger": {
+            "ownKey": "logger",
+            "childrenPages": {
+              "LogTrackerImpl": {
+                "ownKey": "LogTrackerImpl",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/logger",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "LogTrackerImpl",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTrackerImpl"
+                  },
+                  "description": "",
+                  "title": "LogTrackerImpl",
+                  "content": "<p>Main implementation of the LogTracker<init>\nMain implementation of the LogTracker<\/p>\n<p>log\nLogger function that check the current node to use the output method to display the results.<\/p>\n"
+                }]
+              },
+              "LogTracker": {
+                "ownKey": "LogTracker",
+                "childrenPages": {"Mode": {
+                  "ownKey": "Mode",
+                  "ownPages": [{
+                    "reference": {
+                      "path": "com/cdsap/talaiot/logger/LogTracker",
+                      "baseUrl": "https://cdsap.github.io/Talaiot",
+                      "fileName": "Mode",
+                      "extension": "html",
+                      "usePrettyUrl": true,
+                      "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker/Mode"
+                    },
+                    "description": "",
+                    "title": "Mode",
+                    "content": "<p>Main modes of for the LogTracker implementations.<\/p>\n"
+                  }]
+                }},
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/logger",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "LogTracker",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger/LogTracker"
+                  },
+                  "description": "",
+                  "title": "LogTracker",
+                  "content": "<p>Logger interface<\/p>\n<p>log<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "logger",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/logger"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.logger",
+              "content": ""
+            }]
+          },
+          "TalaiotPlugin": {
+            "ownKey": "TalaiotPlugin",
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "TalaiotPlugin",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotPlugin"
+              },
+              "description": "",
+              "title": "TalaiotPlugin",
+              "content": "<p>Talaiot main <a href=\"#\">Plugin<\/a>.<p>Talaiot is a simple and extensible plugin for teams that use Gradle Build System. It stores information about\nyour Gradle tasks and helps you detect problems and bottlenecks of your builds. For every tracked task and build\nit will add additional information defined by default and custom metrics\nspecified in com.cdsap.talaiot.configuration.MetricsConfiguration.<\/p><p>usage:\nplugins {\nid(&quot;talaiot&quot;)\n}<\/p><init>\nTalaiot main <a href=\"#\">Plugin<\/a>.<p>Talaiot is a simple and extensible plugin for teams that use Gradle Build System. It stores information about\nyour Gradle tasks and helps you detect problems and bottlenecks of your builds. For every tracked task and build\nit will add additional information defined by default and custom metrics\nspecified in com.cdsap.talaiot.configuration.MetricsConfiguration.<\/p><p>usage:\nplugins {\nid(&quot;talaiot&quot;)\n}<\/p><\/p>\n<p>apply<\/p>\n"
+            }]
+          },
+          "filter": {
+            "ownKey": "filter",
+            "childrenPages": {
+              "TaskFilterProcessor": {
+                "ownKey": "TaskFilterProcessor",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/filter",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskFilterProcessor",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/TaskFilterProcessor"
+                  },
+                  "description": "",
+                  "title": "TaskFilterProcessor",
+                  "content": "<p><init><\/p>\n<p>logTracker<\/p>\n<p>filter<\/p>\n<p>taskLengthFilter<\/p>\n"
+                }]
+              },
+              "StringFilterProcessor": {
+                "ownKey": "StringFilterProcessor",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/filter",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "StringFilterProcessor",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilterProcessor"
+                  },
+                  "description": "",
+                  "title": "StringFilterProcessor",
+                  "content": "<p><init><\/p>\n<p>matches<\/p>\n"
+                }]
+              },
+              "StringFilter": {
+                "ownKey": "StringFilter",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/filter",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "StringFilter",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter/StringFilter"
+                  },
+                  "description": "",
+                  "title": "StringFilter",
+                  "content": "<p><init><\/p>\n<p>includes<\/p>\n<p>excludes<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "filter",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/filter"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.filter",
+              "content": ""
+            }]
+          },
+          "extensions": {
+            "ownKey": "extensions",
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "extensions",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/extensions"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.extensions",
+              "content": "<p>toBytes<\/p>\n"
+            }]
+          },
+          "provider": {
+            "ownKey": "provider",
+            "childrenPages": {
+              "PublishersProvider": {
+                "ownKey": "PublishersProvider",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/provider",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PublishersProvider",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/PublishersProvider"
+                  },
+                  "description": "",
+                  "title": "PublishersProvider",
+                  "content": "<p>Provides the Publishers defined in the com.cdsap.talaiot.configuration.PublishersConfiguration of the TalaiotExtension<init>\nProvides the Publishers defined in the com.cdsap.talaiot.configuration.PublishersConfiguration of the TalaiotExtension\nproject\nGradle Project used to retrieve the extension\nlogger<\/p>\n<p>get\nCheck the main TalaiotExtension which publishers have been enabled.\nWhen one publisher is enabled it initialize it with the required parameters<\/p>\n"
+                }]
+              },
+              "MetricsProvider": {
+                "ownKey": "MetricsProvider",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/provider",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "MetricsProvider",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/MetricsProvider"
+                  },
+                  "description": "",
+                  "title": "MetricsProvider",
+                  "content": "<p>Provider for all metrics defined in the main com.cdsap.talaiot.configuration.MetricsConfiguration.<init>\nProvider for all metrics defined in the main com.cdsap.talaiot.configuration.MetricsConfiguration.<\/p>\n<p>get\nAggregates all metrics based on com.cdsap.talaiot.configuration.MetricsConfiguration.<\/p>\n"
+                }]
+              },
+              "Provider": {
+                "ownKey": "Provider",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/provider",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Provider",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider/Provider"
+                  },
+                  "description": "",
+                  "title": "Provider",
+                  "content": "<p>get<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "provider",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/provider"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.provider",
+              "content": ""
+            }]
+          },
+          "entities": {
+            "ownKey": "entities",
+            "childrenPages": {
+              "TaskMessageState": {
+                "ownKey": "TaskMessageState",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskMessageState",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskMessageState"
+                  },
+                  "description": "",
+                  "title": "TaskMessageState",
+                  "content": "<p>Enum that represents the state of execution of one <a href=\"#\">org.gradle.api.Task<\/a>.\nIt differs from <a href=\"#\">org.gradle.api.tasks.TaskState<\/a> Gradle API: we track if the state it has a skip-message\nand map it within on model. We added the Executed state.<\/p>\n"
+                }]
+              },
+              "ExecutionReport": {
+                "ownKey": "ExecutionReport",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "ExecutionReport",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/ExecutionReport"
+                  },
+                  "description": "",
+                  "title": "ExecutionReport",
+                  "content": "<p>Since the user of the plugin might customize metrics provider we have to make almost everything here optional<init>\nSince the user of the plugin might customize metrics provider we have to make almost everything here optional\ncacheRatio\nCache ratio of the tasks = tasks_from_cache / all_tasks\nenvironment\ninformation about the environment of gradle execution\ncustomProperties\ncustom properties defined in com.cdsap.talaiot.configuration.MetricsConfiguration\nbeginMs\ntimestamp of gradle execution start\nendMs\ntimestamp of gradle execution finish\ndurationMs\nduration in millis of gradle execution\nconfigurationDurationMs\nduration of the configuration phase\ntasks\nlist of executed tasks filtered according to com.cdsap.talaiot.configuration.FilterConfiguration\nunfilteredTasks\nlist of executed tasks\nbuildId\nunique build identifier generated by Talaiot\nrootProject\nname of the root gradle project\nrequestedTasks\ngradle tasks requested by user, e.g. &quot;assemble test&quot;\nsuccess\ntrue if build finished successfully, false otherwise\nscanLink\nlink to the generated gradle scan\nbuildInvocationId\nunique build identifier generated by Gradle's <a href=\"#\">org.gradle.internal.scan.scopeids.BuildScanScopeIds<\/a>. It has the same value for multi-stage builds, e.g. wrapper invocation and actual tasks requested. For more info see comments at com.cdsap.talaiot.metrics.GradleBuildInvocationIdMetric\nflattenBuildEnv<\/p>\n<p>estimateCriticalPath\nFills in the TaskLength.critical to later check which task was on the critical (longest in terms of time) path<p>This would be a lot faster if it was actually a weighted graph<\/p><\/p>\n"
+                }]
+              },
+              "TaskDependencyNode": {
+                "ownKey": "TaskDependencyNode",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskDependencyNode",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskDependencyNode"
+                  },
+                  "description": "",
+                  "title": "TaskDependencyNode",
+                  "content": "<p>Wrapper of TaskLength, adding an Int to be identified in a HashTables<init>\nWrapper of TaskLength, adding an Int to be identified in a HashTables\ntaskLength\nTask wrapped\ninternalId\nInternal Id of the tasks used in the Hash<\/p>\n"
+                }]
+              },
+              "Switches": {
+                "ownKey": "Switches",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Switches",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Switches"
+                  },
+                  "description": "",
+                  "title": "Switches",
+                  "content": "<p><init><\/p>\n<p>buildCache<\/p>\n<p>configurationOnDemand<\/p>\n<p>daemon<\/p>\n<p>parallel<\/p>\n<p>continueOnFailure<\/p>\n<p>dryRun<\/p>\n<p>offline<\/p>\n<p>rerunTasks<\/p>\n<p>refreshDependencies<\/p>\n<p>buildScan<\/p>\n"
+                }]
+              },
+              "TaskLength": {
+                "ownKey": "TaskLength",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskLength",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/TaskLength"
+                  },
+                  "description": "",
+                  "title": "TaskLength",
+                  "content": "<p>Main Entity to contain the information of the Task tracked<init>\nMain Entity to contain the information of the Task tracked\nms\nDuration of the execution of the task in milliseconds\ntaskName\nTask name of the task tracked\ntaskPath\nTask name with the path of the task tracked, it contains the modules or logic structure applied:\nandroid:core:lib:assembleDebug\nstate\nCustom task execution result\nrootNode\nIn case we are executing a general task like assembleDebug, the length of the execution is not tracked, Talaiot\naggregates the execution of the different tasks and need to inform that a given task it was invoke as main task\nto execute\nmodule\nmodule which the task belongs\ntaskDependencies\nList of dependencies required to be executed before the current task\nworkerId\nString id of gradle worker that executed this task\nstartMs\nTimestamp of start in millis\nstopMs\nTimestamp of finish in millis\ncritical\ntask is on the critical path of execution<\/p>\n"
+                }]
+              },
+              "Environment": {
+                "ownKey": "Environment",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Environment",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Environment"
+                  },
+                  "description": "",
+                  "title": "Environment",
+                  "content": "<p><init><\/p>\n<p>cpuCount<\/p>\n<p>osVersion<\/p>\n<p>maxWorkers<\/p>\n<p>javaRuntime<\/p>\n<p>javaVmName<\/p>\n<p>javaXmsBytes<\/p>\n<p>javaXmxBytes<\/p>\n<p>javaMaxPermSize<\/p>\n<p>totalRamAvailableBytes<\/p>\n<p>locale<\/p>\n<p>username<\/p>\n<p>publicIp<\/p>\n<p>defaultChartset<\/p>\n<p>ideVersion<\/p>\n<p>gradleVersion<\/p>\n<p>cacheMode<\/p>\n<p>cachePushEnabled<\/p>\n<p>cacheUrl<\/p>\n<p>cacheHit<\/p>\n<p>cacheMiss<\/p>\n<p>cacheStore<\/p>\n<p>plugins<\/p>\n<p>gitBranch<\/p>\n<p>gitUser<\/p>\n<p>switches<\/p>\n<p>hostname<\/p>\n<p>osManufacturer<\/p>\n"
+                }]
+              },
+              "NodeArgument": {
+                "ownKey": "NodeArgument",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "NodeArgument",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/NodeArgument"
+                  },
+                  "description": "",
+                  "title": "NodeArgument",
+                  "content": "<p>Tasks included in the Gradle build as start commands need to track information to aggregate the data. AssembleDebug\nfor example won't return the overall execution of these tasks but we want to track it. It contains an internal counter\nand the duration.<init>\nTasks included in the Gradle build as start commands need to track information to aggregate the data. AssembleDebug\nfor example won't return the overall execution of these tasks but we want to track it. It contains an internal counter\nand the duration.\ntask\nTask retrieved from the queue representing the main task\nms\nDuration of the execution\ncounter\nInternal counter representing the tasks executed depending on the counter<\/p>\n"
+                }]
+              },
+              "CustomProperties": {
+                "ownKey": "CustomProperties",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "CustomProperties",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/CustomProperties"
+                  },
+                  "description": "",
+                  "title": "CustomProperties",
+                  "content": "<p><init><\/p>\n<p>buildProperties<\/p>\n<p>taskProperties<\/p>\n"
+                }]
+              },
+              "Plugin": {
+                "ownKey": "Plugin",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/entities",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Plugin",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities/Plugin"
+                  },
+                  "description": "",
+                  "title": "Plugin",
+                  "content": "<p>TODO: figure out how to get the list of current plugins applied to the project<init>\nTODO: figure out how to get the list of current plugins applied to the project\nid<\/p>\n<p>mainClass<\/p>\n<p>version<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "entities",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/entities"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.entities",
+              "content": ""
+            }]
+          },
+          "publisher": {
+            "ownKey": "publisher",
+            "childrenPages": {
+              "graphpublisher": {
+                "ownKey": "graphpublisher",
+                "childrenPages": {
+                  "DefaultDiskPublisher": {
+                    "ownKey": "DefaultDiskPublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "DefaultDiskPublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DefaultDiskPublisher"
+                      },
+                      "description": "",
+                      "title": "DefaultDiskPublisher",
+                      "content": "<p>Abstract class implementing DiskPublisher.\nUse this class if you need to compose the output of one GraphPublisher writing in Disk the next format:\nHEADER + CONTENT + LEGEND + FOOTER\nConsumers should implement how to write the legend, nodes and edges.<init>\nAbstract class implementing DiskPublisher.\nUse this class if you need to compose the output of one GraphPublisher writing in Disk the next format:\nHEADER + CONTENT + LEGEND + FOOTER\nConsumers should implement how to write the legend, nodes and edges.\nlogTracker\nLogTracker to print in console depending on the Mode\nfileWriter\nFile I/O utility\nformatNode\nAbstract function to format the information related with the node.\nDepending on the Publisher we may want to format the node representation on different way.\nNode here represent a tracked Task with Talaiot\nformatEdge\nAbstract function to format the information related with the edge.\ncontentComposer\nIt builds a String with the different parts of the required format defined. This format is composed by a header\na content and a footer. Optionally it can be defined a legend. Used by the HtmlPublisher\nwriteFile<\/p>\n<p>buildGraph\nOnce we have the results of the build(metrics + tasks), we need to build graph with the relation between the tasks.\nThe implementations of the abstract class will require the construction of the graph. The format of the graph is\ngiven by the formatNode and formatEdge of this class.<\/p>\n"
+                    }]
+                  },
+                  "GraphPublisherType": {
+                    "ownKey": "GraphPublisherType",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GraphPublisherType",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherType"
+                      },
+                      "description": "",
+                      "title": "GraphPublisherType",
+                      "content": "<p>Represents the default Publishers for Graphs<\/p>\n"
+                    }]
+                  },
+                  "GraphPublisherFactoryImpl": {
+                    "ownKey": "GraphPublisherFactoryImpl",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GraphPublisherFactoryImpl",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactoryImpl"
+                      },
+                      "description": "",
+                      "title": "GraphPublisherFactoryImpl",
+                      "content": "<p><init><\/p>\n<p>createPublisher\nCreates the DiskPublisher depending on the GraphType<\/p>\n"
+                    }]
+                  },
+                  "GraphPublisherFactory": {
+                    "ownKey": "GraphPublisherFactory",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GraphPublisherFactory",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GraphPublisherFactory"
+                      },
+                      "description": "",
+                      "title": "GraphPublisherFactory",
+                      "content": "<p>Generates Disks publishers instances depending on the GraphType passed as argument<\/p>\n<p>createPublisher\nCreates the DiskPublisher depending on the GraphType<\/p>\n"
+                    }]
+                  },
+                  "resources": {
+                    "ownKey": "resources",
+                    "childrenPages": {
+                      "ResourcesHtml": {
+                        "ownKey": "ResourcesHtml",
+                        "ownPages": [{
+                          "reference": {
+                            "path": "com/cdsap/talaiot/publisher/graphpublisher/resources",
+                            "baseUrl": "https://cdsap.github.io/Talaiot",
+                            "fileName": "ResourcesHtml",
+                            "extension": "html",
+                            "usePrettyUrl": true,
+                            "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesHtml"
+                          },
+                          "description": "",
+                          "title": "ResourcesHtml",
+                          "content": "<p>HEADER and VALUE constants used by the HtmlPublisher\nHEADER<\/p>\n<p>FOOTER<\/p>\n<p>LEGEND_HEADER<\/p>\n"
+                        }]
+                      },
+                      "ResourcesGexf": {
+                        "ownKey": "ResourcesGexf",
+                        "ownPages": [{
+                          "reference": {
+                            "path": "com/cdsap/talaiot/publisher/graphpublisher/resources",
+                            "baseUrl": "https://cdsap.github.io/Talaiot",
+                            "fileName": "ResourcesGexf",
+                            "extension": "html",
+                            "usePrettyUrl": true,
+                            "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources/ResourcesGexf"
+                          },
+                          "description": "",
+                          "title": "ResourcesGexf",
+                          "content": "<p>HEADER and VALUE constants used by the GexfPublisher\nHEADER<\/p>\n<p>FOOTER<\/p>\n"
+                        }]
+                      }
+                    },
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "resources",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/resources"
+                      },
+                      "description": "",
+                      "title": "com.cdsap.talaiot.publisher.graphpublisher.resources",
+                      "content": ""
+                    }]
+                  },
+                  "GexfPublisher": {
+                    "ownKey": "GexfPublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GexfPublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/GexfPublisher"
+                      },
+                      "description": "",
+                      "title": "GexfPublisher",
+                      "content": "<p>Publisher used to publish with the Gexf format.<init>\nPublisher used to publish with the Gexf format.\nlogTracker\nLogTracker to print in console depending on the Mode\nfileWriter\nFile I/O utility\npublish\nPublish the results given one Publisher implementation\nformatNode\nAbstract function to format the information related with the node.\nDepending on the Publisher we may want to format the node representation on different way.\nNode here represent a tracked Task with Talaiot\nformatEdge\nAbstract function to format the information related with the edge.<\/p>\n"
+                    }]
+                  },
+                  "DotPublisher": {
+                    "ownKey": "DotPublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "DotPublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DotPublisher"
+                      },
+                      "description": "",
+                      "title": "DotPublisher",
+                      "content": "<p>Publisher used to publish with the Dot format. It's using Graphviz to render the graph<init>\nPublisher used to publish with the Dot format. It's using Graphviz to render the graph\nlogTracker\nLogTracker to print in console depending on the Mode\nfileWriter\nFile I/O utility\npublish\nPublish the results given one Publisher implementation<\/p>\n"
+                    }]
+                  },
+                  "HtmlPublisher": {
+                    "ownKey": "HtmlPublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "HtmlPublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/HtmlPublisher"
+                      },
+                      "description": "",
+                      "title": "HtmlPublisher",
+                      "content": "<p>Publisher used to publish with the Html format.<init>\nPublisher used to publish with the Html format.\nlogTracker\nLogTracker to print in console depending on the Mode\nfileWriter\nFile I/O utility\npublish\nPublish the results given one Publisher implementation\nformatNode\nAbstract function to format the information related with the node.\nDepending on the Publisher we may want to format the node representation on different way.\nNode here represent a tracked Task with Talaiot\nformatEdge\nAbstract function to format the information related with the edge.<\/p>\n"
+                    }]
+                  },
+                  "DiskPublisher": {
+                    "ownKey": "DiskPublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/graphpublisher",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "DiskPublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher/DiskPublisher"
+                      },
+                      "description": "",
+                      "title": "DiskPublisher",
+                      "content": "<p>Extension of Publisher interface with a FileWriter implementation to write on disk\nlogTracker\nLogTracker to print in console depending on the Mode\nfileWriter\nFile I/O utility<\/p>\n"
+                    }]
+                  }
+                },
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "graphpublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/graphpublisher"
+                  },
+                  "description": "",
+                  "title": "com.cdsap.talaiot.publisher.graphpublisher",
+                  "content": ""
+                }]
+              },
+              "TaskDependencyGraphPublisher": {
+                "ownKey": "TaskDependencyGraphPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskDependencyGraphPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TaskDependencyGraphPublisher"
+                  },
+                  "description": "",
+                  "title": "TaskDependencyGraphPublisher",
+                  "content": "<p>Publisher used to export the task dependency graph in a DAG with different formats.\nCurrent formats supported: Html, Gexf and PNG(dot format)<init>\nPublisher used to export the task dependency graph in a DAG with different formats.\nCurrent formats supported: Html, Gexf and PNG(dot format)<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              },
+              "OutputPublisher": {
+                "ownKey": "OutputPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "OutputPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/OutputPublisher"
+                  },
+                  "description": "",
+                  "title": "OutputPublisher",
+                  "content": "<p>Publisher using the default output to show the tasks ordered by duration<init>\nPublisher using the default output to show the tasks ordered by duration<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              },
+              "TalaiotPublisherImpl": {
+                "ownKey": "TalaiotPublisherImpl",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TalaiotPublisherImpl",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisherImpl"
+                  },
+                  "description": "",
+                  "title": "TalaiotPublisherImpl",
+                  "content": "<p>Implementation of TalaiotPublisher.\nIt will retrieve all the metrics trough the MetricsProvider and the Publishers defined in the configuration\ntrough the PublisherProvider.\nAt the publishing phase it will aggregate the data of in a TaskMeasurementAggregated to publish the result\non each publisher retrieved.\nBefore the publishing phase we will apply the TaskFilterProcessor. Filtering doesn't apply to\nthe TaskDependencyGraphPublisher<init>\nImplementation of TalaiotPublisher.\nIt will retrieve all the metrics trough the MetricsProvider and the Publishers defined in the configuration\ntrough the PublisherProvider.\nAt the publishing phase it will aggregate the data of in a TaskMeasurementAggregated to publish the result\non each publisher retrieved.\nBefore the publishing phase we will apply the TaskFilterProcessor. Filtering doesn't apply to\nthe TaskDependencyGraphPublisher<\/p>\n<p>publish<\/p>\n"
+                }]
+              },
+              "InfluxDbPublisher": {
+                "ownKey": "InfluxDbPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "InfluxDbPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/InfluxDbPublisher"
+                  },
+                  "description": "",
+                  "title": "InfluxDbPublisher",
+                  "content": "<p>Publisher using InfluxDb and LineProtocol format to send the metrics<init>\nPublisher using InfluxDb and LineProtocol format to send the metrics<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              },
+              "JsonPublisher": {
+                "ownKey": "JsonPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JsonPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/JsonPublisher"
+                  },
+                  "description": "",
+                  "title": "JsonPublisher",
+                  "content": "<p><init><\/p>\n<p>gradle<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              },
+              "timeline": {
+                "ownKey": "timeline",
+                "childrenPages": {
+                  "Measure": {
+                    "ownKey": "Measure",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/timeline",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "Measure",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/Measure"
+                      },
+                      "description": "",
+                      "title": "Measure",
+                      "content": "<p><init><\/p>\n<p>measure<\/p>\n<p>data<\/p>\n"
+                    }]
+                  },
+                  "ExecutionResult": {
+                    "ownKey": "ExecutionResult",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/timeline",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "ExecutionResult",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/ExecutionResult"
+                      },
+                      "description": "",
+                      "title": "ExecutionResult",
+                      "content": "<p><init><\/p>\n<p>measures<\/p>\n"
+                    }]
+                  },
+                  "TimelinePublisher": {
+                    "ownKey": "TimelinePublisher",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/timeline",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "TimelinePublisher",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelinePublisher"
+                      },
+                      "description": "",
+                      "title": "TimelinePublisher",
+                      "content": "<p><init><\/p>\n<p>gradle<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                    }]
+                  },
+                  "TimelineTaskMeasurement": {
+                    "ownKey": "TimelineTaskMeasurement",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/publisher/timeline",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "TimelineTaskMeasurement",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline/TimelineTaskMeasurement"
+                      },
+                      "description": "",
+                      "title": "TimelineTaskMeasurement",
+                      "content": "<p><init><\/p>\n<p>taskPath<\/p>\n<p>stateType<\/p>\n<p>critical<\/p>\n<p>start<\/p>\n<p>worker<\/p>\n<p>end<\/p>\n"
+                    }]
+                  }
+                },
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "timeline",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/timeline"
+                  },
+                  "description": "",
+                  "title": "com.cdsap.talaiot.publisher.timeline",
+                  "content": ""
+                }]
+              },
+              "Publisher": {
+                "ownKey": "Publisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "Publisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/Publisher"
+                  },
+                  "description": "",
+                  "title": "Publisher",
+                  "content": "<p>Publisher: Contract required to publish the results of the build.\nIt contains the aggregation of the tasks and metrics calculated in the task.\nOnce the build is finished and processed TalaiotPublisher will call all the\nimplementations of Publisher.<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              },
+              "TalaiotPublisher": {
+                "ownKey": "TalaiotPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TalaiotPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/TalaiotPublisher"
+                  },
+                  "description": "",
+                  "title": "TalaiotPublisher",
+                  "content": "<p>Represents the whole information required for the plugin to be executed combining the metrics and publishers<\/p>\n<p>publish<\/p>\n"
+                }]
+              },
+              "PushGatewayPublisher": {
+                "ownKey": "PushGatewayPublisher",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/publisher",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PushGatewayPublisher",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher/PushGatewayPublisher"
+                  },
+                  "description": "",
+                  "title": "PushGatewayPublisher",
+                  "content": "<p>Publisher using PushGateway format to send the metrics to an PushGateway server<init>\nPublisher using PushGateway format to send the metrics to an PushGateway server<\/p>\n<p>publish\nPublish the results given one Publisher implementation<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "publisher",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/publisher"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.publisher",
+              "content": ""
+            }]
+          },
+          "metrics": {
+            "ownKey": "metrics",
+            "childrenPages": {
+              "OsMetric": {
+                "ownKey": "OsMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "OsMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsMetric"
+                  },
+                  "description": "",
+                  "title": "OsMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleScanLinkMetric": {
+                "ownKey": "GradleScanLinkMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleScanLinkMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleScanLinkMetric"
+                  },
+                  "description": "",
+                  "title": "GradleScanLinkMetric",
+                  "content": "<p>Be warned: super hacky<p>The metrics upload and link creation happens after the build actually already finishes in the\nofficial lifecycle <a href=\"#\">org.gradle.BuildListener<\/a><\/p><init>\nBe warned: super hacky<p>The metrics upload and link creation happens after the build actually already finishes in the\nofficial lifecycle <a href=\"#\">org.gradle.BuildListener<\/a><\/p><\/p>\n"
+                }]
+              },
+              "GradleSwitchConfigureOnDemandMetric": {
+                "ownKey": "GradleSwitchConfigureOnDemandMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchConfigureOnDemandMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchConfigureOnDemandMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchConfigureOnDemandMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchRefreshDependenciesMetric": {
+                "ownKey": "GradleSwitchRefreshDependenciesMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchRefreshDependenciesMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRefreshDependenciesMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchRefreshDependenciesMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleRequestedTasksMetric": {
+                "ownKey": "GradleRequestedTasksMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleRequestedTasksMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleRequestedTasksMetric"
+                  },
+                  "description": "",
+                  "title": "GradleRequestedTasksMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "ProcessorCountMetric": {
+                "ownKey": "ProcessorCountMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "ProcessorCountMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/ProcessorCountMetric"
+                  },
+                  "description": "",
+                  "title": "ProcessorCountMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchParallelMetric": {
+                "ownKey": "GradleSwitchParallelMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchParallelMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchParallelMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchParallelMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchDaemonMetric": {
+                "ownKey": "GradleSwitchDaemonMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchDaemonMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDaemonMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchDaemonMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleBuildInvocationIdMetric": {
+                "ownKey": "GradleBuildInvocationIdMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleBuildInvocationIdMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildInvocationIdMetric"
+                  },
+                  "description": "",
+                  "title": "GradleBuildInvocationIdMetric",
+                  "content": "<p>As described in the source of gradle:\nThe ID of a single build invocation.<p>Here, the term &quot;build&quot; is used to represent the overall invocation.\nFor example, buildSrc shares the same build scope ID as the overall build.\nAll composite participants also share the same build scope ID.\nThat is, all \u201cnested\u201d builds (in terms of GradleLauncher etc.) share the same build ID.<\/p><p>This ID is, by definition, not persistent.<\/p><init>\nAs described in the source of gradle:\nThe ID of a single build invocation.<p>Here, the term &quot;build&quot; is used to represent the overall invocation.\nFor example, buildSrc shares the same build scope ID as the overall build.\nAll composite participants also share the same build scope ID.\nThat is, all \u201cnested\u201d builds (in terms of GradleLauncher etc.) share the same build ID.<\/p><p>This ID is, by definition, not persistent.<\/p><\/p>\n"
+                }]
+              },
+              "GitUserMetric": {
+                "ownKey": "GitUserMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GitUserMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitUserMetric"
+                  },
+                  "description": "",
+                  "title": "GitUserMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "OsManufacturerMetric": {
+                "ownKey": "OsManufacturerMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "OsManufacturerMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/OsManufacturerMetric"
+                  },
+                  "description": "",
+                  "title": "OsManufacturerMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchCachingMetric": {
+                "ownKey": "GradleSwitchCachingMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchCachingMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchCachingMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchCachingMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "UserMetric": {
+                "ownKey": "UserMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "UserMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/UserMetric"
+                  },
+                  "description": "",
+                  "title": "UserMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchOfflineMetric": {
+                "ownKey": "GradleSwitchOfflineMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchOfflineMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchOfflineMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchOfflineMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "BuildIdMetric": {
+                "ownKey": "BuildIdMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "BuildIdMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/BuildIdMetric"
+                  },
+                  "description": "",
+                  "title": "BuildIdMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchDryRunMetric": {
+                "ownKey": "GradleSwitchDryRunMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchDryRunMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchDryRunMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchDryRunMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "HostnameMetric": {
+                "ownKey": "HostnameMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "HostnameMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/HostnameMetric"
+                  },
+                  "description": "",
+                  "title": "HostnameMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleBuildCacheModeMetric": {
+                "ownKey": "GradleBuildCacheModeMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleBuildCacheModeMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCacheModeMetric"
+                  },
+                  "description": "",
+                  "title": "GradleBuildCacheModeMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleMaxWorkersMetric": {
+                "ownKey": "GradleMaxWorkersMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleMaxWorkersMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleMaxWorkersMetric"
+                  },
+                  "description": "",
+                  "title": "GradleMaxWorkersMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GitBranchMetric": {
+                "ownKey": "GitBranchMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GitBranchMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GitBranchMetric"
+                  },
+                  "description": "",
+                  "title": "GitBranchMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleVersionMetric": {
+                "ownKey": "GradleVersionMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleVersionMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleVersionMetric"
+                  },
+                  "description": "",
+                  "title": "GradleVersionMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "RamAvailableMetric": {
+                "ownKey": "RamAvailableMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "RamAvailableMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RamAvailableMetric"
+                  },
+                  "description": "",
+                  "title": "RamAvailableMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchBuildScanMetric": {
+                "ownKey": "GradleSwitchBuildScanMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchBuildScanMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchBuildScanMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchBuildScanMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "DefaultCharsetMetric": {
+                "ownKey": "DefaultCharsetMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "DefaultCharsetMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/DefaultCharsetMetric"
+                  },
+                  "description": "",
+                  "title": "DefaultCharsetMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "JvmXmsMetric": {
+                "ownKey": "JvmXmsMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JvmXmsMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmsMetric"
+                  },
+                  "description": "",
+                  "title": "JvmXmsMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "RootProjectNameMetric": {
+                "ownKey": "RootProjectNameMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "RootProjectNameMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/RootProjectNameMetric"
+                  },
+                  "description": "",
+                  "title": "RootProjectNameMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "LocaleMetric": {
+                "ownKey": "LocaleMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "LocaleMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/LocaleMetric"
+                  },
+                  "description": "",
+                  "title": "LocaleMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleSwitchRerunTasksMetric": {
+                "ownKey": "GradleSwitchRerunTasksMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleSwitchRerunTasksMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleSwitchRerunTasksMetric"
+                  },
+                  "description": "",
+                  "title": "GradleSwitchRerunTasksMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "GradleBuildCachePushEnabled": {
+                "ownKey": "GradleBuildCachePushEnabled",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "GradleBuildCachePushEnabled",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/GradleBuildCachePushEnabled"
+                  },
+                  "description": "",
+                  "title": "GradleBuildCachePushEnabled",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "JavaRuntimeMetric": {
+                "ownKey": "JavaRuntimeMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JavaRuntimeMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaRuntimeMetric"
+                  },
+                  "description": "",
+                  "title": "JavaRuntimeMetric",
+                  "content": "<p>see https://docs.oracle.com/javase/9/docs/api/java/lang/Runtime.html#version--<init>\nsee https://docs.oracle.com/javase/9/docs/api/java/lang/Runtime.html#version--<\/p>\n"
+                }]
+              },
+              "JvmXmxMetric": {
+                "ownKey": "JvmXmxMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JvmXmxMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmXmxMetric"
+                  },
+                  "description": "",
+                  "title": "JvmXmxMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "JvmMaxPermSizeMetric": {
+                "ownKey": "JvmMaxPermSizeMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JvmMaxPermSizeMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JvmMaxPermSizeMetric"
+                  },
+                  "description": "",
+                  "title": "JvmMaxPermSizeMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "SimpleMetric": {
+                "ownKey": "SimpleMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "SimpleMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/SimpleMetric"
+                  },
+                  "description": "",
+                  "title": "SimpleMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "JavaVmNameMetric": {
+                "ownKey": "JavaVmNameMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "JavaVmNameMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/JavaVmNameMetric"
+                  },
+                  "description": "",
+                  "title": "JavaVmNameMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "PublicIpMetric": {
+                "ownKey": "PublicIpMetric",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "PublicIpMetric",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/PublicIpMetric"
+                  },
+                  "description": "",
+                  "title": "PublicIpMetric",
+                  "content": "<p><init><\/p>\n"
+                }]
+              },
+              "base": {
+                "ownKey": "base",
+                "childrenPages": {
+                  "CmdMetric": {
+                    "ownKey": "CmdMetric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "CmdMetric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/CmdMetric"
+                      },
+                      "description": "",
+                      "title": "CmdMetric",
+                      "content": "<p>Metric that operates on some command line action output<init>\nMetric that operates on some command line action output\ncmd<\/p>\n"
+                    }]
+                  },
+                  "Metric": {
+                    "ownKey": "Metric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "Metric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/Metric"
+                      },
+                      "description": "",
+                      "title": "Metric",
+                      "content": "<p>A generic metric representation<p>Each metric has a return type T and a Context which is used to calculate the metric value<\/p><init>\nA generic metric representation<p>Each metric has a return type T and a Context which is used to calculate the metric value<\/p>\nprovider<\/p>\n<p>assigner<\/p>\n<p>get<\/p>\n"
+                    }]
+                  },
+                  "GradleMetric": {
+                    "ownKey": "GradleMetric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GradleMetric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradleMetric"
+                      },
+                      "description": "",
+                      "title": "GradleMetric",
+                      "content": "<p>Metric that operates on <a href=\"#\">Project<\/a><init>\nMetric that operates on <a href=\"#\">Project<\/a><\/p>\n"
+                    }]
+                  },
+                  "BuildResultMetric": {
+                    "ownKey": "BuildResultMetric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "BuildResultMetric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/BuildResultMetric"
+                      },
+                      "description": "",
+                      "title": "BuildResultMetric",
+                      "content": "<p>Metric that operates on <a href=\"#\">BuildResult<\/a><init>\nMetric that operates on <a href=\"#\">BuildResult<\/a><\/p>\n"
+                    }]
+                  },
+                  "GradlePropertyMetric": {
+                    "ownKey": "GradlePropertyMetric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "GradlePropertyMetric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/GradlePropertyMetric"
+                      },
+                      "description": "",
+                      "title": "GradlePropertyMetric",
+                      "content": "<p>Metric that wraps some gradle <a href=\"#\">Project.property<\/a><init>\nMetric that wraps some gradle <a href=\"#\">Project.property<\/a>\nname<\/p>\n"
+                    }]
+                  },
+                  "JvmArgsMetric": {
+                    "ownKey": "JvmArgsMetric",
+                    "ownPages": [{
+                      "reference": {
+                        "path": "com/cdsap/talaiot/metrics/base",
+                        "baseUrl": "https://cdsap.github.io/Talaiot",
+                        "fileName": "JvmArgsMetric",
+                        "extension": "html",
+                        "usePrettyUrl": true,
+                        "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base/JvmArgsMetric"
+                      },
+                      "description": "",
+                      "title": "JvmArgsMetric",
+                      "content": "<p>Metric that operates on jvm arguments passed to the build<init>\nMetric that operates on jvm arguments passed to the build\nargProvider<\/p>\n"
+                    }]
+                  }
+                },
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/metrics",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "base",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics/base"
+                  },
+                  "description": "",
+                  "title": "com.cdsap.talaiot.metrics.base",
+                  "content": ""
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "metrics",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/metrics"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.metrics",
+              "content": ""
+            }]
+          },
+          "writer": {
+            "ownKey": "writer",
+            "childrenPages": {
+              "TaskGraphWriter": {
+                "ownKey": "TaskGraphWriter",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/writer",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "TaskGraphWriter",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/TaskGraphWriter"
+                  },
+                  "description": "",
+                  "title": "TaskGraphWriter",
+                  "content": "<p>Implementation of FileWriter to writes bytes to a file<init>\nImplementation of FileWriter to writes bytes to a file\nproject\nGradle Project used to retrieve the extension\nlogTracker\nLogTracker to print in console depending on the Mode\nprepareFile\nPrevious step where it will invoke the creation of the file depending on the Publisher and the way we want to\nwrite on disk<\/p>\n"
+                }]
+              },
+              "FileWriter": {
+                "ownKey": "FileWriter",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/writer",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "FileWriter",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/FileWriter"
+                  },
+                  "description": "",
+                  "title": "FileWriter",
+                  "content": "<p>I/O contract related to files\nproject\nGradle Project used to retrieve the extension\nlogTracker\nLogTracker to print in console depending on the Mode\nprepareFile\nPrevious step where it will invoke the creation of the file depending on the Publisher and the way we want to\nwrite on disk\ncreateFile\nperform the operation of creating a file and write the content independent of the Publisher\ndirExist<\/p>\n"
+                }]
+              },
+              "DotWriter": {
+                "ownKey": "DotWriter",
+                "ownPages": [{
+                  "reference": {
+                    "path": "com/cdsap/talaiot/writer",
+                    "baseUrl": "https://cdsap.github.io/Talaiot",
+                    "fileName": "DotWriter",
+                    "extension": "html",
+                    "usePrettyUrl": true,
+                    "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer/DotWriter"
+                  },
+                  "description": "",
+                  "title": "DotWriter",
+                  "content": "<p>Implementation of FileWriter using Renderer from GraphViz library<init>\nImplementation of FileWriter using Renderer from GraphViz library\nproject\nGradle Project used to retrieve the extension\nlogTracker\nLogTracker to print in console depending on the Mode\nprepareFile\nPrevious step where it will invoke the creation of the file depending on the Publisher and the way we want to\nwrite on disk<\/p>\n"
+                }]
+              }
+            },
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "writer",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/writer"
+              },
+              "description": "",
+              "title": "com.cdsap.talaiot.writer",
+              "content": ""
+            }]
+          },
+          "TalaiotListener": {
+            "ownKey": "TalaiotListener",
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "TalaiotListener",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotListener"
+              },
+              "description": "",
+              "title": "TalaiotListener",
+              "content": "<p>Custom listener that combines the <a href=\"#\">BuildListener<\/a> and <a href=\"#\">TaskExecutionListener<\/a>. For each <a href=\"#\">Task<\/a> we need to\nstore information (such as duration and state) in TalaiotTracker.<p>Upon completion of the build this listener will publish the execution data using the publishers specified\nvia the configuration<\/p><init>\nCustom listener that combines the <a href=\"#\">BuildListener<\/a> and <a href=\"#\">TaskExecutionListener<\/a>. For each <a href=\"#\">Task<\/a> we need to\nstore information (such as duration and state) in TalaiotTracker.<p>Upon completion of the build this listener will publish the execution data using the publishers specified\nvia the configuration<\/p>\nproject\nGradle project that this listener is attached to<p>Might be needed by metrics and/or providers<\/p>\nsettingsEvaluated<\/p>\n<p>buildFinished<\/p>\n<p>projectsLoaded<\/p>\n<p>buildStarted<\/p>\n<p>projectsEvaluated<\/p>\n<p>beforeExecute<\/p>\n<p>afterExecute<\/p>\n"
+            }]
+          },
+          "TalaiotTracker": {
+            "ownKey": "TalaiotTracker",
+            "ownPages": [{
+              "reference": {
+                "path": "com/cdsap/talaiot",
+                "baseUrl": "https://cdsap.github.io/Talaiot",
+                "fileName": "TalaiotTracker",
+                "extension": "html",
+                "usePrettyUrl": true,
+                "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot/TalaiotTracker"
+              },
+              "description": "",
+              "title": "TalaiotTracker",
+              "content": "<p>Tracker of executed tasks during the build\nIt tracks duration, name, path, dependencies, task state and invoke mode(rootNode)<init>\nTracker of executed tasks during the build\nIt tracks duration, name, path, dependencies, task state and invoke mode(rootNode)\ntaskLengthList\nList of tasks executed during the build and tracked\nqueue\nQueue that represents the tasks used in the gradlew/gradle to start the build. We need to register these\ntasks because we want to aggregate the overall duration for these tasks.<p>Example:\n./gradlew assembleDebug test\nwill generate two items in the queue, once the TaskListener will inform about the assembleDebug, the duration is\n0 and we want to aggregate the information for all the tasks dependent on assembleDebug.<\/p>\nisTracking\nin cases where Gradle executes the default tasks we don't want to track the build\ninitNodeArgument\nretrieve the element from the queue\nstartTrackingTask\ninit the task tracked in the HashTable and increase the counter of the current node\nfinishTrackingTask\nCompute the total time of the task and aggregate the\nrootNodes launched by the user.\nClean is handled as exception, by default task name and task argument on general\nclean tasks are the same.<\/p>\n"
+            }]
+          }
+        },
+        "ownPages": [{
+          "reference": {
+            "path": "com/cdsap",
+            "baseUrl": "https://cdsap.github.io/Talaiot",
+            "fileName": "talaiot",
+            "extension": "html",
+            "usePrettyUrl": true,
+            "link": "https://cdsap.github.io/Talaiot/com/cdsap/talaiot"
+          },
+          "description": "",
+          "title": "com.cdsap.talaiot",
+          "content": ""
+        }]
+      }}
+    }}
+  }}
+}

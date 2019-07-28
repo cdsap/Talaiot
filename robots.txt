@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /
+
+
+
+Sitemap: https://cdsap.github.io/Talaiot/sitemap.xml
+
