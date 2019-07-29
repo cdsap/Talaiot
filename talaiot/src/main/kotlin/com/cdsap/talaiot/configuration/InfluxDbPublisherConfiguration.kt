@@ -1,5 +1,7 @@
 package com.cdsap.talaiot.configuration
 
+import groovy.lang.Closure
+
 /**
  * Configuration for the InfluxDbPublisher. It belongs to the Publisher configurations
  *
@@ -44,17 +46,33 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     /**
      * metrics retention policy. By default it's named as rpTalaiot and duration is 30 days
      */
-    var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration.default
+    var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration()
+
+    /**
+     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
+     *
+     * @param configuration Configuration block for the [RetentionPolicyConfiguration]
+     */
+    fun retentionPolicyConfiguration(configuration: RetentionPolicyConfiguration.() -> Unit) {
+        retentionPolicyConfiguration = RetentionPolicyConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
+     *
+     * @param closure closure for the [RetentionPolicyConfiguration]
+     */
+    fun retentionPolicyConfiguration(closure: Closure<*>) {
+        retentionPolicyConfiguration = RetentionPolicyConfiguration()
+        closure.delegate = retentionPolicyConfiguration
+        closure.call()
+    }
 }
 
 data class RetentionPolicyConfiguration(
-    val name: String,
-    val duration: String,
-    val shardDuration: String,
-    val replicationFactor: Int,
-    val isDefault: Boolean
-) {
-    companion object {
-        val default: RetentionPolicyConfiguration = RetentionPolicyConfiguration("rpTalaiot", "30d", "30m", 2, true)
-    }
-}
+    var name: String = "rpTalaiot",
+    var duration: String = "30d",
+    var shardDuration: String = "30m",
+    var replicationFactor: Int = 2,
+    var isDefault: Boolean = false
+)
