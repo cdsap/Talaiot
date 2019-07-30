@@ -39,8 +39,6 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
                 createNewFile()
             }
 
-
-
         BufferedWriter(FileWriter(html)).use {
             var reader = inputStreamFromResources("timeline/index_0.html").bufferedReader()
             it.append(reader.readText())
@@ -55,18 +53,22 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
             it.flush()
         }
 
-        inputStreamFromResources("timeline/chart.css").copyTo(
-            File(
-                gradle.rootProject.buildDir,
-                "reports/talaiot/timeline/chart.css"
-            ).outputStream()
-        )
-        inputStreamFromResources("timeline/chart.js").copyTo(
-            File(
-                gradle.rootProject.buildDir,
-                "reports/talaiot/timeline/chart.js"
-            ).outputStream()
-        )
+        inputStreamFromResources("timeline/chart.css").use {
+            it.copyTo(
+                File(
+                    gradle.rootProject.buildDir,
+                    "reports/talaiot/timeline/chart.css"
+                ).outputStream()
+            )
+        }
+        inputStreamFromResources("timeline/chart.js").use {
+            it.copyTo(
+                File(
+                    gradle.rootProject.buildDir,
+                    "reports/talaiot/timeline/chart.js"
+                ).outputStream()
+            )
+        }
     }
 
     private fun inputStreamFromResources(path: String): InputStream =
