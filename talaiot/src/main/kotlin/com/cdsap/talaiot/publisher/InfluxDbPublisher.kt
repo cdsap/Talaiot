@@ -66,6 +66,8 @@ class InfluxDbPublisher(
                 val points = BatchPoints.builder()
                     .points(measurements)
                     .point(buildMeasurement)
+                    //See https://github.com/influxdata/influxdb-java/issues/373
+                    .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
                     .build()
 
                 executor.execute {
@@ -178,10 +180,10 @@ class InfluxDbPublisher(
             val isDefault = retentionPolicyConfiguration.isDefault
 
             influxDb.createRetentionPolicy(rpName, dbName, duration, shardDuration, replicationFactor, isDefault)
-            influxDb.setRetentionPolicy(rpName)
         }
 
         influxDb.setDatabase(dbName)
+        influxDb.setRetentionPolicy(rpName)
         influxDb.enableBatch()
         influxDb.enableGzip()
         return influxDb
