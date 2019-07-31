@@ -10,7 +10,7 @@ plugins {
     id("com.novoda.bintray-release")
 }
 
-val versionTalaiot = "1.0.2"
+val versionTalaiot = "1.0.3-SNAPSHOT"
 
 
 group = "com.cdsap"
