@@ -109,7 +109,12 @@ class GradleBuildCachePushEnabled : GradleMetric<String?>(
 
 class GradleRequestedTasksMetric : GradleMetric<String>(
     provider = {
-        it.gradle.startParameter.taskNames.joinToString(separator = " ")
+        val taskNames = it.gradle.startParameter.taskNames
+        if (taskNames.all { it.endsWith("generateDebugSources") }) {
+            "gradleSync"
+        } else {
+            taskNames.joinToString(separator = " ")
+        }
     },
-    assigner = { report, value -> report.requestedTasks = value}
+    assigner = { report, value -> report.requestedTasks = value }
 )
