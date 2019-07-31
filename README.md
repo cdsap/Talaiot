@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.1) ](https://bintray.com/cdsap/maven/talaiot/1.0.1/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.2) ](https://bintray.com/cdsap/maven/talaiot/1.0.2/link)
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
@@ -330,6 +330,8 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 ## Contributors
 
 * [Anton Malinskiy](https://github.com/Malinskiy): New format metrics, rework InfluxdbPublisher and new Publishers Json and Timeline.
+
+* [Ivan Balaksha](https://github.com/tagantroy)
 
 * [Sergey Rybalkin](https://github.com/rybalkinsd)
 
