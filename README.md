@@ -41,6 +41,19 @@ plugins {
 
 Check [this](https://github.com/cdsap/Talaiot/wiki/Groovy-setup) article to see how to setup Talaiot with  Groovy(all the examples in the README are in KTS.
 
+
+## Snapshots
+
+Include the OJO artifactory oss-snapshot local:
+````
+      maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
+````
+And the current Snapshot:
+
+````
+classpath("com.cdsap:talaiot:1.0.3-SNAPSHOT")
+````
+
 ## Basic configuration
 
 ````
