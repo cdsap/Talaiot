@@ -70,10 +70,15 @@ class InfluxDbPublisher(
                     //See https://github.com/influxdata/influxdb-java/issues/373
                     .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
                     .build()
-
                 executor.execute {
-                    _db.write(points)
+                    try {
+                        _db.write(points)
+                    } catch (e: Exception) {
+                        println("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+
+                    }
                 }
+
             } else {
                 logTracker.log("Empty content")
             }
