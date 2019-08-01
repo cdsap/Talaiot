@@ -6,6 +6,7 @@ import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.request.Request
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
+import org.influxdb.InfluxDBException
 import org.influxdb.InfluxDBFactory
 import org.influxdb.InfluxDBIOException
 import org.influxdb.dto.BatchPoints
@@ -69,15 +70,31 @@ class InfluxDbPublisher(
                     //See https://github.com/influxdata/influxdb-java/issues/373
                     .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
                     .build()
-
                 executor.execute {
-                    _db.write(points)
+                    try {
+                        _db.write(points)
+                    } catch (e: Exception) {
+                        println("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+
+                    }
                 }
+
             } else {
                 logTracker.log("Empty content")
             }
-        } catch (e: InfluxDBIOException) {
-            logTracker.log("InfluxDb Error: ${e.message}")
+        } catch (e: Exception) {
+            logTracker.log("InfluxDbPublisher-Error ${e.stackTrace}")
+            when (e) {
+                is InfluxDBIOException -> {
+                    println("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
+                }
+                is InfluxDBException -> {
+                    println("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
+                }
+                else -> {
+                    println("InfluxDbPublisher-Error-Exception: ${e.message}")
+                }
+            }
         }
     }
 
