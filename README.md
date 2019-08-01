@@ -46,7 +46,7 @@ Check [this](https://github.com/cdsap/Talaiot/wiki/Groovy-setup) article to see 
 
 Include the OJO artifactory oss-snapshot local:
 ````
-      maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
+maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 ````
 And the current Snapshot:
 
