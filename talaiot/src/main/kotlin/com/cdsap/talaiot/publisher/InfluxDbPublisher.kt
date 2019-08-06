@@ -3,7 +3,6 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.request.Request
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBException
@@ -59,28 +58,27 @@ class InfluxDbPublisher(
 
         try {
             val _db = createDb()
+            val pointsBuilder = BatchPoints.builder()
+                //See https://github.com/influxdata/influxdb-java/issues/373
+                .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
 
-            val measurements = createTaskPoints(report)
             val buildMeasurement = createBuildPoint(report)
+            pointsBuilder.point(buildMeasurement)
 
-            if (!measurements.isNullOrEmpty()) {
-                val points = BatchPoints.builder()
-                    .points(measurements)
-                    .point(buildMeasurement)
-                    //See https://github.com/influxdata/influxdb-java/issues/373
-                    .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
-                    .build()
-                executor.execute {
-                    try {
-                        _db.write(points)
-                    } catch (e: Exception) {
-                        println("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
-
-                    }
+            if (!influxDbPublisherConfiguration.publishOnlyBuildMetrics) {
+                val measurements = createTaskPoints(report)
+                if (!measurements.isNullOrEmpty()) {
+                    pointsBuilder.points(measurements)
                 }
+            }
 
-            } else {
-                logTracker.log("Empty content")
+            executor.execute {
+                try {
+                    _db.write(pointsBuilder.build())
+                } catch (e: Exception) {
+                    println("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+
+                }
             }
         } catch (e: Exception) {
             logTracker.log("InfluxDbPublisher-Error ${e.stackTrace}")
@@ -206,3 +204,4 @@ class InfluxDbPublisher(
         return influxDb
     }
 }
+

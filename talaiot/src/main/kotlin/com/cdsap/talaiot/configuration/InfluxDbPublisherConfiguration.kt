@@ -47,6 +47,12 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      * metrics retention policy. By default it's named as rpTalaiot and duration is 30 days
      */
     var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration()
+    /**
+     * in some cases to avoid problems of high cardinality in influxDb or large projects we want
+     * to disable the track of metrics sending only build measurements. Enabling this property we will
+     * only send the build measurements
+     */
+    var publishOnlyBuildMetrics: Boolean = false
 
     /**
      * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
