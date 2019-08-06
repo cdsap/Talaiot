@@ -83,6 +83,47 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     assert(combinedBuildValues.matches("""\[.+, 0\.0, 0\.0, false\]""".toRegex()))
                 }
             }
+            `when`("publishOnlyBuildMetrics is enabled ") {
+                val databaseNoMetrics = "databaseWithoutTasks"
+                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                    dbName = databaseNoMetrics
+                    url = container.url
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                    publishOnlyBuildMetrics = true
+                }
+                val influxDbPublisher = InfluxDbPublisher(
+                    influxDbConfiguration, logger, TestExecutor()
+                )
+
+                then("build metrics are sent and task metrics doesn't") {
+                    influxDbPublisher.publish(
+                        ExecutionReport(
+                            customProperties = CustomProperties(taskProperties = getMetrics()),
+                            tasks = listOf(
+                                TaskLength(
+                                    2, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    "app", emptyList()
+                                )
+                            )
+                        )
+                    )
+                    val buildResult = influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
+
+                    val combinedBuildColumns =
+                        buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
+                    assert(combinedBuildColumns == "time, duration, configuration, success")
+
+                    val combinedBuildValues =
+                        buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
+                    assert(combinedBuildValues.matches("""\[.+, 0\.0, 0\.0, false\]""".toRegex()))
+
+                    val taskResult = influxDB.query(Query("select value from $databaseNoMetrics.rpTalaiot.task"))
+
+                    assert(taskResult.results[0].series == null)
+
+                }
+            }
         }
     }
 
