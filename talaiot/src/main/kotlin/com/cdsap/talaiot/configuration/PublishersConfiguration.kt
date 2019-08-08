@@ -54,6 +54,8 @@ class PublishersConfiguration(
      * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
      */
     var jsonPublisher: Boolean = false
+    var elasticSearchPublisherConfiguration: ElasticSearchPublisherConfiguration? = null
+
     /**
      * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
      *
