@@ -76,9 +76,9 @@ class PublishersProvider(
                 publishers.add(TimelinePublisher(project.gradle))
             }
 
-            elasticSearchPublisherConfiguration?.apply {
+            elasticSearchPublisher?.apply {
                 publishers.add(
-                    ElasticSearchPublsiher(
+                    ElasticSearchPublisher(
                         this,
                         logger,
                         executor
