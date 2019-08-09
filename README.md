@@ -121,6 +121,36 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | password                     | password for the username which is used to authorize against the influxDB (optional)|                                                                          |
 | retentionPolicyConfiguration | retention policy which is used for writing points                                   |
 
+##### RetentionPolicyConfiguration
+
+Retention Policy (RP) describes how long InfluxDB keeps data, how many copies of the data to store in the cluster,
+and the time range covered by shard groups. RPs are unique per database and along with the measurement and tag set define a series.
+Since version 1.0.0 we are including by default RP in all the operations included in the publisher. The `RetentionPolicyConfiguration` includes:
+
+
+| Property                     |      Description                                                           |
+|----------------------------- |----------------------------------------------------------------------------|
+| name                         | name of the retentionPolicy(rp). Default `rpTalaiot`                       |
+| duration                     | duration of the rp. Default `30d`                                          |
+| shardDuration                | the shardDuration. Default `30m`                                           |
+| replicationFactor            | the replicationFactor of the rp. Default `2`                               |
+| isDefault                    | if the rp is the default rp for the database or not. Default `false`       |
+
+Example of custom RP Configuration:
+
+```
+influxDbPublisher {
+  dbName = "xxxxxx"
+  url = "xxxxxx"
+  retentionPolicyConfiguration {
+    name = "customRp"
+    duration = "4w"
+    shardDuration = "30m"
+    replicationFactor = 1
+    isDefault = true
+  }
+}
+```
 
 #### TaskDependencyGraphPublisher
 Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration
@@ -183,14 +213,13 @@ Talaiot allows using custom Publishers defined by the requirements of your envir
 Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) how to define a custom publisher
 
 ### Metrics
-If you need to add more information on the builds you can add more metrics under the `customMetrics` on the `MetricsConfiguration`
+We can include extra information on the build and task tracked data during the build. This information will be added to the default metrics defined.
 
 ````
 talaiot {
     metrics {
-        customMetrics( "versionApp" to $version,
-                       "customProperty" to getCustomProperty() 
-                      )
+       customBuildMetrics ("versionApp" to $version)
+       customTaskMetrics ("versionApp" to $version, "customProperty" to getCustomProperty())
     }
 }
 ````
