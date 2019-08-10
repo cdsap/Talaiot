@@ -54,7 +54,10 @@ class PublishersConfiguration(
      * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
      */
     var jsonPublisher: Boolean = false
+
     var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
+
+    var hybridPublisher: HybridPublisherConfiguration? = null
 
     /**
      * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
@@ -97,6 +100,15 @@ class PublishersConfiguration(
      */
     fun elasticSearchPublisher(configuration: ElasticSearchPublisherConfiguration.() -> Unit) {
         elasticSearchPublisher = ElasticSearchPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
+     *
+     * @param configuration Configuration block for the [HybridPublisherConfiguration]
+     */
+    fun hybridPublisher(configuration: HybridPublisherConfiguration.() -> Unit) {
+        hybridPublisher = HybridPublisherConfiguration().also(configuration)
     }
 
     /**
@@ -149,6 +161,17 @@ class PublishersConfiguration(
     fun elasticSearchPublisher(closure: Closure<*>) {
         elasticSearchPublisher = ElasticSearchPublisherConfiguration()
         closure.delegate = elasticSearchPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [HybridPublisherConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
+     *
+     * @param closure closure for the [HybridPublisherConfiguration]
+     */
+    fun hybridPublisher(closure: Closure<*>) {
+        hybridPublisher = HybridPublisherConfiguration()
+        closure.delegate = hybridPublisher
         closure.call()
     }
 

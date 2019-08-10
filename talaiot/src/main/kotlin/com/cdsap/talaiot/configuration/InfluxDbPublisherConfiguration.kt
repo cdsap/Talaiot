@@ -8,12 +8,15 @@ import groovy.lang.Closure
  * influxDbPublisher {
  *    dbName = "tracking"
  *    url = "url"
- *    taskMetricName = "tracking"
- *    buildMetricName = "buildMetric"
+ *    taskIndexName = "tracking"
+ *    buildIndexName = "buildMetric"
  *
  * }
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
+
+    override var publishBuildMetrics: Boolean = false
+    override var publishTaskMetrics: Boolean = false
 
     /**
      * name of the publisher
@@ -47,12 +50,6 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      * metrics retention policy. By default it's named as rpTalaiot and duration is 30 days
      */
     var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration()
-    /**
-     * in some cases to avoid problems of high cardinality in influxDb or large projects we want
-     * to disable the track of metrics sending only build measurements. Enabling this property we will
-     * only send the build measurements
-     */
-    var publishOnlyBuildMetrics: Boolean = false
 
     /**
      * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]

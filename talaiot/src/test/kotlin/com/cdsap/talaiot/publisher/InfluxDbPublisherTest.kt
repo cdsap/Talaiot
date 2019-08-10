@@ -90,7 +90,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     url = container.url
                     taskMetricName = "task"
                     buildMetricName = "build"
-                    publishOnlyBuildMetrics = true
+                    publishTaskMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()

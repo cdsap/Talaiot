@@ -7,7 +7,7 @@ import com.cdsap.talaiot.request.SimpleRequest
 import java.util.concurrent.Executor
 
 class HybridPublisher(
-    val hybridPublisherConfiguration: HybridPublisherConfiguration,
+    private val hybridPublisherConfiguration: HybridPublisherConfiguration,
     private val logTracker: LogTracker,
     /**
      * Executor to schedule a task in Background
@@ -15,20 +15,39 @@ class HybridPublisher(
     private val executor: Executor
 ) : Publisher {
     override fun publish(report: ExecutionReport) {
-        hybridPublisherConfiguration.buildPublisher?.let {
-            getPublisher(it)?.publish(report)
-        }
+        logTracker.log("================")
+        logTracker.log("HybridPublisher")
+        logTracker.log("================")
+        logTracker.log("publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
 
-        hybridPublisherConfiguration.taskPublisher?.let {
-            getPublisher(it)?.publish(report)
+
+        if (validate()) {
+            hybridPublisherConfiguration.buildPublisher?.let {
+                it.publishTaskMetrics = false
+                getPublisher(it)?.publish(report)
+            }
+
+            hybridPublisherConfiguration.taskPublisher?.let {
+                it.publishBuildMetrics = false
+                getPublisher(it)?.publish(report)
+            }
         }
     }
 
+    private fun validate(): Boolean {
+        if (hybridPublisherConfiguration.buildPublisher == null && hybridPublisherConfiguration.taskPublisher == null) {
+            println("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
+            return false
+        }
+        return true
+    }
 
-    fun getPublisher(publisherConfiguration: PublisherConfiguration): Publisher? {
+
+    private fun getPublisher(publisherConfiguration: PublisherConfiguration): Publisher? =
         when (publisherConfiguration) {
             is InfluxDbPublisherConfiguration -> {
-                return InfluxDbPublisher(
+                InfluxDbPublisher(
                     publisherConfiguration,
                     logTracker,
                     executor
@@ -36,33 +55,33 @@ class HybridPublisher(
 
             }
             is PushGatewayPublisherConfiguration -> {
-                return PushGatewayPublisher(
+                PushGatewayPublisher(
                     publisherConfiguration,
                     logTracker,
                     SimpleRequest(logTracker),
                     executor
                 )
-
             }
 
             is ElasticSearchPublisherConfiguration -> {
-                return ElasticSearchPublisher(
+                ElasticSearchPublisher(
                     publisherConfiguration,
                     logTracker,
                     executor
                 )
-
             }
 
             is Publisher -> {
-                return publisherConfiguration
+                publisherConfiguration
             }
 
             else -> {
-                return null
+                println(
+                    "HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: " +
+                            "InfluxDbPublisher, PushGatewayPublisherConfiguration, ElasticSearchPublisherConfiguration and Custom Publisher "
+                )
+                null
             }
         }
-
-    }
 
 }

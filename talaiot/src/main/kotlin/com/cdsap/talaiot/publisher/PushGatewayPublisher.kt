@@ -32,6 +32,9 @@ class PushGatewayPublisher(
         logTracker.log("================")
         logTracker.log("PushGatewayPublisher")
         logTracker.log("================")
+        logTracker.log("publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
+
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
             pushGatewayPublisherConfiguration.taskJobName.isEmpty()
         ) {
@@ -49,17 +52,22 @@ class PushGatewayPublisher(
                 "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
             var content = ""
 
-            report.tasks?.forEach {
-                content += "${it.taskPath}{state=\"${it.state}\"" +
-                        ",module=\"${it.module}\",rootNode=\"${it.rootNode}\"} ${it.ms}\n"
-                logTracker.log(content)
+            if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
+                report.tasks?.forEach {
+                    content += "${it.taskPath}{state=\"${it.state}\"" +
+                            ",module=\"${it.module}\",rootNode=\"${it.rootNode}\"} ${it.ms}\n"
+                    logTracker.log(content)
+                }
             }
 
-            val buildTags =
-                report.flattenBuildEnv()
-                    .map { (k, v) -> "${k.formatTagPublisher()}=${v.formatTagPublisher()}" }
-                    .joinToString(separator = ",")
-            content += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
+            if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
+                val buildTags =
+                    report.flattenBuildEnv()
+                        .map { (k, v) -> "${k.formatTagPublisher()}=${v.formatTagPublisher()}" }
+                        .joinToString(separator = ",")
+                content += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
+
+            }
 
             if (content.isNotEmpty()) {
                 executor.execute {

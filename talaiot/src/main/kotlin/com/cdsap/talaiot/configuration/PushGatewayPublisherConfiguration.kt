@@ -15,6 +15,8 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration {
      * name of the publisher
      */
     override var name: String = "pushGateway"
+    override var publishBuildMetrics: Boolean = true
+    override var publishTaskMetrics: Boolean = true
     /**
      * url from the PushGateway instance required to send the measurements. For instance http://localhost:8086
      */

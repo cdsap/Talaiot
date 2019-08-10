@@ -86,6 +86,16 @@ class PublishersProvider(
                 )
             }
 
+            hybridPublisher?.apply {
+                publishers.add(
+                    HybridPublisher(
+                        this,
+                        logger,
+                        executor
+                    )
+                )
+            }
+
             customPublisher?.apply {
                 publishers.add(this)
             }

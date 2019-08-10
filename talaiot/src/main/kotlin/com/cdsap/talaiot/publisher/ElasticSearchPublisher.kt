@@ -4,10 +4,12 @@ import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import org.apache.http.HttpHost
+import org.elasticsearch.action.DocWriteRequest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
+import java.net.URL
 import java.util.concurrent.Executor
 
 class ElasticSearchPublisher(
@@ -26,12 +28,24 @@ class ElasticSearchPublisher(
 ) : Publisher {
 
     override fun publish(report: ExecutionReport) {
+        logTracker.log("================")
+        logTracker.log("ElasticSearchPublisher")
+        logTracker.log("publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log("================")
+
+
         if (validate()) {
             val client = getClient()
             executor.execute {
                 try {
-                    sendTasksMetrics(report, client)
-                    sendBuildMetrics(report, client)
+                    if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
+                        sendBuildMetrics(report, client)
+                    }
+                    if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
+                        sendTasksMetrics(report, client)
+                    }
+
                 } catch (e: Exception) {
                     println("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
                 }
@@ -42,17 +56,15 @@ class ElasticSearchPublisher(
 
     private fun validate(): Boolean {
         if (elasticSearchPublisherConfiguration.url.isEmpty() ||
-            elasticSearchPublisherConfiguration.dbName.isEmpty() ||
-            elasticSearchPublisherConfiguration.taskMetricName.isEmpty() ||
-            elasticSearchPublisherConfiguration.buildMetricName.isEmpty()
+            elasticSearchPublisherConfiguration.taskIndexName.isEmpty() ||
+            elasticSearchPublisherConfiguration.buildIndexName.isEmpty()
         ) {
             println(
-                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
-                        "influxDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
+                "ElasticSearchPublisher not executed. Configuration requires url, taskIndexName and buildIndexName: \n" +
+                        "elasticSearchPublisher {\n" +
                         "            url = \"http://localhost:8086\"\n" +
-                        "            buildMetricName = \"build\"\n" +
-                        "            taskMetricName = \"task\"\n" +
+                        "            buildIndexName = \"build\"\n" +
+                        "            taskIndexName = \"task\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
@@ -63,10 +75,6 @@ class ElasticSearchPublisher(
     }
 
     private fun sendBuildMetrics(report: ExecutionReport, client: RestHighLevelClient) {
-        logTracker.log("================")
-        logTracker.log("ElasticSearchPublisher")
-        logTracker.log("================")
-
         val source = mutableMapOf<String, Any>()
         source.putAll(report.customProperties.buildProperties)
         source.putAll(report.flattenBuildEnv().toMutableMap())
@@ -97,12 +105,10 @@ class ElasticSearchPublisher(
             report.scanLink?.let { "scanLink" to it }
         }
 
-        val result = client.index(
-            IndexRequest(elasticSearchPublisherConfiguration.buildMetricName).source(source),
+        client.index(
+            IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(source),
             RequestOptions.DEFAULT
         )
-
-        println(result.result)
 
     }
 
@@ -110,35 +116,50 @@ class ElasticSearchPublisher(
         report: ExecutionReport,
         client: RestHighLevelClient
     ) {
-        report.tasks?.map {
-            val result = client.index(
-                IndexRequest(elasticSearchPublisherConfiguration.taskMetricName)
-                    .source(
-                        mapOf(
-                            "state" to it.state.name,
-                            "module" to it.module,
-                            "rootNode" to it.rootNode,
-                            "task" to it.taskPath,
-                            "workerId" to it.workerId,
-                            "critical" to it.critical,
-                            "value" to it.ms
-                        ) + report.customProperties.taskProperties
-                    )
-                ,
-                RequestOptions.DEFAULT
-            )
+        logTracker.log("number of tasks report.tasks " + report.tasks?.size)
+        report.tasks?.forEach {
+            logTracker.log("1")
+            logTracker.log(it.taskName)
+            try {
+                val result = client.index(
+                    IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
+                        .source(
+                            mapOf(
+                                "state" to it.state.name,
+                                "module" to it.module,
+                                "rootNode" to it.rootNode,
+                                "task" to it.taskPath,
+                                "workerId" to it.workerId,
+                                "critical" to it.critical,
+                                "value" to it.ms
+                            ) + report.customProperties.taskProperties
+                        )
+                    ,
+                    RequestOptions.DEFAULT
+                )
+                println(result.toString())
+            } catch (e: java.lang.Exception) {
+                logTracker.log("error")
+                logTracker.log(e.message.toString())
+            }
+            logTracker.log("2")
+
+
+            // println(result.toString())
         }
     }
 
     private fun getClient(): RestHighLevelClient {
-        var restClientBuilder =
-            RestClient.builder(HttpHost(
-                "localhost",
-                9200,
-                "http"))
+        val url = URL(elasticSearchPublisherConfiguration.url)
+        val restClientBuilder =
+            RestClient.builder(
+                HttpHost(
+                    url.host,
+                    url.port,
+                    url.protocol
+                )
+            )
         return RestHighLevelClient(restClientBuilder)
-
-
     }
 
 }

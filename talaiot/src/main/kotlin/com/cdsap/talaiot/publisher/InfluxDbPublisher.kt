@@ -37,6 +37,9 @@ class InfluxDbPublisher(
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
         logTracker.log("================")
+        logTracker.log("publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
+
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
@@ -44,12 +47,12 @@ class InfluxDbPublisher(
             influxDbPublisherConfiguration.buildMetricName.isEmpty()
         ) {
             println(
-                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
+                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskIndexName and buildIndexName: \n" +
                         "influxDbPublisher {\n" +
                         "            dbName = \"tracking\"\n" +
                         "            url = \"http://localhost:8086\"\n" +
-                        "            buildMetricName = \"build\"\n" +
-                        "            taskMetricName = \"task\"\n" +
+                        "            buildIndexName = \"build\"\n" +
+                        "            taskIndexName = \"task\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )
@@ -62,14 +65,17 @@ class InfluxDbPublisher(
                 //See https://github.com/influxdata/influxdb-java/issues/373
                 .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
 
-            val buildMeasurement = createBuildPoint(report)
-            pointsBuilder.point(buildMeasurement)
-
-            if (!influxDbPublisherConfiguration.publishOnlyBuildMetrics) {
+            if (influxDbPublisherConfiguration.publishTaskMetrics) {
                 val measurements = createTaskPoints(report)
                 if (!measurements.isNullOrEmpty()) {
                     pointsBuilder.points(measurements)
                 }
+            }
+
+            if (influxDbPublisherConfiguration.publishBuildMetrics) {
+                val buildMeasurement = createBuildPoint(report)
+                pointsBuilder.point(buildMeasurement)
+
             }
 
             executor.execute {
