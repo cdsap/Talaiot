@@ -22,6 +22,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verifyNoMoreInteractions()
                 }
@@ -67,6 +69,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains("fastTask")
@@ -121,6 +125,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains("slowTask")
@@ -156,6 +162,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains("zeroTask: 0ms")
@@ -204,6 +212,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains("msTask: 10ms")
@@ -259,6 +269,8 @@ class OutputPublisherTest : BehaviorSpec({
                 inOrder(logTracker) {
                     verify(logTracker).log("================")
                     verify(logTracker).log("OutputPublisher")
+                    verify(logTracker).log("publishBuildMetrics: true")
+                    verify(logTracker).log("publishTaskMetrics: true")
                     verify(logTracker).log("================")
                     verify(logTracker).log(argForWhich {
                         this.contains("fastTask")

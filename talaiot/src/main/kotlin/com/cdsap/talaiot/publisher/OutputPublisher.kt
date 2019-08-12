@@ -24,9 +24,9 @@ class OutputPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("OutputPublisher")
-        logTracker.log("================")
         logTracker.log("publishBuildMetrics: ${outputPublisherConfiguration.publishBuildMetrics}")
         logTracker.log("publishTaskMetrics: ${outputPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log("================")
 
         if (outputPublisherConfiguration.publishTaskMetrics) {
             report.tasks?.apply {

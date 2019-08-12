@@ -31,9 +31,9 @@ class PushGatewayPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("PushGatewayPublisher")
-        logTracker.log("================")
         logTracker.log("publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
         logTracker.log("publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log("================")
 
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
             pushGatewayPublisherConfiguration.taskJobName.isEmpty()

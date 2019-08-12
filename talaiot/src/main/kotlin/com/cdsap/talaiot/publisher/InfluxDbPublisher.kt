@@ -36,9 +36,9 @@ class InfluxDbPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
-        logTracker.log("================")
         logTracker.log("publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
         logTracker.log("publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log("================")
 
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||

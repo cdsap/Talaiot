@@ -13,4 +13,6 @@ interface LogTracker {
     }
 
     fun log(message: String)
+
+    fun error(message: String)
 }

@@ -8,6 +8,9 @@ object TestLogTrackerRecorder : LogTracker {
         logs.add(message)
     }
 
+    override fun error(message: String) {
+        logs.add(message)
+    }
 
     fun containsLog(message: String) = logs.contains(message)
 }

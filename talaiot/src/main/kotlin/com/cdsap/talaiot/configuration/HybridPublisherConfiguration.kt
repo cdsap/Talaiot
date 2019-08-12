@@ -7,8 +7,8 @@ class HybridPublisherConfiguration : PublisherConfiguration {
      */
     override var name: String = "hybrid"
 
-    override var publishBuildMetrics: Boolean = false
-    override var publishTaskMetrics: Boolean = false
+    override var publishBuildMetrics: Boolean = true
+    override var publishTaskMetrics: Boolean = true
 
     var taskPublisher: PublisherConfiguration? = null
 

@@ -4,10 +4,10 @@ package com.cdsap.talaiot.configuration
 /**
  * Configuration for the [ElasticSearchPublisher]. It belongs to the Publisher configurations
  *
- * elasticSearhcPublisher {
+ * elasticSearchPublisher {
  *    url = "url"
- *    taskIndexName = "tracking"
- *    buildIndexName = "buildMetric"
+ *    taskIndexName = "task"
+ *    buildIndexName = "build"
  *
  * }
  */
@@ -21,16 +21,16 @@ class ElasticSearchPublisherConfiguration : PublisherConfiguration {
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
     /**
-     * url from the InfluxDb instance required to send the measurements. For instance http://localhost:8086
+     * url from the Elasticsearch instance required to send the measurements. For instance http://localhost:9200
      */
     var url: String = ""
 
     /**
-     * metric to identify the measurement in InfluxDb
+     * name to identify the task index measurement in Elasticsearch
      */
     var taskIndexName: String = "task"
     /**
-     * metric name to identify the build measurements in InfluxDb
+     * name to identify the build index measurement in Elasticsearch
      */
     var buildIndexName: String = "build"
 }

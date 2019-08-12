@@ -10,7 +10,6 @@ class LogTrackerImpl(
     private val mode: LogTracker.Mode = LogTracker.Mode.INFO
 ) : LogTracker {
 
-
     /**
      * Logger function that check the current node to use the output method to display the results.
      * @param message message to be displayed
@@ -22,4 +21,9 @@ class LogTrackerImpl(
             }
         }
     }
+
+    override fun error(message: String) {
+        println(message)
+    }
+
 }

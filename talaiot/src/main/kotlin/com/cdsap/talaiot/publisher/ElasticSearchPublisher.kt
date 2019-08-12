@@ -47,7 +47,7 @@ class ElasticSearchPublisher(
                     }
 
                 } catch (e: Exception) {
-                    println("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
+                    logTracker.error("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
                 }
 
             }
@@ -59,7 +59,7 @@ class ElasticSearchPublisher(
             elasticSearchPublisherConfiguration.taskIndexName.isEmpty() ||
             elasticSearchPublisherConfiguration.buildIndexName.isEmpty()
         ) {
-            println(
+            logTracker.error(
                 "ElasticSearchPublisher not executed. Configuration requires url, taskIndexName and buildIndexName: \n" +
                         "elasticSearchPublisher {\n" +
                         "            url = \"http://localhost:8086\"\n" +
@@ -109,7 +109,6 @@ class ElasticSearchPublisher(
             IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(source),
             RequestOptions.DEFAULT
         )
-
     }
 
     private fun sendTasksMetrics(
@@ -118,10 +117,8 @@ class ElasticSearchPublisher(
     ) {
         logTracker.log("number of tasks report.tasks " + report.tasks?.size)
         report.tasks?.forEach {
-            logTracker.log("1")
-            logTracker.log(it.taskName)
             try {
-                val result = client.index(
+                client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
                         .source(
                             mapOf(
@@ -137,29 +134,30 @@ class ElasticSearchPublisher(
                     ,
                     RequestOptions.DEFAULT
                 )
-                println(result.toString())
             } catch (e: java.lang.Exception) {
                 logTracker.log("error")
                 logTracker.log(e.message.toString())
             }
-            logTracker.log("2")
-
-
-            // println(result.toString())
         }
     }
 
     private fun getClient(): RestHighLevelClient {
-        val url = URL(elasticSearchPublisherConfiguration.url)
-        val restClientBuilder =
-            RestClient.builder(
-                HttpHost(
-                    url.host,
-                    url.port,
-                    url.protocol
+        return if (elasticSearchPublisherConfiguration.url == "localhost") {
+            RestHighLevelClient(RestClient.builder(HttpHost("localhost")))
+        } else {
+            val url = URL(elasticSearchPublisherConfiguration.url)
+
+            val restClientBuilder =
+                RestClient.builder(
+                    HttpHost(
+                        url.host,
+                        url.port,
+                        url.protocol
+                    )
                 )
-            )
-        return RestHighLevelClient(restClientBuilder)
+            RestHighLevelClient(restClientBuilder)
+        }
+
     }
 
 }

@@ -17,10 +17,9 @@ class HybridPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("HybridPublisher")
-        logTracker.log("================")
         logTracker.log("publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
         logTracker.log("publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
-
+        logTracker.log("================")
 
         if (validate()) {
             hybridPublisherConfiguration.buildPublisher?.let {
@@ -37,7 +36,7 @@ class HybridPublisher(
 
     private fun validate(): Boolean {
         if (hybridPublisherConfiguration.buildPublisher == null && hybridPublisherConfiguration.taskPublisher == null) {
-            println("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
+            logTracker.error("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
             return false
         }
         return true
@@ -71,14 +70,10 @@ class HybridPublisher(
                 )
             }
 
-            is Publisher -> {
-                publisherConfiguration
-            }
-
             else -> {
-                println(
+                logTracker.error(
                     "HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: " +
-                            "InfluxDbPublisher, PushGatewayPublisherConfiguration, ElasticSearchPublisherConfiguration and Custom Publisher "
+                            "InfluxDbPublisher, PushGatewayPublisherConfiguration and ElasticSearchPublisherConfiguration"
                 )
                 null
             }

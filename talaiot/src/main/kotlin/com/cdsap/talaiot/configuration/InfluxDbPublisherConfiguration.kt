@@ -15,8 +15,8 @@ import groovy.lang.Closure
  */
 class InfluxDbPublisherConfiguration : PublisherConfiguration {
 
-    override var publishBuildMetrics: Boolean = false
-    override var publishTaskMetrics: Boolean = false
+    override var publishBuildMetrics: Boolean = true
+    override var publishTaskMetrics: Boolean = true
 
     /**
      * name of the publisher
