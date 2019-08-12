@@ -4,7 +4,6 @@ import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import org.apache.http.HttpHost
-import org.elasticsearch.action.DocWriteRequest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestClient
@@ -157,7 +156,6 @@ class ElasticSearchPublisher(
                 )
             RestHighLevelClient(restClientBuilder)
         }
-
     }
 
 }
