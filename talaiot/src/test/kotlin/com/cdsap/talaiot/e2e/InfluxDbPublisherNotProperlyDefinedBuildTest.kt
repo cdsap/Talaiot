@@ -32,6 +32,7 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                 .build()
             then("logs displays the InfluxDbPublisher error") {
                 assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName"))
+
             }
             testProjectDir.delete()
         }
@@ -80,7 +81,7 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                       influxDbPublisher {
                            dbName = "tracking"
                            url = "http://url.influxdb"
-                           taskIndexName = ""
+                           taskMetricName = ""
                       }
                   }
                }
