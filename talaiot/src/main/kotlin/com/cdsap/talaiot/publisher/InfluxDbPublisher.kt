@@ -47,12 +47,12 @@ class InfluxDbPublisher(
             influxDbPublisherConfiguration.buildMetricName.isEmpty()
         ) {
             println(
-                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskIndexName and buildIndexName: \n" +
+                "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
                         "influxDbPublisher {\n" +
                         "            dbName = \"tracking\"\n" +
                         "            url = \"http://localhost:8086\"\n" +
-                        "            buildIndexName = \"build\"\n" +
-                        "            taskIndexName = \"task\"\n" +
+                        "            buildMetricName = \"build\"\n" +
+                        "            taskMetricName = \"task\"\n" +
                         "}\n" +
                         "Please update your configuration"
             )

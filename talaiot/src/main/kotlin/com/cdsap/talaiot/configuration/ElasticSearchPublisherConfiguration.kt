@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.configuration
 
+import com.cdsap.talaiot.publisher.ElasticSearchPublisher
 
 /**
  * Configuration for the [ElasticSearchPublisher]. It belongs to the Publisher configurations

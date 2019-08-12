@@ -31,11 +31,11 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                 .withPluginClasspath()
                 .build()
             then("logs displays the InfluxDbPublisher error") {
-                assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskIndexName and buildIndexName"))
+                assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName"))
             }
             testProjectDir.delete()
         }
-        `when`("Talaiot is included with InfluxDbPublisher and using default values for taskIndexName and buildIndexName") {
+        `when`("Talaiot is included with InfluxDbPublisher and using default values for taskMetricName and buildMetricName") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -61,11 +61,11 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                 .withPluginClasspath()
                 .build()
             then("no error shown because using default values") {
-                assert(!result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskIndexName and buildIndexName"))
+                assert(!result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName"))
             }
             testProjectDir.delete()
         }
-        `when`("Talaiot is included with InfluxDbPublisher and it's overridden default value for taskIndexName with empty value") {
+        `when`("Talaiot is included with InfluxDbPublisher and it's overridden default value for taskMetricName with empty value") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -92,7 +92,7 @@ class InfluxDbPublisherNotProperlyDefinedBuildTest : BehaviorSpec({
                 .withPluginClasspath()
                 .build()
             then("logs displays the InfluxDbPublisher error") {
-                assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskIndexName and buildIndexName"))
+                assert(result.output.contains("InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName"))
             }
             testProjectDir.delete()
         }

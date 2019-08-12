@@ -56,8 +56,8 @@ publishing {
             url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local")
 
             credentials {
-                username = "cdsap"
-                password = "b6ee712c4a280021dadfd838651f63d77ac88221"
+                username = ""
+                password = ""
             }
         }
         maven {

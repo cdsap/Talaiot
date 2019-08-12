@@ -1,15 +1,16 @@
 package com.cdsap.talaiot.configuration
 
 import groovy.lang.Closure
+import com.cdsap.talaiot.publisher.InfluxDbPublisher
 
 /**
- * Configuration for the InfluxDbPublisher. It belongs to the Publisher configurations
+ * Configuration for the [InfluxDbPublisher]. It belongs to the Publisher configurations
  *
  * influxDbPublisher {
  *    dbName = "tracking"
  *    url = "url"
- *    taskIndexName = "tracking"
- *    buildIndexName = "buildMetric"
+ *    taskMetricName = "tracking"
+ *    buildMetricName = "buildMetric"
  *
  * }
  */
