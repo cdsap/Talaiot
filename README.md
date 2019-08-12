@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.2) ](https://bintray.com/cdsap/maven/talaiot/1.0.2/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.3) ](https://bintray.com/cdsap/maven/talaiot/1.0.3/link)
 
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
@@ -51,7 +51,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.0.3-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.0.4-SNAPSHOT")
 ````
 
 ## Basic configuration
