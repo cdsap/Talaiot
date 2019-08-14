@@ -28,10 +28,12 @@ gradlePlugin {
             api("org.influxdb:influxdb-java:2.15")
             api("com.github.oshi:oshi-core:3.13.3")
             api("com.google.code.gson:gson:2.8.5")
+            api("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
             testImplementation(gradleTestKit())
             testImplementation("org.testcontainers:testcontainers:1.11.3")
             testImplementation("org.testcontainers:influxdb:1.11.3")
+            testImplementation("org.testcontainers:elasticsearch:1.12.0")
             testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
         }
     }
@@ -51,7 +53,7 @@ publishing {
     repositories {
         maven {
             name = "Snapshots"
-            url = uri("")
+            url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local")
 
             credentials {
                 username = ""

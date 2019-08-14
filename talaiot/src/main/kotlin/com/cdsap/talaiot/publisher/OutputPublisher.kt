@@ -24,27 +24,31 @@ class OutputPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("OutputPublisher")
+        logTracker.log("publishBuildMetrics: ${outputPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${outputPublisherConfiguration.publishTaskMetrics}")
         logTracker.log("================")
 
-        report.tasks?.apply {
+        if (outputPublisherConfiguration.publishTaskMetrics) {
+            report.tasks?.apply {
 
-            val orderedTiming = sort(this, outputPublisherConfiguration.order)
-            if (!orderedTiming.isEmpty()) {
-                val max = when (outputPublisherConfiguration.order) {
-                    Order.ASC -> orderedTiming.last().ms
-                    Order.DESC -> orderedTiming.first().ms
-                }
-                val limit = when {
-                    outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
-                    outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
-                    else -> orderedTiming.size
-                }
+                val orderedTiming = sort(this, outputPublisherConfiguration.order)
+                if (!orderedTiming.isEmpty()) {
+                    val max = when (outputPublisherConfiguration.order) {
+                        Order.ASC -> orderedTiming.last().ms
+                        Order.DESC -> orderedTiming.first().ms
+                    }
+                    val limit = when {
+                        outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
+                        outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
+                        else -> orderedTiming.size
+                    }
 
-                for (i in 0 until limit) {
-                    val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
-                    val shrug = MAX_UNIT.substring(0, x.toInt())
-                    val maskMs = maskMs(orderedTiming[i].ms)
-                    logTracker.log("$shrug ${orderedTiming[i].taskName}: $maskMs : ${orderedTiming[i].state} ")
+                    for (i in 0 until limit) {
+                        val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
+                        val shrug = MAX_UNIT.substring(0, x.toInt())
+                        val maskMs = maskMs(orderedTiming[i].ms)
+                        logTracker.log("$shrug ${orderedTiming[i].taskName}: $maskMs : ${orderedTiming[i].state} ")
+                    }
                 }
             }
         }

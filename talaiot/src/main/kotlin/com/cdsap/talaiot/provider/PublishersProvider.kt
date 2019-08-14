@@ -76,6 +76,26 @@ class PublishersProvider(
                 publishers.add(TimelinePublisher(project.gradle))
             }
 
+            elasticSearchPublisher?.apply {
+                publishers.add(
+                    ElasticSearchPublisher(
+                        this,
+                        logger,
+                        executor
+                    )
+                )
+            }
+
+            hybridPublisher?.apply {
+                publishers.add(
+                    HybridPublisher(
+                        this,
+                        logger,
+                        executor
+                    )
+                )
+            }
+
             customPublisher?.apply {
                 publishers.add(this)
             }

@@ -54,6 +54,11 @@ class PublishersConfiguration(
      * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
      */
     var jsonPublisher: Boolean = false
+
+    var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
+
+    var hybridPublisher: HybridPublisherConfiguration? = null
+
     /**
      * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
      *
@@ -86,6 +91,24 @@ class PublishersConfiguration(
      */
     fun pushGatewayPublisher(configuration: PushGatewayPublisherConfiguration.() -> Unit) {
         pushGatewayPublisher = PushGatewayPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
+     *
+     * @param configuration Configuration block for the [ElasticSearchPublisherConfiguration]
+     */
+    fun elasticSearchPublisher(configuration: ElasticSearchPublisherConfiguration.() -> Unit) {
+        elasticSearchPublisher = ElasticSearchPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
+     *
+     * @param configuration Configuration block for the [HybridPublisherConfiguration]
+     */
+    fun hybridPublisher(configuration: HybridPublisherConfiguration.() -> Unit) {
+        hybridPublisher = HybridPublisherConfiguration().also(configuration)
     }
 
     /**
@@ -127,6 +150,28 @@ class PublishersConfiguration(
     fun taskDependencyGraphPublisher(closure: Closure<*>) {
         taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project)
         closure.delegate = taskDependencyGraphPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
+     *
+     * @param closure closure for the [ElasticSearchPublisherConfiguration]
+     */
+    fun elasticSearchPublisher(closure: Closure<*>) {
+        elasticSearchPublisher = ElasticSearchPublisherConfiguration()
+        closure.delegate = elasticSearchPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [HybridPublisherConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
+     *
+     * @param closure closure for the [HybridPublisherConfiguration]
+     */
+    fun hybridPublisher(closure: Closure<*>) {
+        hybridPublisher = HybridPublisherConfiguration()
+        closure.delegate = hybridPublisher
         closure.call()
     }
 

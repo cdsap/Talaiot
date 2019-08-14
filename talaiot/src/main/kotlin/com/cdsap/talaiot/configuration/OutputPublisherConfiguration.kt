@@ -5,6 +5,8 @@ package com.cdsap.talaiot.configuration
  */
 class OutputPublisherConfiguration : PublisherConfiguration {
     override var name: String = "output"
+    override var publishBuildMetrics: Boolean = true
+    override var publishTaskMetrics: Boolean = true
     /**
      * Represents the displayed orientation in the results
      */

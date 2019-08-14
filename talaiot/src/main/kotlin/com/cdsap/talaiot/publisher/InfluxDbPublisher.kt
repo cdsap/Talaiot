@@ -36,14 +36,17 @@ class InfluxDbPublisher(
     override fun publish(report: ExecutionReport) {
         logTracker.log("================")
         logTracker.log("InfluxDbPublisher")
+        logTracker.log("publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log("publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
         logTracker.log("================")
+
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
             influxDbPublisherConfiguration.taskMetricName.isEmpty() ||
             influxDbPublisherConfiguration.buildMetricName.isEmpty()
         ) {
-            println(
+            logTracker.error(
                 "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
                         "influxDbPublisher {\n" +
                         "            dbName = \"tracking\"\n" +
@@ -62,21 +65,24 @@ class InfluxDbPublisher(
                 //See https://github.com/influxdata/influxdb-java/issues/373
                 .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
 
-            val buildMeasurement = createBuildPoint(report)
-            pointsBuilder.point(buildMeasurement)
-
-            if (!influxDbPublisherConfiguration.publishOnlyBuildMetrics) {
+            if (influxDbPublisherConfiguration.publishTaskMetrics) {
                 val measurements = createTaskPoints(report)
                 if (!measurements.isNullOrEmpty()) {
                     pointsBuilder.points(measurements)
                 }
             }
 
+            if (influxDbPublisherConfiguration.publishBuildMetrics) {
+                val buildMeasurement = createBuildPoint(report)
+                pointsBuilder.point(buildMeasurement)
+
+            }
+
             executor.execute {
                 try {
                     _db.write(pointsBuilder.build())
                 } catch (e: Exception) {
-                    println("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+                    logTracker.error("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
 
                 }
             }
@@ -84,13 +90,13 @@ class InfluxDbPublisher(
             logTracker.log("InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
-                    println("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
+                    logTracker.error("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
                 }
                 is InfluxDBException -> {
-                    println("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
+                    logTracker.error("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
                 }
                 else -> {
-                    println("InfluxDbPublisher-Error-Exception: ${e.message}")
+                    logTracker.error("InfluxDbPublisher-Error-Exception: ${e.message}")
                 }
             }
         }
