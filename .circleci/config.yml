@@ -4,8 +4,8 @@ orbs:
 executor: machine
 jobs:
   build:
-    docker:
-      - image: circleci/openjdk:latest
+    machine:
+      image: circleci/openjdk:latest
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx5G
