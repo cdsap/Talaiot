@@ -9,7 +9,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx3200m
+      JVM_OPTS: -Xmx5000m
       TERM: dumb
 
     steps:
