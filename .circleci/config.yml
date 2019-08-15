@@ -7,11 +7,7 @@ jobs:
     docker:
       - image: circleci/openjdk:latest
     working_directory: ~/repo
-
-    environment:
-      JVM_OPTS: -Xmx5000m
-      TERM: dumb
-
+    resource_class: large
     steps:
       - checkout
       - run:
