@@ -126,7 +126,3 @@ repositories {
     google()
     mavenLocal()
 }
-
-sourceSets {
-    getByName("test").java.srcDirs("src/test/kotlin")
-}
