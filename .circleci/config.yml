@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew build jacocoTestReport
+          command: ./gradlew build jacocoTestReport --stacktrace
       - codecov/upload:
           file: coverage/*.json
       - store_test_results:
