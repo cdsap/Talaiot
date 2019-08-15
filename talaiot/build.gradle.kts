@@ -5,7 +5,7 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     groovy
-    id("jacoco")
+  //  id("jacoco")
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
     id("com.novoda.bintray-release")

@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew build jacocoTestReport --stacktrace
+          command: ./gradlew build  --stacktrace
           no_output_timeout: 15m
       - codecov/upload:
           file: coverage/*.json
