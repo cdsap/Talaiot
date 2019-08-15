@@ -11,7 +11,7 @@ jobs:
           command: ./gradlew build  --stacktrace
           no_output_timeout: 15m
       - store_test_results:
-          path: talaiot/build/reports/jacoco/
+          path: talaiot/build/reports/tests/
       - store_artifacts:
           path: talaiot/build/reports/tests/
 
