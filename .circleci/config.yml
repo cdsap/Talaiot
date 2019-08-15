@@ -15,7 +15,7 @@ jobs:
       - run:
           name: build
           command: ./gradlew build jacocoTestReport --stacktrace
-          no_output_timeout: 15m
+          no_output_timeout: 14m
       - codecov/upload:
           file: talaiot/build/reports/jacoco/
       - store_test_results:
