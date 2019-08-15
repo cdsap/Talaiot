@@ -5,6 +5,7 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     groovy
+    id("jacoco")
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
     id("com.novoda.bintray-release")
@@ -51,11 +52,11 @@ publishing {
     repositories {
         maven {
             name = "Snapshots"
-            url = uri("")
+            url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local")
 
             credentials {
-                username = ""
-                password = ""
+                username = System.getenv("USERNAME_SNAPSHOT")
+                password = System.getenv("PASSWORD_SNAPSHOT")
             }
         }
         maven {
@@ -124,4 +125,8 @@ repositories {
     mavenCentral()
     google()
     mavenLocal()
+}
+
+sourceSets {
+    getByName("test").java.srcDirs("src/test/kotlin")
 }

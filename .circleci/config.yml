@@ -1,11 +1,11 @@
 version: 2
+orbs:
+  codecov: codecov/codecov@1.0.4
 executorType: machine
 jobs:
   build:
     docker:
       - image: circleci/openjdk:latest
-
-
     working_directory: ~/repo
 
     environment:
@@ -16,10 +16,11 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew build
-
+          command: ./gradlew build jacocoTestReport
+      - codecov/upload:
+          file: coverage/*.json
       - store_test_results:
-          path: talaiot/build/reports/tests/
+          path: talaiot/build/reports/jacoco/
       - store_artifacts:
           path: talaiot/build/reports/tests/
 
