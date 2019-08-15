@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 orbs:
   codecov: codecov/codecov@1.0.5
 executorType: machine
@@ -16,6 +16,8 @@ jobs:
           name: build
           command: ./gradlew build jacocoTestReport --stacktrace
           no_output_timeout: 14m
+      - codecov/upload:
+          file: talaiot/build/reports/jacoco/
       - store_test_results:
           path: talaiot/build/reports/tests/
       - store_artifacts:
