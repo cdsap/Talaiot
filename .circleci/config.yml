@@ -5,7 +5,7 @@ executor: machine
 jobs:
   build:
     machine:
-      image: circleci/openjdk:latest
+      image: circleci/classic:latest
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx5G
