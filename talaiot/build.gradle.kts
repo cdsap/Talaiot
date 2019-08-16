@@ -14,7 +14,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.0.4-SNAPSHOT"
+val versionTalaiot = "1.0.4"
 
 
 

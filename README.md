@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.3) ](https://bintray.com/cdsap/maven/talaiot/1.0.3/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.4) ](https://bintray.com/cdsap/maven/talaiot/1.0.4/link)
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
@@ -9,7 +9,7 @@ It records the duration of your Gradle tasks helping to understand problems of t
 
 Some of the features are:
 
-* Integration with Time/Series systems 
+* Integration with Time/Series systems like InfluxDb, ElasticSearch and Prometheus.
 * Extensible definition of metrics depending on the requirements.
 * Definition of custom publishers
 * Develop it entirely with Kotlin 
@@ -52,7 +52,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.0.4-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.0.5-SNAPSHOT")
 ````
 
 ## Basic configuration
@@ -104,7 +104,9 @@ you can extend it and create your publisher for your requirements
 | TaskDependencyGraphPublisher  | Publish the results of the build using the dependency graph of the tasks executed                          |
 | PushGatewayGraphPublisher     | Publish the results of the build to the PushGateway server defined in the configuration                    |
 | JsonPublisher                 | Publish the results of the build with a json format                                                        |
-| TimelinePublisher             | Publish the results of the build decompose by the different workers used in the execution                  |
+| TimelinePublisher             | Publish the results of the build decomposed by the different workers used in the execution                 |
+| ElasticSearchPublisher        | Publish the results of the build to the ElasticSearch instance defined in the configuration                |
+| HybridPublisher               | Publish the results of the build in two different publishers defined for tasks metrics and build metrics   |
 
 
 
@@ -121,6 +123,9 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | username                     | username which is used to authorize against the influxDB instance (optional)        |
 | password                     | password for the username which is used to authorize against the influxDB (optional)|                                                                          |
 | retentionPolicyConfiguration | retention policy which is used for writing points                                   |
+| publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
+| publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
+
 
 ##### RetentionPolicyConfiguration
 
@@ -180,10 +185,14 @@ Example:
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
 
 
-| Property  |      Description                                                                  |
-|---------- |-----------------------------------------------------------------------------------|
-| jobName   | Name of the job required to be exported to Prometheus                             |
-| url       | Url of the PushGateway Server                                                     |
+| Property             |      Description                                                                  |
+|--------------------- |-----------------------------------------------------------------------------------|
+| url                  | Url of the PushGateway Server                                                     |
+| taskJobName          | Name of the job required for the tasks metrics to be exported to Prometheus       |
+| buildJobName         | Name of the job required for the build metrics to be exported to Prometheus       |
+| publishBuildMetrics  | Publish build metrics of the publisher, true by default                           |
+| publishTaskMetrics   | Publish tasks metrics of the publisher, true by default                           |
+
 
 #### JsonPublisher
 Talaiot will Publish the results of the build with a json format .
@@ -208,6 +217,61 @@ in the different workers.
     }
 ```
 
+#### ElasticSearchPublisher
+Talaiot will send to the ElasticSearch server defined in the configuration the values collected for tasks and build metrics during the execution
+in the different workers.
+
+| Property             |      Description                                                                  |
+|--------------------- |-----------------------------------------------------------------------------------|
+| url                  | ElasticSearch server                                                              |
+| taskIndexName        | Name for the index used to report tasks metrics                                   |
+| buildIndexName       | Name for the index used to report build metrics                                   |
+| publishBuildMetrics  | Publish build metrics of the publisher, true by default                           |
+| publishTaskMetrics   | Publish tasks metrics of the publisher, true by default                           |
+
+Example:
+
+```
+    publishers {
+        elasticSearchPublisher {
+          url = "http://localhost:9200"
+          taskIndexName = "task"
+          buildIndexName = "build"
+        }
+    }
+```
+
+#### HybridPublisher
+This Publisher allows composition over publishers to report tasks and build metrics.
+
+| Property             |      Description                                                                  |
+|--------------------- |-----------------------------------------------------------------------------------|
+| taskPublisher        | Publisher configuration used to publish tasks metrics                             |
+| buildPublisher       | Publisher configuration used to publish build metrics                             |
+
+
+Example:
+
+```
+    publishers {
+        hybridPublisher {
+            taskPublisher = ElasticSearchPublisherConfiguration().apply {
+                url = "http://localhost:9200"
+                buildIndexName = "build"
+                taskIndexName = "task"
+            }
+            
+            buildPublisher = InfluxDbPublisherConfiguration().apply {
+                dbName = "tracking"
+                url = "http://localhost:8086"
+                buildMetricName = "build"
+                taskMetricName = "task"
+            }
+        }
+    }
+```
+In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics. 
+ 
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
