@@ -1,23 +1,25 @@
-version: 2
-executorType: machine
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.5
+executor: machine
 jobs:
   build:
-    docker:
-      - image: circleci/openjdk:latest
-
+    machine:
+      image: circleci/classic:latest
 
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx3200m
+      JVM_OPTS: -Xmx5G
       TERM: dumb
 
     steps:
       - checkout
       - run:
           name: build
-          command: ./gradlew build
-
+          command: ./gradlew build jacocoTestReport --stacktrace
+      - codecov/upload:
+          file: talaiot/build/reports/jacoco/test/*.xml
       - store_test_results:
           path: talaiot/build/reports/tests/
       - store_artifacts:

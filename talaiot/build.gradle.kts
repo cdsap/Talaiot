@@ -5,12 +5,17 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     groovy
+    id("jacoco")
     kotlin("jvm") version "1.3.11"
     id("com.gradle.plugin-publish") version "0.10.0"
     id("com.novoda.bintray-release")
 }
+jacoco {
+    toolVersion = "0.8.3"
+}
 
 val versionTalaiot = "1.0.4-SNAPSHOT"
+
 
 
 group = "com.cdsap"
@@ -29,7 +34,7 @@ gradlePlugin {
             api("com.github.oshi:oshi-core:3.13.3")
             api("com.google.code.gson:gson:2.8.5")
             api("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
-            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.1.11")
+            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
             testImplementation(gradleTestKit())
             testImplementation("org.testcontainers:testcontainers:1.11.3")
             testImplementation("org.testcontainers:influxdb:1.11.3")
@@ -56,8 +61,8 @@ publishing {
             url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local")
 
             credentials {
-                username = ""
-                password = ""
+                username = System.getenv("USERNAME_SNAPSHOT")
+                password = System.getenv("PASSWORD_SNAPSHOT")
             }
         }
         maven {
@@ -126,4 +131,15 @@ repositories {
     mavenCentral()
     google()
     mavenLocal()
+}
+
+
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+        csv.isEnabled = true
+        html.isEnabled = true
+        html.destination = file("$buildDir/reports/coverage")
+    }
 }
