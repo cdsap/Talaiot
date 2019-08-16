@@ -36,14 +36,13 @@ jobs:
           command: ./gradlew publishMavenPublicationToSnapshotsRepository
 
 workflows:
-  version: 2
-  deploy-snapshot:
+  version: 2.1
+  build-snap:
     jobs:
       - build
-      - deploy:
+      - deploy-snapshot:
           requires:
             - build
           filters:
             branches:
-              only:
-                - master
+              only: master
