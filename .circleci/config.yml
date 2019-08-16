@@ -25,4 +25,24 @@ jobs:
       - store_artifacts:
           path: talaiot/build/reports/tests/
 
+  deploy-snapshot:
+    working_directory: ~/repo
+    machine:
+      image: circleci/classic:latest
+    steps:
+      - checkout
+      - run:
+          name: snapshot
+          command: ./gradlew publishMavenPublicationToSnapshotsRepository
 
+workflows:
+  version: 2.1
+  build-snap:
+    jobs:
+      - build
+      - deploy-snapshot:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
