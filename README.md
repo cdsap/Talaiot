@@ -1,7 +1,8 @@
 # Talaiot
 
 [ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.3) ](https://bintray.com/cdsap/maven/talaiot/1.0.3/link)
-
+[![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
+[![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
 Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
 It records the duration of your Gradle tasks helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics. 
