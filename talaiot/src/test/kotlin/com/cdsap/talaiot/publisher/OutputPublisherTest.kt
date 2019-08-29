@@ -72,13 +72,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher", "publishBuildMetrics: true")
                     verify(logTracker).log("OutputPublisher", "publishTaskMetrics: true")
                     verify(logTracker).log("OutputPublisher", "================")
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("fastTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()
@@ -128,13 +128,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher", "publishBuildMetrics: true")
                     verify(logTracker).log("OutputPublisher", "publishTaskMetrics: true")
                     verify(logTracker).log("OutputPublisher", "================")
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("slowTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("fastTask")
                     })
                     verifyNoMoreInteractions()
@@ -167,7 +167,7 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher", "publishBuildMetrics: true")
                     verify(logTracker).log("OutputPublisher", "publishTaskMetrics: true")
                     verify(logTracker).log("OutputPublisher", "================")
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("zeroTask: 0ms")
                     })
                     verifyNoMoreInteractions()
@@ -217,13 +217,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher", "publishBuildMetrics: true")
                     verify(logTracker).log("OutputPublisher", "publishTaskMetrics: true")
                     verify(logTracker).log("OutputPublisher", "================")
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("msTask: 10ms")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("secTask: 2sec")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("minTask: 1min")
                     })
                     verifyNoMoreInteractions()
@@ -274,13 +274,13 @@ class OutputPublisherTest : BehaviorSpec({
                     verify(logTracker).log("OutputPublisher", "publishBuildMetrics: true")
                     verify(logTracker).log("OutputPublisher", "publishTaskMetrics: true")
                     verify(logTracker).log("OutputPublisher", "================")
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("fastTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log("OutputPublisher", argForWhich {
+                    verify(logTracker).log(argForWhich { this == "OutputPublisher" }, argForWhich {
                         this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()

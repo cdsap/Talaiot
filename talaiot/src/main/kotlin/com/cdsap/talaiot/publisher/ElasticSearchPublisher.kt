@@ -41,9 +41,11 @@ class ElasticSearchPublisher(
 
                 try {
                     if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
+                        logTracker.log(TAG, "Sending Build metrics")
                         sendBuildMetrics(report, client)
                     }
                     if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
+                        logTracker.log(TAG, "Sending Task metrics")
                         sendTasksMetrics(report, client)
                     }
 
@@ -106,20 +108,22 @@ class ElasticSearchPublisher(
             report.scanLink?.let { "scanLink" to it }
         }
 
-        client.index(
+        val response = client.index(
             IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(source),
             RequestOptions.DEFAULT
+
         )
+        logTracker.log(TAG, "Result Build metrics ${response.toString()}")
     }
 
     private fun sendTasksMetrics(
         report: ExecutionReport,
         client: RestHighLevelClient
     ) {
-        logTracker.log(TAG,"number of tasks report.tasks " + report.tasks?.size)
+        logTracker.log(TAG, "number of tasks report.tasks " + report.tasks?.size)
         report.tasks?.forEach {
             try {
-                client.index(
+                val response = client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
                         .source(
                             mapOf(
@@ -135,6 +139,7 @@ class ElasticSearchPublisher(
                     ,
                     RequestOptions.DEFAULT
                 )
+                logTracker.log(TAG, "Result Task metrics ${response.toString()}")
             } catch (e: java.lang.Exception) {
                 logTracker.error(e.message.toString())
             }

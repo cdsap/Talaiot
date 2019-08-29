@@ -83,7 +83,9 @@ class InfluxDbPublisher(
                 logTracker.log(TAG, "================")
 
                 try {
-                    _db.write(pointsBuilder.build())
+                    val points = pointsBuilder.build()
+                    logTracker.log(TAG, "Sending points to InfluxDb server ${points.toString()}")
+                    _db.write(points)
                 } catch (e: Exception) {
                     logTracker.error("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
 
