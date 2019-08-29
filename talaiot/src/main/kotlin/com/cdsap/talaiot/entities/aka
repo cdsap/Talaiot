@@ -1,5 +1,0 @@
-Switches,,
-buildCache,configurationOnDemand,daemon
-parallel,continueOnFailure,dryRun
-offline,rerunTasks,refreshDependencies
-buildScan,,
