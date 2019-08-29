@@ -12,11 +12,12 @@ class LogTrackerImpl(
 
     /**
      * Logger function that check the current node to use the output method to display the results.
+     * @param tag reference log
      * @param message message to be displayed
      */
-    override fun log(message: String) {
+    override fun log(tag: String, message: String) {
         when (mode) {
-            LogTracker.Mode.INFO -> println(message)
+            LogTracker.Mode.INFO -> println("[$tag]: $message")
             else -> {
             }
         }

@@ -10,6 +10,7 @@ import java.nio.file.Paths
  * I/O contract related to files
  */
 interface FileWriter {
+
     /**
      * Gradle Project used to retrieve the extension
      */
@@ -44,7 +45,7 @@ interface FileWriter {
                 func()
             }
         } catch (e: Exception) {
-            logTracker.log("FileWriter: Error -> ${e.message}")
+            logTracker.log("FileWriter", "Error -> ${e.message}")
         }
     }
 

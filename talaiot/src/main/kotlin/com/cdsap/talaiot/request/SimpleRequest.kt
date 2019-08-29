@@ -11,10 +11,11 @@ import java.net.URL
  */
 class SimpleRequest(mode: LogTracker) : Request {
     override var logTracker = mode
+    private val TAG = "SimpleRequest"
 
     override fun send(url: String, content: String) {
         val urlSpec = URL(url)
-        logTracker.log(url)
+        logTracker.log(TAG, "send request to $url")
         try {
             httpPost {
                 url(urlSpec)
@@ -29,10 +30,17 @@ class SimpleRequest(mode: LogTracker) : Request {
                     string(content)
                 }
             }.also {
-                logTracker.log(it.message())
+                logTracker.log(TAG, "Response code ${it.code()}")
+                if (!it.isSuccessful) {
+                    logTracker.log(TAG, "Response code not Successful")
+                    logTracker.log(TAG, "Message Response ${it.message()}")
+                    logTracker.log(TAG, "Response Body ${it.body()?.string()}")
+
+                }
+
             }
         } catch (e: Exception) {
-            logTracker.log(e.message ?: "error requesting $url")
+            logTracker.log(TAG, e.message ?: "error requesting $url")
         }
     }
 }

@@ -12,7 +12,7 @@ interface LogTracker {
         INFO
     }
 
-    fun log(message: String)
+    fun log(tag: String, message: String)
 
     fun error(message: String)
 }

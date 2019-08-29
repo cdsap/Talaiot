@@ -4,7 +4,7 @@ object TestLogTrackerRecorder : LogTracker {
 
 
     private val logs = mutableListOf<String>()
-    override fun log(message: String) {
+    override fun log(tag: String, message: String) {
         logs.add(message)
     }
 

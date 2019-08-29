@@ -26,22 +26,26 @@ class ElasticSearchPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("ElasticSearchPublisher")
-        logTracker.log("publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log("publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log("================")
+    private val TAG = "ElasticSearchPublisher"
 
+    override fun publish(report: ExecutionReport) {
 
         if (validate()) {
             val client = getClient()
             executor.execute {
+                logTracker.log(TAG, "================")
+                logTracker.log(TAG, "ElasticSearchPublisher")
+                logTracker.log(TAG, "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
+                logTracker.log(TAG, "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(TAG, "================")
+
                 try {
                     if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
+                        logTracker.log(TAG, "Sending Build metrics")
                         sendBuildMetrics(report, client)
                     }
                     if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
+                        logTracker.log(TAG, "Sending Task metrics")
                         sendTasksMetrics(report, client)
                     }
 
@@ -104,20 +108,22 @@ class ElasticSearchPublisher(
             report.scanLink?.let { "scanLink" to it }
         }
 
-        client.index(
+        val response = client.index(
             IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(source),
             RequestOptions.DEFAULT
+
         )
+        logTracker.log(TAG, "Result Build metrics ${response.toString()}")
     }
 
     private fun sendTasksMetrics(
         report: ExecutionReport,
         client: RestHighLevelClient
     ) {
-        logTracker.log("number of tasks report.tasks " + report.tasks?.size)
+        logTracker.log(TAG, "number of tasks report.tasks " + report.tasks?.size)
         report.tasks?.forEach {
             try {
-                client.index(
+                val response = client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
                         .source(
                             mapOf(
@@ -133,9 +139,9 @@ class ElasticSearchPublisher(
                     ,
                     RequestOptions.DEFAULT
                 )
+                logTracker.log(TAG, "Result Task metrics ${response.toString()}")
             } catch (e: java.lang.Exception) {
-                logTracker.log("error")
-                logTracker.log(e.message.toString())
+                logTracker.error(e.message.toString())
             }
         }
     }
