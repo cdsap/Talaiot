@@ -34,8 +34,6 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                 .withPluginClasspath()
                 .build()
             then("logs are shown in the output and including the pushGateway format") {
-                println(result.output)
-                assert(result.output.contains("PushGatewayPublisher"))
                 assert(result.output.contains(":assemble{state=\"EXECUTED\","))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 

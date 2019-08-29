@@ -60,12 +60,9 @@ class PushGatewayPublisher(
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
                 val buildTags =
-                //    report.flattenBuildEnv()
-                //        .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
-                //        .joinToString(separator = ",")
-                report.flattenBuildEnv()
-                    .map { (k, v) -> "${k.formatTagPublisher()}=\"${v.formatTagPublisher()}\"" }
-                    .joinToString(separator = ",")
+                    report.flattenBuildEnv()
+                        .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
+                        .joinToString(separator = ",")
                 contentBuildMetrics += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
 
             }
