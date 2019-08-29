@@ -14,12 +14,15 @@ class HybridPublisher(
      */
     private val executor: Executor
 ) : Publisher {
+
+    private val TAG = "HybridPublisher"
+
     override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("HybridPublisher")
-        logTracker.log("publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log("publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log("================")
+        logTracker.log(TAG,"================")
+        logTracker.log(TAG,"HybridPublisher")
+        logTracker.log(TAG,"publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(TAG,"publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(TAG,"================")
 
         if (validate()) {
             hybridPublisherConfiguration.buildPublisher?.let {

@@ -26,17 +26,19 @@ class ElasticSearchPublisher(
     private val executor: Executor
 ) : Publisher {
 
-    override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("ElasticSearchPublisher")
-        logTracker.log("publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log("publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log("================")
+    private val TAG = "ElasticSearchPublisher"
 
+    override fun publish(report: ExecutionReport) {
 
         if (validate()) {
             val client = getClient()
             executor.execute {
+                logTracker.log(TAG, "================")
+                logTracker.log(TAG, "ElasticSearchPublisher")
+                logTracker.log(TAG, "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
+                logTracker.log(TAG, "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(TAG, "================")
+
                 try {
                     if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
                         sendBuildMetrics(report, client)
@@ -114,7 +116,7 @@ class ElasticSearchPublisher(
         report: ExecutionReport,
         client: RestHighLevelClient
     ) {
-        logTracker.log("number of tasks report.tasks " + report.tasks?.size)
+        logTracker.log(TAG,"number of tasks report.tasks " + report.tasks?.size)
         report.tasks?.forEach {
             try {
                 client.index(
@@ -134,8 +136,7 @@ class ElasticSearchPublisher(
                     RequestOptions.DEFAULT
                 )
             } catch (e: java.lang.Exception) {
-                logTracker.log("error")
-                logTracker.log(e.message.toString())
+                logTracker.error(e.message.toString())
             }
         }
     }

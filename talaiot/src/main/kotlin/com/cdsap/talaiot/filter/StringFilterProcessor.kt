@@ -3,7 +3,7 @@ package com.cdsap.talaiot.filter
 import com.cdsap.talaiot.logger.LogTracker
 
 class StringFilterProcessor(private val filter: StringFilter, private val logTracker: LogTracker) {
-
+    private val TAG = "StringFilterProcessor"
 
     fun matches(string: String): Boolean {
         var includes = -1
@@ -27,11 +27,9 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
         //Excludes and includes provided
         else {
             if (excludes == 1 && includes == 1)
-                logTracker.log("$string matches with inclusion and exclusion filter")
+                logTracker.log(TAG, "$string matches with inclusion and exclusion filter")
             includes == 1 && excludes == 0
         }
-
-
     }
 
 

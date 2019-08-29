@@ -27,13 +27,9 @@ class PushGatewayPublisher(
      */
     private val executor: Executor
 ) : Publisher {
+    private val TAG = "PushGatewayPublisher"
 
     override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("PushGatewayPublisher")
-        logTracker.log("publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log("publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log("================")
 
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
             pushGatewayPublisherConfiguration.taskJobName.isEmpty()
@@ -48,33 +44,50 @@ class PushGatewayPublisher(
             )
 
         } else {
-            val url =
-                "${pushGatewayPublisherConfiguration.url}/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
-            var content = ""
+            val url = pushGatewayPublisherConfiguration.url
+            var contentTaskMetrics = ""
+            var contentBuildMetrics = ""
+            val urlTaskMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
+            val urlBuildMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.buildJobName}"
+
 
             if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
                 report.tasks?.forEach {
-                    content += "${it.taskPath}{state=\"${it.state}\"" +
+                    contentTaskMetrics += "${it.taskPath}{state=\"${it.state}\"" +
                             ",module=\"${it.module}\",rootNode=\"${it.rootNode}\"} ${it.ms}\n"
-                    logTracker.log(content)
                 }
             }
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
                 val buildTags =
-                    report.flattenBuildEnv()
-                        .map { (k, v) -> "${k.formatTagPublisher()}=${v.formatTagPublisher()}" }
-                        .joinToString(separator = ",")
-                content += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
+                //    report.flattenBuildEnv()
+                //        .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
+                //        .joinToString(separator = ",")
+                report.flattenBuildEnv()
+                    .map { (k, v) -> "${k.formatTagPublisher()}=\"${v.formatTagPublisher()}\"" }
+                    .joinToString(separator = ",")
+                contentBuildMetrics += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
 
             }
+            executor.execute {
 
-            if (content.isNotEmpty()) {
-                executor.execute {
-                    requestPublisher.send(url, content)
+                logTracker.log(TAG, "================")
+                logTracker.log(TAG, "publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
+                logTracker.log(TAG, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(TAG, "================")
+
+                if (contentTaskMetrics.isNotBlank()) {
+                    logTracker.log(TAG, "Inserting PushGateway Task metrics")
+                    logTracker.log(TAG, "url: $urlTaskMetrics")
+                    logTracker.log(TAG, "content: $contentTaskMetrics")
+                    requestPublisher.send(urlTaskMetrics, contentTaskMetrics + "\n")
                 }
-            } else {
-                logTracker.log("Empty content")
+                if (contentBuildMetrics.isNotBlank()) {
+                    logTracker.log(TAG, "Inserting PushGateway Build metrics")
+                    logTracker.log(TAG, "url: $urlBuildMetrics")
+                    logTracker.log(TAG, "content: $contentBuildMetrics")
+                    requestPublisher.send(urlBuildMetrics, contentBuildMetrics + "\n")
+                }
             }
         }
     }

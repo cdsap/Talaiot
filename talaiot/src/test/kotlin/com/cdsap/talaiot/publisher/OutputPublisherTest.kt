@@ -20,11 +20,11 @@ class OutputPublisherTest : BehaviorSpec({
             then("shouldn't print anything") {
                 outputPublisher.publish(ExecutionReport())
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
                     verifyNoMoreInteractions()
                 }
             }
@@ -67,18 +67,18 @@ class OutputPublisherTest : BehaviorSpec({
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("fastTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()
@@ -123,18 +123,18 @@ class OutputPublisherTest : BehaviorSpec({
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("slowTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("fastTask")
                     })
                     verifyNoMoreInteractions()
@@ -148,24 +148,26 @@ class OutputPublisherTest : BehaviorSpec({
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
                 val taskMeasurementAggregated = ExecutionReport(
-                    tasks = listOf(TaskLength(
-                        0L,
-                        "zeroTask",
-                        ":zeroTask",
-                        TaskMessageState.EXECUTED,
-                        true,
-                        "app",
-                        emptyList()
-                    ))
+                    tasks = listOf(
+                        TaskLength(
+                            0L,
+                            "zeroTask",
+                            ":zeroTask",
+                            TaskMessageState.EXECUTED,
+                            true,
+                            "app",
+                            emptyList()
+                        )
+                    )
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("zeroTask: 0ms")
                     })
                     verifyNoMoreInteractions()
@@ -210,18 +212,18 @@ class OutputPublisherTest : BehaviorSpec({
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("msTask: 10ms")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("secTask: 2sec")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("minTask: 1min")
                     })
                     verifyNoMoreInteractions()
@@ -267,18 +269,18 @@ class OutputPublisherTest : BehaviorSpec({
                 )
                 outputPublisher.publish(taskMeasurementAggregated)
                 inOrder(logTracker) {
-                    verify(logTracker).log("================")
-                    verify(logTracker).log("OutputPublisher")
-                    verify(logTracker).log("publishBuildMetrics: true")
-                    verify(logTracker).log("publishTaskMetrics: true")
-                    verify(logTracker).log("================")
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", "OutputPublisher")
+                    verify(logTracker).log("log", "publishBuildMetrics: true")
+                    verify(logTracker).log("log", "publishTaskMetrics: true")
+                    verify(logTracker).log("log", "================")
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("fastTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("averageTask")
                     })
-                    verify(logTracker).log(argForWhich {
+                    verify(logTracker).log("log", argForWhich {
                         this.contains("slowTask")
                     })
                     verifyNoMoreInteractions()

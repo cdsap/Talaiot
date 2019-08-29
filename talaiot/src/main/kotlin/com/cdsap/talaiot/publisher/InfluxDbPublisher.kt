@@ -33,12 +33,9 @@ class InfluxDbPublisher(
     private val executor: Executor
 ) : Publisher {
 
+    private val TAG = "InfluxDbPublisher"
+
     override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("InfluxDbPublisher")
-        logTracker.log("publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log("publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log("================")
 
 
         if (influxDbPublisherConfiguration.url.isEmpty() ||
@@ -79,6 +76,12 @@ class InfluxDbPublisher(
             }
 
             executor.execute {
+                logTracker.log(TAG, "================")
+                logTracker.log(TAG, "InfluxDbPublisher")
+                logTracker.log(TAG, "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
+                logTracker.log(TAG, "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(TAG, "================")
+
                 try {
                     _db.write(pointsBuilder.build())
                 } catch (e: Exception) {
@@ -87,7 +90,7 @@ class InfluxDbPublisher(
                 }
             }
         } catch (e: Exception) {
-            logTracker.log("InfluxDbPublisher-Error ${e.stackTrace}")
+            logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
                     logTracker.error("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
@@ -192,7 +195,7 @@ class InfluxDbPublisher(
         val rpName = retentionPolicyConfiguration.name
 
         if (!influxDb.databaseExists(dbName)) {
-            logTracker.log("Creating db $dbName")
+            logTracker.log(TAG, "Creating db $dbName")
             influxDb.createDatabase(dbName)
 
             val duration = retentionPolicyConfiguration.duration

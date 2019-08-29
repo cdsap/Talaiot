@@ -33,15 +33,17 @@ open class TaskDependencyGraphPublisher(
     private val graphPublisherFactory: GraphPublisherFactory
 ) : Publisher {
 
+    private val TAG = "OutputPublisher"
+
     override fun publish(report: ExecutionReport) {
-        logTracker.log("================")
-        logTracker.log("TaskDependencyGraphPublisher")
-        logTracker.log("================")
+        logTracker.log(TAG, "================")
+        logTracker.log(TAG, "TaskDependencyGraphPublisher")
+        logTracker.log(TAG, "================")
         val listOfPublishers = mutableListOf<DiskPublisher>()
         graphConfiguration.apply {
             if (ignoreWhen == null || ignoreWhen?.shouldIgnore() == false) {
                 if (html) {
-                    logTracker.log("Html Output enabled")
+                    logTracker.log(TAG, "Html Output enabled")
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.HTML,
@@ -50,7 +52,7 @@ open class TaskDependencyGraphPublisher(
                     )
                 }
                 if (gexf) {
-                    logTracker.log("Gexf Output enabled")
+                    logTracker.log(TAG, "Gexf Output enabled")
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.GEXF,
@@ -59,7 +61,7 @@ open class TaskDependencyGraphPublisher(
                     )
                 }
                 if (dot) {
-                    logTracker.log("Dot Output enabled")
+                    logTracker.log(TAG, "Dot Output enabled")
                     listOfPublishers.add(
                         graphPublisherFactory.createPublisher(
                             GraphPublisherType.DOT,
@@ -74,7 +76,7 @@ open class TaskDependencyGraphPublisher(
                 }
 
             } else {
-                logTracker.log("Execution ignored")
+                logTracker.log(TAG, "Execution ignored")
 
             }
         }
