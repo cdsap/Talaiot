@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.4) ](https://bintray.com/cdsap/maven/talaiot/1.0.4/link)
+[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.5) ](https://bintray.com/cdsap/maven/talaiot/1.0.5/link)
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
@@ -52,7 +52,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.0.5-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.0.6-SNAPSHOT")
 ````
 
 ## Basic configuration
@@ -429,6 +429,8 @@ is great and you have the support from Gradle :)
 [Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
 
 [Graphs, Gradle and Talaiot](https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1)
+
+[Talaiot at Scale](https://proandroiddev.com/talaiot-at-scale-8cb5259d3244)
 
 
 ## Contributing

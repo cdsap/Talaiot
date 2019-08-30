@@ -14,7 +14,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.0.5-SNAPSHOT"
+val versionTalaiot = "1.0.6-SNAPSHOT"
 
 
 
@@ -28,7 +28,7 @@ gradlePlugin {
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
-            api("io.github.rybalkinsd:kohttp:0.8.0")
+            api("io.github.rybalkinsd:kohttp:0.10.0")
             api("guru.nidi:graphviz-java:0.8.3")
             api("org.influxdb:influxdb-java:2.15")
             api("com.github.oshi:oshi-core:3.13.3")
