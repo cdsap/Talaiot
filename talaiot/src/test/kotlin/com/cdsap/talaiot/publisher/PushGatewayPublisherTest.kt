@@ -14,7 +14,7 @@ import io.kotlintest.specs.BehaviorSpec
 import java.net.URL
 
 
-class PushTest : BehaviorSpec() {
+class PushGatewayPublisherTest : BehaviorSpec() {
 
     val container = KPushGatewayContainer()
     override fun beforeSpec(description: Description, spec: Spec) {
@@ -122,12 +122,11 @@ class PushTest : BehaviorSpec() {
 
                 }
             }
-            `when`("There is configuration with metrics only to send build ") {
+            `when`("There is configuration with metrics of tasks and build ") {
                 val influxDbConfiguration = PushGatewayPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
-                    publishTaskMetrics = false
-                    buildJobName = "build3"
-                    taskJobName = "task3"
+                    buildJobName = "build4"
+                    taskJobName = "task4"
                 }
 
                 val pushGateway = PushGatewayPublisher(
@@ -135,10 +134,10 @@ class PushTest : BehaviorSpec() {
                 )
 
                 pushGateway.publish(
-                    executionReportData()
+                    executionReportDataSpecialData()
                 )
 
-                then("Pushgateway contains metrics for build but not for tasks") {
+                then("metrics are formatted") {
 
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
@@ -153,15 +152,14 @@ class PushTest : BehaviorSpec() {
                     }
                     val content = a.body()?.string()
 
+                    content?.shouldNotContain(":test_module:clean{instance=\"\",job=\"task4\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\"} 100")
+
+
+                    content?.shouldNotContain(":test_module:app:assemble{instance=\"\",job=\"task4\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\"} 1")
                     assert(
-                        content?.contains("build3{cpuCount=\"12\",instance=\"\",job=\"build3\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\"} 100")
+                        content?.contains("build4{cpuCount=\"12\",instance=\"\",job=\"build4\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\",switch_configurationOnDemand=\"true\",switch_dryRun=\"true\"} 100")
                             ?: false
                     )
-
-                    content?.shouldNotContain(":app:assemble{instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\"} 100")
-
-
-                    content?.shouldNotContain(":clean{instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\"} 1")
 
                 }
             }
@@ -191,6 +189,35 @@ class PushTest : BehaviorSpec() {
             )
         )
     }
+
+    private fun executionReportDataSpecialData(): ExecutionReport {
+        return ExecutionReport(
+            durationMs = "100",
+            requestedTasks = "assemble",
+            environment = Environment(
+                switches = Switches(
+                    configurationOnDemand = "true",
+                    dryRun = "true"
+                ),
+                cpuCount = "12", maxWorkers = "4"
+            ),
+            customProperties = CustomProperties(
+                taskProperties = getMetrics(),
+                buildProperties = getMetrics()
+            ),
+            tasks = listOf(
+                TaskLength(
+                    1, "clean", ":test-module:clean", TaskMessageState.EXECUTED, false,
+                    ":test-module", emptyList()
+                ),
+                TaskLength(
+                    100, "assemble", ":test-module:app:assemble", TaskMessageState.EXECUTED, false,
+                    ":test-module", emptyList()
+                )
+            )
+        )
+    }
+
 
     private fun getMetrics(): MutableMap<String, String> {
         return mutableMapOf(

@@ -62,7 +62,9 @@ class PushGatewayPublisher(
                 val properties = if (taskProperties.isNotBlank()) ",$taskProperties" else ""
 
                 report.tasks?.forEach {
-                    contentTaskMetrics += "${it.taskPath}{state=\"${it.state}\"" +
+
+                    val taskFormatted = it.taskPath.formatTagPublisher().replace("-","_")
+                    contentTaskMetrics += "$taskFormatted{state=\"${it.state}\"" +
                             ",module=\"${it.module}\",rootNode=\"${it.rootNode}\" $properties} ${it.ms}\n"
                 }
             }
