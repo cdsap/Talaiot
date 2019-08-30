@@ -52,17 +52,28 @@ class PushGatewayPublisher(
 
 
             if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
+                val taskProperties = report.customProperties.taskProperties.map { (k, v) ->
+                    "${k.formatTagPublisher().replace(
+                        ".",
+                        "_"
+                    )}=\"${v.formatTagPublisher()}\""
+                }.joinToString(separator = ",")
+
+                val properties = if (taskProperties.isNotBlank()) ",$taskProperties" else ""
+
                 report.tasks?.forEach {
                     contentTaskMetrics += "${it.taskPath}{state=\"${it.state}\"" +
-                            ",module=\"${it.module}\",rootNode=\"${it.rootNode}\"} ${it.ms}\n"
+                            ",module=\"${it.module}\",rootNode=\"${it.rootNode}\" $properties} ${it.ms}\n"
                 }
             }
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
+
                 val buildTags =
                     report.flattenBuildEnv()
                         .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
                         .joinToString(separator = ",")
+
                 contentBuildMetrics += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
 
             }
