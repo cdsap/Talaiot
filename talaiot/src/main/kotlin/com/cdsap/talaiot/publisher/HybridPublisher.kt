@@ -18,11 +18,11 @@ class HybridPublisher(
     private val TAG = "HybridPublisher"
 
     override fun publish(report: ExecutionReport) {
-        logTracker.log(TAG,"================")
-        logTracker.log(TAG,"HybridPublisher")
-        logTracker.log(TAG,"publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log(TAG,"publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log(TAG,"================")
+        logTracker.log(TAG, "================")
+        logTracker.log(TAG, "HybridPublisher")
+        logTracker.log(TAG, "publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(TAG, "publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(TAG, "================")
 
         if (validate()) {
             hybridPublisherConfiguration.buildPublisher?.let {
@@ -71,6 +71,10 @@ class HybridPublisher(
                     logTracker,
                     executor
                 )
+            }
+
+            is CustomPublisherConfiguration -> {
+                publisherConfiguration.publisher
             }
 
             else -> {
