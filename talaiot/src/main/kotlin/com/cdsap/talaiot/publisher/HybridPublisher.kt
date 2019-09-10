@@ -31,6 +31,7 @@ class HybridPublisher(
             }
 
             hybridPublisherConfiguration.taskPublisher?.let {
+
                 it.publishBuildMetrics = false
                 getPublisher(it)?.publish(report)
             }

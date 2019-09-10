@@ -148,6 +148,31 @@ class HybridPublisherTest : BehaviorSpec() {
                     logger.containsLog("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
                 }
             }
+            `when`("Configuration for the HybridPublisher is specified by receiver") {
+                val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
+                    url = "http://localhost:9093"
+                    taskJobName = "tracking"
+                }
+
+                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
+                    //task
+                    taskPublisher {
+                        pushGatewayPublisher {
+                            url = "http://localhost:9093"
+                            taskJobName = "tracking"
+                        }
+                        influxDbPublisher {
+                            dbName = database
+                            url = container.url
+                            taskMetricName = "task"
+                            buildMetricName = "build"
+                        }
+                    }
+                    buildPublisher = pushGatewayPublisherConfiguration
+
+
+                }
+            }
         }
     }
 
@@ -158,4 +183,12 @@ private fun getMetrics(): MutableMap<String, String> {
         "metric1" to "value1",
         "metric2" to "value2"
     )
+}
+
+
+class TestCustomPublisher : Publisher {
+    override fun publish(report: ExecutionReport) {
+
+    }
+
 }
