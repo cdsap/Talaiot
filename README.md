@@ -17,15 +17,26 @@ Some of the features are:
 
 ![](resources/dashboard.png)
 
-
 **_What is Talaiot?_**
 
 _"... while some certainly had a defensive purpose, the use of others is not clearly understood. Some believe them to have served the purpose of lookout or signalling towers..."_
 
 https://en.wikipedia.org/wiki/Talaiot
 
+# Table of Contents
+1. [Setup Plugin](#setup-plugin)
+2. [Snapshots](#snapshots)
+3. [Basic Configuration](#basic-configuration)
+4. [Talaiot Extension](#talaiot-extension)
+5. [Example: Analyzing Data provided by Talaiot](#example)
+6. [Other Plugins](#plugins)
+7. [Docs](#docs)
+8. [Articles](#articles)
+9. [Contributing](#contributing)
+10. [Contributors](#contributors)
+11. [Thanks](#thanks)
 
-## Setup Plugin
+## Setup Plugin <a name="setup-plugin"></a>
 
 Include in the classpath the latest version of Talaiot:
 ````
@@ -43,7 +54,7 @@ plugins {
 Check [this](https://github.com/cdsap/Talaiot/wiki/Groovy-setup) article to see how to setup Talaiot with  Groovy(all the examples in the README are in KTS.
 
 
-## Snapshots
+## Snapshots  <a name="snapshots"></a>
 
 Include the OJO artifactory oss-snapshot local:
 ````
@@ -55,7 +66,7 @@ And the current Snapshot:
 classpath("com.cdsap:talaiot:1.0.7-SNAPSHOT")
 ````
 
-## Basic configuration
+## Basic configuration  <a name="basic-configuration"></a>
 
 ````
 talaiot {
@@ -78,7 +89,7 @@ talaiot {
 This example adds the `InfluxDbPublisher` with the information of the InfluxDb Server where it will be posted the information tracked.
 Additionally, we are disabling the metrics for Git and Performance.
 
-## Talaiot Extension
+## Talaiot Extension  <a name="talaiot-extension"></a>
 
 | Property       |      Description                                                          |
 |----------------|---------------------------------------------------------------------------|
@@ -336,7 +347,7 @@ talaiot {
 ````
 
                
-## Example: Analyzing Data provided by Talaiot
+## Example: Analyzing Data provided by Talaiot  <a name="example"></a>
 
 ### Docker, InfluxDb and Grafana
 To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
@@ -408,7 +419,7 @@ will trigger number of builds defined in the scenario file:
 Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1
 
 
-## Other Plugins
+## Other Plugins  <a name="plugins"></a>
 Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:
 
 * [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation 
@@ -418,11 +429,11 @@ is great and you have the support from Gradle :)
 
 * [Kuronometer](https://github.com/pedrovgs/Kuronometer) Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)
 
-## Docs
+## Docs  <a name="docs"></a>
 
 [Docs](https://cdsap.github.io/Talaiot/)
 
-## Articles
+## Articles  <a name="articles"></a>
  
 [Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
  
@@ -433,10 +444,10 @@ is great and you have the support from Gradle :)
 [Talaiot at Scale](https://proandroiddev.com/talaiot-at-scale-8cb5259d3244)
 
 
-## Contributing
+## Contributing  <a name="contributing"></a>
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
 
-## Contributors
+## Contributors  <a name="contributors"></a>
 
 * [Anton Malinskiy](https://github.com/Malinskiy): New format metrics, rework InfluxdbPublisher and new Publishers Json and Timeline.
 
@@ -449,7 +460,7 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 * [Iñaki Villar](https://github.com/cdsap/)
 
 
-## Thanks
+## Thanks  <a name="thanks"></a>
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
 
 [Bintray release plugin](https://github.com/novoda/bintray-release) plugin by Novoda
