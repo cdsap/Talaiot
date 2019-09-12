@@ -29,6 +29,36 @@ class PushGatewayPublisher(
 ) : Publisher {
     private val TAG = "PushGatewayPublisher"
 
+    fun getBuildMetricsContent(report: ExecutionReport): String {
+        val buildTags =
+                report.flattenBuildEnv()
+                        .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
+                        .joinToString(separator = ",")
+
+        return "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
+    }
+
+    fun getTaskMetricsContent(report: ExecutionReport): String {
+        var contentTaskMetrics = ""
+        val taskProperties = report.customProperties.taskProperties.map { (k, v) ->
+            "${k.formatTagPublisher().replace(
+                    ".",
+                    "_"
+            )}=\"${v.formatTagPublisher()}\""
+        }.joinToString(separator = ",")
+
+        val properties = if (taskProperties.isNotBlank()) ",$taskProperties" else ""
+
+        report.tasks?.forEach {
+
+            val taskFormatted = it.taskPath.formatTagPublisher().replace("-","_")
+            contentTaskMetrics += "$taskFormatted{state=\"${it.state}\"" +
+                    ",module=\"${it.module}\",rootNode=\"${it.rootNode}\" $properties} ${it.ms}\n"
+        }
+
+        return contentTaskMetrics
+    }
+
     override fun publish(report: ExecutionReport) {
 
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
@@ -52,32 +82,11 @@ class PushGatewayPublisher(
 
 
             if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
-                val taskProperties = report.customProperties.taskProperties.map { (k, v) ->
-                    "${k.formatTagPublisher().replace(
-                        ".",
-                        "_"
-                    )}=\"${v.formatTagPublisher()}\""
-                }.joinToString(separator = ",")
-
-                val properties = if (taskProperties.isNotBlank()) ",$taskProperties" else ""
-
-                report.tasks?.forEach {
-
-                    val taskFormatted = it.taskPath.formatTagPublisher().replace("-","_")
-                    contentTaskMetrics += "$taskFormatted{state=\"${it.state}\"" +
-                            ",module=\"${it.module}\",rootNode=\"${it.rootNode}\" $properties} ${it.ms}\n"
-                }
+               contentTaskMetrics += getTaskMetricsContent(report)
             }
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
-
-                val buildTags =
-                    report.flattenBuildEnv()
-                        .map { (k, v) -> "${k.formatTagPublisher().replace(".", "_")}=\"${v.formatTagPublisher()}\"" }
-                        .joinToString(separator = ",")
-
-                contentBuildMetrics += "${pushGatewayPublisherConfiguration.buildJobName}{$buildTags} ${report.durationMs}"
-
+                contentBuildMetrics += getBuildMetricsContent(report)
             }
             executor.execute {
 
