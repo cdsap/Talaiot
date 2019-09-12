@@ -41,7 +41,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -87,7 +87,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -130,7 +130,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(

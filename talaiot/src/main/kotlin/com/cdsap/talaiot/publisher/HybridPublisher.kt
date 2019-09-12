@@ -61,7 +61,8 @@ class HybridPublisher(
                     publisherConfiguration,
                     logTracker,
                     SimpleRequest(logTracker),
-                    executor
+                    executor,
+                    PushGatewayFormatter()
                 )
             }
 

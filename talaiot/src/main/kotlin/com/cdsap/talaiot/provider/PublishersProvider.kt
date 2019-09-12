@@ -64,7 +64,8 @@ class PublishersProvider(
                         this,
                         logger,
                         SimpleRequest(logger),
-                        executor
+                        executor,
+                        PushGatewayFormatter()
                     )
                 )
             }
