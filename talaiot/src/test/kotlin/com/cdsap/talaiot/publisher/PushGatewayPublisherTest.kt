@@ -4,6 +4,8 @@ import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
@@ -41,7 +43,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -87,7 +89,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -130,7 +132,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor()
+                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(

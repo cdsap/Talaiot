@@ -4,6 +4,8 @@ import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
@@ -64,7 +66,8 @@ class PublishersProvider(
                         this,
                         logger,
                         SimpleRequest(logger),
-                        executor
+                        executor,
+                        PushGatewayFormatter()
                     )
                 )
             }
