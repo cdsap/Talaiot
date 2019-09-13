@@ -3,6 +3,8 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import java.util.concurrent.Executor
 
