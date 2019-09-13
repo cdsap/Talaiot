@@ -19,7 +19,7 @@ import org.gradle.api.Project
  *    }
  *    pushGatewayPublisher {
  *    }
- *    customDependencies {
+ *    customPublisher {
  *    }
  * }
  */
@@ -64,7 +64,7 @@ class PublishersConfiguration(
      *
      * Some users of plugin might need to use a custom publisher to push to internal analytics for example.
      */
-    var customPublisher: Publisher? = null
+    var customPublisher: CustomPublisherConfiguration? = null
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
@@ -121,14 +121,14 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the custom implementation for [Publisher]
+     * Configuration accessor within the [PublishersConfiguration] for the custom implementation for a Custom [Publisher]
      *
      * Will override another custom publisher instance if present
      *
      * @param configuration instance of your publisher
      */
-    fun customPublisher(configuration: Publisher) {
-        customPublisher = configuration
+    fun customPublisher(configuration: CustomPublisherConfiguration.() -> Unit) {
+        customPublisher = CustomPublisherConfiguration().also(configuration)
     }
 
     /**

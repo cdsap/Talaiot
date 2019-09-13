@@ -1,10 +1,11 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.provider
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
-import com.cdsap.talaiot.provider.PublishersProvider
+import com.cdsap.talaiot.publisher.*
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec
@@ -72,7 +73,9 @@ class PublishersProviderTest : BehaviorSpec({
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                customPublisher {
+                    publisher = TestPublisher()
+                }
             }
             val publishers = PublishersProvider(project, logger).get()
             then("instance of CustomPublisher is created") {
@@ -81,12 +84,94 @@ class PublishersProviderTest : BehaviorSpec({
                 }
             }
         }
-
-        `when`("All publishers are included") {
+        `when`("Pushgateway publisher is included") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                pushGatewayPublisher {
+                    url = "http://urlpushgateway"
+                }
+            }
+            val publishers = PublishersProvider(project, logger).get()
+            then("instance of PushgatewayPublisher is created") {
+                publishers.forAtLeastOne {
+                    it is PushGatewayPublisher
+                }
+            }
+        }
+        `when`("JsonPublisher is included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                jsonPublisher = true
+            }
+            val publishers = PublishersProvider(project, logger).get()
+            then("instance of JsonPublisher is created") {
+                publishers.forAtLeastOne {
+                    it is JsonPublisher
+                }
+            }
+        }
+        `when`("TimeLinePublisher is included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                timelinePublisher = true
+            }
+            val publishers = PublishersProvider(project, logger).get()
+            then("instance of TimelinePublisher is created") {
+                publishers.forAtLeastOne {
+                    it is TimelinePublisher
+                }
+            }
+        }
+        `when`("ElasticSearchPublisher is included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                elasticSearchPublisher {
+                    url = "http://urlelasticSearch"
+                }
+            }
+            val publishers = PublishersProvider(project, logger).get()
+            then("instance of ElasticSearchPublisher is included") {
+                publishers.forAtLeastOne {
+                    it is ElasticSearchPublisher
+                }
+            }
+        }
+        `when`("HybridPublisher is included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                hybridPublisher {
+                    taskPublisher {
+                        elasticSearchPublisher {
+                            url = "http://urlelasticSearch"
+                        }
+                    }
+                    buildPublisher {
+                        customPublisher {
+                            publisher = TestPublisher()
+                        }
+                    }
+                }
+            }
+            val publishers = PublishersProvider(project, logger).get()
+            then("instance of HybridPublisher is included") {
+                publishers.forAtLeastOne {
+                    it is HybridPublisher
+                }
+            }
+        }
+
+        `when`("Different publishers are included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                customPublisher {
+                    publisher = TestPublisher()
+                }
                 taskDependencyGraphPublisher {
                     gexf = true
                 }
@@ -115,5 +200,4 @@ class TestPublisher : Publisher {
     override fun publish(report: ExecutionReport) {
 
     }
-
 }

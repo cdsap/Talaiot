@@ -16,8 +16,8 @@ class PublishersProvider(
     /**
      * Gradle Project used to retrieve the extension
      */
-    val project: Project,
-    val logger: LogTracker
+    private val project: Project,
+    private val logger: LogTracker
 
 ) : Provider<List<Publisher>> {
 
@@ -97,7 +97,10 @@ class PublishersProvider(
             }
 
             customPublisher?.apply {
-                publishers.add(this)
+                this.publisher?.apply {
+                    publishers.add(this)
+
+                }
             }
         }
         return publishers
