@@ -1,5 +1,7 @@
 package com.cdsap.talaiot.configuration
 
+import groovy.lang.Closure
+
 
 class HybridConfiguration : PublisherConfiguration {
     override var name: String = "hybrid"
@@ -25,4 +27,27 @@ class HybridConfiguration : PublisherConfiguration {
         publisher = ElasticSearchPublisherConfiguration().also(configuration)
     }
 
+    fun influxDbPublisher(closure: Closure<*>) {
+        publisher = InfluxDbPublisherConfiguration()
+        closure.delegate = publisher
+        closure.call()
+    }
+
+    fun customPublisher(closure: Closure<*>) {
+        publisher = CustomPublisherConfiguration()
+        closure.delegate = publisher
+        closure.call()
+    }
+
+    fun pushGatewayPublisher(closure: Closure<*>) {
+        publisher = PushGatewayPublisherConfiguration()
+        closure.delegate = publisher
+        closure.call()
+    }
+
+    fun elasticSearchPublisher(closure: Closure<*>) {
+        publisher = ElasticSearchPublisherConfiguration()
+        closure.delegate = publisher
+        closure.call()
+    }
 }
