@@ -99,7 +99,7 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
-    fun gradleSwithes() = metrics.run {
+    fun gradleSwitches() = metrics.run {
         add(GradleSwitchCachingMetric())
         add(GradleSwitchBuildScanMetric())
         add(GradleSwitchParallelMetric())
@@ -144,7 +144,7 @@ class MetricsConfiguration {
         if (metrics.isEmpty()) {
             default()
             performance()
-            gradleSwithes()
+            gradleSwitches()
         }
 
         if (generateBuildId) {
