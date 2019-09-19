@@ -152,6 +152,7 @@ class MetricsConfiguration {
         }
 
         addCustomBuildMetrics()
+        addCustomTaskMetrics()
 
         return metrics
     }
