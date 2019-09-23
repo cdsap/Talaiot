@@ -451,6 +451,8 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 
 * [Anton Malinskiy](https://github.com/Malinskiy): New format metrics, rework InfluxdbPublisher and new Publishers Json and Timeline.
 
+* [Vipul Solanki](https://github.com/vipsy)
+
 * [Ivan Balaksha](https://github.com/tagantroy)
 
 * [Sergey Rybalkin](https://github.com/rybalkinsd)
