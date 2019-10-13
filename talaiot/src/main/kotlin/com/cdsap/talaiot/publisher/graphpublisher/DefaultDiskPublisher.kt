@@ -37,7 +37,7 @@ abstract class DefaultDiskPublisher(
         module: String,
         taskName: String,
         numberDependencies: Int,
-        cached: Boolean
+        taskMessageState: TaskMessageState
     ): String
 
     /**
@@ -98,7 +98,7 @@ abstract class DefaultDiskPublisher(
             with(dependency) {
                 nodes += formatNode(
                     internalId, taskLength.module, taskLength.taskName, taskLength.taskDependencies.count(),
-                    taskLength.state == TaskMessageState.FROM_CACHE
+                    taskLength.state
                 )
             }
             it.taskDependencies.forEach { task ->
