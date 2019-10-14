@@ -14,7 +14,7 @@ object ResourcesGexf {
             "    <graph mode=\"static\" defaultedgetype=\"directed\">\n" +
             "       <attributes class=\"node\">\n" +
             "          <attribute id=\"0\" title=\"module\" type=\"string\"/>\n" +
-            "          <attribute id=\"1\" title=\"cached\" type=\"boolean\">\n" +
+            "          <attribute id=\"1\" title=\"state\" type=\"string\">\n" +
             "                <default>false</default>\n" +
             "           </attribute>\n" +
             "       </attributes>\n"

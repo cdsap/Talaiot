@@ -23,13 +23,13 @@ class GexfPublisherTest : BehaviorSpec({
                 val content = "       <node id=\"0\" label=\"assemble\">\n" +
                         "              <attvalues>\n" +
                         "                     <attvalue for=\"0\" value=\"app\"/>\n" +
-                        "                     <attvalue for=\"1\" value=\"false\"/>\n" +
+                        "                     <attvalue for=\"1\" value=\"EXECUTED\"/>\n" +
                         "              </attvalues>\n" +
                         "       </node>\n" +
                         "       <node id=\"1\" label=\"compileKotlin\">\n" +
                         "              <attvalues>\n" +
                         "                     <attvalue for=\"0\" value=\"app\"/>\n" +
-                        "                     <attvalue for=\"1\" value=\"false\"/>\n" +
+                        "                     <attvalue for=\"1\" value=\"EXECUTED\"/>\n" +
                         "              </attvalues>\n" +
                         "       </node>\n" +
                         "       <edge id=\"0\" source=\"1\" target=\"0\" />\n"
