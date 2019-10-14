@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.publisher.graphpublisher
 
 import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesHtml.LEGEND_HEADER
@@ -44,7 +45,7 @@ class HtmlPublisher(
         module: String,
         taskName: String,
         numberDependencies: Int,
-        cached: Boolean
+        taskMessageState: TaskMessageState
     ): String = "      nodes.push({id: $internalId, title:'$taskName', group:'$module', " +
             "label: '$taskName', " +
             "value: $numberDependencies});\n"
