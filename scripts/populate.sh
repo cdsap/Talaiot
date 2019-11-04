@@ -5,7 +5,6 @@ mkdir tmp
 cd tmp
 ## Cloning Repo Gradle Profiler
 git clone https://github.com/gradle/gradle-profiler.git
-cd gradle-profiler
 ## Installing Gradle Profiler binary
 cd gradle-profiler
 ./gradlew installDist
