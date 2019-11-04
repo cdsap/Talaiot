@@ -390,7 +390,7 @@ assemble {
 }
 clean_build {
   versions = ["5.1"]
-  tasks = ["assembleDebug"]
+  tasks = ["assemble"]
   gradle-args = ["--parallel"]
   cleanup-tasks = ["clean"]
   run-using = cli
