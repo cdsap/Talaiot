@@ -376,25 +376,7 @@ If you access to the provisioned Dashboard included in the Docker Image(http://l
 
 ![](resources/empty_dashboard.png)
 
-To see Talaiot in action, you need to populate the data. We are providing a script to populate data based in this 
-example repository:
-https://github.com/cdsap/TalaiotClientExample
-
-This repository includes the `InfluxDbPubluser` configuration pointing to the InfluxDb and datastore defined in the Docker image:
-
-```
-talaiot {
-    publishers {
-        influxDbPublisher {
-                    dbName = "tracking"
-                    url = "http://localhost:8086"
-                    taskMetricName = "task"
-                    buildMetricName = "build"
-        }
-    }
-}
-```
-
+To see Talaiot in action, you need to populate the data. We are providing a script to populate data based in the sample project included in the repository. 
 You can execute the script:
 
 `bash scripts/populate.sh `
@@ -403,20 +385,23 @@ The script will download the repository and with the help of Gradle Profiler(htt
 will trigger number of builds defined in the scenario file:
 
 ```
-    assemble {
-    tasks = ["clean"]
-    }
-    clean_build {
-    versions = ["5.1","4.10.2"]
-    tasks = ["assembleDebug"]
-    gradle-args = ["--parallel"]
-    cleanup-tasks = ["clean"]
-    run-using = cli
-    warm-ups = 20
-    }
+assemble {
+  tasks = ["clean"]
+}
+clean_build {
+  versions = ["5.1"]
+  tasks = ["assemble"]
+  gradle-args = ["--parallel"]
+  cleanup-tasks = ["clean"]
+  run-using = cli
+  warm-ups = 20
+}
 ```
 
-Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1
+Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1:
+
+![](resources/after_execution.png)
+
 
 
 ## Other Plugins  <a name="plugins"></a>

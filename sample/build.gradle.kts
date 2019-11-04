@@ -9,7 +9,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.11"
-    id("talaiot") version "1.0.1-SNAPSHOT"
+    id("talaiot") version "1.0.8-SNAPSHOT"
 }
 
 talaiot {
@@ -19,6 +19,12 @@ talaiot {
         taskDependencyGraphPublisher {
             html = true
             gexf = true
+        }
+        influxDbPublisher {
+            dbName = "tracking"
+            url = "http://localhost:8086"
+            taskMetricName = "task"
+            buildMetricName = "build"
         }
     }
 }
