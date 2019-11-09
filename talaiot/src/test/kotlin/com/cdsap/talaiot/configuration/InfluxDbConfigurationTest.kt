@@ -1,10 +1,6 @@
 package com.cdsap.talaiot.configuration
 
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.extra
-import org.gradle.testfixtures.ProjectBuilder
-
 
 class InfluxDbConfigurationTest : BehaviorSpec({
     given("InfluxDb configuration") {
