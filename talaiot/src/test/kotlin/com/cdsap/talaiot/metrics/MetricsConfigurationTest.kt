@@ -26,6 +26,15 @@ class MetricsConfigurationTest : BehaviorSpec({
 
             assert(metrics.count { it is ProcessorCountMetric } == 1)
         }
+
+        `when`("git metrics are configured") {
+            val metricsConfiguration = MetricsConfiguration()
+            val metrics = metricsConfiguration.git().build()
+
+            assert(metrics.count { it is GitBranchMetric } == 1 &&
+                    metrics.count { it is GitUserMetric } == 1)
+        }
+
         `when`("build Id generation is disabled in the default behaviour") {
             val metricsConfiguration = MetricsConfiguration()
             val metrics = metricsConfiguration.performance().build()

@@ -145,6 +145,7 @@ class MetricsConfiguration {
             default()
             performance()
             gradleSwitches()
+            git()
         }
 
         if (generateBuildId) {
