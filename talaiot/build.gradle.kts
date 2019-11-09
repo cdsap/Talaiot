@@ -6,7 +6,7 @@ plugins {
     `maven-publish`
     groovy
     id("jacoco")
-    kotlin("jvm") version "1.3.11"
+    kotlin("jvm") version "1.3.50"
     id("com.gradle.plugin-publish") version "0.10.0"
     id("com.novoda.bintray-release")
 }
@@ -34,7 +34,7 @@ gradlePlugin {
             api("com.github.oshi:oshi-core:3.13.3")
             api("com.google.code.gson:gson:2.8.5")
             api("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
-            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
+            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
             testImplementation(gradleTestKit())
             testImplementation("org.testcontainers:testcontainers:1.11.3")
             testImplementation("org.testcontainers:influxdb:1.11.3")
