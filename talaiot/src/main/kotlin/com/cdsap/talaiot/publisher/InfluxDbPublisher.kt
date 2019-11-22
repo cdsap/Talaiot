@@ -57,7 +57,6 @@ class InfluxDbPublisher(
         }
 
         try {
-            val _db = createDb()
             val pointsBuilder = BatchPoints.builder()
                 //See https://github.com/influxdata/influxdb-java/issues/373
                 .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
@@ -83,11 +82,12 @@ class InfluxDbPublisher(
                 logTracker.log(TAG, "================")
 
                 try {
+                    val _db = createDb()
                     val points = pointsBuilder.build()
                     logTracker.log(TAG, "Sending points to InfluxDb server ${points.toString()}")
                     _db.write(points)
                 } catch (e: Exception) {
-                    logTracker.error("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+                    logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
 
                 }
             }
@@ -95,13 +95,13 @@ class InfluxDbPublisher(
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
-                    logTracker.error("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
+                    logTracker.log(TAG, "InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
                 }
                 is InfluxDBException -> {
-                    logTracker.error("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
+                    logTracker.log(TAG, "InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
                 }
                 else -> {
-                    logTracker.error("InfluxDbPublisher-Error-Exception: ${e.message}")
+                    logTracker.log(TAG, "InfluxDbPublisher-Error-Exception: ${e.message}")
                 }
             }
         }
