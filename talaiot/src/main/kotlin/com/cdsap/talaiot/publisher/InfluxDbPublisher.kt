@@ -87,7 +87,7 @@ class InfluxDbPublisher(
                     logTracker.log(TAG, "Sending points to InfluxDb server ${points.toString()}")
                     _db.write(points)
                 } catch (e: Exception) {
-                    logTracker.error("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+                    logTracker.log("InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
 
                 }
             }
@@ -95,13 +95,13 @@ class InfluxDbPublisher(
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
-                    logTracker.error("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
+                    logTracker.log("InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
                 }
                 is InfluxDBException -> {
-                    logTracker.error("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
+                    logTracker.log("InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
                 }
                 else -> {
-                    logTracker.error("InfluxDbPublisher-Error-Exception: ${e.message}")
+                    logTracker.log("InfluxDbPublisher-Error-Exception: ${e.message}")
                 }
             }
         }
