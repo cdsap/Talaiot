@@ -83,9 +83,4 @@ RUN chmod 0755 /etc/init.d/influxdb
 
 CMD ["/usr/bin/supervisord"]
 
-COPY influxdb/createdb.sh /usr/local/bin/createdb.sh
-
-# Create Database
-RUN chmod 777 /usr/local/bin/createdb.sh
-
 RUN grafana-cli plugins install grafana-piechart-panel
