@@ -64,7 +64,7 @@ class GradleMaxWorkersMetric : GradleMetric<String>(
     assigner = { report, value -> report.environment.maxWorkers = value }
 )
 
-class JvmXmxMetric() : JvmArgsMetric(
+class JvmXmxMetric : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
         val xmxParam = paramList.find { param -> param.contains("Xmx") }
         xmxParam?.split("Xmx")?.get(1)?.toBytes()
@@ -72,7 +72,7 @@ class JvmXmxMetric() : JvmArgsMetric(
     assigner = { report, value -> report.environment.javaXmxBytes = value }
 )
 
-class JvmXmsMetric() : JvmArgsMetric(
+class JvmXmsMetric : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
         val xmsParam = paramList.find { param -> param.contains("Xms") }
         xmsParam?.split("Xms")?.get(1)?.toBytes()
@@ -80,7 +80,7 @@ class JvmXmsMetric() : JvmArgsMetric(
     assigner = { report, value -> report.environment.javaXmsBytes = value }
 )
 
-class JvmMaxPermSizeMetric() : JvmArgsMetric(
+class JvmMaxPermSizeMetric : JvmArgsMetric(
     argProvider = { paramList: List<String> ->
         val maxPermSize = paramList.find { param -> param.contains("MaxPermSize") }
         maxPermSize?.split("=")?.get(1)?.toBytes()
