@@ -1,5 +1,7 @@
 package com.example.ivillar.javaapplication
 
-fun main(args: Array<String>) {
-    System.out.println("Hello world!")
+class Main {
+    fun main() {
+        System.out.println("Hello world!")
+    }
 }
