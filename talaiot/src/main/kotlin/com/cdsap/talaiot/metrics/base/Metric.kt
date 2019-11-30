@@ -14,6 +14,5 @@ abstract class Metric<T, in Context>(
     open fun get(context: Context, report: ExecutionReport) {
         val value = provider(context)
         assigner(report, value)
-        value
     }
 }

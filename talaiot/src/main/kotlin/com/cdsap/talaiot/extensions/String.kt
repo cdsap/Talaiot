@@ -6,11 +6,6 @@ import java.util.regex.Pattern
 fun String.toBytes(): String? {
     val patt = Pattern.compile("([\\d.]+)([GMK])B?", Pattern.CASE_INSENSITIVE)
     val matcher = patt.matcher(this)
-    val powerMap = mapOf(
-        "G" to 3,
-        "M" to 2,
-        "K" to 1
-    )
     if (matcher.find()) {
         val number = matcher.group(1)
 
