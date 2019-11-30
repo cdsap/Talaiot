@@ -7,8 +7,6 @@ import org.gradle.testkit.runner.TaskOutcome
 class PushGatewayPublisherBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        println("sslslslslslsl")
-        System.out.println("Ssss")
         `when`("Talaiot is included with PushGatewayPublisher") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
@@ -37,8 +35,6 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                 .build()
             println(result)
             then("logs are shown in the output and including the pushGateway format") {
-            //    println(result)
-            //    println(result.output)
                 assert(result.output.contains(":assemble{state=\"EXECUTED\","))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 
