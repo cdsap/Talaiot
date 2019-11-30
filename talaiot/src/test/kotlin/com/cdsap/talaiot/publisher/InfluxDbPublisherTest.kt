@@ -7,11 +7,8 @@ import com.cdsap.talaiot.entities.ExecutionReport
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
-import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
-import com.cdsap.talaiot.request.Request
-import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
@@ -21,13 +18,13 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
     val database = "talaiot"
     val container = KInfluxDBContainer().withAuthEnabled(false)
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
+    override fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
         container.stop()
     }
 
@@ -62,7 +59,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                             )
                         )
                     )
-                    val taskResult = influxDB.query(Query("select value,state,module,rootNode,task,metric1,metric2 from $database.rpTalaiot.task"))
+                    val taskResult =
+                        influxDB.query(Query("select value,state,module,rootNode,task,metric1,metric2 from $database.rpTalaiot.task"))
 
                     val combinedTaskColumns =
                         taskResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
@@ -72,7 +70,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                         taskResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
                     assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :clean, value1, value2\]""".toRegex()))
 
-                    val buildResult = influxDB.query(Query("select \"duration\",configuration,success from $database.rpTalaiot.build"))
+                    val buildResult =
+                        influxDB.query(Query("select \"duration\",configuration,success from $database.rpTalaiot.build"))
 
                     val combinedBuildColumns =
                         buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
@@ -108,7 +107,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                             )
                         )
                     )
-                    val buildResult = influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
+                    val buildResult =
+                        influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
 
                     val combinedBuildColumns =
                         buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }

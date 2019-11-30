@@ -23,13 +23,13 @@ class HybridPublisherTest : BehaviorSpec() {
 
     val database = "talaiot"
     val container = KInfluxDBContainer().withAuthEnabled(false)
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
+    override fun beforeSpec(spec: Spec) {
+        super.beforeSpec( spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override fun afterSpec( spec: Spec) {
+        super.afterSpec( spec)
         container.stop()
     }
 

@@ -7,7 +7,6 @@ import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
@@ -21,13 +20,13 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
 
     private val container = KElasticSearchContainer()
 
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
+    override fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
         container.stop()
     }
 
