@@ -9,7 +9,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.50"
-    id("talaiot") version "1.0.8-SNAPSHOT"
+    id("talaiot") version "1.0.10-SNAPSHOT"
 }
 
 talaiot {
