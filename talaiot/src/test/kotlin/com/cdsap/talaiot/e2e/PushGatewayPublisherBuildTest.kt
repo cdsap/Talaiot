@@ -35,6 +35,7 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
+            println(result)
             then("logs are shown in the output and including the pushGateway format") {
             //    println(result)
             //    println(result.output)
