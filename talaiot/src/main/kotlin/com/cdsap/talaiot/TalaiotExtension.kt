@@ -55,9 +55,6 @@ open class TalaiotExtension(val project: Project) {
         closure.call()
     }
 
-    fun logger(string: String) {
-    }
-
     fun ignoreWhen(closure: Closure<*>) {
         ignoreWhen = IgnoreWhenConfiguration(project)
         closure.delegate = ignoreWhen

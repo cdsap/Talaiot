@@ -26,22 +26,22 @@ class TalaiotPublisherImpl(
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
-        startMs: Long,
+        start: Long,
         configuraionMs: Long?,
-        endMs: Long,
+        end: Long,
         success: Boolean
     ) {
         val report = metricsProvider.get().apply {
             tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
             unfilteredTasks = taskLengthList
-            this.beginMs = startMs.toString()
-            this.endMs = endMs.toString()
+            this.beginMs = start.toString()
+            this.endMs = end.toString()
             this.success = success
 
-            this.durationMs = (endMs - startMs).toString()
+            this.durationMs = (end - start).toString()
 
             this.configurationDurationMs = when {
-                configuraionMs != null -> (configuraionMs - startMs).toString()
+                configuraionMs != null -> (configuraionMs - start).toString()
                 else -> "undefined"
             }
 
