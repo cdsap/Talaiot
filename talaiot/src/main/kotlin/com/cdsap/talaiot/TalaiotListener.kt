@@ -5,6 +5,8 @@ import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.MetricsProvider
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import com.cdsap.talaiot.util.TaskAbbreviationMatcher
+import com.cdsap.talaiot.util.TaskName
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Project
@@ -84,13 +86,17 @@ class TalaiotListener(
         start = assignBuildStarted(gradle)
 
         configurationEnd = System.currentTimeMillis()
-        gradle.startParameter.taskRequests.forEach {
-            it.args.forEach { task ->
-                talaiotTracker.queue.add(NodeArgument(task, 0, 0))
+        gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+            val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+            val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
+            gradle.startParameter.taskRequests.forEach {
+                it.args.forEach { task ->
+                    talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
+                }
             }
-        }
-        if (talaiotTracker.queue.isNotEmpty()) {
-            talaiotTracker.initNodeArgument()
+            if (talaiotTracker.queue.isNotEmpty()) {
+                talaiotTracker.initNodeArgument()
+            }
         }
     }
 
