@@ -17,7 +17,7 @@ class PublishersProviderTest : BehaviorSpec({
         `when`("No configuration is included") {
             val project = ProjectBuilder.builder().build()
             project.extensions.create("talaiot", TalaiotExtension::class.java, project)
-            val publishersProvider = PublishersProvider(project, logger)
+            val publishersProvider = PublishersProvider(project, logger, TestExecutor(), TestExecutor())
             then("no publishers are  ") {
                 assert(publishersProvider.get().isEmpty())
             }
@@ -32,7 +32,7 @@ class PublishersProviderTest : BehaviorSpec({
                     dbName = ""
                 }
             }
-            val publishers = PublishersProvider(project, logger).get()
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of InfluxDbPublisher is created") {
                 publishers.forAtLeastOne {
                     it is InfluxDbPublisher
@@ -46,7 +46,7 @@ class PublishersProviderTest : BehaviorSpec({
                 outputPublisher {
                 }
             }
-            val publishers = PublishersProvider(project, logger).get()
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of OutputPublisher is created") {
                 publishers.forAtLeastOne {
                     it is OutputPublisher
@@ -61,7 +61,7 @@ class PublishersProviderTest : BehaviorSpec({
                     gexf = true
                 }
             }
-            val publishers = PublishersProvider(project, logger).get()
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of TaskDependencyGraphPublisher is created") {
                 publishers.forAtLeastOne {
                     it is TaskDependencyGraphPublisher
@@ -74,7 +74,7 @@ class PublishersProviderTest : BehaviorSpec({
             talaiotExtension.publishers {
                 customPublisher(TestPublisher())
             }
-            val publishers = PublishersProvider(project, logger).get()
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of CustomPublisher is created") {
                 publishers.forAtLeastOne {
                     it is TestPublisher
@@ -98,7 +98,7 @@ class PublishersProviderTest : BehaviorSpec({
                     dbName = ""
                 }
             }
-            val publishers = PublishersProvider(project, logger).get()
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of all publishers are created") {
                 publishers.forAll {
                     it is TestPublisher

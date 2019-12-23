@@ -33,7 +33,7 @@ open class TaskDependencyGraphPublisher(
     private val graphPublisherFactory: GraphPublisherFactory
 ) : Publisher {
 
-    private val TAG = "OutputPublisher"
+    private val TAG = "TaskDependencyGraphPublisher"
 
     override fun publish(report: ExecutionReport) {
         logTracker.log(TAG, "================")
