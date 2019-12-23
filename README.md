@@ -1,6 +1,6 @@
 # Talaiot
 
-[ ![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.9) ](https://bintray.com/cdsap/maven/talaiot/1.0./link)
+[![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.10) ](https://bintray.com/cdsap/maven/talaiot/1.0.10/link)
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
@@ -63,7 +63,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.0.10-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.0.11-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
@@ -439,6 +439,8 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 * [Vipul Solanki](https://github.com/vipsy)
 
 * [Ivan Balaksha](https://github.com/tagantroy)
+
+* [Svyatoslav Chatchenko](https://github.com/MyDogTom)
 
 * [Sergey Rybalkin](https://github.com/rybalkinsd)
 
