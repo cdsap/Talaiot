@@ -8,8 +8,12 @@ repositories {
 }
 
 plugins {
-    kotlin("jvm") version "1.3.11"
+    kotlin("jvm") version "1.3.60"
     id("talaiot") version "1.0.10-SNAPSHOT"
+}
+
+dependencies{
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.3.60")
 }
 
 talaiot {

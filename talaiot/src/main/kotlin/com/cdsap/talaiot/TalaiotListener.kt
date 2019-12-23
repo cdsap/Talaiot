@@ -19,6 +19,8 @@ import org.gradle.api.tasks.TaskState
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -52,12 +54,14 @@ class TalaiotListener(
         if (shouldPublish()) {
             val end = System.currentTimeMillis()
             val logger = LogTrackerImpl(extension.logger)
+            val executor = Executors.newSingleThreadExecutor()
+            val heavyExecutor = Executors.newSingleThreadExecutor()
 
             TalaiotPublisherImpl(
                 extension,
                 logger,
                 MetricsProvider(project, result),
-                PublishersProvider(project, logger)
+                PublishersProvider(project, logger, executor, heavyExecutor)
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
@@ -65,6 +69,15 @@ class TalaiotListener(
                 configuraionMs = configurationEnd,
                 endMs = end
             )
+
+            try {
+                executor.shutdown()
+                while (!executor.awaitTermination(3L, TimeUnit.SECONDS)) {
+                    logger.log("Talaiot", "Shutting down executor. Not yet. Still waiting for termination")
+                }
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
         }
     }
 

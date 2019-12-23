@@ -9,6 +9,7 @@ import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
+import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 /**
@@ -19,8 +20,9 @@ class PublishersProvider(
      * Gradle Project used to retrieve the extension
      */
     val project: Project,
-    val logger: LogTracker
-
+    val logger: LogTracker,
+    val executor: Executor,
+    val heavyExecutor: Executor
 ) : Provider<List<Publisher>> {
 
     /**
@@ -32,7 +34,6 @@ class PublishersProvider(
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-        val executor = Executors.newSingleThreadExecutor()
 
         talaiotExtension.publishers?.apply {
 
@@ -55,7 +56,7 @@ class PublishersProvider(
                     TaskDependencyGraphPublisher(
                         this,
                         logger,
-                        executor,
+                        heavyExecutor,
                         GraphPublisherFactoryImpl()
                     )
                 )
