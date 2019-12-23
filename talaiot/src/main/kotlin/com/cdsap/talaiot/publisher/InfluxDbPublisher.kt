@@ -13,7 +13,7 @@ import org.influxdb.dto.Point
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
-const val TIMEOUT_SEC = 60L
+const val TIMEOUT_SEC = 10L
 
 /**
  * Publisher using InfluxDb and LineProtocol format to send the metrics
