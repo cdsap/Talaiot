@@ -3,8 +3,11 @@ package com.cdsap.talaiot.metrics
 import com.cdsap.talaiot.extensions.toBytes
 import com.cdsap.talaiot.metrics.base.GradleMetric
 import com.cdsap.talaiot.metrics.base.JvmArgsMetric
+import com.cdsap.talaiot.util.TaskAbbreviationMatcher
+import com.cdsap.talaiot.util.TaskName
 import org.gradle.api.internal.project.DefaultProject
 import org.gradle.api.internal.project.ProjectInternal
+import org.gradle.api.invocation.Gradle
 import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo
 
 class RootProjectNameMetric : GradleMetric<String>(
@@ -108,8 +111,8 @@ class GradleBuildCachePushEnabled : GradleMetric<String?>(
 )
 
 class GradleRequestedTasksMetric : GradleMetric<String>(
-    provider = {
-        val taskNames = it.gradle.startParameter.taskNames
+    provider = { project ->
+        val taskNames = project.gradle.findRequestedTasks()
         if (taskNames.all { it.endsWith("generateDebugSources") }) {
             "gradleSync"
         } else {
@@ -118,3 +121,12 @@ class GradleRequestedTasksMetric : GradleMetric<String>(
     },
     assigner = { report, value -> report.requestedTasks = value }
 )
+
+private fun Gradle.findRequestedTasks(): List<String> {
+    val taskNames = startParameter.taskNames
+    val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+    val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
+    return taskNames.map {
+        taskAbbreviationHandler.findRequestedTask(it)
+    }
+}

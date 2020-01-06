@@ -5,6 +5,8 @@ import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.MetricsProvider
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import com.cdsap.talaiot.util.TaskAbbreviationMatcher
+import com.cdsap.talaiot.util.TaskName
 import org.gradle.BuildListener
 import org.gradle.BuildResult
 import org.gradle.api.Project
@@ -17,6 +19,8 @@ import org.gradle.api.tasks.TaskState
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -50,12 +54,14 @@ class TalaiotListener(
         if (shouldPublish()) {
             val end = System.currentTimeMillis()
             val logger = LogTrackerImpl(extension.logger)
+            val executor = Executors.newSingleThreadExecutor()
+            val heavyExecutor = Executors.newSingleThreadExecutor()
 
             TalaiotPublisherImpl(
                 extension,
                 logger,
                 MetricsProvider(project, result),
-                PublishersProvider(project, logger)
+                PublishersProvider(project, logger, executor, heavyExecutor)
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
@@ -63,6 +69,15 @@ class TalaiotListener(
                 configuraionMs = configurationEnd,
                 end = end
             )
+
+            try {
+                executor.shutdown()
+                while (!executor.awaitTermination(3L, TimeUnit.SECONDS)) {
+                    logger.log("Talaiot", "Shutting down executor. Not yet. Still waiting for termination")
+                }
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -84,13 +99,17 @@ class TalaiotListener(
         start = assignBuildStarted(gradle)
 
         configurationEnd = System.currentTimeMillis()
-        gradle.startParameter.taskRequests.forEach {
-            it.args.forEach { task ->
-                talaiotTracker.queue.add(NodeArgument(task, 0, 0))
+        gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+            val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+            val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
+            gradle.startParameter.taskRequests.forEach {
+                it.args.forEach { task ->
+                    talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
+                }
             }
-        }
-        if (talaiotTracker.queue.isNotEmpty()) {
-            talaiotTracker.initNodeArgument()
+            if (talaiotTracker.queue.isNotEmpty()) {
+                talaiotTracker.initNodeArgument()
+            }
         }
     }
 
