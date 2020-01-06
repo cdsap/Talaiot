@@ -1483,7 +1483,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"value\") FROM \"$db\".\"$rp\".\"task\" WHERE $timeFilter GROUP BY state,time($__interval) fill(null)",
+          "query": "SELECT sum(\"value\") FROM \"$db\".\"$rp\".\"task\" WHERE $timeFilter AND \"rootNode\" = 'false' GROUP BY state,time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -1528,7 +1528,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": 0,
           "show": true
         },
         {
