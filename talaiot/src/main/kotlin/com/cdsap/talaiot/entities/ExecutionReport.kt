@@ -44,7 +44,7 @@ data class ExecutionReport(
      * Cache ratio of the tasks = tasks_from_cache / all_tasks
      */
     val cacheRatio: String?
-        get() = tasks?.let {
+        get() = unfilteredTasks?.let {
             it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
         }?.toString()
 
