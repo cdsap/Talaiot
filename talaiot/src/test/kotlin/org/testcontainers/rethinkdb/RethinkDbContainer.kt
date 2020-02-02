@@ -37,13 +37,13 @@ open class RethinkDbContainer  :
         /**
          * RethinkDb Default HTTP port
          */
-        private val RETHINKDB_DEFAULT_PORT = 29015
+        private val RETHINKDB_DEFAULT_PORT = 28015
 
         /**
          * RethinkDb Docker base URL
          */
         private val RETHINKDB_DEFAULT_IMAGE = "rethinkdb"
-        private val RETHINKDB_DEFAULT_TCP_PORT = 29015
+        private val RETHINKDB_DEFAULT_TCP_PORT = 28015
         /**
          * RethinkDb Default version
          */

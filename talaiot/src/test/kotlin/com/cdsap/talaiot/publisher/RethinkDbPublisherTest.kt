@@ -1,11 +1,10 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
+import com.cdsap.talaiot.configuration.RethinkDbPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
-import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
-import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
+import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
@@ -16,9 +15,10 @@ import io.kotlintest.specs.BehaviorSpec
 import java.net.URL
 
 
-class PushGatewayPublisherTest : BehaviorSpec() {
+class RethinkDbPublisherTest : BehaviorSpec() {
 
-    val container = KPushGatewayContainer()
+    val database = "rethink"
+    val container = KRethinkDbContainer()
     override fun beforeSpec(description: Description, spec: Spec) {
         super.beforeSpec(description, spec)
         container.start()
@@ -29,28 +29,28 @@ class PushGatewayPublisherTest : BehaviorSpec() {
         container.stop()
     }
 
-    val pushGateway by lazy {
+    val rethinkDb by lazy {
         container
     }
 
     init {
-        given("PushGateway Publisher instance") {
+        given("RethinkDb Publisher instance") {
             val logger = TestLogTrackerRecorder
 
             `when`("There is configuration with metrics for tasks and builds ") {
-                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
+                val rethinkDbConfiguration = RethinkDbPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
                 }
 
-                val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                val rethinkDb = RethinkDbPublisher(
+                    rethinkDbConfiguration, logger, TestExecutor()
                 )
 
-                pushGateway.publish(
+                rethinkDb.publish(
                     executionReportData()
                 )
 
-                then("Pushgateway contains metrics for bulid and tasks") {
+                then("RethinkDb contains metrics for bulid and tasks") {
 
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
@@ -81,22 +81,22 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("There is configuration with metrics only to send tasks ") {
-                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
+                val rethinkDbConfiguration = RethinkDbPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
                     publishBuildMetrics = false
-                    buildJobName = "build2"
-                    taskJobName = "task2"
+                    buildTableName = "build2"
+                    taskTableName = "task2"
                 }
 
-                val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                val rethinkDb = RethinkDbPublisher(
+                    rethinkDbConfiguration, logger, TestExecutor()
                 )
 
-                pushGateway.publish(
+                rethinkDb.publish(
                     executionReportData()
                 )
 
-                then("Pushgateway contains metrics for tasks but not for build") {
+                then("RethinkDb contains metrics for tasks but not for build") {
 
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
@@ -125,17 +125,17 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("There is configuration with metrics of tasks and build ") {
-                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
+                val rethinkDbConfiguration = RethinkDbPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
-                    buildJobName = "build4"
-                    taskJobName = "task4"
+                    buildTableName = "build4"
+                    taskTableName = "task4"
                 }
 
-                val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                val rethinkDb = RethinkDbPublisher(
+                    rethinkDbConfiguration, logger, TestExecutor()
                 )
 
-                pushGateway.publish(
+                rethinkDb.publish(
                     executionReportDataSpecialData()
                 )
 
