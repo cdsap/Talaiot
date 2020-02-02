@@ -70,6 +70,7 @@ class InfluxDbPublisher(
 
             if (influxDbPublisherConfiguration.publishBuildMetrics) {
                 val buildMeasurement = createBuildPoint(report)
+                println(buildMeasurement.lineProtocol())
                 pointsBuilder.point(buildMeasurement)
 
             }

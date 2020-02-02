@@ -2,6 +2,7 @@ package com.cdsap.talaiot.configuration
 
 
 import com.cdsap.talaiot.publisher.Publisher
+import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import groovy.lang.Closure
 import org.gradle.api.Project
 
@@ -54,10 +55,20 @@ class PublishersConfiguration(
      * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
      */
     var jsonPublisher: Boolean = false
+    /**
+     * Access to the configuration of [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
+     */
 
     var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
+    /**
+     * Access to the configuration of [com.cdsap.talaiot.publisher.HybridPublisher]
+     */
 
     var hybridPublisher: HybridPublisherConfiguration? = null
+    /**
+     * Access to the configuration of [com.cdsap.talaiot.publisher.RethinkDbPublisher]
+     */
+    var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
 
     /**
      * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
@@ -132,6 +143,17 @@ class PublishersConfiguration(
     }
 
     /**
+     * Configuration accessor within the [RethinkDbPublisherConfiguration] for the custom implementation for [RethinkDbPublisher]
+     *
+     * Will override another custom publisher instance if present
+     *
+     * @param configuration instance of your publisher
+     */
+    fun rethinkDbPublisher(configuration: RethinkDbPublisherConfiguration.() -> Unit) {
+        rethinkDbPublisher = RethinkDbPublisherConfiguration().also(configuration)
+    }
+
+    /**
      * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.InfluxDbPublisher]
      *
      * @param closure closure for the [InfluxDbPublisherConfiguration]
@@ -196,4 +218,16 @@ class PublishersConfiguration(
         closure.delegate = pushGatewayPublisher
         closure.call()
     }
+
+    /**
+     * Configuration accessor within the [RethinkDbPublisherConfiguration] for the [com.cdsap.talaiot.publisher.RethinkDbPublisher]
+     *
+     * @param closure closure for the [RethinkDbPublisherConfiguration]
+     */
+    fun rethinkDbPublisher(closure: Closure<*>) {
+        rethinkDbPublisher = RethinkDbPublisherConfiguration()
+        closure.delegate = rethinkDbPublisher
+        closure.call()
+    }
+
 }
