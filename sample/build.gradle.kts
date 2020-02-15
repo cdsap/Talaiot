@@ -3,16 +3,15 @@ import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.entities.ExecutionReport
 
 repositories {
-    mavenLocal()
     jcenter()
     mavenCentral()
     google()
-
+    mavenLocal()
 }
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("talaiot") version "1.0.12-SNAPSHOT"
+    id("talaiot") version "1.0.11-SNAPSHOT"
 }
 
 dependencies {
@@ -28,11 +27,10 @@ talaiot {
             gexf = true
         }
         influxDbPublisher {
-            dbName = "tracking2"
+            dbName = "tracking"
             url = "http://localhost:8086"
             taskMetricName = "task"
             buildMetricName = "build"
-            publishTaskMetrics = false
         }
         customPublisher = CustomPublisher()
     }

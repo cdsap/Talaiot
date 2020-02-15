@@ -6,23 +6,11 @@ import groovy.lang.Closure
 /**
  * Configuration for the [RethinkDbPublisher]. It belongs to the Publisher configurations
  *
- * influxDbPublisher {
+ * rethinkDbPublisher {
  *    dbName = "tracking"
  *    url = "url"
- *    taskMetricName = "tracking"
- *    buildMetricName = "buildMetric"
- *
- * }
- */
-
-/**
- * Configuration for the [RethinkDbPublisher]. It belongs to the Publisher configurations
- *
- * influxDbPublisher {
- *    dbName = "tracking"
- *    url = "url"
- *    taskMetricName = "tracking"
- *    buildMetricName = "buildMetric"
+ *    taskTableName = "tracking"
+ *    buildTableName = "buildMetric"
  *
  * }
  */
@@ -34,21 +22,21 @@ class RethinkDbPublisherConfiguration : PublisherConfiguration {
     /**
      * name of the publisher
      */
-    override var name: String = "influxDb"
+    override var name: String = "RethinkDb"
     /**
-     * name of the InfluxDb database, will be automatically created
+     * name of the RethinkDb database, will be automatically created
      */
     var dbName: String = ""
     /**
-     * url from the InfluxDb instance required to send the measurements. For instance http://localhost:8086
+     * url from the RethinkDb instance required to send the measurements.
      */
     var url: String = ""
     /**
-     * metric to identify the measurement in InfluxDb
+     * table to identify the measurement of tasks in RethinkDb
      */
     var taskTableName: String = "task"
     /**
-     * metric name to identify the build measurements in InfluxDb
+     * table to identify the measurement of builds in RethinkDb
      */
     var buildTableName: String = "build"
     /**

@@ -24,7 +24,7 @@ class PublisherConfigurationTest : BehaviorSpec({
                 assert(hybridPublisherConfiguration.publishBuildMetrics)
                 assert(hybridPublisherConfiguration.publishTaskMetrics)
                 assert(rethinkDbPublisherConfiguration.publishTaskMetrics)
-                assert(rethinkDbPublisherConfiguration.publishTaskMetrics)
+                assert(rethinkDbPublisherConfiguration.publishBuildMetrics)
             }
         }
 
