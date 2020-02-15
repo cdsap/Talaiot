@@ -3,34 +3,36 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.CustomProperties
 import com.cdsap.talaiot.entities.ExecutionReport
-
-
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
-import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
-import com.cdsap.talaiot.request.Request
-import com.nhaarman.mockitokotlin2.atLeastOnce
-import com.nhaarman.mockitokotlin2.verify
+import com.rethinkdb.RethinkDB
+import com.rethinkdb.net.Connection
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
+import java.net.URL
 
 
 class HybridPublisherTest : BehaviorSpec() {
 
-    val database = "talaiot"
-    val container = KInfluxDBContainer().withAuthEnabled(false)
+    private val database = "talaiot"
+    private val container = KInfluxDBContainer().withAuthEnabled(false)
+    private val containerRethink = KRethinkDbContainer()
+    private val r = RethinkDB.r
+
     override fun beforeSpec(description: Description, spec: Spec) {
         super.beforeSpec(description, spec)
         container.start()
+        containerRethink.start()
     }
 
     override fun afterSpec(description: Description, spec: Spec) {
         super.afterSpec(description, spec)
         container.stop()
+        containerRethink.stop()
     }
 
     val influxDB by lazy {
@@ -148,14 +150,68 @@ class HybridPublisherTest : BehaviorSpec() {
                     logger.containsLog("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
                 }
             }
+            `when`("Reporting task publisher is RethinkDbPublisher and reporting build publisher is InfluxDb") {
+                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                    dbName = database
+                    url = container.url
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                }
+                val rethinkDbPublisherConfiguration = RethinkDbPublisherConfiguration().apply {
+                    url = "http://" + containerRethink.httpHostAddress
+                    dbName = "tracking"
+                    taskTableName = "tasks"
+                    buildTableName = "build"
+                }
+
+                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
+                    buildPublisher = influxDbConfiguration
+                    taskPublisher = rethinkDbPublisherConfiguration
+                }
+                val hybridPublisher = HybridPublisher(
+                    hybridPublisherConfiguration, logger, TestExecutor()
+                )
+
+                then("RethinkDbPublisher only reports builds") {
+                    hybridPublisher.publish(
+                        ExecutionReport(
+                            customProperties = CustomProperties(taskProperties = getMetrics()),
+                            tasks = listOf(
+                                TaskLength(
+                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    "app", emptyList()
+                                )
+                            )
+                        )
+                    )
+                    logger.containsLog("RethinkDbPublisher")
+                    logger.containsLog("InfluxDbPublisher")
+
+                    val conn = getConnection(rethinkDbPublisherConfiguration.url)
+                    val existsTableTasks =
+                        r.db(rethinkDbPublisherConfiguration.dbName).tableList()
+                            .contains(rethinkDbPublisherConfiguration.taskTableName)
+                            .run<Boolean>(conn)
+                    val existsTableBuilds =
+                        r.db(rethinkDbPublisherConfiguration.dbName).tableList()
+                            .contains(rethinkDbPublisherConfiguration.buildTableName)
+                            .run<Boolean>(conn)
+                    assert(!existsTableBuilds)
+                    assert(existsTableTasks)
+                }
+            }
         }
     }
 
-}
+    private fun getConnection(url: String): Connection {
+        val url = URL(url)
+        return r.connection().hostname(url.host).port(url.port).connect()
+    }
 
-private fun getMetrics(): MutableMap<String, String> {
-    return mutableMapOf(
-        "metric1" to "value1",
-        "metric2" to "value2"
-    )
+    private fun getMetrics(): MutableMap<String, String> {
+        return mutableMapOf(
+            "metric1" to "value1",
+            "metric2" to "value2"
+        )
+    }
 }

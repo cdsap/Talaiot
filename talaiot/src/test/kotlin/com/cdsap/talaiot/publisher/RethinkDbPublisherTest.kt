@@ -186,16 +186,16 @@ class RethinkDbPublisherTest : BehaviorSpec() {
         )
     }
 
-    private fun getConnection(url: String): Connection {
-        val url = URL(url)
-        return r.connection().hostname(url.host).port(url.port).connect()
-    }
-
     private fun getMetrics(): MutableMap<String, String> {
         return mutableMapOf(
             "metric1" to "value1",
             "metric2" to "value2"
         )
+    }
+
+    private fun getConnection(url: String): Connection {
+        val url = URL(url)
+        return r.connection().hostname(url.host).port(url.port).connect()
     }
 
     private fun getBasicRethinkDbConf() = RethinkDbPublisherConfiguration().apply {
@@ -204,5 +204,4 @@ class RethinkDbPublisherTest : BehaviorSpec() {
         buildTableName = "builds"
         dbName = "tracking"
     }
-
 }

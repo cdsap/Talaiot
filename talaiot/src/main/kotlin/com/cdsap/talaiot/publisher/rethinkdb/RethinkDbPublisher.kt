@@ -10,7 +10,7 @@ import java.net.URL
 import java.util.concurrent.Executor
 
 /**
- * Publisher using RethinkDb and LineProtocol format to send the metrics
+ * Publisher using RethinkDb format to send the metrics
  */
 class RethinkDbPublisher(
     /**
