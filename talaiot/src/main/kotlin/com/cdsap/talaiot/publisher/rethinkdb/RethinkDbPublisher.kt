@@ -62,7 +62,21 @@ class RethinkDbPublisher(
 
             try {
                 val url = URL(rethinkDbPublisherConfiguration.url)
-                val conn: Connection = r.connection().hostname(url.host).port(url.port).connect()
+                val conn: Connection = if (rethinkDbPublisherConfiguration.username.isBlank() &&
+                    rethinkDbPublisherConfiguration.password.isBlank()
+                ) {
+                    r.connection()
+                        .hostname(url.host)
+                        .port(url.port)
+                        .connect()
+                } else {
+                    r.connection()
+                        .hostname(url.host)
+                        .port(url.port)
+                        .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
+                        .connect()
+                }
+
                 checkDb(conn, rethinkDbPublisherConfiguration.dbName)
 
 

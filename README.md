@@ -1,6 +1,6 @@
 # Talaiot
 
-[![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.0.10) ](https://bintray.com/cdsap/maven/talaiot/1.0.10/link)
+[![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.1.0) ](https://bintray.com/cdsap/maven/talaiot/1.1.0/link)
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
@@ -63,7 +63,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.0.11-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.1.1-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
@@ -118,6 +118,7 @@ you can extend it and create your publisher for your requirements
 | TimelinePublisher             | Publish the results of the build decomposed by the different workers used in the execution                 |
 | ElasticSearchPublisher        | Publish the results of the build to the ElasticSearch instance defined in the configuration                |
 | HybridPublisher               | Publish the results of the build in two different publishers defined for tasks metrics and build metrics   |
+| RethinkDbPublisher            | Publish the results of the build in the RethinkDb instance defined in the configuration                    |
 
 
 
@@ -283,6 +284,22 @@ Example:
 ```
 In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics. 
  
+#### RethinkDbPublisher
+Talaiot will send to the RethinkDb server defined in the configuration the values collected during the execution
+
+
+| Property                     |      Description                                                                      |
+|----------------------------- |---------------------------------------------------------------------------------------|
+| dbName                       | Name of the database                                                                  |
+| url                          | Url of the RethinkDb Server                                                           |
+| taskTableName                | Name of the table used to track tasks information                                     |
+| buildTableName               | Name of the table used to track the build information                                 |
+| username                     | username which is used to authorize against the RethinkDb instance (optional)         |
+| password                     | password for the username which is used to authorize against the RethinkDb (optional) |                                                                          |
+| publishBuildMetrics          | Publish build metrics of the publisher, true by default                               |
+| publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                               |
+
+
 
 #### Custom Publishers
 Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
