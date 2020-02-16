@@ -79,8 +79,6 @@ class RethinkDbPublisher(
 
                 checkDb(conn, rethinkDbPublisherConfiguration.dbName)
 
-
-
                 if (rethinkDbPublisherConfiguration.publishTaskMetrics) {
                     val entries = createTaskEntries(report)
                     if (entries != null && entries.isNotEmpty()) {

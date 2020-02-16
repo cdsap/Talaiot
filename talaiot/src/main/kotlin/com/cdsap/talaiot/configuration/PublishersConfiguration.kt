@@ -145,8 +145,6 @@ class PublishersConfiguration(
     /**
      * Configuration accessor within the [RethinkDbPublisherConfiguration] for the custom implementation for [RethinkDbPublisher]
      *
-     * Will override another custom publisher instance if present
-     *
      * @param configuration instance of your publisher
      */
     fun rethinkDbPublisher(configuration: RethinkDbPublisherConfiguration.() -> Unit) {
