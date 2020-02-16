@@ -11,7 +11,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("talaiot") version "1.0.11-SNAPSHOT"
+    id("talaiot") version "1.1.1-SNAPSHOT"
 }
 
 dependencies {

@@ -38,12 +38,12 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             val logger = TestLogTrackerRecorder
 
             `when`("There is configuration with metrics for tasks and builds ") {
-                val influxDbConfiguration = PushGatewayPublisherConfiguration().apply {
+                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -81,7 +81,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("There is configuration with metrics only to send tasks ") {
-                val influxDbConfiguration = PushGatewayPublisherConfiguration().apply {
+                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
                     publishBuildMetrics = false
                     buildJobName = "build2"
@@ -89,7 +89,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(
@@ -125,14 +125,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("There is configuration with metrics of tasks and build ") {
-                val influxDbConfiguration = PushGatewayPublisherConfiguration().apply {
+                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
                     buildJobName = "build4"
                     taskJobName = "task4"
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    influxDbConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
                 )
 
                 pushGateway.publish(

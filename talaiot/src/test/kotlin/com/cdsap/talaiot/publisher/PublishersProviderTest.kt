@@ -5,6 +5,7 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublishersProvider
+import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec
@@ -81,8 +82,23 @@ class PublishersProviderTest : BehaviorSpec({
                 }
             }
         }
+        `when`("RethinkDb is included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                rethinkDbPublisher {
+                 buildTableName = "builds"
+                }
+            }
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
+            then("instance of RethinkDbPublisher is created") {
+                publishers.forAtLeastOne {
+                    it is RethinkDbPublisher
+                }
+            }
+        }
 
-        `when`("All publishers are included") {
+        `when`("Multiple publishers are included") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {

@@ -5,6 +5,7 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
+import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import java.util.concurrent.Executor
 
@@ -76,10 +77,18 @@ class HybridPublisher(
                 )
             }
 
+            is RethinkDbPublisherConfiguration -> {
+                RethinkDbPublisher(
+                    publisherConfiguration,
+                    logTracker,
+                    executor
+                )
+            }
+
             else -> {
                 logTracker.error(
                     "HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: " +
-                            "InfluxDbPublisher, PushGatewayPublisherConfiguration and ElasticSearchPublisherConfiguration"
+                            "InfluxDbPublisher, PushGatewayPublisher, ElasticSearchPublisher and RethinkDbPublisher"
                 )
                 null
             }
