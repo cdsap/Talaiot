@@ -32,6 +32,12 @@ talaiot {
             taskMetricName = "task"
             buildMetricName = "build"
         }
+        rethinkDbPublisher {
+            dbName = "tracking"
+            url = "http://localhost:8086"
+            taskTableName = "task"
+            buildTableName = "build"
+        }
         customPublisher = CustomPublisher()
     }
 }
