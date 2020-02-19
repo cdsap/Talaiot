@@ -17,3 +17,4 @@ talaiot/out/**
 /talaiot/build/**
 /captures
 .externalNativeBuild
+.kotlintest
