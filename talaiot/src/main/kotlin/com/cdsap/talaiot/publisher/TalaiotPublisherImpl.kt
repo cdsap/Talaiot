@@ -1,8 +1,10 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.configuration.BuildFilterConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
+import com.cdsap.talaiot.filter.BuildFilterProcessor
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
@@ -23,6 +25,7 @@ class TalaiotPublisherImpl(
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+    private val buildFilterProcessor: BuildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
@@ -48,8 +51,10 @@ class TalaiotPublisherImpl(
             this.estimateCriticalPath()
         }
 
-        publisherProvider.get().forEach {
-            it.publish(report)
+        if (buildFilterProcessor.shouldPublishBuild(report)) {
+            publisherProvider.get().forEach {
+                it.publish(report)
+            }
         }
     }
 }
