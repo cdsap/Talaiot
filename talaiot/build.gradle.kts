@@ -14,9 +14,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.1.1-SNAPSHOT"
-
-
+val versionTalaiot = "1.2.0"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -24,7 +22,7 @@ version = versionTalaiot
 gradlePlugin {
     plugins {
         register("Talaiot") {
-            id = "talaiot"
+            id = "com.cdsap.talaiot"
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
@@ -49,10 +47,12 @@ pluginBundle {
     website = "https://github.com/cdsap/Talaiot/"
     vcsUrl = "https://github.com/cdsap/Talaiot/"
     tags = listOf("kotlin", "gradle", "kotlin-dsl")
-
-    mavenCoordinates {
-        groupId = project.group as String
-        artifactId = "talaiot"
+    (plugins) {
+        "Talaiot" {
+            displayName = "Simple and extensible plugin to track task and build times in your Gradle Project."
+            tags = listOf("tracking", "kotlin", "gradle")
+            version = "1.2"
+        }
     }
 }
 publishing {
@@ -125,7 +125,6 @@ configure<PublishExtension> {
     desc = "Simple and extensible plugin to track task times in your Gradle Project."
     website = "https://github.com/cdsap/Talaiot"
 }
-
 
 repositories {
     jcenter()
