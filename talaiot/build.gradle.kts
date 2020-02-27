@@ -14,7 +14,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.0.11-SNAPSHOT"
+val versionTalaiot = "1.1.1-SNAPSHOT"
 
 
 
@@ -28,13 +28,14 @@ gradlePlugin {
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
-            api("io.github.rybalkinsd:kohttp:0.10.0")
-            api("guru.nidi:graphviz-java:0.8.3")
-            api("org.influxdb:influxdb-java:2.15")
-            api("com.github.oshi:oshi-core:3.13.3")
-            api("com.google.code.gson:gson:2.8.5")
-            api("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
-            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+            implementation("io.github.rybalkinsd:kohttp:0.10.0")
+            implementation("guru.nidi:graphviz-java:0.8.3")
+            implementation("org.influxdb:influxdb-java:2.15")
+            implementation("com.github.oshi:oshi-core:3.13.3")
+            implementation("com.google.code.gson:gson:2.8.5")
+            implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
+            implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
             testImplementation(gradleTestKit())
             testImplementation("org.testcontainers:testcontainers:1.11.3")
             testImplementation("org.testcontainers:influxdb:1.11.3")

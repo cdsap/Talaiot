@@ -11,6 +11,7 @@ class PublisherConfigurationTest : BehaviorSpec({
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val elasticSearchPublisherConfiguration = ElasticSearchPublisherConfiguration()
             val hybridPublisherConfiguration = HybridPublisherConfiguration()
+            val rethinkDbPublisherConfiguration = RethinkDbPublisherConfiguration()
             then("Publish tasks and build by default") {
                 assert(pushGatewayPublisherConfiguration.publishBuildMetrics)
                 assert(pushGatewayPublisherConfiguration.publishTaskMetrics)
@@ -22,6 +23,8 @@ class PublisherConfigurationTest : BehaviorSpec({
                 assert(elasticSearchPublisherConfiguration.publishTaskMetrics)
                 assert(hybridPublisherConfiguration.publishBuildMetrics)
                 assert(hybridPublisherConfiguration.publishTaskMetrics)
+                assert(rethinkDbPublisherConfiguration.publishTaskMetrics)
+                assert(rethinkDbPublisherConfiguration.publishBuildMetrics)
             }
         }
 
