@@ -1,8 +1,10 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
+import com.cdsap.talaiot.configuration.BuildFilterConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
+import com.cdsap.talaiot.filter.BuildFilterProcessor
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.provider.Provider
@@ -23,33 +25,36 @@ class TalaiotPublisherImpl(
     private val publisherProvider: Provider<List<Publisher>>
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+    private val buildFilterProcessor: BuildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
-        startMs: Long,
+        start: Long,
         configuraionMs: Long?,
-        endMs: Long,
+        end: Long,
         success: Boolean
     ) {
         val report = metricsProvider.get().apply {
             tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
             unfilteredTasks = taskLengthList
-            this.beginMs = startMs.toString()
-            this.endMs = endMs.toString()
+            this.beginMs = start.toString()
+            this.endMs = end.toString()
             this.success = success
 
-            this.durationMs = (endMs - startMs).toString()
+            this.durationMs = (end - start).toString()
 
             this.configurationDurationMs = when {
-                configuraionMs != null -> (configuraionMs - startMs).toString()
+                configuraionMs != null -> (configuraionMs - start).toString()
                 else -> "undefined"
             }
 
             this.estimateCriticalPath()
         }
 
-        publisherProvider.get().forEach {
-            it.publish(report)
+        if (buildFilterProcessor.shouldPublishBuild(report)) {
+            publisherProvider.get().forEach {
+                it.publish(report)
+            }
         }
     }
 }

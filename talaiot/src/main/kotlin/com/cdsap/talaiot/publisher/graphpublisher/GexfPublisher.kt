@@ -5,7 +5,6 @@ import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
 import com.cdsap.talaiot.writer.FileWriter
-import org.gradle.api.tasks.TaskState
 import java.util.concurrent.Executor
 
 /**
@@ -48,11 +47,11 @@ class GexfPublisher(
         module: String,
         taskName: String,
         numberDependencies: Int,
-        taskState: TaskMessageState
+        taskMessageState: TaskMessageState
     ): String = "       <node id=\"$internalId\" label=\"$taskName\">\n" +
             "              <attvalues>\n" +
             "                     <attvalue for=\"0\" value=\"$module\"/>\n" +
-            "                     <attvalue for=\"1\" value=\"${taskState.name}\"/>\n" +
+            "                     <attvalue for=\"1\" value=\"${taskMessageState.name}\"/>\n" +
             "              </attvalues>\n" +
             "       </node>\n"
 

@@ -4,11 +4,14 @@ import com.cdsap.talaiot.filter.StringFilter
 import groovy.lang.Closure
 
 /**
- * Configuration to specify the filters for the tasks that should be processed by the publisher.
- * Filters included: Task Name, Module Name and Threshold duration of the execution.
+ * Configuration to specify the filters for the tasks that should be processed by the publisher or for the build in general.
+ * Task filters included: Task Name, Module Name and Threshold duration of the execution.
  *
  * Used in OutputConfiguration and InfluxDbConfiguration.
  * Not used in TaskDependencyGraphConfiguration due to requirement to display dependency of the task build.
+ *
+ * Build filter include: success of the build, exclude requested tasks or include requested tasks
+ * Build filter affect all Publishers.
  *
  * Example:
  *
@@ -25,6 +28,16 @@ import groovy.lang.Closure
  *      maxValue = 3000
  *      minValue = 10
  *  }
+ *  build {
+ *      // Publish build only with specified result. Omit to publish both successful and failed builds.
+ *      success = true
+ *      requestedTasks {
+ *          // Publish only if at least one requested task matches "includes" filter.
+ *          // Has higher priority over "excludes" filter
+ *          includes = arrayOf(":app:assemble.*")
+ *          // Do not publish report if all requested task matches "excludes" filter.
+ *          excludes = arrayOf(":app:generate.*")
+ *      }
  * }
  */
 class FilterConfiguration {
@@ -43,6 +56,11 @@ class FilterConfiguration {
      * A range to filter the duration of execution of the task
      */
     var threshold: ThresholdConfiguration? = null
+
+    /**
+     * A set of criteria to decide if entire build should be published or not.
+     */
+    val build: BuildFilterConfiguration = BuildFilterConfiguration()
 
     fun tasks(configuration: StringFilter.() -> Unit) {
         tasks = StringFilter().also(configuration)
@@ -72,6 +90,15 @@ class FilterConfiguration {
     fun threshold(closure: Closure<*>) {
         threshold = ThresholdConfiguration()
         closure.delegate = threshold
+        closure.call()
+    }
+
+    fun build(configuration: BuildFilterConfiguration.() -> Unit) {
+        build.also(configuration)
+    }
+
+    fun build(closure: Closure<*>) {
+        closure.delegate = build
         closure.call()
     }
 }

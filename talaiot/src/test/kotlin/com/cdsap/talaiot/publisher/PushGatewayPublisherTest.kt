@@ -9,7 +9,6 @@ import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
-import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.matchers.string.shouldNotContain
 import io.kotlintest.specs.BehaviorSpec
@@ -19,13 +18,13 @@ import java.net.URL
 class PushGatewayPublisherTest : BehaviorSpec() {
 
     val container = KPushGatewayContainer()
-    override fun beforeSpec(description: Description, spec: Spec) {
-        super.beforeSpec(description, spec)
+    override fun beforeSpec(spec: Spec) {
+        super.beforeSpec(spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
         container.stop()
     }
 

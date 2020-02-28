@@ -98,7 +98,7 @@ Additionally, we are disabling the metrics for Git and Performance.
 | generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
 | publishers     | Configuration to define where to submit the information of the build      |
 | metrics        | Additional information tracked during the execution of the task           |
-| filter         | Rules to filter the tasks to be reported                                  |
+| filter         | Rules to filter the build or the tasks to be reported                     |
 
     
 ### Publishers
@@ -321,11 +321,18 @@ talaiot {
  For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
  
  
- | Property      |      Description                                                                           |
- |---------------|--------------------------------------------------------------------------------------------|
- | tasks         |Configuration used to filter which tasks we want to exclude and include in the execution    |
- | module        |Configuration used to filter which modules we want to exclude and include in the execution  |
- | threshold     |Configuration used to define time execution ranges to filter tasks to be reported           |
+ | Property             |      Description                                                                             |
+ |----------------------|----------------------------------------------------------------------------------------------|
+ | tasks                |Configuration used to filter which tasks we want to exclude and include in the execution      |
+ | module               |Configuration used to filter which modules we want to exclude and include in the execution    |
+ | threshold            |Configuration used to define time execution ranges to filter tasks to be reported             |
+ 
+ For every measurement done, Talaiot can completely skip publishing process. These filters affect all publishers:
+ 
+ | Property             |      Description                                                                             |
+ |----------------------|----------------------------------------------------------------------------------------------|
+ | build.success        |Configuration used to skip publishing based on build success.                                 |
+ | build.requestedTasks |Configuration used to skip publishing based on what was the requested task.                   |
  
  
  Example:
@@ -339,6 +346,13 @@ talaiot {
       }
       threshold {
           minExecutionTime = 10
+      }
+      build {
+          success = true
+          requestedTasks {
+              includes = arrayOf(":app:assemble.*")
+              excludes = arrayOf(":app:generate.*")
+          }
       }
   }
  ```
