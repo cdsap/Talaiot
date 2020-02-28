@@ -65,9 +65,9 @@ class TalaiotListener(
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
-                startMs = start,
+                start = start,
                 configuraionMs = configurationEnd,
-                endMs = end
+                end = end
             )
 
             try {

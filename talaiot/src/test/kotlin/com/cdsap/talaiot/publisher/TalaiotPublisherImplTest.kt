@@ -198,9 +198,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = true
                 )
 
@@ -213,9 +213,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, getMetricsProvider(), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = false
                 )
 
@@ -243,9 +243,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = false
                 )
 
@@ -259,9 +259,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = true
                 )
 
@@ -289,9 +289,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = false
                 )
 
@@ -305,9 +305,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = true
                 )
 
@@ -337,9 +337,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = true
                 )
 
@@ -353,9 +353,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 TalaiotPublisherImpl(extension, logger, SimpleProvider(report), publisherProvider).publish(
                     taskLengthList = getTasks(),
-                    startMs = 0,
+                    start = 0,
                     configuraionMs = 100,
-                    endMs = 200,
+                    end = 200,
                     success = true
                 )
 

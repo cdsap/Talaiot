@@ -84,7 +84,7 @@ data class ExecutionReport(
         //These come last to have an ability to override calculation
         map.putAll(customProperties.buildProperties)
 
-        return map.filter { (k, v) -> v != "undefined" }
+        return map.filter { (_, v) -> v != "undefined" }
     }
 
     /**

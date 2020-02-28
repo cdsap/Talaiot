@@ -29,8 +29,8 @@ class HybridPublisherTest : BehaviorSpec() {
         containerRethink.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
-        super.afterSpec(description, spec)
+    override fun afterSpec( spec: Spec) {
+        super.afterSpec( spec)
         container.stop()
         containerRethink.stop()
     }

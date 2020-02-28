@@ -17,7 +17,7 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew build jacocoTestReport --stacktrace
+          command: ./gradlew build jacocoTestReport --stacktrace --info
       - codecov/upload:
           file: talaiot/build/reports/jacoco/test/*.xml
       - store_test_results:
