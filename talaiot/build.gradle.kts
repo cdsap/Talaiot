@@ -14,7 +14,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.2.0"
+val versionTalaiot = "1.1.1-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
