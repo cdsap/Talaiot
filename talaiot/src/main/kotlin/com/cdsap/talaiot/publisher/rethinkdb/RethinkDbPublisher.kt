@@ -68,11 +68,13 @@ class RethinkDbPublisher(
                     r.connection()
                         .hostname(url.host)
                         .port(url.port)
+                        .timeout(1)
                         .connect()
                 } else {
                     r.connection()
                         .hostname(url.host)
                         .port(url.port)
+                        .timeout(1)
                         .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
                         .connect()
                 }
