@@ -47,7 +47,6 @@ class RethinkDbPublisher(
                         "}\n" +
                         "Please update your configuration"
             )
-            return
         }
 
 
@@ -59,7 +58,6 @@ class RethinkDbPublisher(
             logTracker.log(TAG, "publishTaskMetrics: ${rethinkDbPublisherConfiguration.publishTaskMetrics}")
             logTracker.log(TAG, "================")
 
-
             try {
                 val url = URL(rethinkDbPublisherConfiguration.url)
                 val conn: Connection = if (rethinkDbPublisherConfiguration.username.isBlank() &&
@@ -68,13 +66,11 @@ class RethinkDbPublisher(
                     r.connection()
                         .hostname(url.host)
                         .port(url.port)
-                        .timeout(1)
                         .connect()
                 } else {
                     r.connection()
                         .hostname(url.host)
                         .port(url.port)
-                        .timeout(1)
                         .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
                         .connect()
                 }
@@ -83,7 +79,7 @@ class RethinkDbPublisher(
 
                 if (rethinkDbPublisherConfiguration.publishTaskMetrics) {
                     val entries = createTaskEntries(report)
-                    if (entries != null && entries.isNotEmpty()) {
+                    if (entries.isNotEmpty()) {
                         checkTable(
                             conn,
                             rethinkDbPublisherConfiguration.dbName,

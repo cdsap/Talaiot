@@ -11,7 +11,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.1.1.1-SNAPSHOT"
+val versionTalaiot = "1.1.1.12-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -63,10 +63,6 @@ publishing {
                 username = System.getenv("USERNAME_SNAPSHOT")
                 password = System.getenv("PASSWORD_SNAPSHOT")
             }
-        }
-        maven {
-            name = "Local"
-            setUrl("${project.rootDir}/build/repository")
         }
     }
 }
