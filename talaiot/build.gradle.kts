@@ -67,13 +67,9 @@ publishing {
     }
 }
 
-
-
-
 val test by tasks.getting(Test::class) {
     useJUnitPlatform { }
 }
-
 
 repositories {
     jcenter()
