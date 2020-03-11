@@ -1,22 +1,17 @@
-import com.novoda.gradle.release.PublishExtension
-
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
     `maven-publish`
-    groovy
     id("jacoco")
     kotlin("jvm") version "1.3.60"
     id("com.gradle.plugin-publish") version "0.10.0"
-    id("com.novoda.bintray-release")
 }
+
 jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.1.1-SNAPSHOT"
-
-
+val versionTalaiot = "1.2.0"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -24,7 +19,7 @@ version = versionTalaiot
 gradlePlugin {
     plugins {
         register("Talaiot") {
-            id = "talaiot"
+            id = "com.cdsap.talaiot"
             implementationClass = "com.cdsap.talaiot.TalaiotPlugin"
         }
         dependencies {
@@ -49,12 +44,15 @@ pluginBundle {
     website = "https://github.com/cdsap/Talaiot/"
     vcsUrl = "https://github.com/cdsap/Talaiot/"
     tags = listOf("kotlin", "gradle", "kotlin-dsl")
-
-    mavenCoordinates {
-        groupId = project.group as String
-        artifactId = "talaiot"
+    (plugins) {
+        "Talaiot" {
+            displayName = "Simple and extensible plugin to track task and build times in your Gradle Project."
+            tags = listOf("tracking", "kotlin", "gradle")
+            version = "1.2"
+        }
     }
 }
+
 publishing {
     repositories {
         maven {
@@ -66,66 +64,12 @@ publishing {
                 password = System.getenv("PASSWORD_SNAPSHOT")
             }
         }
-        maven {
-            name = "Local"
-            setUrl("${project.rootDir}/build/repository")
-        }
     }
-}
-
-
-val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
-    from(sourceSets["main"].allSource)
-    dependsOn(tasks["classes"])
 }
 
 val test by tasks.getting(Test::class) {
     useJUnitPlatform { }
 }
-
-afterEvaluate {
-
-    publishing.publications.named<MavenPublication>("pluginMaven") {
-        artifactId = "talaiot"
-        artifact(sourcesJar.get())
-        pom {
-            name.set("Talaiot")
-            url.set("https://github.com/cdsap/Talaiot/")
-            description.set(
-                "is a simple and extensible plugin to track timing in your Gradle Project."
-            )
-            licenses {
-                license {
-                    name.set("The MIT License (MIT)")
-                    url.set("http://opensource.org/licenses/MIT")
-                    distribution.set("repo")
-                }
-            }
-            developers {
-                developer {
-                    id.set("inaki.seri@gmail.com")
-                    name.set("Inaki Villar")
-                }
-                developer {
-                    id.set("pkun.zip.rus@gmail.com")
-                    name.set("Anton Malinskiy")
-                }
-            }
-
-        }
-    }
-}
-
-configure<PublishExtension> {
-    userOrg = ""
-    groupId = "com.cdsap"
-    artifactId = "talaiot"
-    publishVersion = versionTalaiot
-    desc = "Simple and extensible plugin to track task times in your Gradle Project."
-    website = "https://github.com/cdsap/Talaiot"
-}
-
 
 repositories {
     jcenter()
@@ -133,8 +77,6 @@ repositories {
     google()
     mavenLocal()
 }
-
-
 
 tasks.jacocoTestReport {
     reports {

@@ -11,7 +11,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("talaiot") version "1.1.1-SNAPSHOT"
+    id("com.cdsap.talaiot") version "1.2.0"
 }
 
 dependencies {
@@ -31,12 +31,6 @@ talaiot {
             url = "http://localhost:8086"
             taskMetricName = "task"
             buildMetricName = "build"
-        }
-        rethinkDbPublisher {
-            dbName = "tracking"
-            url = "http://localhost:8086"
-            taskTableName = "task"
-            buildTableName = "build"
         }
         customPublisher = CustomPublisher()
     }

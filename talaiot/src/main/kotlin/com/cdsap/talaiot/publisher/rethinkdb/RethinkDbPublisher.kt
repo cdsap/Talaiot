@@ -47,7 +47,6 @@ class RethinkDbPublisher(
                         "}\n" +
                         "Please update your configuration"
             )
-            return
         }
 
 
@@ -58,7 +57,6 @@ class RethinkDbPublisher(
             logTracker.log(TAG, "publishBuildMetrics: ${rethinkDbPublisherConfiguration.publishBuildMetrics}")
             logTracker.log(TAG, "publishTaskMetrics: ${rethinkDbPublisherConfiguration.publishTaskMetrics}")
             logTracker.log(TAG, "================")
-
 
             try {
                 val url = URL(rethinkDbPublisherConfiguration.url)
@@ -81,7 +79,7 @@ class RethinkDbPublisher(
 
                 if (rethinkDbPublisherConfiguration.publishTaskMetrics) {
                     val entries = createTaskEntries(report)
-                    if (entries != null && entries.isNotEmpty()) {
+                    if (entries.isNotEmpty()) {
                         checkTable(
                             conn,
                             rethinkDbPublisherConfiguration.dbName,

@@ -35,7 +35,7 @@ class DefaultConfigurationSpec : StringSpec({
                 import com.cdsap.talaiot.publisher.JsonPublisher
                 plugins {
                     id 'java'
-                    id 'talaiot'
+                    id 'com.cdsap.talaiot'
                 }
 
                 talaiot {
