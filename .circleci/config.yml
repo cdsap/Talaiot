@@ -33,7 +33,7 @@ jobs:
       - checkout
       - run:
           name: snapshot
-          command: ./gradlew publishMavenPublicationToSnapshotsRepository
+          command: ./gradlew publishPluginMavenPublicationToMavenLocal
 
 workflows:
   version: 2.1
