@@ -11,7 +11,7 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.2.0"
+val versionTalaiot = "1.2.1-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -46,9 +46,10 @@ pluginBundle {
     tags = listOf("kotlin", "gradle", "kotlin-dsl")
     (plugins) {
         "Talaiot" {
-            displayName = "Simple and extensible plugin to track task and build times in your Gradle Project."
+            displayName = "Talaiot"
+            description = "Simple and extensible plugin to track task and build times in your Gradle Project."
             tags = listOf("tracking", "kotlin", "gradle")
-            version = "1.2"
+            version = "1.2.0"
         }
     }
 }
