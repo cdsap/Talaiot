@@ -11,7 +11,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("com.cdsap.talaiot") version "1.2.0"
+    id("com.cdsap.talaiot") version "1.2.1-SNAPSHOT"
 }
 
 dependencies {

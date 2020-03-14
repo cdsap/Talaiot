@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./gradlew publishMavenPublicationToLocalRepository
+./gradlew publishPluginMavenPublicationToMavenLocal
 mkdir tmp
 cd tmp
 ## Cloning Repo Gradle Profiler

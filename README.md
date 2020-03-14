@@ -1,6 +1,5 @@
 # Talaiot
 
-[![Download](https://api.bintray.com/packages/cdsap/maven/talaiot/images/download.svg?version=1.1.0) ](https://bintray.com/cdsap/maven/talaiot/1.1.0/link)
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
@@ -38,20 +37,54 @@ https://en.wikipedia.org/wiki/Talaiot
 
 ## Setup Plugin <a name="setup-plugin"></a>
 
-Include in the classpath the latest version of Talaiot:
-````
-classpath("com.cdsap:talaiot:<latest_version>")
-````
-
-Apply the plugin:
-
-````
+###Kotlin
+Using the plugins DSL
+```
 plugins {
-    id("talaiot")
+  id("com.cdsap.talaiot") version "1.2.0"
 }
-````
+```
 
-Check [this](https://github.com/cdsap/Talaiot/wiki/Groovy-setup) article to see how to setup Talaiot with  Groovy(all the examples in the README are in KTS.
+Using legacy plugin application:
+```
+buildscript {
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
+  }
+  dependencies {
+    classpath("com.cdsap:talaiot:1.2.0")
+  }
+}
+
+apply(plugin = "com.cdsap.talaiot")
+```
+
+###Groovy
+Using the plugins DSL:
+```
+plugins {
+  id "com.cdsap.talaiot" version "1.2.0"
+}
+
+```
+
+Using legacy plugin application:
+```
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.cdsap:talaiot:1.2.0"
+  }
+}
+
+apply plugin: "com.cdsap.talaiot"
+```
 
 
 ## Snapshots  <a name="snapshots"></a>
@@ -63,7 +96,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.1.1-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.2.1-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
