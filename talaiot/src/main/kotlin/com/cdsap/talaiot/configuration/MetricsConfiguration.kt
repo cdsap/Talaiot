@@ -85,6 +85,14 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
+    fun environment() = metrics.run {
+        add(OsManufacturerMetric())
+        add(HostnameMetric())
+        add(PublicIpMetric())
+        add(DefaultCharsetMetric())
+        this@MetricsConfiguration
+    }
+
     fun performance() = metrics.run {
         add(UserMetric())
         add(OsMetric())
@@ -146,6 +154,7 @@ class MetricsConfiguration {
             performance()
             gradleSwitches()
             git()
+            environment()
         }
 
         if (generateBuildId) {

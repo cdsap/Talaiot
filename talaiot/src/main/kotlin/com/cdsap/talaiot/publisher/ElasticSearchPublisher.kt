@@ -100,8 +100,10 @@ class ElasticSearchPublisher(
             report.environment.gradleVersion?.let { "gradleVersion" to it }
             report.environment.gitBranch?.let { "gitBranch" to it }
             report.environment.gitUser?.let { "gitUser" to it }
+            report.environment.hostname?.let { "hostname" to it }
+            report.environment.osManufacturer?.let { "osManufacturer" to it }
+            report.environment.publicIp?.let { "publicIp" to it }
             report.cacheRatio?.let { "cacheRatio" to it.toDouble() }
-
             report.beginMs?.let { "start" to it.toDouble() }
             report.rootProject?.let { "rootProject" to it }
             report.requestedTasks?.let { "requestedTasks" to it }

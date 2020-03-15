@@ -8,6 +8,7 @@ import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.internal.scan.scopeids.BuildScanScopeIds
 import oshi.SystemInfo
+import java.net.InetAddress
 import java.nio.charset.Charset
 import java.util.*
 
@@ -22,7 +23,7 @@ class UserMetric : SimpleMetric<String>(
 class OsMetric :
     SimpleMetric<String>(
         provider = { "${OperatingSystem.current().name}-${OperatingSystem.current().version}" },
-        assigner = { report, value -> report.environment.osVersion = value}
+        assigner = { report, value -> report.environment.osVersion = value }
     )
 
 class BuildIdMetric : SimpleMetric<String>(
@@ -40,7 +41,7 @@ class BuildIdMetric : SimpleMetric<String>(
  * That is, all “nested” builds (in terms of GradleLauncher etc.) share the same build ID.
  *
  * This ID is, by definition, not persistent.
-*/
+ */
 class GradleBuildInvocationIdMetric : GradleMetric<String>(
     provider = { project: Project -> (project.gradle as GradleInternal).services[BuildScanScopeIds::class.java].buildInvocationId },
     assigner = { report, value -> report.buildInvocationId = value }
@@ -56,17 +57,9 @@ class RamAvailableMetric : SimpleMetric<String>(
     assigner = { report, value -> report.environment.totalRamAvailableBytes = value }
 )
 
-/**
- * see https://docs.oracle.com/javase/9/docs/api/java/lang/Runtime.html#version--
- */
-class JavaRuntimeMetric : SimpleMetric<String>(
-    provider = { TODO("implement") },
-    assigner = { report, value -> report.environment.javaRuntime = value }
-)
-
 class JavaVmNameMetric : SimpleMetric<String>(
     provider = { System.getProperty("java.runtime.version") },
-    assigner = { report, value -> report.environment.javaVmName = value}
+    assigner = { report, value -> report.environment.javaVmName = value }
 )
 
 class LocaleMetric : SimpleMetric<String>(
@@ -80,7 +73,7 @@ class OsManufacturerMetric : SimpleMetric<String>(
 )
 
 class HostnameMetric : SimpleMetric<String>(
-    provider = { SystemInfo().operatingSystem.manufacturer },
+    provider = { InetAddress.getLocalHost().hostName },
     assigner = { report, value -> report.environment.hostname = value }
 )
 
