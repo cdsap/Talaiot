@@ -18,8 +18,7 @@ class MetricsConfigurationTest : BehaviorSpec({
         
         `when`("environment metrics are configured") {
             val metricsConfiguration = MetricsConfiguration()
-            val metrics = metricsConfiguration.performance().build()
-            
+            val metrics = metricsConfiguration.environment().build()
             assert(metrics.count { it is HostnameMetric } == 1)
             assert(metrics.count { it is OsManufacturerMetric } == 1)
             assert(metrics.count { it is PublicIpMetric } == 1)
