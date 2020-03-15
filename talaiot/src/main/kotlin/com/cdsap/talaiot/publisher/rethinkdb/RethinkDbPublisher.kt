@@ -185,12 +185,14 @@ class RethinkDbPublisher(
             environment.cpuCount?.let { map["cpuCount"] = it.toLong() }
             environment.locale?.let { map["locale"] = it }
             environment.username?.let { map["username"] = it }
-            environment.publicIp?.let { map["publicIp"] = it }
             environment.defaultChartset?.let { map["defaultCharset"] = it }
             environment.ideVersion?.let { map["ideVersion"] = it }
             environment.gradleVersion?.let { map["gradleVersion"] = it }
             environment.gitBranch?.let { map["gitBranch"] = it }
             environment.gitUser?.let { map["gitUser"] = it }
+            environment.hostname?.let { map["hostname" ] = it }
+            environment.osManufacturer?.let { map["osManufacturer"] = it }
+            environment.publicIp?.let { map["publicIp"] = it }
         }
         report.apply {
             cacheRatio?.let { map["cacheRatio"] = it.toDouble() }

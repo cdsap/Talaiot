@@ -14,6 +14,8 @@ class MetricsConfigurationTest : BehaviorSpec({
             assert(metrics.count { it is RootProjectNameMetric } == 1)
             assert(metrics.count { it is GradleRequestedTasksMetric } == 1)
             assert(metrics.count { it is GradleVersionMetric } == 1)
+            assert(metrics.count { it is HostnameMetric } == 1)
+            assert(metrics.count { it is OsManufacturerMetric } == 1)
         }
 
         `when`("performance metrics are configured") {

@@ -154,7 +154,6 @@ class InfluxDbPublisher(
                 report.environment.javaXmxBytes?.let { addField("javaXmxBytes", it.toLong()) }
                 report.environment.javaMaxPermSize?.let { addField("javaMaxPermSize", it.toLong()) }
                 report.environment.totalRamAvailableBytes?.let { addField("totalRamAvailableBytes", it.toLong()) }
-
                 report.environment.cpuCount?.let { addField("cpuCount", it.toLong()) }
                 report.environment.locale?.let { addField("locale", it) }
                 report.environment.username?.let { addField("username", it) }
@@ -164,8 +163,10 @@ class InfluxDbPublisher(
                 report.environment.gradleVersion?.let { addField("gradleVersion", it) }
                 report.environment.gitBranch?.let { addField("gitBranch", it) }
                 report.environment.gitUser?.let { addField("gitUser", it) }
+                report.environment.hostname?.let { addField("hostname", it) }
+                report.environment.osManufacturer?.let { addField("osManufacturer", it) }
+                report.environment.publicIp?.let { addField("publicIp", it) }
                 report.cacheRatio?.let { addField("cacheRatio", it.toDouble()) }
-
                 report.beginMs?.let { addField("start", it.toDouble()) }
                 report.rootProject?.let { addField("rootProject", it) }
                 report.requestedTasks?.let { addField("requestedTasks", it) }
