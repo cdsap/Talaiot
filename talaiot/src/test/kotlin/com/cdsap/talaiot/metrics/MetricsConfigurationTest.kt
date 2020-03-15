@@ -14,8 +14,16 @@ class MetricsConfigurationTest : BehaviorSpec({
             assert(metrics.count { it is RootProjectNameMetric } == 1)
             assert(metrics.count { it is GradleRequestedTasksMetric } == 1)
             assert(metrics.count { it is GradleVersionMetric } == 1)
+        }
+        
+        `when`("environment metrics are configured") {
+            val metricsConfiguration = MetricsConfiguration()
+            val metrics = metricsConfiguration.performance().build()
+            
             assert(metrics.count { it is HostnameMetric } == 1)
             assert(metrics.count { it is OsManufacturerMetric } == 1)
+            assert(metrics.count { it is PublicIpMetric } == 1)
+            assert(metrics.count { it is DefaultCharsetMetric } == 1)
         }
 
         `when`("performance metrics are configured") {
