@@ -37,7 +37,7 @@ https://en.wikipedia.org/wiki/Talaiot
 
 ## Setup Plugin <a name="setup-plugin"></a>
 
-###Kotlin
+### Kotlin
 Using the plugins DSL
 ```
 plugins {
@@ -61,7 +61,7 @@ buildscript {
 apply(plugin = "com.cdsap.talaiot")
 ```
 
-###Groovy
+### Groovy
 Using the plugins DSL:
 ```
 plugins {
