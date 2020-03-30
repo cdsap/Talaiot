@@ -71,12 +71,6 @@ data class ExecutionReport(
             switches.rerunTasks?.let { map["switch.rerunTasks"] = it }
         }
 
-        environment.osVersion?.let { map["osVersion"] = it }
-        environment.javaVmName?.let { map["javaVmName"] = it }
-        environment.cpuCount?.let { map["cpuCount"] = it }
-        environment.username?.let { map["username"] = it }
-        environment.gradleVersion?.let { map["gradleVersion"] = it }
-
         buildId?.let { map["buildId"] = it }
         rootProject?.let { map["rootProject"] = it }
         requestedTasks?.let { map["requestedTasks"] = it }
