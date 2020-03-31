@@ -1,16 +1,12 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.entities.*
-
-
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
-import java.util.concurrent.Executors
 
 
 class InfluxDbPublisherTest : BehaviorSpec() {
@@ -123,7 +119,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                     val combinedTaskValues =
                         taskResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
-                    assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :clean, value1, value2\]""".toRegex()))
+                     assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :assemble, value1, value2\]""".toRegex()))
 
                 }
             }
@@ -142,15 +138,15 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 then("database contains custom metrics linked to the build execution") {
 
                     val buildResult =
-                        influxDB.query(Query("select * from $databaseBuildMetrics.rpTalaiot.build"))
+                        influxDB.query(Query("select configuration, metric3, metric4, success from $databaseBuildMetrics.rpTalaiot.build"))
 
                     val combinedBuildColumns =
                         buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
-                    assert(combinedBuildColumns == "time, configuration, duration, metric3, metric4, success")
+                    assert(combinedBuildColumns == "time, configuration, metric3, metric4, success")
 
                     val combinedBuildValues =
                         buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
-                    assert(combinedBuildValues.matches("""\[.+, 0\.0, 10\.0, value3, value4, true\]""".toRegex()))
+                    assert(combinedBuildValues.matches("""\[.+, 0\.0, value3, value4, true\]""".toRegex()))
 
                 }
             }

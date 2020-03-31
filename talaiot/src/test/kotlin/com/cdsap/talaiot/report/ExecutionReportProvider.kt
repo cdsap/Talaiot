@@ -15,6 +15,8 @@ object ExecutionReportProvider {
     fun executionReport(): ExecutionReport {
         return ExecutionReport(
             requestedTasks = "assemble",
+            durationMs = "10",
+            success = true,
             environment = Environment(
                 cpuCount = "12", maxWorkers = "4"
             ),

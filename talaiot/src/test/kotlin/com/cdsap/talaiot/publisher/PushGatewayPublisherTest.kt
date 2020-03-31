@@ -11,7 +11,6 @@ import com.cdsap.talaiot.request.SimpleRequest
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import io.kotlintest.Spec
-import io.kotlintest.matchers.string.shouldNotContain
 import io.kotlintest.specs.BehaviorSpec
 import java.net.URL
 
@@ -74,7 +73,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                             ?: false
                     )
                     assert(
-                        content?.contains("build{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build\",maxWorkers=\"4\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\",success=\"false\"} 100")
+                        content?.contains("build{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build\",maxWorkers=\"4\",metric3=\"value3\",metric4=\"value4\",requestedTasks=\"assemble\",success=\"false\"} 100")
                             ?: false
                     )
                 }
