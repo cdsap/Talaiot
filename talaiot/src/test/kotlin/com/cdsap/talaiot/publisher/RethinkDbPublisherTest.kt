@@ -5,6 +5,7 @@ import com.cdsap.talaiot.entities.*
 
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
+import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.request.SimpleRequest
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
@@ -43,7 +44,6 @@ class RethinkDbPublisherTest : BehaviorSpec() {
     init {
         given("RethinkDb Publisher instance") {
             val logger = TestLogTrackerRecorder
-
 
             `when`("Publisher is sent ") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
@@ -170,8 +170,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = getMetrics(),
-                buildProperties = getMetrics()
+                taskProperties = ExecutionReportProvider.getMetricsTasks(),
+                buildProperties = ExecutionReportProvider.getMetricsBuild()
             ),
             tasks = listOf(
                 TaskLength(
@@ -183,13 +183,6 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                     "app", emptyList()
                 )
             )
-        )
-    }
-
-    private fun getMetrics(): MutableMap<String, String> {
-        return mutableMapOf(
-            "metric1" to "value1",
-            "metric2" to "value2"
         )
     }
 

@@ -3,6 +3,8 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
+import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import org.apache.http.HttpHost
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.RequestOptions
@@ -78,40 +80,9 @@ class ElasticSearchPublisher(
     }
 
     private fun sendBuildMetrics(report: ExecutionReport, client: RestHighLevelClient) {
-        val source = mutableMapOf<String, Any>()
-        source.putAll(report.customProperties.buildProperties)
-        source.putAll(report.flattenBuildEnv().toMutableMap())
-        source.apply {
-            report.environment.osVersion?.let { "osVersion" to it }
-            report.environment.maxWorkers?.let { "maxWorkers" to it.toLong() }
-            report.environment.javaRuntime?.let { "javaRuntime" to it }
-            report.environment.javaVmName?.let { "javaVmName" to it }
-            report.environment.javaXmsBytes?.let { "javaXmsBytes" to it.toLong() }
-            report.environment.javaXmxBytes?.let { "javaXmxBytes" to it.toLong() }
-            report.environment.javaMaxPermSize?.let { "javaMaxPermSize" to it.toLong() }
-            report.environment.totalRamAvailableBytes?.let { "totalRamAvailableBytes" to it.toLong() }
-
-            report.environment.cpuCount?.let { "cpuCount" to it.toLong() }
-            report.environment.locale?.let { "locale" to it }
-            report.environment.username?.let { "username" to it }
-            report.environment.publicIp?.let { "publicIp" to it }
-            report.environment.defaultChartset?.let { "defaultCharset" to it }
-            report.environment.ideVersion?.let { "ideVersion" to it }
-            report.environment.gradleVersion?.let { "gradleVersion" to it }
-            report.environment.gitBranch?.let { "gitBranch" to it }
-            report.environment.gitUser?.let { "gitUser" to it }
-            report.environment.hostname?.let { "hostname" to it }
-            report.environment.osManufacturer?.let { "osManufacturer" to it }
-            report.environment.publicIp?.let { "publicIp" to it }
-            report.cacheRatio?.let { "cacheRatio" to it.toDouble() }
-            report.beginMs?.let { "start" to it.toDouble() }
-            report.rootProject?.let { "rootProject" to it }
-            report.requestedTasks?.let { "requestedTasks" to it }
-            report.scanLink?.let { "scanLink" to it }
-        }
-
+        val metrics = DefaultBuildMetricsProvider(report).get()
         val response = client.index(
-            IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(source),
+            IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(metrics),
             RequestOptions.DEFAULT
 
         )
@@ -127,21 +98,9 @@ class ElasticSearchPublisher(
             try {
                 val response = client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
-                        .source(
-                            mapOf(
-                                "state" to it.state.name,
-                                "module" to it.module,
-                                "rootNode" to it.rootNode,
-                                "task" to it.taskPath,
-                                "workerId" to it.workerId,
-                                "critical" to it.critical,
-                                "value" to it.ms
-                            ) + report.customProperties.taskProperties
-                        )
-                    ,
-                    RequestOptions.DEFAULT
+                        .source(DefaultTaskDataProvider(it, report).get()), RequestOptions.DEFAULT
                 )
-                logTracker.log(TAG, "Result Task metrics ${response.toString()}")
+                logTracker.log(TAG, "Result Task metrics ${response}")
             } catch (e: java.lang.Exception) {
                 logTracker.error(e.message.toString())
             }

@@ -5,6 +5,7 @@ import com.cdsap.talaiot.entities.*
 
 
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.kotlintest.Spec
@@ -180,7 +181,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             environment = Environment(
                 cpuCount = "12", maxWorkers = "4"
             ),
-            customProperties = CustomProperties(taskProperties = getMetrics()),
+            customProperties = CustomProperties(taskProperties = ExecutionReportProvider.getMetricsTasks()),
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
@@ -189,12 +190,4 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             )
         )
     }
-
-}
-
-private fun getMetrics(): MutableMap<String, String> {
-    return mutableMapOf(
-        "metric1" to "value1",
-        "metric2" to "value2"
-    )
 }
