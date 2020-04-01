@@ -48,39 +48,6 @@ data class ExecutionReport(
             it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
         }?.toString()
 
-    fun flattenBuildEnv(): Map<String, String> {
-        val map = mutableMapOf<String, String>()
-
-        with(environment) {
-            cacheMode?.let { map["cacheMode"] = it }
-            cachePushEnabled?.let { map["cachePushEnabled"] = it }
-            cacheUrl?.let { map["cacheUrl"] = it }
-            cacheHit?.let { map["cacheHit"] = it }
-            cacheMiss?.let { map["cacheMiss"] = it }
-            cacheStore?.let { map["cacheStore"] = it }
-
-            switches.buildCache?.let { map["switch.cache"] = it }
-            switches.buildScan?.let { map["switch.scan"] = it }
-            switches.configurationOnDemand?.let { map["switch.configurationOnDemand"] = it }
-            switches.continueOnFailure?.let { map["switch.continueOnFailure"] = it }
-            switches.daemon?.let { map["switch.daemon"] = it }
-            switches.dryRun?.let { map["switch.dryRun"] = it }
-            switches.offline?.let { map["switch.offline"] = it }
-            switches.parallel?.let { map["switch.parallel"] = it }
-            switches.refreshDependencies?.let { map["switch.refreshDependencies"] = it }
-            switches.rerunTasks?.let { map["switch.rerunTasks"] = it }
-        }
-
-        buildId?.let { map["buildId"] = it }
-        rootProject?.let { map["rootProject"] = it }
-        requestedTasks?.let { map["requestedTasks"] = it }
-
-        //These come last to have an ability to override calculation
-        map.putAll(customProperties.buildProperties)
-
-        return map.filter { (_, v) -> v != "undefined" }
-    }
-
     /**
      * Fills in the [TaskLength.critical] to later check which task was on the critical (longest in terms of time) path
      *

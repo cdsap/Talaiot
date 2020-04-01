@@ -11,7 +11,7 @@ import com.cdsap.talaiot.publisher.formatTagPublisher
 class PushGatewayFormatter {
 
     fun getBuildMetricsContent(report: ExecutionReport, buildJobName: String): String {
-        val fields = report.flattenBuildEnv() + DefaultBuildMetricsProvider(report).get()
+        val fields = DefaultBuildMetricsProvider(report).get()
         val buildTags =
             fields
                 .map { (k, v) ->
@@ -23,17 +23,9 @@ class PushGatewayFormatter {
 
     fun getTaskMetricsContent(report: ExecutionReport): String {
         var contentTaskMetrics = ""
-        val taskProperties = report.customProperties.taskProperties.map { (k, v) ->
-            "${k.formatTagPublisher().replace(
-                ".",
-                "_"
-            )}=\"${v.formatTagPublisher()}\""
-        }.joinToString(separator = ",")
-
-        val properties = if (taskProperties.isNotBlank()) ",$taskProperties" else ""
 
         report.tasks?.forEach {
-            val values = DefaultTaskDataProvider(it)
+            val values = DefaultTaskDataProvider(it, report)
                 .get()
                 .map { (k, v) ->
                     "${k.formatTagPublisher().replace(".", "_")}=\"${v.toString().formatTagPublisher()}\""
@@ -41,7 +33,7 @@ class PushGatewayFormatter {
                 .joinToString(separator = ",")
 
             val taskFormatted = it.taskPath.formatTagPublisher().replace("-", "_")
-            contentTaskMetrics += "$taskFormatted{$values $properties} ${it.ms}\n"
+            contentTaskMetrics += "$taskFormatted{$values} ${it.ms}\n"
         }
 
         return contentTaskMetrics

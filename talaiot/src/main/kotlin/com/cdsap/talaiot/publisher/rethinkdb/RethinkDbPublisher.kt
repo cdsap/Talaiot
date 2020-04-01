@@ -144,9 +144,8 @@ class RethinkDbPublisher(
 
     private fun createTaskEntries(report: ExecutionReport): Map<String, Any> {
         val list = mutableMapOf<String, Any>()
-        list.putAll(report.customProperties.taskProperties)
         report.tasks?.forEach { task ->
-            list.putAll(DefaultTaskDataProvider(task).get())
+            list.putAll(DefaultTaskDataProvider(task, report).get())
         }
         return list
     }

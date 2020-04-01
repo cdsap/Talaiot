@@ -113,8 +113,7 @@ class InfluxDbPublisher(
         return report.tasks?.map { task ->
             Point.measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag(report.customProperties.taskProperties)
-                .tag(DefaultTaskDataProvider(task).get().filter { it.key != "value" } as Map<String, String>)
+                .tag(DefaultTaskDataProvider(task, report).get().filter { it.key != "value" } as Map<String, String>)
                 .addField("value", task.ms)
                 .build()
         }
@@ -124,7 +123,6 @@ class InfluxDbPublisher(
         val metricsProvider = DefaultBuildMetricsProvider(report)
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
             .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-            .tag(report.flattenBuildEnv())
             .fields(metricsProvider.get())
             .build()
     }

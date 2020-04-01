@@ -67,6 +67,8 @@ class HybridPublisherTest : BehaviorSpec() {
                 then("InfluxDbPublisher only reports builds") {
                     hybridPublisher.publish(
                         ExecutionReport(
+                            durationMs = "10",
+                            configurationDurationMs = "1",
                             customProperties = CustomProperties(
                                 taskProperties = ExecutionReportProvider.getMetricsTasks()
                             ),
@@ -90,7 +92,7 @@ class HybridPublisherTest : BehaviorSpec() {
 
                     val combinedBuildValues =
                         buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
-                    assert(combinedBuildValues.matches("""\[.+, 0\.0, 0\.0, false\]""".toRegex()))
+                    assert(combinedBuildValues.matches("""\[.+, 10\.0, 1\.0, false\]""".toRegex()))
 
                     val taskResult = influxDB.query(Query("select value from $database.rpTalaiot.task"))
 

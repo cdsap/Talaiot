@@ -2,6 +2,7 @@ package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
+import com.cdsap.talaiot.report.ExecutionReportProvider
 import io.kotlintest.specs.BehaviorSpec
 
 class DefaultTaskMetricsProviderTest : BehaviorSpec({
@@ -19,6 +20,7 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     rootNode = false,
                     taskDependencies = emptyList()
                 )
+                , ExecutionReportProvider.executionReport()
             ).get()
 
             then("all the values are are mapped") {
@@ -42,6 +44,12 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                 }.count() == 1)
                 assert(metrics.filter {
                     it.key == "rootNode" && it.value == "false"
+                }.count() == 1)
+                assert(metrics.filter {
+                    it.key == "metric1" && it.value == "value1"
+                }.count() == 1)
+                assert(metrics.filter {
+                    it.key == "metric2" && it.value == "value2"
                 }.count() == 1)
             }
         }

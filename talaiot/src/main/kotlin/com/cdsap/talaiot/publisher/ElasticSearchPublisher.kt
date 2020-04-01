@@ -98,7 +98,7 @@ class ElasticSearchPublisher(
             try {
                 val response = client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
-                        .source(DefaultTaskDataProvider(it).get() +report.customProperties.taskProperties ), RequestOptions.DEFAULT
+                        .source(DefaultTaskDataProvider(it, report).get()), RequestOptions.DEFAULT
                 )
                 logTracker.log(TAG, "Result Task metrics ${response}")
             } catch (e: java.lang.Exception) {
