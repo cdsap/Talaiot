@@ -63,10 +63,10 @@ class MetricsConfiguration {
      */
     var generateBuildId = false
 
-    var metrics: MutableList<Metric<*, *>> = mutableListOf()
+    private var metrics: MutableList<Metric<*, *>> = mutableListOf()
 
-    var customBuildMetrics: MutableMap<String, String> = mutableMapOf()
-    var customTaskMetrics: MutableMap<String, String> = mutableMapOf()
+    private var customBuildMetrics: MutableMap<String, String> = mutableMapOf()
+    private var customTaskMetrics: MutableMap<String, String> = mutableMapOf()
 
     fun default() = metrics.run {
         add(RootProjectNameMetric())
