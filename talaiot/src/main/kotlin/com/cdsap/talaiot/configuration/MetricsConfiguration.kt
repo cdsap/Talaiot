@@ -119,6 +119,12 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
+    fun customMetrics(vararg customMetrics: Metric<*, *>) {
+        customMetrics.forEach {
+            metrics.add(it)
+        }
+    }
+
     fun customBuildMetrics(vararg pair: Pair<String, String>) {
         pair.forEach {
             customBuildMetrics[it.first] = it.second
