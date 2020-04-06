@@ -65,9 +65,6 @@ class MetricsConfiguration {
 
     private var metrics: MutableList<Metric<*, *>> = mutableListOf()
 
-    private var customBuildMetrics: MutableMap<String, String> = mutableMapOf()
-    private var customTaskMetrics: MutableMap<String, String> = mutableMapOf()
-
     fun default() = metrics.run {
         add(RootProjectNameMetric())
         add(GradleRequestedTasksMetric())
@@ -130,31 +127,31 @@ class MetricsConfiguration {
         }
     }
 
-    fun customBuildMetrics(vararg pair: Pair<String, String>) {
-        pair.forEach {
-            customBuildMetrics[it.first] = it.second
+    fun customBuildMetrics(vararg buildMetrics: Pair<String, String>) {
+        buildMetrics.mapTo(metrics) {
+            createSimpleBuildMetric(it)
         }
     }
-    fun customBuildMetrics(pair: Pair<String, String>) {
-        customBuildMetrics[pair.first] = pair.second
+    fun customBuildMetrics(buildMetric: Pair<String, String>) {
+        metrics.add(createSimpleBuildMetric(buildMetric))
     }
-    fun customBuildMetrics(metrics: Map<String, String>) {
-        metrics.forEach {
-            customBuildMetrics[it.key] = it.value
+    fun customBuildMetrics(buildMetrics: Map<String, String>) {
+        buildMetrics.mapTo(metrics) {
+            createSimpleBuildMetric(it.toPair())
         }
     }
 
-    fun customTaskMetrics(vararg pair: Pair<String, String>) {
-        pair.forEach {
-            customTaskMetrics[it.first] = it.second
+    fun customTaskMetrics(vararg taskMetrics: Pair<String, String>) {
+        taskMetrics.mapTo(metrics) {
+            createSimpleTaskMetric(it)
         }
     }
-    fun customTaskMetrics(pair: Pair<String, String>) {
-        customTaskMetrics[pair.first] = pair.second
+    fun customTaskMetrics(taskMetric: Pair<String, String>) {
+        metrics.add(createSimpleTaskMetric(taskMetric))
     }
-    fun customTaskMetrics(metrics: Map<String, String>) {
-        metrics.forEach {
-            customTaskMetrics[it.key] = it.value
+    fun customTaskMetrics(taskMetrics: Map<String, String>) {
+        taskMetrics.mapTo(metrics) {
+            createSimpleTaskMetric(it.toPair())
         }
     }
 
@@ -172,31 +169,20 @@ class MetricsConfiguration {
             metrics.add(BuildIdMetric())
         }
 
-        addCustomBuildMetrics()
-        addCustomTaskMetrics()
-
         return metrics
     }
 
-    private fun addCustomBuildMetrics() {
-        customBuildMetrics.forEach { metric ->
-            metrics.add(
-                SimpleMetric(
-                    provider = { metric.value },
-                    assigner = { report, value -> report.customProperties.buildProperties[metric.key] = value }
-                )
-            )
-        }
+    private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {
+        return SimpleMetric(
+            provider = { pair.second },
+            assigner = { report, value -> report.customProperties.buildProperties[pair.second] = value }
+        )
     }
 
-    private fun addCustomTaskMetrics() {
-        customTaskMetrics.forEach { metric ->
-            metrics.add(
-                SimpleMetric(
-                    provider = { metric.value },
-                    assigner = { report, value -> report.customProperties.taskProperties[metric.key] = value }
-                )
-            )
-        }
+    private fun createSimpleTaskMetric(pair: Pair<String, String>): SimpleMetric<String> {
+        return SimpleMetric(
+            provider = { pair.second },
+            assigner = { report, value -> report.customProperties.taskProperties[pair.second] = value }
+        )
     }
 }
