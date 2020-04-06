@@ -119,6 +119,11 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
+    /**
+     * Adds the given custom metrics into the metrics list.
+     *
+     * @param customMetrics takes N [Metric]s to be added to the metrics list.
+     */
     fun customMetrics(vararg customMetrics: Metric<*, *>) {
         customMetrics.forEach {
             metrics.add(it)
