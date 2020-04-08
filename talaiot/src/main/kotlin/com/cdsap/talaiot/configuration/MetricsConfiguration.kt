@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.configuration
 
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.*
 import com.cdsap.talaiot.metrics.base.Metric
 
@@ -127,28 +128,68 @@ class MetricsConfiguration {
         }
     }
 
+    /**
+     * Adds the given custom build metrics into the metrics list.
+     *
+     * @param buildMetrics takes N [Pair]s to be added to the build metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
     fun customBuildMetrics(vararg buildMetrics: Pair<String, String>) {
         buildMetrics.mapTo(metrics) {
             createSimpleBuildMetric(it)
         }
     }
+
+    /**
+     * Adds the given custom build metric into the metrics list.
+     *
+     * @param buildMetric takes a [Pair] to be added to the build metrics list.
+     * You can find this metric in the [ExecutionReport.customProperties].
+     */
     fun customBuildMetrics(buildMetric: Pair<String, String>) {
         metrics.add(createSimpleBuildMetric(buildMetric))
     }
+
+    /**
+     * Adds the given custom build metrics into the metrics list.
+     *
+     * @param buildMetrics takes a [Map]s with metrics to be added to the build metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
     fun customBuildMetrics(buildMetrics: Map<String, String>) {
         buildMetrics.mapTo(metrics) {
             createSimpleBuildMetric(it.toPair())
         }
     }
 
+    /**
+     * Adds the given custom task metrics into the metrics list.
+     *
+     * @param taskMetrics takes N [Pair]s to be added to the task metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
     fun customTaskMetrics(vararg taskMetrics: Pair<String, String>) {
         taskMetrics.mapTo(metrics) {
             createSimpleTaskMetric(it)
         }
     }
+
+    /**
+     * Adds the given custom task metric into the metrics list.
+     *
+     * @param taskMetric takes a [Pair] to be added to the task metrics list.
+     * You can find this metric in the [ExecutionReport.customProperties].
+     */
     fun customTaskMetrics(taskMetric: Pair<String, String>) {
         metrics.add(createSimpleTaskMetric(taskMetric))
     }
+
+    /**
+     * Adds the given custom task metrics into the metrics list.
+     *
+     * @param taskMetrics takes a [Map]s with metrics to be added to the task metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
     fun customTaskMetrics(taskMetrics: Map<String, String>) {
         taskMetrics.mapTo(metrics) {
             createSimpleTaskMetric(it.toPair())
