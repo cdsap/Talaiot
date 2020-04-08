@@ -50,12 +50,24 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchRerunTasksMetric]
  *  [GradleSwitchDaemonMetric]
  *
- *  If you want to define a custom metrics:
+ *  If you want to define custom metrics:
  *
+ *  ```
  *  metrics {
- *    customBuildMetrics["key"] = "value"
- *    customTaskMetrics["key"] = "value"
+ *    // Custom build metrics
+ *    customBuildMetrics(
+ *      "metricKey" to "metricValue"
+ *    )
+ *    // Custom task metrics
+ *    customTaskMetrics(
+ *      "metricKey" to "metricValue"
+ *    )
+ *    // Custom metric implementation
+ *    customMetrics(
+ *      MyCustomMetric()
+ *    )
  *  }
+ *  ```
  */
 class MetricsConfiguration {
     /**
