@@ -484,6 +484,8 @@ is great and you have the support from Gradle :)
 
 ## Articles  <a name="articles"></a>
  
+[Metrics Configuration](https://medium.com/@mydogtom/explore-talaiot-plugin-configure-metrics-5ef3ae9a8c5d) by [Svyatoslav Chatchenko](https://github.com/MyDogTom)
+
 [Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
  
 [Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
