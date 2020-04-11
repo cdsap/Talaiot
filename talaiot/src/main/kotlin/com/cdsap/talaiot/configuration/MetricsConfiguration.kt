@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.configuration
 
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.*
 import com.cdsap.talaiot.metrics.base.Metric
 
@@ -49,12 +50,24 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchRerunTasksMetric]
  *  [GradleSwitchDaemonMetric]
  *
- *  If you want to define a custom metrics:
+ *  If you want to define custom metrics:
  *
+ *  ```
  *  metrics {
- *    customBuildMetrics["key"] = "value"
- *    customTaskMetrics["key"] = "value"
+ *    // Custom build metrics
+ *    customBuildMetrics(
+ *      "metricKey" to "metricValue"
+ *    )
+ *    // Custom task metrics
+ *    customTaskMetrics(
+ *      "metricKey" to "metricValue"
+ *    )
+ *    // Custom metric implementation
+ *    customMetrics(
+ *      MyCustomMetric()
+ *    )
  *  }
+ *  ```
  */
 class MetricsConfiguration {
     /**
@@ -63,10 +76,7 @@ class MetricsConfiguration {
      */
     var generateBuildId = false
 
-    var metrics: MutableList<Metric<*, *>> = mutableListOf()
-
-    var customBuildMetrics: MutableMap<String, String> = mutableMapOf()
-    var customTaskMetrics: MutableMap<String, String> = mutableMapOf()
+    private var metrics: MutableList<Metric<*, *>> = mutableListOf()
 
     fun default() = metrics.run {
         add(RootProjectNameMetric())
@@ -119,31 +129,82 @@ class MetricsConfiguration {
         this@MetricsConfiguration
     }
 
-    fun customBuildMetrics(vararg pair: Pair<String, String>) {
-        pair.forEach {
-            customBuildMetrics[it.first] = it.second
-        }
-    }
-    fun customBuildMetrics(pair: Pair<String, String>) {
-        customBuildMetrics[pair.first] = pair.second
-    }
-    fun customBuildMetrics(metrics: Map<String, String>) {
-        metrics.forEach {
-            customBuildMetrics[it.key] = it.value
+    /**
+     * Adds the given custom metrics into the metrics list.
+     *
+     * @param customMetrics takes N [Metric]s to be added to the metrics list.
+     */
+    fun customMetrics(vararg customMetrics: Metric<*, *>) {
+        customMetrics.forEach {
+            metrics.add(it)
         }
     }
 
-    fun customTaskMetrics(vararg pair: Pair<String, String>) {
-        pair.forEach {
-            customTaskMetrics[it.first] = it.second
+    /**
+     * Adds the given custom build metrics into the metrics list.
+     *
+     * @param buildMetrics takes N [Pair]s to be added to the build metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
+    fun customBuildMetrics(vararg buildMetrics: Pair<String, String>) {
+        buildMetrics.mapTo(metrics) {
+            createSimpleBuildMetric(it)
         }
     }
-    fun customTaskMetrics(pair: Pair<String, String>) {
-        customTaskMetrics[pair.first] = pair.second
+
+    /**
+     * Adds the given custom build metric into the metrics list.
+     *
+     * @param buildMetric takes a [Pair] to be added to the build metrics list.
+     * You can find this metric in the [ExecutionReport.customProperties].
+     */
+    fun customBuildMetrics(buildMetric: Pair<String, String>) {
+        metrics.add(createSimpleBuildMetric(buildMetric))
     }
-    fun customTaskMetrics(metrics: Map<String, String>) {
-        metrics.forEach {
-            customTaskMetrics[it.key] = it.value
+
+    /**
+     * Adds the given custom build metrics into the metrics list.
+     *
+     * @param buildMetrics takes a [Map]s with metrics to be added to the build metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
+    fun customBuildMetrics(buildMetrics: Map<String, String>) {
+        buildMetrics.mapTo(metrics) {
+            createSimpleBuildMetric(it.toPair())
+        }
+    }
+
+    /**
+     * Adds the given custom task metrics into the metrics list.
+     *
+     * @param taskMetrics takes N [Pair]s to be added to the task metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
+    fun customTaskMetrics(vararg taskMetrics: Pair<String, String>) {
+        taskMetrics.mapTo(metrics) {
+            createSimpleTaskMetric(it)
+        }
+    }
+
+    /**
+     * Adds the given custom task metric into the metrics list.
+     *
+     * @param taskMetric takes a [Pair] to be added to the task metrics list.
+     * You can find this metric in the [ExecutionReport.customProperties].
+     */
+    fun customTaskMetrics(taskMetric: Pair<String, String>) {
+        metrics.add(createSimpleTaskMetric(taskMetric))
+    }
+
+    /**
+     * Adds the given custom task metrics into the metrics list.
+     *
+     * @param taskMetrics takes a [Map]s with metrics to be added to the task metrics list.
+     * You can find these metrics in the [ExecutionReport.customProperties].
+     */
+    fun customTaskMetrics(taskMetrics: Map<String, String>) {
+        taskMetrics.mapTo(metrics) {
+            createSimpleTaskMetric(it.toPair())
         }
     }
 
@@ -161,31 +222,20 @@ class MetricsConfiguration {
             metrics.add(BuildIdMetric())
         }
 
-        addCustomBuildMetrics()
-        addCustomTaskMetrics()
-
         return metrics
     }
 
-    private fun addCustomBuildMetrics() {
-        customBuildMetrics.forEach { metric ->
-            metrics.add(
-                SimpleMetric(
-                    provider = { metric.value },
-                    assigner = { report, value -> report.customProperties.buildProperties[metric.key] = value }
-                )
-            )
-        }
+    private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {
+        return SimpleMetric(
+            provider = { pair.second },
+            assigner = { report, value -> report.customProperties.buildProperties[pair.second] = value }
+        )
     }
 
-    private fun addCustomTaskMetrics() {
-        customTaskMetrics.forEach { metric ->
-            metrics.add(
-                SimpleMetric(
-                    provider = { metric.value },
-                    assigner = { report, value -> report.customProperties.taskProperties[metric.key] = value }
-                )
-            )
-        }
+    private fun createSimpleTaskMetric(pair: Pair<String, String>): SimpleMetric<String> {
+        return SimpleMetric(
+            provider = { pair.second },
+            assigner = { report, value -> report.customProperties.taskProperties[pair.second] = value }
+        )
     }
 }
