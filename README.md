@@ -508,6 +508,8 @@ Talaiot is Open Source and accepts contributions of new Publishers, Metrics and 
 
 * [Svyatoslav Chatchenko](https://github.com/MyDogTom)
 
+* [Mozart Petter](https://github.com/mokkun)
+
 * [Sergey Rybalkin](https://github.com/rybalkinsd)
 
 * [Satyarth Sampath](https://github.com/satyarths)
