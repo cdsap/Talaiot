@@ -7,16 +7,20 @@ import com.cdsap.talaiot.metrics.base.Metric
 /**
  * Configuration for the Metrics extensions
  *
+ * ```
  * metrics{
- *   default()
- *   git()
- *   performance()
- *   gradleSwitches()
+ *   defaultMetrics()
+ *   gitMetrics()
+ *   performanceMetrics()
+ *   gradleSwitchesMetrics()
  * }
+ * ```
  *
- * By default [default] is called unless user has specified anything at all in this configuration.
+ * By default Talaiot executes
+ *  [defaultMetrics], [performanceMetrics], [gradleSwitchesMetrics], [gitMetrics] and [environmentMetrics] metrics,
+ *  unless user manually specified which metrics should be executed.
  *
- * Default includes:
+ * [defaultMetrics] includes:
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
@@ -24,11 +28,11 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [GradleBuildCachePushEnabled]
  *  [GradleScanLinkMetric]
  *
- * Git includes:
+ * [gitMetrics] includes:
  *  [GitUserMetric]
  *  [GitBranchMetric]
  *
- * Performance includes:
+ * [performanceMetrics] includes:
  *  [UserMetric]
  *  [OsMetric]
  *  [ProcessorCountMetric]
@@ -40,7 +44,7 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [JvmXmxMetric]
  *  [JvmMaxPermSizeMetric]
  *
- * Gradle switches includes:
+ * [gradleSwitchesMetrics] includes:
  *  [GradleSwitchCachingMetric]
  *  [GradleSwitchBuildScanMetric]
  *  [GradleSwitchParallelMetric]
@@ -49,6 +53,12 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchRefreshDependenciesMetric]
  *  [GradleSwitchRerunTasksMetric]
  *  [GradleSwitchDaemonMetric]
+ *
+ * [environmentMetrics] includes:
+ *  [OsManufacturerMetric]
+ *  [HostnameMetric]
+ *  [PublicIpMetric]
+ *  [DefaultCharsetMetric]
  *
  *  If you want to define custom metrics:
  *
@@ -76,57 +86,64 @@ class MetricsConfiguration {
      */
     var generateBuildId = false
 
-    private var metrics: MutableList<Metric<*, *>> = mutableListOf()
+    private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
 
-    fun default() = metrics.run {
-        add(RootProjectNameMetric())
-        add(GradleRequestedTasksMetric())
-        add(GradleVersionMetric())
-        add(GradleBuildCacheModeMetric())
-        add(GradleBuildCachePushEnabled())
-        add(GradleScanLinkMetric())
-
-        this@MetricsConfiguration
+    fun defaultMetrics() {
+        with(metrics){
+            add(RootProjectNameMetric())
+            add(GradleRequestedTasksMetric())
+            add(GradleVersionMetric())
+            add(GradleBuildCacheModeMetric())
+            add(GradleBuildCachePushEnabled())
+            add(GradleScanLinkMetric())
+        }
     }
 
-    fun git() = metrics.run {
-        add(GitUserMetric())
-        add(GitBranchMetric())
-        this@MetricsConfiguration
+    fun gitMetrics() {
+        with(metrics) {
+            add(GitUserMetric())
+            add(GitBranchMetric())
+        }
     }
 
-    fun environment() = metrics.run {
-        add(OsManufacturerMetric())
-        add(HostnameMetric())
-        add(PublicIpMetric())
-        add(DefaultCharsetMetric())
-        this@MetricsConfiguration
+    fun environmentMetrics() {
+        with(metrics) {
+            add(OsManufacturerMetric())
+            add(HostnameMetric())
+            add(PublicIpMetric())
+            add(DefaultCharsetMetric())
+
+        }
     }
 
-    fun performance() = metrics.run {
-        add(UserMetric())
-        add(OsMetric())
-        add(ProcessorCountMetric())
-        add(RamAvailableMetric())
-        add(JavaVmNameMetric())
-        add(LocaleMetric())
-        add(GradleMaxWorkersMetric())
-        add(JvmXmsMetric())
-        add(JvmXmxMetric())
-        add(JvmMaxPermSizeMetric())
-        this@MetricsConfiguration
+    fun performanceMetrics() {
+        with(metrics) {
+            add(UserMetric())
+            add(OsMetric())
+            add(ProcessorCountMetric())
+            add(RamAvailableMetric())
+            add(JavaVmNameMetric())
+            add(LocaleMetric())
+            add(GradleMaxWorkersMetric())
+            add(JvmXmsMetric())
+            add(JvmXmxMetric())
+            add(JvmMaxPermSizeMetric())
+
+        }
     }
 
-    fun gradleSwitches() = metrics.run {
-        add(GradleSwitchCachingMetric())
-        add(GradleSwitchBuildScanMetric())
-        add(GradleSwitchParallelMetric())
-        add(GradleSwitchConfigureOnDemandMetric())
-        add(GradleSwitchDryRunMetric())
-        add(GradleSwitchRefreshDependenciesMetric())
-        add(GradleSwitchRerunTasksMetric())
-        add(GradleSwitchDaemonMetric())
-        this@MetricsConfiguration
+    fun gradleSwitchesMetrics() {
+        with(metrics) {
+            add(GradleSwitchCachingMetric())
+            add(GradleSwitchBuildScanMetric())
+            add(GradleSwitchParallelMetric())
+            add(GradleSwitchConfigureOnDemandMetric())
+            add(GradleSwitchDryRunMetric())
+            add(GradleSwitchRefreshDependenciesMetric())
+            add(GradleSwitchRerunTasksMetric())
+            add(GradleSwitchDaemonMetric())
+
+        }
     }
 
     /**
@@ -208,21 +225,21 @@ class MetricsConfiguration {
         }
     }
 
-    internal fun build(): MutableList<Metric<*, *>> {
+    internal fun build(): List<Metric<*, *>> {
         // If there was any customization then we assume that user populated everything manually, otherwise defaults
         if (metrics.isEmpty()) {
-            default()
-            performance()
-            gradleSwitches()
-            git()
-            environment()
+            defaultMetrics()
+            performanceMetrics()
+            gradleSwitchesMetrics()
+            gitMetrics()
+            environmentMetrics()
         }
 
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
 
-        return metrics
+        return metrics.toList()
     }
 
     private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {

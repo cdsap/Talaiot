@@ -38,7 +38,7 @@ class CustomMetricsTest : BehaviorSpec({
         `when`("defaults and custom metrics are used") {
             val metricsConfiguration = MetricsConfiguration()
             val metrics = metricsConfiguration.run {
-                default()
+                defaultMetrics()
                 customMetrics(
                     KotlinVersionMetric()
                 )

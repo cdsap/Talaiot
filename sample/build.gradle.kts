@@ -39,8 +39,8 @@ talaiot {
 
     metrics {
         // Talaiot provides a few methods to add a group of metrics at once:
-        default()
-        git()
+        defaultMetrics()
+        gitMetrics()
 
         // You can also add your own custom Metric objects:
         customMetrics(
