@@ -2,6 +2,7 @@ package com.cdsap.talaiot.configuration
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.*
+import com.cdsap.talaiot.metrics.CacheHitMetric
 import com.cdsap.talaiot.metrics.base.Metric
 
 /**
@@ -59,6 +60,7 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [HostnameMetric]
  *  [PublicIpMetric]
  *  [DefaultCharsetMetric]
+ *  [CacheHitMetric]
  *
  *  If you want to define custom metrics:
  *
@@ -112,7 +114,7 @@ class MetricsConfiguration {
             add(HostnameMetric())
             add(PublicIpMetric())
             add(DefaultCharsetMetric())
-
+            add(CacheHitMetric())
         }
     }
 

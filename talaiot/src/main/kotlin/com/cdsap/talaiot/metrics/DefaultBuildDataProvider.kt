@@ -46,8 +46,10 @@ class DefaultBuildMetricsProvider(
                 cacheMode?.let { map["cacheMode"] = it }
                 cachePushEnabled?.let { map["cachePushEnabled"] = it }
                 cacheUrl?.let { map["cacheUrl"] = it }
-                cacheHit?.let { map["cacheHit"] = it }
-                cacheMiss?.let { map["cacheMiss"] = it }
+                localCacheHit?.let { map["localCacheHit"] = it.toString() }
+                localCacheMiss?.let { map["localCacheMiss"] = it.toString() }
+                remoteCacheHit?.let { map["remoteCacheHit"] = it.toString() }
+                remoteCacheMiss?.let { map["remoteCacheMiss"] = it.toString() }
                 cacheStore?.let { map["cacheStore"] = it }
                 switches.buildCache?.let { map["switch.cache"] = it }
                 switches.buildScan?.let { map["switch.scan"] = it }

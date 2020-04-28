@@ -53,9 +53,11 @@ object ExecutionReportProvider {
             cacheMode = "cacheMode",
             cachePushEnabled = "true",
             cacheUrl = "cacheUrl",
-            cacheHit = "20",
-            cacheMiss = "30",
             cacheStore = "10",
+            localCacheHit = 1,
+            localCacheMiss = 0,
+            remoteCacheHit = 0,
+            remoteCacheMiss = 0,
             gitBranch = "git_branch",
             gitUser = "git_user",
             switches = Switches(

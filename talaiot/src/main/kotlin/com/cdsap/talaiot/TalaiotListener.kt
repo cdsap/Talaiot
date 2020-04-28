@@ -2,7 +2,9 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.provider.MetricsProvider
+import com.cdsap.talaiot.provider.Provider
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import com.cdsap.talaiot.util.TaskAbbreviationMatcher
@@ -40,7 +42,8 @@ class TalaiotListener(
     /**
      * Talaiot plugin extension. Contains main configuration of the plugin
      */
-    private val extension: TalaiotExtension
+    private val extension: TalaiotExtension,
+    private val tasksInfoProvider: Provider<ExecutedTasksInfo>
 ) : BuildListener, TaskExecutionListener {
 
     private val talaiotTracker = TalaiotTracker()
@@ -57,11 +60,13 @@ class TalaiotListener(
             val executor = Executors.newSingleThreadExecutor()
             val heavyExecutor = Executors.newSingleThreadExecutor()
 
+            val executedTasksInfo = tasksInfoProvider.get()
             TalaiotPublisherImpl(
                 extension,
                 logger,
-                MetricsProvider(project, result),
-                PublishersProvider(project, logger, executor, heavyExecutor)
+                MetricsProvider(project, result, executedTasksInfo),
+                PublishersProvider(project, logger, executor, heavyExecutor),
+                executedTasksInfo
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
