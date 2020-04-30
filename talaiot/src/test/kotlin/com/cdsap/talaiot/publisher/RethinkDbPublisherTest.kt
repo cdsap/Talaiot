@@ -6,24 +6,15 @@ import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.report.ExecutionReportProvider
-import com.cdsap.talaiot.request.SimpleRequest
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import com.rethinkdb.net.Cursor
-import io.github.rybalkinsd.kohttp.dsl.httpGet
-import io.github.rybalkinsd.kohttp.ext.url
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.inspectors.forAtLeastOne
-import io.kotlintest.matchers.collections.shouldHaveSingleElement
-import io.kotlintest.matchers.maps.shouldContain
-import io.kotlintest.matchers.string.shouldNotContain
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert.assertTrue
-import org.elasticsearch.client.Request
-import org.elasticsearch.client.ResponseException
-import org.json.simple.JSONObject
 import java.net.URL
 
 class RethinkDbPublisherTest : BehaviorSpec() {

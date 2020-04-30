@@ -7,6 +7,8 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.filter.BuildFilterProcessor
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.entities.CacheInfo
+import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.provider.Provider
 
 /**
@@ -19,10 +21,11 @@ import com.cdsap.talaiot.provider.Provider
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    private val extension: TalaiotExtension,
+    extension: TalaiotExtension,
     logger: LogTracker,
     private val metricsProvider: Provider<ExecutionReport>,
-    private val publisherProvider: Provider<List<Publisher>>
+    private val publisherProvider: Provider<List<Publisher>>,
+    private val executedTasksInfo: ExecutedTasksInfo
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
     private val buildFilterProcessor: BuildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
@@ -34,9 +37,10 @@ class TalaiotPublisherImpl(
         end: Long,
         success: Boolean
     ) {
+        val tasksLengthWithCacheInfo = addCacheInfoToTaskLength(taskLengthList, executedTasksInfo)
         val report = metricsProvider.get().apply {
-            tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
-            unfilteredTasks = taskLengthList
+            tasks = tasksLengthWithCacheInfo.filter { taskFilterProcessor.taskLengthFilter(it) }
+            unfilteredTasks = tasksLengthWithCacheInfo
             this.beginMs = start.toString()
             this.endMs = end.toString()
             this.success = success
@@ -55,6 +59,23 @@ class TalaiotPublisherImpl(
             publisherProvider.get().forEach {
                 it.publish(report)
             }
+        }
+    }
+
+    private fun addCacheInfoToTaskLength(
+        taskLengthList: MutableList<TaskLength>,
+        executedTasksInfo: ExecutedTasksInfo
+    ): List<TaskLength> {
+        return taskLengthList.map { taskLength ->
+            executedTasksInfo.executedTasksInfo[taskLength.taskPath]?.let { cacheInfo ->
+                taskLength.copy(
+                    isCacheEnabled = cacheInfo.isCacheEnabled,
+                    isLocalCacheHit = cacheInfo.localCacheInfo is CacheInfo.CacheHit,
+                    isLocalCacheMiss = cacheInfo.localCacheInfo is CacheInfo.CacheMiss,
+                    isRemoteCacheHit = cacheInfo.remoteCacheInfo is CacheInfo.CacheHit,
+                    isRemoteCacheMiss = cacheInfo.remoteCacheInfo is CacheInfo.CacheMiss
+                )
+            } ?: taskLength
         }
     }
 }

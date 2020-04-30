@@ -4,6 +4,8 @@ import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.SimpleMetric
 import com.cdsap.talaiot.metrics.base.BuildResultMetric
+import com.cdsap.talaiot.entities.ExecutedTasksInfo
+import com.cdsap.talaiot.metrics.base.ExecutedTasksMetric
 import com.cdsap.talaiot.metrics.base.GradleMetric
 import org.gradle.BuildResult
 import org.gradle.api.Project
@@ -16,7 +18,11 @@ class MetricsProvider(
      * Gradle project required to access [TalaiotExtension]
      */
     private val project: Project,
-    private val buildResult: BuildResult
+    private val buildResult: BuildResult,
+    /**
+     * Information about all tasks that were executed
+     */
+    private val executedTasksInfo: ExecutedTasksInfo
 ) : Provider<ExecutionReport> {
 
     /**
@@ -38,6 +44,7 @@ class MetricsProvider(
                 is GradleMetric -> metric.get(project, report)
                 is SimpleMetric -> metric.get(Unit, report)
                 is BuildResultMetric -> metric.get(buildResult, report)
+                is ExecutedTasksMetric -> metric.get(executedTasksInfo, report)
             }
         }
 

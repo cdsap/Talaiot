@@ -2,6 +2,9 @@ package com.cdsap.talaiot
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.internal.GradleInternal
+import org.gradle.api.invocation.Gradle
+import org.gradle.internal.operations.BuildOperationListenerManager
 
 /**
  * Talaiot main [Plugin].
@@ -34,7 +37,15 @@ class TalaiotPlugin : Plugin<Project> {
      * @param project Gradle project used to to retrieve buildProperties and build information.
      */
     private fun initPlugin(extension: TalaiotExtension, project: Project) {
-        val listener = TalaiotListener(project, extension)
+        val buildOperationListener = BuildCacheOperationListener()
+        val listener = TalaiotListener(project, extension, buildOperationListener)
         project.gradle.addBuildListener(listener)
+        project.gradle.buildOperationListenerManager().addListener(buildOperationListener)
+        project.gradle.buildFinished {
+            project.gradle.removeListener(buildOperationListener)
+        }
     }
+
+    private fun Gradle.buildOperationListenerManager(): BuildOperationListenerManager =
+        (this as GradleInternal).services[BuildOperationListenerManager::class.java]
 }
