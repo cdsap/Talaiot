@@ -113,7 +113,12 @@ class InfluxDbPublisher(
         return report.tasks?.map { task ->
             Point.measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag(DefaultTaskDataProvider(task, report).get().filter { it.key != "value" } as Map<String, String>)
+                .tag(
+                    DefaultTaskDataProvider(task, report).get()
+                        .mapValues {
+                            it.value.toString()
+                        }
+                        .filter { it.key != "value" })
                 .addField("value", task.ms)
                 .build()
         }

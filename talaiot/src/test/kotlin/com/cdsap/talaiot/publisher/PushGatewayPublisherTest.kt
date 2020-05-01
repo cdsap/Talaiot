@@ -63,13 +63,12 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
-
                     assert(
-                        content?.contains(":app:assemble{critical=\"false\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
+                        content?.contains(":app:assemble{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
                             ?: false
                     )
                     assert(
-                        content?.contains(":clean{critical=\"false\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
+                        content?.contains(":clean{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
                             ?: false
                     )
                     assert(
@@ -110,11 +109,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     val content = a.body()?.string()
 
                     assert(
-                        content?.contains(":app:assemble{critical=\"false\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
+                        content?.contains(":app:assemble{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task2\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
                             ?: false
                     )
                     assert(
-                        content?.contains(":clean{critical=\"false\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\",module=\"app\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
+                        content?.contains(":clean{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task2\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
                             ?: false
                     )
 
