@@ -1,59 +1,222 @@
 package com.cdsap.talaiot.metrics
 
+import com.cdsap.talaiot.assertions.shouldContainExactlyTypesOfInAnyOrder
 import com.cdsap.talaiot.configuration.MetricsConfiguration
+import com.cdsap.talaiot.mock.AdbVersionMetric
+import com.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.specs.BehaviorSpec
 
 
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {
-        `when`("defaults are used") {
+        `when`("configuration is not changed") {
             val metricsConfiguration = MetricsConfiguration()
             val metrics = metricsConfiguration.build()
-            then("RootProject, GradleRequested and GradleVersion are included") {
-                assert(metrics.count { it is RootProjectNameMetric } == 1)
-                assert(metrics.count { it is GradleRequestedTasksMetric } == 1)
-                assert(metrics.count { it is GradleVersionMetric } == 1)
+            then("included all metrics") {
+                val expectedMetricsTypes = defaultMetricsTypes +
+                        environmentMetricsTypes +
+                        performanceMetricsTypes +
+                        gradleSwitchesMetricsTypes +
+                        gitMetricsTypes
+                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
+
+        `when`("only default metrics are configured") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = true
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+            }
+            val metrics = metricsConfiguration.build()
+            then("only default metrics are included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(defaultMetricsTypes)
+            }
+        }
+
         `when`("environment metrics are configured") {
-            val metricsConfiguration = MetricsConfiguration().apply { environmentMetrics() }
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = true
+            }
             val metrics = metricsConfiguration.build()
-            then("HostnameMetric, OsManufacturerMetric, PublicIpMetric and DefaultCharsetMetric are included") {
-                assert(metrics.count { it is HostnameMetric } == 1)
-                assert(metrics.count { it is OsManufacturerMetric } == 1)
-                assert(metrics.count { it is PublicIpMetric } == 1)
-                assert(metrics.count { it is DefaultCharsetMetric } == 1)
+            then("only environment metrics are included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(environmentMetricsTypes)
             }
         }
-        `when`("performance metrics are configured") {
-            val metricsConfiguration = MetricsConfiguration().apply { performanceMetrics() }
+        `when`("only performance metrics are configured") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = true
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+            }
             val metrics = metricsConfiguration.build()
-            then("ProcessorCountMetric is included") {
-                assert(metrics.count { it is ProcessorCountMetric } == 1)
+            then("only performance metrics are included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(performanceMetricsTypes)
             }
         }
         `when`("git metrics are configured") {
-            val metricsConfiguration = MetricsConfiguration().apply { gitMetrics() }
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = true
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+            }
             val metrics = metricsConfiguration.build()
-            then("GitBranchMetric and GitUserMetric are included") {
-                assert(metrics.count { it is GitBranchMetric } == 1 &&
-                        metrics.count { it is GitUserMetric } == 1)
+            then("only git metrics are included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(gitMetricsTypes)
             }
         }
-        `when`("build Id generation is disabled in the default behaviour") {
-            val metricsConfiguration = MetricsConfiguration().apply { performanceMetrics() }
+
+        `when`("gradle switches metrics are configured") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = true
+                environmentMetrics = false
+            }
             val metrics = metricsConfiguration.build()
-            then("BuildIdMetric is disabled") {
+            then("only gradle switches metrics is included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(gradleSwitchesMetricsTypes)
+            }
+        }
+
+        `when`("build Id generation is disabled in the default behaviour") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = true
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+            }
+            val metrics = metricsConfiguration.build()
+            then("BuildIdMetric is not included") {
                 assert(metrics.count { it is BuildIdMetric } == 0)
+                metrics.shouldContainExactlyTypesOfInAnyOrder(performanceMetricsTypes)
             }
         }
         `when`("build Id generation is enabled") {
-            val metricsConfiguration = MetricsConfiguration().apply { performanceMetrics() }
-            metricsConfiguration.generateBuildId = true
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = true
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+                generateBuildId = true
+            }
             val metrics = metricsConfiguration.build()
             then("BuildIdMetric is included") {
-                assert(metrics.count { it is BuildIdMetric } == 1)
+                val expectedMetricsTypes = performanceMetricsTypes + BuildIdMetric::class
+                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
+            }
+        }
+
+        `when`("single custom metric is used") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+
+                customMetrics(AdbVersionMetric())
+            }
+            val metrics = metricsConfiguration.build()
+            then("AdbMetric is included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(AdbVersionMetric::class))
+            }
+        }
+        `when`("two custom metrics are used") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+
+                customMetrics(
+                    AdbVersionMetric(),
+                    KotlinVersionMetric()
+                )
+            }
+            val metrics = metricsConfiguration.build()
+            then("AdbMetric and KotlinVersionMetric are included") {
+                val expectedMetricsTypes = listOf(AdbVersionMetric::class, KotlinVersionMetric::class)
+                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
+            }
+        }
+        `when`("defaults and custom metrics are used") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = true
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+
+                customMetrics(
+                    KotlinVersionMetric()
+                )
+            }
+            val metrics = metricsConfiguration.build()
+            then("default metrics and KotlinVersionMetric are included") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(defaultMetricsTypes + KotlinVersionMetric::class)
             }
         }
     }
 })
+
+private val defaultMetricsTypes = listOf(
+    RootProjectNameMetric::class,
+    GradleRequestedTasksMetric::class,
+    GradleVersionMetric::class,
+    GradleBuildCacheModeMetric::class,
+    GradleBuildCachePushEnabled::class,
+    GradleScanLinkMetric::class
+)
+private val performanceMetricsTypes = listOf(
+    ProcessorCountMetric::class,
+    UserMetric::class,
+    OsMetric::class,
+    RamAvailableMetric::class,
+    JavaVmNameMetric::class,
+    LocaleMetric::class,
+    GradleMaxWorkersMetric::class,
+    JvmXmsMetric::class,
+    JvmXmxMetric::class,
+    JvmMaxPermSizeMetric::class
+)
+
+private val environmentMetricsTypes = listOf(
+    HostnameMetric::class,
+    OsManufacturerMetric::class,
+    PublicIpMetric::class,
+    DefaultCharsetMetric::class,
+    CacheHitMetric::class
+
+)
+
+private val gitMetricsTypes = listOf(
+    GitBranchMetric::class,
+    GitUserMetric::class
+)
+
+private val gradleSwitchesMetricsTypes = listOf(
+    GradleSwitchCachingMetric::class,
+    GradleSwitchBuildScanMetric::class,
+    GradleSwitchParallelMetric::class,
+    GradleSwitchConfigureOnDemandMetric::class,
+    GradleSwitchDryRunMetric::class,
+    GradleSwitchRefreshDependenciesMetric::class,
+    GradleSwitchRerunTasksMetric::class,
+    GradleSwitchDaemonMetric::class
+)
+
