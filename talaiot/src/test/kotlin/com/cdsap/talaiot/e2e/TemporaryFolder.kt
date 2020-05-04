@@ -23,6 +23,13 @@ class TemporaryFolder {
         return file
     }
 
+    fun newFileInPath(fileName: String): File {
+        val file = File(getRoot(), fileName).also { file ->
+            file.parentFile.mkdirs()
+        }
+        return file
+    }
+
     @Throws(IOException::class)
     fun newFile(): File {
         return File.createTempFile("junit", null, getRoot())
