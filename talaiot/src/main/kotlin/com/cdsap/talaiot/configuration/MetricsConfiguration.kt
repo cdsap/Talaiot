@@ -1,25 +1,56 @@
 package com.cdsap.talaiot.configuration
 
 import com.cdsap.talaiot.entities.ExecutionReport
-import com.cdsap.talaiot.metrics.*
+import com.cdsap.talaiot.metrics.BuildIdMetric
 import com.cdsap.talaiot.metrics.CacheHitMetric
+import com.cdsap.talaiot.metrics.DefaultCharsetMetric
+import com.cdsap.talaiot.metrics.GitBranchMetric
+import com.cdsap.talaiot.metrics.GitUserMetric
+import com.cdsap.talaiot.metrics.GradleBuildCacheModeMetric
+import com.cdsap.talaiot.metrics.GradleBuildCachePushEnabled
+import com.cdsap.talaiot.metrics.GradleMaxWorkersMetric
+import com.cdsap.talaiot.metrics.GradleRequestedTasksMetric
+import com.cdsap.talaiot.metrics.GradleScanLinkMetric
+import com.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
+import com.cdsap.talaiot.metrics.GradleSwitchCachingMetric
+import com.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
+import com.cdsap.talaiot.metrics.GradleSwitchDaemonMetric
+import com.cdsap.talaiot.metrics.GradleSwitchDryRunMetric
+import com.cdsap.talaiot.metrics.GradleSwitchParallelMetric
+import com.cdsap.talaiot.metrics.GradleSwitchRefreshDependenciesMetric
+import com.cdsap.talaiot.metrics.GradleSwitchRerunTasksMetric
+import com.cdsap.talaiot.metrics.GradleVersionMetric
+import com.cdsap.talaiot.metrics.HostnameMetric
+import com.cdsap.talaiot.metrics.JavaVmNameMetric
+import com.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
+import com.cdsap.talaiot.metrics.JvmXmsMetric
+import com.cdsap.talaiot.metrics.JvmXmxMetric
+import com.cdsap.talaiot.metrics.LocaleMetric
+import com.cdsap.talaiot.metrics.OsManufacturerMetric
+import com.cdsap.talaiot.metrics.OsMetric
+import com.cdsap.talaiot.metrics.ProcessorCountMetric
+import com.cdsap.talaiot.metrics.PublicIpMetric
+import com.cdsap.talaiot.metrics.RamAvailableMetric
+import com.cdsap.talaiot.metrics.RootProjectNameMetric
+import com.cdsap.talaiot.metrics.SimpleMetric
+import com.cdsap.talaiot.metrics.UserMetric
 import com.cdsap.talaiot.metrics.base.Metric
 
 /**
  * Configuration for the Metrics extensions
  *
  * ```
- * metrics{
- *   defaultMetrics()
- *   gitMetrics()
- *   performanceMetrics()
- *   gradleSwitchesMetrics()
+ * metrics {
+ *   defaultMetrics = true
+ *   gitMetrics = true
+ *   performanceMetrics = true
+ *   gradleSwitchesMetrics = true
  * }
  * ```
  *
- * By default Talaiot executes
- *  [defaultMetrics], [performanceMetrics], [gradleSwitchesMetrics], [gitMetrics] and [environmentMetrics] metrics,
- *  unless user manually specified which metrics should be executed.
+ * By default Talaiot enables
+ *  [defaultMetrics], [performanceMetrics], [gradleSwitchesMetrics], [gitMetrics] and [environmentMetrics] metrics.
+ *  User can disable each of them.
  *
  * [defaultMetrics] includes:
  *  [RootProjectNameMetric]
@@ -87,10 +118,16 @@ class MetricsConfiguration {
      * In some cases could generate high cardinality problems like in basic InfluxDb setups, disabled by default
      */
     var generateBuildId = false
+    var defaultMetrics = true
+    var gitMetrics = true
+    var performanceMetrics = true
+    var gradleSwitchesMetrics = true
+    var environmentMetrics = true
+
 
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
 
-    fun defaultMetrics() {
+    private fun addDefaultMetrics() {
         with(metrics){
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
@@ -101,14 +138,14 @@ class MetricsConfiguration {
         }
     }
 
-    fun gitMetrics() {
+    private fun addGitMetrics() {
         with(metrics) {
             add(GitUserMetric())
             add(GitBranchMetric())
         }
     }
 
-    fun environmentMetrics() {
+    private fun addEnvironmentMetrics() {
         with(metrics) {
             add(OsManufacturerMetric())
             add(HostnameMetric())
@@ -118,7 +155,7 @@ class MetricsConfiguration {
         }
     }
 
-    fun performanceMetrics() {
+    private fun addPerformanceMetrics() {
         with(metrics) {
             add(UserMetric())
             add(OsMetric())
@@ -134,7 +171,7 @@ class MetricsConfiguration {
         }
     }
 
-    fun gradleSwitchesMetrics() {
+    private fun addGradleSwitchesMetrics() {
         with(metrics) {
             add(GradleSwitchCachingMetric())
             add(GradleSwitchBuildScanMetric())
@@ -228,15 +265,21 @@ class MetricsConfiguration {
     }
 
     internal fun build(): List<Metric<*, *>> {
-        // If there was any customization then we assume that user populated everything manually, otherwise defaults
-        if (metrics.isEmpty()) {
-            defaultMetrics()
-            performanceMetrics()
-            gradleSwitchesMetrics()
-            gitMetrics()
-            environmentMetrics()
+        if (defaultMetrics) {
+            addDefaultMetrics()
         }
-
+        if (gitMetrics) {
+            addGitMetrics()
+        }
+        if (performanceMetrics) {
+            addPerformanceMetrics()
+        }
+        if (gradleSwitchesMetrics) {
+            addGradleSwitchesMetrics()
+        }
+        if (environmentMetrics) {
+            addEnvironmentMetrics()
+        }
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }

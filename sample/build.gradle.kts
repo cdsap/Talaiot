@@ -38,9 +38,11 @@ talaiot {
     }
 
     metrics {
-        // Talaiot provides a few methods to add a group of metrics at once:
-        defaultMetrics()
-        gitMetrics()
+        // Talaiot provides a few methods to disable a group of metrics at once
+        // By default all groups are enabled
+        performanceMetrics = false
+        gradleSwitchesMetrics = false
+        environmentMetrics = false
 
         // You can also add your own custom Metric objects:
         customMetrics(
