@@ -363,6 +363,8 @@ talaiot {
 }
 ```
 
+Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
+ 
  ### Filters
  For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
  
