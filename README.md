@@ -341,14 +341,29 @@ Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) h
 ### Metrics
 We can include extra information on the build and task tracked data during the build. This information will be added to the default metrics defined.
 
-````
+```
 talaiot {
     metrics {
-       customBuildMetrics ("versionApp" to $version)
-       customTaskMetrics ("versionApp" to $version, "customProperty" to getCustomProperty())
+        // You can add your own custom Metric objects:
+        customMetrics(
+            MyCustomMetric(),
+            // Including some of the provided metrics, individually.
+            HostnameMetric()
+        )
+
+        // Or define build or task metrics directly:
+        customBuildMetrics(
+            "kotlinVersion" to $kotlinVersion,
+            "javaVersion" to $javaVersion
+        )
+        customTaskMetrics(
+            "customProperty" to $value
+        )
     }
 }
-````
+```
+
+Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
  
  ### Filters
  For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
