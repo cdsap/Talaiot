@@ -26,22 +26,16 @@ import org.gradle.api.Project
 class PublishersConfiguration(
     val project: Project
 ) {
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.InfluxDbPublisher]
-     */
+    internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
+    internal var hybridPublisher: HybridPublisherConfiguration? = null
     internal var influxDbPublisher: InfluxDbPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.OutputPublisher]
-     */
     internal var outputPublisher: OutputPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.PushGatewayPublisher]
-     */
     internal var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
-     */
+    internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
     internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
+
+    internal var customPublisher: Publisher? = null
+
     /**
      * Flag to enable [com.cdsap.talaiot.publisher.timeline.TimelinePublisher]
      *
@@ -54,24 +48,6 @@ class PublishersConfiguration(
      * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
      */
     var jsonPublisher: Boolean = false
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
-     */
-    internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.HybridPublisher]
-     */
-    internal var hybridPublisher: HybridPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.RethinkDbPublisher]
-     */
-    internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
-    /**
-     * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
-     *
-     * Some users of plugin might need to use a custom publisher to push to internal analytics for example.
-     */
-    internal var customPublisher: Publisher? = null
 
     /**
      * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
