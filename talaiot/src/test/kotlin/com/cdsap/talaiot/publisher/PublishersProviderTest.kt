@@ -1,9 +1,9 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.mock.ConsolePublisher
 import com.cdsap.talaiot.mock.TestPublisher
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
@@ -79,6 +79,23 @@ class PublishersProviderTest : BehaviorSpec({
             then("instance of TestPublisher exists") {
                 publishers.forAtLeastOne {
                     it is TestPublisher
+                }
+            }
+        }
+        `when`("Two custom publishers are included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                customPublishers(
+                    TestPublisher(),
+                    ConsolePublisher()
+                )
+            }
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
+            then("instance of TestPublisher and ConsolePublisher exists") {
+                publishers.forAll {
+                    it is TestPublisher
+                    it is ConsolePublisher
                 }
             }
         }
