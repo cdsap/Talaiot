@@ -4,6 +4,7 @@ import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.mock.TestPublisher
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.kotlintest.inspectors.forAll
@@ -75,7 +76,7 @@ class PublishersProviderTest : BehaviorSpec({
                 customPublishers(TestPublisher())
             }
             val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
-            then("instance of CustomPublisher is created") {
+            then("instance of TestPublisher exists") {
                 publishers.forAtLeastOne {
                     it is TestPublisher
                 }
@@ -125,7 +126,3 @@ class PublishersProviderTest : BehaviorSpec({
         }
     }
 })
-
-class TestPublisher : Publisher {
-    override fun publish(report: ExecutionReport) {}
-}
