@@ -11,7 +11,6 @@ import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testfixtures.ProjectBuilder
 
-
 class PublishersProviderTest : BehaviorSpec({
     given("Publisher Provider") {
         val logger = LogTrackerImpl(LogTracker.Mode.SILENT)
@@ -69,11 +68,11 @@ class PublishersProviderTest : BehaviorSpec({
                 }
             }
         }
-        `when`("CustomPublisher is included") {
+        `when`("One custom publisher is included") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                customPublishers(TestPublisher())
             }
             val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
             then("instance of CustomPublisher is created") {
@@ -87,7 +86,7 @@ class PublishersProviderTest : BehaviorSpec({
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
                 rethinkDbPublisher {
-                 buildTableName = "builds"
+                    buildTableName = "builds"
                 }
             }
             val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
@@ -102,7 +101,7 @@ class PublishersProviderTest : BehaviorSpec({
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                customPublishers(TestPublisher())
                 taskDependencyGraphPublisher {
                     gexf = true
                 }
@@ -128,8 +127,5 @@ class PublishersProviderTest : BehaviorSpec({
 })
 
 class TestPublisher : Publisher {
-    override fun publish(report: ExecutionReport) {
-
-    }
-
+    override fun publish(report: ExecutionReport) {}
 }

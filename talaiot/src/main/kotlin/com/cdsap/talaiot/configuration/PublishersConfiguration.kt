@@ -34,7 +34,7 @@ class PublishersConfiguration(
     internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
     internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
 
-    internal var customPublisher: Publisher? = null
+    internal var customPublishers: MutableSet<Publisher> = mutableSetOf()
 
     /**
      * Flag to enable [com.cdsap.talaiot.publisher.timeline.TimelinePublisher]
@@ -104,14 +104,12 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the custom implementation for [Publisher]
+     * Adds the given custom publishers into the publisher list.
      *
-     * Will override another custom publisher instance if present
-     *
-     * @param configuration instance of your publisher
+     * @param publishers takes N [Publisher]s to be added to the publishers list.
      */
-    fun customPublisher(configuration: Publisher) {
-        customPublisher = configuration
+    fun customPublishers(vararg publishers: Publisher) {
+        customPublishers.addAll(publishers)
     }
 
     /**
