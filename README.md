@@ -478,8 +478,12 @@ clean_build {
 ```
 
 Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1:
-
 ![](resources/after_execution.png)
+
+Additionally, we have included a new Dashboard to show how to work with the Caching information of the task execution:
+
+![](resources/taskcache.png) 
+
 
 
 
