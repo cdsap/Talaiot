@@ -33,7 +33,7 @@ jobs:
       - checkout
       - run:
           name: snapshot
-          command: ./gradlew publishPluginMavenPublicationToMavenLocal
+          command: ./gradlew publishPluginMavenPublicationToSnapshotsRepository
 
 workflows:
   version: 2.1
@@ -43,6 +43,4 @@ workflows:
       - deploy-snapshot:
           requires:
             - build
-          filters:
-            branches:
-              only: master
+

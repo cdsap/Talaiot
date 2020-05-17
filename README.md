@@ -41,7 +41,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.2.0"
+  id("com.cdsap.talaiot") version "1.3.0"
 }
 ```
 
@@ -54,7 +54,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.2.0")
+    classpath("com.cdsap:talaiot:1.3.0")
   }
 }
 
@@ -65,7 +65,7 @@ apply(plugin = "com.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.2.0"
+  id "com.cdsap.talaiot" version "1.3.0"
 }
 
 ```
@@ -79,7 +79,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.2.0"
+    classpath "com.cdsap:talaiot:1.3.0"
   }
 }
 
@@ -96,7 +96,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.2.1-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.3.1-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
