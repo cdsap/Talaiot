@@ -451,7 +451,7 @@ You can access to the local instance of Grafana:
 `http://localhost:3003` root/root
     
 ### Populating data 
-If you access to the provisioned Dashboard included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1), you will see an empty dashboard like:
+If you access to the provisioned Dashboards included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1 and http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1), you will see an empty dashboard like:
 
 ![](resources/empty_dashboard.png)
 
@@ -484,6 +484,7 @@ Additionally, we have included a new Dashboard to show how to work with the Cach
 
 ![](resources/taskcache.png) 
 
+http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1
 
 
 
