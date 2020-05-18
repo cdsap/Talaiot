@@ -42,7 +42,7 @@ class DefaultConfigurationSpec : StringSpec({
                     logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
                         jsonPublisher = true
-                        customPublisher = new JsonPublisher(getGradle())
+                        customPublishers(new JsonPublisher(getGradle()))
                     }
                 }
 
