@@ -1,16 +1,19 @@
 package com.cdsap.talaiot.configuration
 
-
-import com.cdsap.talaiot.publisher.Publisher
+import com.cdsap.talaiot.publisher.*
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import groovy.lang.Closure
 import org.gradle.api.Project
+
 
 /**
  * Main configuration for the publishers.
  *
  * It offers the accessors for Groovy and KTS
  *
+ * ```
  * publishers {
  *    influxDbPublisher {
  *    }
@@ -23,89 +26,33 @@ import org.gradle.api.Project
  *    customDependencies {
  *    }
  * }
+ * ```
  */
 class PublishersConfiguration(
     val project: Project
 ) {
+    internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
+    internal var hybridPublisher: HybridPublisherConfiguration? = null
+    internal var influxDbPublisher: InfluxDbPublisherConfiguration? = null
+    internal var outputPublisher: OutputPublisherConfiguration? = null
+    internal var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
+    internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
+    internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
+
+    internal var customPublishers: MutableSet<Publisher> = mutableSetOf()
+
     /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.InfluxDbPublisher]
-     */
-    var influxDbPublisher: InfluxDbPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.OutputPublisher]
-     */
-    var outputPublisher: OutputPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.PushGatewayPublisher]
-     */
-    var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
-     */
-    var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
-    /**
-     * Flag to enable [com.cdsap.talaiot.publisher.timeline.TimelinePublisher]
-     *
-     * Generates an html report with the timeline of task execution
+     * Enables a [TimelinePublisher] if set to `true`. Disabled by default.
      */
     var timelinePublisher: Boolean = false
+
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.JsonPublisher]
-     *
-     * Generates a json representation of [com.cdsap.talaiot.entities.ExecutionReport]
+     * Enables a [JsonPublisher] if set to `true`. Disabled by default.
      */
     var jsonPublisher: Boolean = false
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
-     */
-
-    var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.HybridPublisher]
-     */
-
-    var hybridPublisher: HybridPublisherConfiguration? = null
-    /**
-     * Access to the configuration of [com.cdsap.talaiot.publisher.RethinkDbPublisher]
-     */
-    var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
 
     /**
-     * Definition of a custom Publisher in the PublisherConfiguration. Requires implementation of Publisher.
-     *
-     * Some users of plugin might need to use a custom publisher to push to internal analytics for example.
-     */
-    var customPublisher: Publisher? = null
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
-     *
-     * @param configuration Configuration block for the [TaskDependencyGraphConfiguration]
-     */
-    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.InfluxDbPublisher]
-     *
-     * @param configuration Configuration block for the [InfluxDbPublisherConfiguration]
-     */
-    fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
-        influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.PushGatewayPublisher]
-     *
-     * @param configuration Configuration block for the [PushGatewayPublisherConfiguration]
-     */
-    fun pushGatewayPublisher(configuration: PushGatewayPublisherConfiguration.() -> Unit) {
-        pushGatewayPublisher = PushGatewayPublisherConfiguration().also(configuration)
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
+     * Configuration accessor within the [PublishersConfiguration] for the [ElasticSearchPublisher]
      *
      * @param configuration Configuration block for the [ElasticSearchPublisherConfiguration]
      */
@@ -114,7 +61,18 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
+     * Configuration accessor within the [PublishersConfiguration] for the [ElasticSearchPublisher]
+     *
+     * @param closure closure for the [ElasticSearchPublisherConfiguration]
+     */
+    fun elasticSearchPublisher(closure: Closure<*>) {
+        elasticSearchPublisher = ElasticSearchPublisherConfiguration()
+        closure.delegate = elasticSearchPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [HybridPublisher]
      *
      * @param configuration Configuration block for the [HybridPublisherConfiguration]
      */
@@ -123,7 +81,38 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.OutputPublisher]
+     * Configuration accessor within the [HybridPublisherConfiguration] for the [HybridPublisher]
+     *
+     * @param closure closure for the [HybridPublisherConfiguration]
+     */
+    fun hybridPublisher(closure: Closure<*>) {
+        hybridPublisher = HybridPublisherConfiguration()
+        closure.delegate = hybridPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [InfluxDbPublisher]
+     *
+     * @param configuration Configuration block for the [InfluxDbPublisherConfiguration]
+     */
+    fun influxDbPublisher(configuration: InfluxDbPublisherConfiguration.() -> Unit) {
+        influxDbPublisher = InfluxDbPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [InfluxDbPublisher]
+     *
+     * @param closure closure for the [InfluxDbPublisherConfiguration]
+     */
+    fun influxDbPublisher(closure: Closure<*>) {
+        influxDbPublisher = InfluxDbPublisherConfiguration()
+        closure.delegate = influxDbPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [OutputPublisher]
      *
      * @param configuration Configuration block for the [OutputPublisherConfiguration]
      */
@@ -132,14 +121,34 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the custom implementation for [Publisher]
+     * Configuration accessor within the [PublishersConfiguration] for the [OutputPublisher]
      *
-     * Will override another custom publisher instance if present
-     *
-     * @param configuration instance of your publisher
+     * @param closure closure for the [OutputPublisherConfiguration]
      */
-    fun customPublisher(configuration: Publisher) {
-        customPublisher = configuration
+    fun outputPublisher(closure: Closure<*>) {
+        outputPublisher = OutputPublisherConfiguration()
+        closure.delegate = outputPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [PushGatewayPublisher]
+     *
+     * @param configuration Configuration block for the [PushGatewayPublisherConfiguration]
+     */
+    fun pushGatewayPublisher(configuration: PushGatewayPublisherConfiguration.() -> Unit) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [PushGatewayPublisher]
+     *
+     * @param closure closure for the [PushGatewayPublisherConfiguration]
+     */
+    fun pushGatewayPublisher(closure: Closure<*>) {
+        pushGatewayPublisher = PushGatewayPublisherConfiguration()
+        closure.delegate = pushGatewayPublisher
+        closure.call()
     }
 
     /**
@@ -152,18 +161,26 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.InfluxDbPublisher]
+     * Configuration accessor within the [RethinkDbPublisherConfiguration] for the [RethinkDbPublisher]
      *
-     * @param closure closure for the [InfluxDbPublisherConfiguration]
+     * @param closure closure for the [RethinkDbPublisherConfiguration]
      */
-    fun influxDbPublisher(closure: Closure<*>) {
-        influxDbPublisher = InfluxDbPublisherConfiguration()
-        closure.delegate = influxDbPublisher
+    fun rethinkDbPublisher(closure: Closure<*>) {
+        rethinkDbPublisher = RethinkDbPublisherConfiguration()
+        closure.delegate = rethinkDbPublisher
         closure.call()
+    }
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [TaskDependencyGraphPublisher]
+     *
+     * @param configuration Configuration block for the [TaskDependencyGraphConfiguration]
+     */
+    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
+        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
+     * Configuration accessor within the [PublishersConfiguration] for the [TaskDependencyGraphPublisher]
      *
      * @param closure closure for the [TaskDependencyGraphConfiguration]
      */
@@ -174,58 +191,11 @@ class PublishersConfiguration(
     }
 
     /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.ElasticSearchPublisher]
+     * Adds the given custom publishers into the publisher list.
      *
-     * @param closure closure for the [ElasticSearchPublisherConfiguration]
+     * @param publishers takes N [Publisher]s to be added to the publishers list.
      */
-    fun elasticSearchPublisher(closure: Closure<*>) {
-        elasticSearchPublisher = ElasticSearchPublisherConfiguration()
-        closure.delegate = elasticSearchPublisher
-        closure.call()
+    fun customPublishers(vararg publishers: Publisher) {
+        customPublishers.addAll(publishers)
     }
-
-    /**
-     * Configuration accessor within the [HybridPublisherConfiguration] for the [com.cdsap.talaiot.publisher.HybridPublisher]
-     *
-     * @param closure closure for the [HybridPublisherConfiguration]
-     */
-    fun hybridPublisher(closure: Closure<*>) {
-        hybridPublisher = HybridPublisherConfiguration()
-        closure.delegate = hybridPublisher
-        closure.call()
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.OutputPublisher]
-     *
-     * @param closure closure for the [OutputPublisherConfiguration]
-     */
-    fun outputPublisher(closure: Closure<*>) {
-        outputPublisher = OutputPublisherConfiguration()
-        closure.delegate = outputPublisher
-        closure.call()
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [com.cdsap.talaiot.publisher.PushGatewayPublisher]
-     *
-     * @param closure closure for the [PushGatewayPublisherConfiguration]
-     */
-    fun pushGatewayPublisher(closure: Closure<*>) {
-        pushGatewayPublisher = PushGatewayPublisherConfiguration()
-        closure.delegate = pushGatewayPublisher
-        closure.call()
-    }
-
-    /**
-     * Configuration accessor within the [RethinkDbPublisherConfiguration] for the [com.cdsap.talaiot.publisher.RethinkDbPublisher]
-     *
-     * @param closure closure for the [RethinkDbPublisherConfiguration]
-     */
-    fun rethinkDbPublisher(closure: Closure<*>) {
-        rethinkDbPublisher = RethinkDbPublisherConfiguration()
-        closure.delegate = rethinkDbPublisher
-        closure.call()
-    }
-
 }

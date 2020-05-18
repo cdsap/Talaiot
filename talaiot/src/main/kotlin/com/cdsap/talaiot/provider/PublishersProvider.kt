@@ -2,6 +2,7 @@ package com.cdsap.talaiot.provider
 
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.configuration.PublishersConfiguration
 import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
@@ -11,10 +12,9 @@ import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
 /**
- * Provides the [Publisher]s defined in the [com.cdsap.talaiot.configuration.PublishersConfiguration] of the [TalaiotExtension]
+ * Provides the [Publisher]s defined in the [PublishersConfiguration] of the [TalaiotExtension]
  */
 class PublishersProvider(
     /**
@@ -37,8 +37,6 @@ class PublishersProvider(
         val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
 
         talaiotExtension.publishers?.apply {
-
-
             outputPublisher?.apply {
                 publishers.add(OutputPublisher(this, logger))
             }
@@ -111,9 +109,7 @@ class PublishersProvider(
                 )
             }
 
-            customPublisher?.apply {
-                publishers.add(this)
-            }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }

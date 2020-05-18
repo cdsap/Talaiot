@@ -23,23 +23,35 @@ dependencies {
 talaiot {
     logger = LogTracker.Mode.INFO
     publishers {
+        // Publishers that don't require a configuration can be enabled or disabled with a flag.
+        // By default all publishers are disabled.
         timelinePublisher = true
+        jsonPublisher = false
+
+        // Talaiot provides a few pre-defined publishers.
+        // Declaring a configuration for any of those publishers will enable them.
         taskDependencyGraphPublisher {
             html = true
             gexf = true
         }
+
         influxDbPublisher {
             dbName = "tracking"
             url = "http://localhost:8086"
             taskMetricName = "task"
             buildMetricName = "build"
         }
-        customPublisher = CustomPublisher()
+
+        // You can also define your own custom publishers:
+        customPublishers(
+            CustomPublisher(),
+            HelloPublisher()
+        )
     }
 
     metrics {
-        // Talaiot provides a few methods to disable a group of metrics at once
-        // By default all groups are enabled
+        // Talaiot provides a few methods to disable a group of metrics at once.
+        // By default all groups are enabled.
         performanceMetrics = false
         gradleSwitchesMetrics = false
         environmentMetrics = false
@@ -65,10 +77,15 @@ talaiot {
 class CustomPublisher : Publisher {
     override fun publish(report: ExecutionReport) {
         println("[CustomPublisher] : Number of tasks = ${report.tasks?.size}")
-        println("[CustomPublisher] : HelloMetric = ${report.customProperties.buildProperties["hello"]}")
         println("[CustomPublisher] : Kotlin = ${report.customProperties.buildProperties["kotlin"]}")
         println("[CustomPublisher] : Java = ${report.customProperties.buildProperties["java"]}")
         println("[CustomPublisher] : PID = ${report.customProperties.taskProperties["pid"]}")
+    }
+}
+
+class HelloPublisher : Publisher {
+    override fun publish(report: ExecutionReport) {
+        println("[HelloPublisher] : HelloMetric = ${report.customProperties.buildProperties["hello"]}")
     }
 }
 

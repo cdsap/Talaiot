@@ -335,8 +335,20 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 
 
 #### Custom Publishers
-Talaiot allows using custom Publishers defined by the requirements of your environment, in case you are using another implementation.
-Check [here](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublisher) how to define a custom publisher
+Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
+
+```
+talaiot {
+    publishers {
+        // You can define one or more custom publishers:
+        customPublishers(
+            MyCustomPublisher()
+        )
+    }
+}
+```
+
+Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
 
 ### Metrics
 We can include extra information on the build and task tracked data during the build. This information will be added to the default metrics defined.

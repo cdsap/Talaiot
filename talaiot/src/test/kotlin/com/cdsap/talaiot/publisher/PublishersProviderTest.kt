@@ -1,16 +1,16 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.mock.ConsolePublisher
+import com.cdsap.talaiot.mock.TestPublisher
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testfixtures.ProjectBuilder
-
 
 class PublishersProviderTest : BehaviorSpec({
     given("Publisher Provider") {
@@ -69,16 +69,33 @@ class PublishersProviderTest : BehaviorSpec({
                 }
             }
         }
-        `when`("CustomPublisher is included") {
+        `when`("One custom publisher is included") {
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                customPublishers(TestPublisher())
             }
             val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
-            then("instance of CustomPublisher is created") {
+            then("instance of TestPublisher exists") {
                 publishers.forAtLeastOne {
                     it is TestPublisher
+                }
+            }
+        }
+        `when`("Two custom publishers are included") {
+            val project = ProjectBuilder.builder().build()
+            val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
+            talaiotExtension.publishers {
+                customPublishers(
+                    TestPublisher(),
+                    ConsolePublisher()
+                )
+            }
+            val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
+            then("instance of TestPublisher and ConsolePublisher exists") {
+                publishers.forAll {
+                    it is TestPublisher
+                    it is ConsolePublisher
                 }
             }
         }
@@ -87,7 +104,7 @@ class PublishersProviderTest : BehaviorSpec({
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
                 rethinkDbPublisher {
-                 buildTableName = "builds"
+                    buildTableName = "builds"
                 }
             }
             val publishers = PublishersProvider(project, logger, TestExecutor(), TestExecutor()).get()
@@ -102,7 +119,7 @@ class PublishersProviderTest : BehaviorSpec({
             val project = ProjectBuilder.builder().build()
             val talaiotExtension = project.extensions.create("talaiot", TalaiotExtension::class.java, project)
             talaiotExtension.publishers {
-                customPublisher(TestPublisher())
+                customPublishers(TestPublisher())
                 taskDependencyGraphPublisher {
                     gexf = true
                 }
@@ -126,10 +143,3 @@ class PublishersProviderTest : BehaviorSpec({
         }
     }
 })
-
-class TestPublisher : Publisher {
-    override fun publish(report: ExecutionReport) {
-
-    }
-
-}
