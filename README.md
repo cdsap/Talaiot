@@ -41,7 +41,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.2.0"
+  id("com.cdsap.talaiot") version "1.3.0"
 }
 ```
 
@@ -54,7 +54,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.2.0")
+    classpath("com.cdsap:talaiot:1.3.0")
   }
 }
 
@@ -65,7 +65,7 @@ apply(plugin = "com.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.2.0"
+  id "com.cdsap.talaiot" version "1.3.0"
 }
 
 ```
@@ -79,7 +79,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.2.0"
+    classpath "com.cdsap:talaiot:1.3.0"
   }
 }
 
@@ -96,7 +96,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.2.1-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.3.1-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
@@ -463,7 +463,7 @@ You can access to the local instance of Grafana:
 `http://localhost:3003` root/root
     
 ### Populating data 
-If you access to the provisioned Dashboard included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1), you will see an empty dashboard like:
+If you access to the provisioned Dashboards included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1 and http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1), you will see an empty dashboard like:
 
 ![](resources/empty_dashboard.png)
 
@@ -490,8 +490,13 @@ clean_build {
 ```
 
 Once is finished you can check the results on the Grafana Dashboard http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1:
-
 ![](resources/after_execution.png)
+
+Additionally, we have included a new Dashboard to show how to work with the Caching information of the task execution:
+
+![](resources/taskcache.png) 
+
+http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1
 
 
 
