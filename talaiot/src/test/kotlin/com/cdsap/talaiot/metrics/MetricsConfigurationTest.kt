@@ -2,8 +2,11 @@ package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.assertions.shouldContainExactlyTypesOfInAnyOrder
 import com.cdsap.talaiot.configuration.MetricsConfiguration
+import com.cdsap.talaiot.entities.CustomProperties
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.mock.AdbVersionMetric
 import com.cdsap.talaiot.mock.KotlinVersionMetric
+import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
 
@@ -169,6 +172,70 @@ class MetricsConfigurationTest : BehaviorSpec({
             val metrics = metricsConfiguration.build()
             then("default metrics and KotlinVersionMetric are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(defaultMetricsTypes + KotlinVersionMetric::class)
+            }
+        }
+
+        `when`("custom build metrics are used") {
+            val expectedBuildProperties = mutableMapOf(
+                "metricA" to "valueA",
+                "metricB" to "valueB"
+            )
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+
+                customBuildMetrics(expectedBuildProperties)
+            }
+            val metrics = metricsConfiguration.build()
+            then("add custom build metrics to the report") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
+                val resultingReport = ExecutionReport()
+                metrics.forEach {
+                    when (it) {
+                        is SimpleMetric -> it.get(Unit, resultingReport)
+                    }
+                }
+                resultingReport.customProperties.shouldBe(
+                    CustomProperties(
+                        expectedBuildProperties,
+                        mutableMapOf()
+                    )
+                )
+            }
+        }
+
+        `when`("custom task metrics are used") {
+            val expectedTaskProperties = mutableMapOf(
+                "metricA" to "valueA",
+                "metricB" to "valueB"
+            )
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+
+                customTaskMetrics(expectedTaskProperties)
+            }
+            val metrics = metricsConfiguration.build()
+            then("add custom build metrics to the report") {
+                metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
+                val resultingReport = ExecutionReport()
+                metrics.forEach {
+                    when (it) {
+                        is SimpleMetric -> it.get(Unit, resultingReport)
+                    }
+                }
+                resultingReport.customProperties.shouldBe(
+                    CustomProperties(
+                        mutableMapOf(),
+                        expectedTaskProperties
+                    )
+                )
             }
         }
     }

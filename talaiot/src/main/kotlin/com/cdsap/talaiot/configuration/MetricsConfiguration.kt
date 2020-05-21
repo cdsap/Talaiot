@@ -290,14 +290,14 @@ class MetricsConfiguration {
     private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {
         return SimpleMetric(
             provider = { pair.second },
-            assigner = { report, value -> report.customProperties.buildProperties[pair.second] = value }
+            assigner = { report, value -> report.customProperties.buildProperties[pair.first] = value }
         )
     }
 
     private fun createSimpleTaskMetric(pair: Pair<String, String>): SimpleMetric<String> {
         return SimpleMetric(
             provider = { pair.second },
-            assigner = { report, value -> report.customProperties.taskProperties[pair.second] = value }
+            assigner = { report, value -> report.customProperties.taskProperties[pair.first] = value }
         )
     }
 }
