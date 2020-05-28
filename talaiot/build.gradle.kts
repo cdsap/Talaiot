@@ -4,14 +4,14 @@ plugins {
     `maven-publish`
     id("jacoco")
     kotlin("jvm") version "1.3.60"
-    id("com.gradle.plugin-publish") version "0.10.0"
+    id("com.gradle.plugin-publish") version "0.12.0"
 }
 
 jacoco {
     toolVersion = "0.8.3"
 }
 
-val versionTalaiot = "1.3.1-SNAPSHOT"
+val versionTalaiot = "1.3.2-SNAPSHOT"
 
 group = "com.cdsap"
 version = versionTalaiot
@@ -49,7 +49,7 @@ pluginBundle {
             displayName = "Talaiot"
             description = "Simple and extensible plugin to track task and build times in your Gradle Project."
             tags = listOf("tracking", "kotlin", "gradle")
-            version = "1.2.0"
+            version = versionTalaiot
         }
     }
 }
