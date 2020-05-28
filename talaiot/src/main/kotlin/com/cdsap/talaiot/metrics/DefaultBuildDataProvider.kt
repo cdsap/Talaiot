@@ -18,7 +18,7 @@ class DefaultBuildMetricsProvider(
             buildInvocationId?.let { map["buildInvocationId"] = it }
             requestedTasks?.let { map["requestedTasks"] = it }
             cacheRatio?.let { map["cacheRatio"] = it.toDouble() }
-            beginMs?.let { map["start"] = it.toLong() }
+            beginMs?.let { map["start"] = it.toDouble() }
             rootProject?.let { map["rootProject"] = it }
             scanLink?.let { map["scanLink"] = it }
 

@@ -30,10 +30,14 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
 
             then("all values are registered") {
                 val expectedMap: Map<String, Any> = mapOf(
+                    "start" to "1.590661991331E12".toDouble(),
                     "duration" to 10L,
                     "configuration" to 32L,
                     "success" to true,
                     "buildId" to "12",
+                    "rootProject" to "app",
+                    "requestedTasks" to "app:assembleDebug",
+                    "scanLink" to "www.scan.link",
                     "buildInvocationId" to "123",
                     "osVersion" to "Linux 1.4",
                     "maxWorkers" to 2.toInt(),

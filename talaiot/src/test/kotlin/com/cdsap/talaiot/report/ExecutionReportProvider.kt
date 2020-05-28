@@ -35,8 +35,13 @@ object ExecutionReportProvider {
     }
 
     fun completeExecutionReport() = ExecutionReport(
+        beginMs = "1.590661991331E12",
+        endMs = "1243",
         durationMs = "10",
         buildId = "12",
+        rootProject = "app",
+        requestedTasks = "app:assembleDebug",
+        scanLink = "www.scan.link",
         buildInvocationId = "123",
         configurationDurationMs = "32",
         environment = Environment(
@@ -72,7 +77,6 @@ object ExecutionReportProvider {
             taskProperties = getMetricsTasks(),
             buildProperties = getMetricsBuild()
         ),
-
         tasks = listOf(
             TaskLength(
                 1, "clean", ":clean", TaskMessageState.EXECUTED, false,
