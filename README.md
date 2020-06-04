@@ -54,7 +54,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.3.1")
+    classpath("com.cdsap:talaiot:1.3.2")
   }
 }
 
@@ -65,7 +65,7 @@ apply(plugin = "com.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.3.1"
+  id "com.cdsap.talaiot" version "1.3.2"
 }
 
 ```
@@ -79,7 +79,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.3.1"
+    classpath "com.cdsap:talaiot:1.3.2"
   }
 }
 
@@ -96,7 +96,7 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 And the current Snapshot:
 
 ````
-classpath("com.cdsap:talaiot:1.3.2-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.3.3-SNAPSHOT")
 ````
 
 ## Basic configuration  <a name="basic-configuration"></a>
