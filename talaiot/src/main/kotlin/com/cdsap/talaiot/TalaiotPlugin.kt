@@ -42,7 +42,7 @@ class TalaiotPlugin : Plugin<Project> {
         project.gradle.addBuildListener(listener)
         project.gradle.buildOperationListenerManager().addListener(buildOperationListener)
         project.gradle.buildFinished {
-            project.gradle.removeListener(buildOperationListener)
+            project.gradle.buildOperationListenerManager().removeListener(buildOperationListener)
         }
     }
 
