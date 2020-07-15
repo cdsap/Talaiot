@@ -20,7 +20,7 @@ class DefaultTaskDataProvider(
             "localCacheHit" to task.isLocalCacheHit,
             "localCacheMiss" to task.isLocalCacheMiss,
             "remoteCacheHit" to task.isRemoteCacheHit,
-            "remoteCacheMiss" to task.isRemoteCacheHit
+            "remoteCacheMiss" to task.isRemoteCacheMiss
 
         ) + report.customProperties.taskProperties
     }
