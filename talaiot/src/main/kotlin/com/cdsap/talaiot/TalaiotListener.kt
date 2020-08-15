@@ -102,19 +102,26 @@ class TalaiotListener(
 
     override fun projectsEvaluated(gradle: Gradle) {
         start = assignBuildStarted(gradle)
-
         configurationEnd = System.currentTimeMillis()
-        gradle.gradle.taskGraph.addTaskExecutionGraphListener {
-            val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
-            val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
-            gradle.startParameter.taskRequests.forEach {
-                it.args.forEach { task ->
-                    talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
-                }
+        if(gradle.startParameter.isConfigureOnDemand){
+            initQueue(gradle)
+        } else {
+            gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+                initQueue(gradle)
             }
-            if (talaiotTracker.queue.isNotEmpty()) {
-                talaiotTracker.initNodeArgument()
+        }
+    }
+
+    private fun initQueue(gradle: Gradle) {
+        val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+        val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
+        gradle.startParameter.taskRequests.forEach {
+            it.args.forEach { task ->
+                talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
             }
+        }
+        if (talaiotTracker.queue.isNotEmpty()) {
+            talaiotTracker.initNodeArgument()
         }
     }
 
