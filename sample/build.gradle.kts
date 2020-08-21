@@ -13,7 +13,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("com.cdsap.talaiot") version "1.3.4-SNAPSHOT"
+    id("com.cdsap.talaiot") version "1.3.6-SNAPSHOT"
 }
 
 dependencies {
