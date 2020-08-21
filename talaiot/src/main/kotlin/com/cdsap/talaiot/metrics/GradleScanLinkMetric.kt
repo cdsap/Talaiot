@@ -20,7 +20,8 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
         val services = gradleInternal.services
 
         when {
-            GradleVersion.current() > GradleVersion.version("5.0") -> {
+            GradleVersion.current() > GradleVersion.version("5.0")
+                    &&  GradleVersion.current() < GradleVersion.version("6.6") -> {
                 services.get(
                     DefaultBuildScanEndOfBuildNotifier::class.java
                 ) as DefaultBuildScanEndOfBuildNotifier
