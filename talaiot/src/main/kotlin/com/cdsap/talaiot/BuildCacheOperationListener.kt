@@ -14,15 +14,15 @@ import org.gradle.internal.operations.OperationProgressEvent
 import org.gradle.internal.operations.OperationStartEvent
 
 internal class BuildCacheOperationListener : BuildOperationListener, Provider<ExecutedTasksInfo> {
-    private val taskCacheDownloadResults = HashMap<OperationIdentifier, BuildCacheRemoteLoadBuildOperationType.Result>()
+    private val taskCacheDownloadResults = HashMap<OperationIdentifier, BuildCacheRemoteLoadResult>()
     private val tasksMap = HashMap<OperationIdentifier, TaskExecutionResults>()
     override fun get(): ExecutedTasksInfo {
         val tasksList = tasksMap.map { (taskIdentifier, executionResult) ->
-            val isCacheEnabled = executionResult.result.cachingDisabledReasonCategory == null
+            val isCacheEnabled = executionResult.cachingDisabledReasonCategory == null
             val remoteCacheInfo = computeCacheInfo(isCacheEnabled, taskCacheDownloadResults[taskIdentifier]?.isHit)
 
             val isLocalCacheHit = if (isCacheEnabled) {
-                remoteCacheInfo !is CacheInfo.CacheHit && executionResult.result.skipMessage == "FROM-CACHE"
+                remoteCacheInfo !is CacheInfo.CacheHit && executionResult.skipMessage == "FROM-CACHE"
             } else {
                 null
             }
@@ -56,11 +56,10 @@ internal class BuildCacheOperationListener : BuildOperationListener, Provider<Ex
     override fun finished(descriptor: BuildOperationDescriptor, finishEvent: OperationFinishEvent) {
         when (val result = finishEvent.result) {
             is ExecuteTaskBuildOperationType.Result -> {
-                tasksMap[descriptor.id] =
-                    TaskExecutionResults(descriptor.name, result)
+                tasksMap[descriptor.id] = TaskExecutionResults.create(descriptor.name, result)
             }
             is BuildCacheRemoteLoadBuildOperationType.Result -> {
-                taskCacheDownloadResults[descriptor.parentId!!] = result
+                taskCacheDownloadResults[descriptor.parentId!!] = BuildCacheRemoteLoadResult(result.isHit)
             }
         }
     }
@@ -69,4 +68,20 @@ internal class BuildCacheOperationListener : BuildOperationListener, Provider<Ex
     }
 }
 
-private data class TaskExecutionResults(val name: String, val result: ExecuteTaskBuildOperationType.Result)
+private data class TaskExecutionResults(
+    val name: String,
+    val cachingDisabledReasonCategory: String?,
+    val skipMessage: String?
+) {
+    companion object {
+        fun create(name: String, result: ExecuteTaskBuildOperationType.Result): TaskExecutionResults {
+            return TaskExecutionResults(
+                name = name,
+                cachingDisabledReasonCategory = result.cachingDisabledReasonCategory,
+                skipMessage = result.skipMessage
+            )
+        }
+    }
+}
+
+private data class BuildCacheRemoteLoadResult(val isHit: Boolean)
