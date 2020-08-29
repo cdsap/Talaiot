@@ -14,7 +14,10 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 import java.io.File
 import java.net.URI
 
-
+/**
+ * Talaiot Plugin abstracts the build logic for modules used as Gradle Plugin.
+ * Applies publication Configuration using plugins maven and gradle.
+ */
 class TalaiotPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
