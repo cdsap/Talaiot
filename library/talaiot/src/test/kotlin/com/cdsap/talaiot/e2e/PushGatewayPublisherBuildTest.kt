@@ -18,7 +18,7 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                      logger = LogTracker.Mode.INFO
+                      logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
                       publishers {
                          pushGatewayPublisher {
                              url = "http://localhost:9091"
