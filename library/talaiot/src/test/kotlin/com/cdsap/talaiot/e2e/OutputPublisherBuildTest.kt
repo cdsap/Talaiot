@@ -18,7 +18,7 @@ class OutputPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                    logger = LogTracker.Mode.INFO
                      publishers {
                       outputPublisher {}
                   }

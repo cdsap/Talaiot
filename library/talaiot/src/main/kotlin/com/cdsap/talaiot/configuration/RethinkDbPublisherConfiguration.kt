@@ -1,8 +1,5 @@
 package com.cdsap.talaiot.configuration
 
-import com.cdsap.talaiot.publisher.InfluxDbPublisher
-import groovy.lang.Closure
-
 /**
  * Configuration for the [RethinkDbPublisher]. It belongs to the Publisher configurations
  *

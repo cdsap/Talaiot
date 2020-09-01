@@ -10,5 +10,5 @@ pluginManagement {
 
     }
 }
-include(":talaiot")
-include(":docs")
+include(":library:talaiot")
+include(":library:docs")

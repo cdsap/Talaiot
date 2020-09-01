@@ -18,7 +18,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer

@@ -144,7 +144,7 @@ object Configuration {
                  
         talaiot{
             publishers {
-                logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO                      
+                logger = LogTracker.Mode.INFO                      
                 influxDbPublisher { 
                     dbName = "tracking"
                     url = "$containerUrl"
