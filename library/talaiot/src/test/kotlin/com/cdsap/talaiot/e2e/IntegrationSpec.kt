@@ -33,7 +33,7 @@ class DefaultConfigurationSpec : StringSpec({
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
                 """
-                import JsonPublisher
+                import com.cdsap.talaiot.publisher.JsonPublisher
                 plugins {
                     id 'java'
                     id 'com.cdsap.talaiot'
