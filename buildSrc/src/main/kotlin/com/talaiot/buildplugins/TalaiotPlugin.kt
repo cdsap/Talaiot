@@ -42,56 +42,16 @@ class TalaiotPlugin : Plugin<Project> {
             add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
         }
 
-        target.tasks.withType<JacocoReport> {
-            reports {
-                xml.isEnabled = true
-                csv.isEnabled = true
-                html.isEnabled = true
-                html.destination = File("${target.rootProject.buildDir}/coverage")
-            }
-        }
-        target.configure<JacocoPluginExtension> {
-            toolVersion = "0.8.3"
-        }
+        setupJacoco()
+        setUpJunitPlatform()
 
-        target.apply {
-            val test by target.tasks.getting(Test::class) {
-                useJUnitPlatform { }
-            }
-        }
-        target.version =  Versions.TALAIOT_VERSION
+        target.version = Versions.TALAIOT_VERSION
         target.afterEvaluate {
             collectUnitTest()
             setTalaiotPluginGroup(target)
             setTalaiotPluginVersion(target)
             configGradlePlugin(target)
-            configPublishing(target)
-        }
-    }
-
-    private fun configPublishing(target: Project) {
-        target.configure<PublishingExtension> {
-            repositories {
-                maven {
-                    name = "Snapshots"
-                    url = URI("http://oss.jfrog.org/artifactory/oss-snapshot-local")
-
-                    credentials {
-                        username = System.getenv("USERNAME_SNAPSHOT")
-                        password = System.getenv("PASSWORD_SNAPSHOT")
-                    }
-                }
-            }
-
-            publications {
-                create<MavenPublication>("maven") {
-                    val extension = target.extensions.getByType<TalaiotPluginExtension>()
-                    groupId = target.group.toString()
-                    artifactId = extension.artifact
-                    version = target.version.toString()
-                    from(target.components["kotlin"])
-                }
-            }
+            setUpPublishing()
         }
     }
 

@@ -1,10 +1,18 @@
-package com.talaiot.buildplugins
+package com.talaiot.buildplugins.extensions
 
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.TestReport
 import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
+
+fun Project.setUpJunitPlatform() = this.run {
+    apply {
+        val test by target.tasks.getting(Test::class) {
+            useJUnitPlatform { }
+        }
+    }
+}
 
 fun Project.collectUnitTest() = this.run {
     afterEvaluate {
