@@ -12,3 +12,5 @@ pluginManagement {
 }
 include(":library:talaiot")
 include(":library:docs")
+include(":library:talaiot-request")
+include(":library:talaiot-logger")
