@@ -16,8 +16,8 @@ class TalaiotPluginTest {
              plugins{
                   id 'java'
                   id 'talaiotPlugin'
-              }  
-              
+              }
+
               talaiotPlugin {
                   idPlugin = "com.cdsap.talaiot"
                    artifact = "talaiot"
@@ -42,8 +42,8 @@ class TalaiotPluginTest {
              plugins{
                   id 'java'
                   id 'talaiotPlugin'
-              }  
-             
+              }
+
          """.trimIndent()
         )
 
@@ -90,10 +90,10 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryNoVersion(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenPublicationToTestRepo")
+        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
 
         assert(
-            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot//${Versions.TALAIOT_VERSION}")
+            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot//${Constants.TALAIOT_VERSION}")
                 .walkTopDown().filter {
                     it.name.contains("talaiot-")
                 }.count() > 0
@@ -109,10 +109,10 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryNoGroup(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenPublicationToTestRepo")
+        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
 
         assert(
-            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot/plugin/talaiot/${Versions.TALAIOT_VERSION}")
+            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot/plugin/talaiot/${Constants.TALAIOT_VERSION}")
                 .walkTopDown().filter {
                     it.name.contains("talaiot-")
                 }.count() > 0
@@ -127,7 +127,7 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryAndVerionGroup(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenPublicationToTestRepo")
+        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
 
         assert(File("${rootFolder.absoluteFile}/repo/com/cdsap/overridegroup/talaiot/1.3.6/talaiot-1.3.6.jar").exists())
         rootFolder.deleteRecursively()
@@ -154,8 +154,8 @@ class TalaiotPluginTest {
                  plugins{
                       id 'java'
                       id 'talaiotPlugin'
-                  }  
-                  
+                  }
+
                   talaiotPlugin {
                       idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
@@ -163,7 +163,7 @@ class TalaiotPluginTest {
                        mainClass = "com.cdsap.talaiot.TalaiotPlugin"
                        version = "1.3.6-SNAPSHOT"
                   }
-                 
+
              """
     }
 
@@ -172,8 +172,8 @@ class TalaiotPluginTest {
                   plugins{
                       id 'java'
                       id 'talaiotPlugin'
-                  }  
-                  
+                  }
+
                   talaiotPlugin {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
@@ -181,7 +181,7 @@ class TalaiotPluginTest {
                        mainClass = "com.cdsap.talaiot.TalaiotPlugin"
                        version = "1.3.6"
                   }
-                   
+
                    publishing {
                           repositories {
                                maven {
@@ -198,15 +198,15 @@ class TalaiotPluginTest {
                   plugins{
                       id 'java'
                       id 'talaiotPlugin'
-                  }  
-                  
+                  }
+
                   talaiotPlugin {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
                        group = "com.cdsap"
                        mainClass = "com.cdsap.talaiot.TalaiotPlugin"
                   }
-                   
+
                    publishing {
                           repositories {
                                maven {
@@ -223,14 +223,14 @@ class TalaiotPluginTest {
                   plugins{
                       id 'java'
                       id 'talaiotPlugin'
-                  }  
-                  
+                  }
+
                   talaiotPlugin {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
                        mainClass = "com.cdsap.talaiot.TalaiotPlugin"
                   }
-                   
+
                    publishing {
                           repositories {
                                maven {
