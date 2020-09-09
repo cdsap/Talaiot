@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.utils
 
 import java.util.concurrent.Executor
 

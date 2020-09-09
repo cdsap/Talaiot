@@ -31,6 +31,7 @@ class TalaiotPlugin : Plugin<Project> {
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
             add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
+            add("testImplementation", project(":library:talaiot-test-utils"))
         }
 
         target.setUpJacoco()

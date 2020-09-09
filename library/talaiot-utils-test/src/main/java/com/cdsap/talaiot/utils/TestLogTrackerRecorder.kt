@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.logger
+package com.cdsap.talaiot.utils
 
 object TestLogTrackerRecorder : LogTracker {
 
