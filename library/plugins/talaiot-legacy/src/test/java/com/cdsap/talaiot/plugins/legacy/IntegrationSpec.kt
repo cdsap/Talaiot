@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot.plugins.legacy
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.google.gson.Gson

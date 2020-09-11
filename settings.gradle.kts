@@ -1,3 +1,4 @@
+include(":talaiot-legacy")
 pluginManagement {
     repositories {
         mavenCentral()
@@ -15,3 +16,4 @@ include(":library:talaiot")
 include(":library:talaiot-request")
 include(":library:talaiot-logger")
 include(":library:talaiot-test-utils")
+include(":library:plugins:talaiot-legacy")

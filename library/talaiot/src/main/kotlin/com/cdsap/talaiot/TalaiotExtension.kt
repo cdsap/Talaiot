@@ -18,10 +18,6 @@ open class TalaiotExtension(val project: Project) {
      */
     var logger = LogTracker.Mode.SILENT
     /**
-     * General Publisher configuration included in the build
-     */
-    var publishers: PublishersConfiguration? = null
-    /**
      * Configuration for ignoring the execution of the plugin in the build
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
@@ -41,18 +37,8 @@ open class TalaiotExtension(val project: Project) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }
 
-    fun publishers(block: PublishersConfiguration.() -> Unit) {
-        publishers = PublishersConfiguration(project).also(block)
-    }
-
     fun metrics(block: MetricsConfiguration.() -> Unit) {
         metrics = MetricsConfiguration().also(block)
-    }
-
-    fun publishers(closure: Closure<*>) {
-        publishers = PublishersConfiguration(project)
-        closure.delegate = publishers
-        closure.call()
     }
 
     fun ignoreWhen(closure: Closure<*>) {

@@ -1,15 +1,17 @@
 package com.cdsap.talaiot.publisher
 
+
 import com.cdsap.talaiot.TalaiotExtension
 import com.cdsap.talaiot.configuration.BuildFilterConfiguration
+import com.cdsap.talaiot.entities.CacheInfo
+import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.filter.BuildFilterProcessor
 import com.cdsap.talaiot.filter.TaskFilterProcessor
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.entities.CacheInfo
-import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.provider.Provider
+import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 
 /**
  * Implementation of TalaiotPublisher.
@@ -24,7 +26,7 @@ class TalaiotPublisherImpl(
     extension: TalaiotExtension,
     logger: LogTracker,
     private val metricsProvider: Provider<ExecutionReport>,
-    private val publisherProvider: Provider<List<Publisher>>,
+    private val publisherProvider: PublisherConfigurationProvider,
     private val executedTasksInfo: ExecutedTasksInfo
 ) : TalaiotPublisher {
     private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
