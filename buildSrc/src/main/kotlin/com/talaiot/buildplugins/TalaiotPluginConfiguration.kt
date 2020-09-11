@@ -16,31 +16,21 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
  *
  *
  */
-open class TalaiotPluginExtension {
+open class TalaiotPluginConfiguration : BaseConfiguration() {
     /**
      * Plugin's Gradle id. This id will be used by the final consumer and the [GradlePluginDevelopmentExtension]
      * example: apply plugin: "com.cdsap.talaiot.plugin.base"
      */
-    var idPlugin : String? = null
+    var idPlugin: String? = null
 
     /**
      *  Deployment for snapshots/maven local requires inform about the artifact coordinates of the
      *  new artifact
      */
-    var artifact : String? = null
-    /**
-     *  Deployment for snapshots/maven local requires inform about the group coordinates of the
-     *  new artifact. If it's not informed uses the default group of the type of plugins [TalaiotPlugin]
-     */
-    var group : String? = null
+    var artifact: String? = null
 
     /**
      * Main Class of the plugin, required by the [GradlePluginDevelopmentExtension]
      */
     var mainClass: String? = null
-    /**
-     * Specific version for the plugin
-     * If it's not informed will use version from [Versions]
-     */
-    var version : String? = null
 }
