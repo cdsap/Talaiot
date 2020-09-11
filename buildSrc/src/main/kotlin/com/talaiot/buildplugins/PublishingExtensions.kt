@@ -23,7 +23,6 @@ fun Project.setUpPublishing(
                 }
             }
         }
-        BaseConfiguration::class.java
 
         publications {
             create<MavenPublication>(namePublication) {
@@ -43,8 +42,18 @@ fun Project.setProjectGroup(
     group = configurationGroup ?: default
 }
 
+fun Project.setProjectGroup(
+    default: String
+) {
+    group = default
+}
+
 fun Project.setProjectVersion(configurationVersion: String?) {
     version = configurationVersion ?: Constants.TALAIOT_VERSION
+}
+
+fun Project.setProjectVersion() {
+    version = Constants.TALAIOT_VERSION
 }
 
 fun getArtifact(configurationArtifactId: String?, project: Project) =

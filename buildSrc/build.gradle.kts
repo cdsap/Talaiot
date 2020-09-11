@@ -28,9 +28,9 @@ gradlePlugin {
             id = "publisherPlugin"
             implementationClass = "com.talaiot.buildplugins.PublisherPlugin"
         }
-        register("CorePublisher") {
-            id = "corePlugin"
-            implementationClass = "com.talaiot.buildplugins.CorePlugin"
+        register("TalaiotKotlinLibPlugin") {
+            id = "kotlinLib"
+            implementationClass = "com.talaiot.buildplugins.TalaiotKotlinLibPlugin"
         }
     }
 }

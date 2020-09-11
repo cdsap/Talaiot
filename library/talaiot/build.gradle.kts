@@ -3,7 +3,7 @@ plugins {
     id("talaiotPlugin")
 }
 
-talaiotPlugin{
+talaiotPlugin {
     idPlugin = "com.cdsap.talaiot"
     artifact = "talaiot"
     group = "com.cdsap"
@@ -12,7 +12,8 @@ talaiotPlugin{
 }
 
 dependencies {
-    implementation("io.github.rybalkinsd:kohttp:0.10.0")
+    implementation(project(":library:talaiot-logger"))
+    implementation(project(":library:talaiot-request"))
     implementation("guru.nidi:graphviz-java:0.8.3")
     implementation("org.influxdb:influxdb-java:2.19")
     implementation("com.github.oshi:oshi-core:3.13.3")
@@ -23,5 +24,6 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.11.3")
     testImplementation("org.testcontainers:influxdb:1.11.3")
     testImplementation("org.testcontainers:elasticsearch:1.12.0")
+    testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
 }
 
