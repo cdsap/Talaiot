@@ -1,6 +1,5 @@
 plugins {
     `kotlin`
-  //  kotlin("jvm")
 }
 
 repositories {
