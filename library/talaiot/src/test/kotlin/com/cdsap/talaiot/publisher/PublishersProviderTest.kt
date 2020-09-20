@@ -7,6 +7,7 @@ import com.cdsap.talaiot.mock.ConsolePublisher
 import com.cdsap.talaiot.mock.TestPublisher
 import com.cdsap.talaiot.provider.PublishersProvider
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
+import com.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.specs.BehaviorSpec

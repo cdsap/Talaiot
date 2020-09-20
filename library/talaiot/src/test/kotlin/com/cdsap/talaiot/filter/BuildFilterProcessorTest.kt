@@ -2,7 +2,7 @@ package com.cdsap.talaiot.filter
 
 import com.cdsap.talaiot.configuration.BuildFilterConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import io.kotlintest.matchers.boolean.shouldBeFalse
 import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.specs.BehaviorSpec

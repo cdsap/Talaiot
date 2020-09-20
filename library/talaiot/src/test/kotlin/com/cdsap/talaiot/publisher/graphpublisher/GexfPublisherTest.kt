@@ -3,7 +3,7 @@ package com.cdsap.talaiot.publisher.graphpublisher
 import com.cdsap.talaiot.publisher.graphpublisher.resources.ResourcesGexf
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock
-import com.cdsap.talaiot.publisher.TestExecutor
+import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.writer.FileWriter
 import com.nhaarman.mockitokotlin2.argThat
 import com.nhaarman.mockitokotlin2.mock

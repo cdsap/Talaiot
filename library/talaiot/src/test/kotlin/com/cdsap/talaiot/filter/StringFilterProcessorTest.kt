@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.filter
 
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import io.kotlintest.matchers.boolean.shouldBeFalse
 import io.kotlintest.matchers.boolean.shouldBeTrue
 import io.kotlintest.specs.BehaviorSpec

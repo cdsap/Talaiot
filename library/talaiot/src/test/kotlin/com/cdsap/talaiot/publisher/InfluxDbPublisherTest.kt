@@ -1,9 +1,10 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.utils.TestExecutor
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
