@@ -43,18 +43,10 @@ class BuildCacheRemoteLoadBuildOperationTypeTest : BehaviorSpec() {
                 .appendText(Configuration.gradleProperties)
 
             testProjectDir.newFile("settings.gradle")
-                .appendText(
-                    Configuration.settingsGradle(
-                        containerRedis.httpHostAddress
-                    )
-                )
+                .appendText(Configuration.settingsGradle(containerRedis.httpHostAddress))
 
             testProjectDir.newFile("build.gradle")
-                .appendText(
-                    Configuration.buildGradle(
-                        containerInfluxDb.url
-                    )
-                )
+                .appendText(Configuration.buildGradle(containerInfluxDb.url))
 
             testProjectDir.newFileInPath("src/main/java/A.java")
                 .appendText(Configuration.createFile())

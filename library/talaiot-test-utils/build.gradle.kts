@@ -8,4 +8,5 @@ dependencies {
     implementation("org.testcontainers:testcontainers:1.11.3")
     api("org.testcontainers:influxdb:1.11.3")
     api("org.testcontainers:elasticsearch:1.12.0")
+
 }
