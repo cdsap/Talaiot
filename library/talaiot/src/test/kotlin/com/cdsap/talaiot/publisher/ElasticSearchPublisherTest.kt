@@ -4,8 +4,9 @@ import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
 
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.utils.TestExecutor
+import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.kotlintest.Spec
@@ -15,6 +16,7 @@ import org.apache.http.HttpHost
 import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.ResponseException
 import org.elasticsearch.client.RestClient
+import org.testcontainers.elasticsearch.KElasticSearchContainer
 
 
 class ElasticSearchPublisherTest : BehaviorSpec() {

@@ -1,9 +1,16 @@
 package com.talaiot.buildplugins
 
 import org.gradle.api.Project
+import org.gradle.api.attributes.LibraryElements
+import org.gradle.api.component.AdhocComponentWithVariants
+import org.gradle.api.file.CopySpec
+import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.javadoc.Javadoc
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import java.net.URI
 
 fun Project.setUpPublishing(
@@ -29,7 +36,15 @@ fun Project.setUpPublishing(
                 groupId = group.toString()
                 artifactId = getArtifact(configurationArtifactId, project)
                 version = version.toString()
-                from(components["kotlin"])
+                from(components["java"])
+                versionMapping {
+                    usage("java-api") {
+                        fromResolutionOf("runtimeClasspath")
+                    }
+                    usage("java-runtime") {
+                        fromResolutionResult()
+                    }
+                }
             }
         }
     }

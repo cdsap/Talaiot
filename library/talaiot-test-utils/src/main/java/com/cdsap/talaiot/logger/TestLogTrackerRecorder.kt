@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.utils
+package com.cdsap.talaiot.logger
 
 import com.cdsap.talaiot.logger.LogTracker
 

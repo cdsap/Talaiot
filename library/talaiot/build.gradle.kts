@@ -1,6 +1,7 @@
 plugins {
     id("kotlinLib")
     `java-gradle-plugin`
+    `kotlin-dsl`
 }
 
 dependencies {

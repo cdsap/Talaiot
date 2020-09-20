@@ -6,14 +6,16 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
-import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
+import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
+import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
 

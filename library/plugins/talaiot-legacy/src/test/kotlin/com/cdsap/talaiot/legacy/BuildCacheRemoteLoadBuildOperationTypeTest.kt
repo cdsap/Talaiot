@@ -1,7 +1,8 @@
-package com.cdsap.talaiot.plugins.legacy
+package com.cdsap.talaiot.legacy
 
-import com.cdsap.talaiot.publisher.KRedisContainer
-import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
+import org.testcontainers.remotecache.KRedisContainer
+import org.testcontainers.influxdb.KInfluxDBContainer
+import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert.assertTrue

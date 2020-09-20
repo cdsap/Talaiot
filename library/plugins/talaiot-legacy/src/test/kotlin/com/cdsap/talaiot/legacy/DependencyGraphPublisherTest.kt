@@ -1,13 +1,16 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot.legacy
 
+import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import java.io.File
 
-class NoOutputsBuildTest : BehaviorSpec({
+class DependencyGraphPublisherTest : BehaviorSpec({
+
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included but no logger mode included") {
+        `when`("Talaiot is included with TaskDependencyGraph") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -17,23 +20,26 @@ class NoOutputsBuildTest : BehaviorSpec({
                       id 'com.cdsap.talaiot'
                    }
 
-                  talaiot{
+                  talaiot {
                     publishers {
-                      outputPublisher {}
+                      taskDependencyGraphPublisher {
+                          html = true
+                          gexf = true
+                      }
+                    }
                   }
-               }
             """
             )
+
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then("no logs are shown in the output") {
-                assert(!result.output.contains("OutputPublisher"))
-                assert(!result.output.contains("¯\\_(ツ)_/¯"))
+            then("html and gexf files are generated") {
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/htmlTaskDependency.html").exists())
+                assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/taskgraph/gexfTaskDependency.gexf").exists())
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
             }
             testProjectDir.delete()
         }

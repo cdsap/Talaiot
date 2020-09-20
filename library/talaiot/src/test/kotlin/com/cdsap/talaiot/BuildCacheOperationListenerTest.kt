@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.plugins.legacy
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.CacheInfo
 import com.cdsap.talaiot.entities.ExecutedGradleTaskInfo

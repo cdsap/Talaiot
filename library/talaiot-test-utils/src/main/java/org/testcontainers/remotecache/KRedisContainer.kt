@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package org.testcontainers.remotecache
 
 import org.testcontainers.remotecache.RedisRemoteCacheContainer
 

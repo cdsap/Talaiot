@@ -7,7 +7,7 @@ talaiotPlugin {
     idPlugin = "com.cdsap.talaiot"
     artifact = "talaiot"
     group = "com.cdsap"
-    mainClass = "com.cdsap.talaiot.TalaiotPlugin"
+    mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
     version = "1.3.6-SNAPSHOT"
 }
 

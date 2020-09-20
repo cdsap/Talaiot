@@ -19,11 +19,11 @@ jobs:
           name: build
           command: ./gradlew build jacocoTestReport --stacktrace --info
       - codecov/upload:
-          file: library/talaiot/build/reports/jacoco/test/*.xml
+          file: build/reports/jacoco/test/*.xml
       - store_test_results:
-          path: library/talaiot/build/reports/tests/
+          path: build/reports/tests/
       - store_artifacts:
-          path: library/talaiot/build/reports/tests/
+          path: build/reports/tests/
 
   deploy-snapshot:
     working_directory: ~/repo

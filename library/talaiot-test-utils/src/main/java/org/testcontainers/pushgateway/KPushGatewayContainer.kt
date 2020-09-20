@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package org.testcontainers.pushgateway
 
 import org.testcontainers.pushgateway.PushGatewayContainer
 
