@@ -1,4 +1,4 @@
-include(":talaiot-legacy")
+
 pluginManagement {
     repositories {
         mavenCentral()
