@@ -21,9 +21,7 @@ dependencies {
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
     implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
     testImplementation(gradleTestKit())
-    testImplementation("org.testcontainers:testcontainers:1.11.3")
-    testImplementation("org.testcontainers:influxdb:1.11.3")
-    testImplementation("org.testcontainers:elasticsearch:1.12.0")
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
+    testImplementation(project(":library:talaiot-test-utils"))
 }
 

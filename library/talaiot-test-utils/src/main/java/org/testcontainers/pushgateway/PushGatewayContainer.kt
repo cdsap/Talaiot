@@ -17,7 +17,10 @@ open class PushGatewayContainer :
         logger().info("Starting an Pushgateway container using [{}]", dockerImageName)
         withNetworkAliases("pushgateway-" + Base58.randomString(6))
         withEnv("discovery.type", "single-node")
-        addExposedPorts(PUSHGATEWAY_DEFAULT_PORT, PUSHGATEWAY_DEFAULT_TCP_PORT)
+        addExposedPorts(
+            PUSHGATEWAY_DEFAULT_PORT,
+            PUSHGATEWAY_DEFAULT_TCP_PORT
+        )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(

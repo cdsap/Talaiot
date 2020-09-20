@@ -16,7 +16,10 @@ open class RethinkDbContainer  :
         logger().info("Starting an RethinkDb container using [{}]", dockerImageName)
         withNetworkAliases("rethinkdb-" + Base58.randomString(6))
         withEnv("discovery.type", "single-node")
-        addExposedPorts(RETHINKDB_DEFAULT_PORT, RETHINKDB_DEFAULT_TCP_PORT)
+        addExposedPorts(
+            RETHINKDB_DEFAULT_PORT,
+            RETHINKDB_DEFAULT_TCP_PORT
+        )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(

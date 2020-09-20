@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.e2e
 
+import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome

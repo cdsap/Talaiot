@@ -17,7 +17,10 @@ open class RedisRemoteCacheContainer :
         logger().info("Starting an Redis container using [{}]", dockerImageName)
         withNetworkAliases("redis-" + Base58.randomString(6))
         withEnv("discovery.type", "single-node")
-        addExposedPorts(REDIS_DEFAULT_PORT, REDIS_DEFAULT_TCP_PORT)
+        addExposedPorts(
+            REDIS_DEFAULT_PORT,
+            REDIS_DEFAULT_TCP_PORT
+        )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(

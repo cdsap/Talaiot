@@ -3,11 +3,12 @@ package com.cdsap.talaiot.publisher
 import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.request.SimpleRequest
+import com.cdsap.talaiot.utils.TestExecutor
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import io.kotlintest.Spec

@@ -2,6 +2,7 @@ package com.cdsap.talaiot.e2e
 
 import com.cdsap.talaiot.publisher.KRedisContainer
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
+import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert.assertTrue

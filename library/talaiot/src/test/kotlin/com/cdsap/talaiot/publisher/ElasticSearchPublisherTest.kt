@@ -4,8 +4,9 @@ import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
 
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.utils.TestExecutor
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import io.kotlintest.Spec

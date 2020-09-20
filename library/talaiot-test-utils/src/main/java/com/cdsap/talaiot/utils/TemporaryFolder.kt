@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot.utils
 
 import java.io.File
 import java.io.IOException

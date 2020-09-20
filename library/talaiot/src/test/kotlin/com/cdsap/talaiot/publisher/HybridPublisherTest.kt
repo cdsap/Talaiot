@@ -5,9 +5,10 @@ import com.cdsap.talaiot.entities.CustomProperties
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.graphpublisher.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.utils.TestExecutor
+import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import io.kotlintest.Description
