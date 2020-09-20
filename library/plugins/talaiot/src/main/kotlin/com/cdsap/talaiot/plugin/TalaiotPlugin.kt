@@ -14,5 +14,4 @@ class TalaiotPlugin : Plugin<Project> {
             )
         ).setUpPlugin(target)
     }
-
 }
