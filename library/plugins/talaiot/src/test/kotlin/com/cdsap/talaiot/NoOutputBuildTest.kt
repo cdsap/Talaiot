@@ -1,14 +1,14 @@
-package com.cdsap.talaiot.legacy
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 
-class OutputPublisherBuildTest : BehaviorSpec({
+class NoOutputsBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with OutputPublisher") {
+        `when`("Talaiot is included but no logger mode included") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -19,8 +19,7 @@ class OutputPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                     publishers {
+                    publishers {
                       outputPublisher {}
                   }
                }
@@ -31,9 +30,9 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            then("logs are shown in the output with the shrugged") {
-                assert(result.output.contains("OutputPublisher"))
-                assert(result.output.contains("¯\\_(ツ)_/¯"))
+            then("no logs are shown in the output") {
+                assert(!result.output.contains("OutputPublisher"))
+                assert(!result.output.contains("¯\\_(ツ)_/¯"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 
             }

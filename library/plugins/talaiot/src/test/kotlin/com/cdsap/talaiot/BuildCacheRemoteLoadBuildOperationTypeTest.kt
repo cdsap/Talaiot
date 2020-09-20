@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.legacy
+package com.cdsap.talaiot
 
 import org.testcontainers.remotecache.KRedisContainer
 import org.testcontainers.influxdb.KInfluxDBContainer

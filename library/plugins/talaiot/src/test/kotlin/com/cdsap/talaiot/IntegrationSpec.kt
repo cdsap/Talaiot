@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.legacy
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.utils.TemporaryFolder
