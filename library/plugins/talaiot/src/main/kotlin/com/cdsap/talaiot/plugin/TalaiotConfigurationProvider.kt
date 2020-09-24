@@ -26,7 +26,7 @@ class TalaiotConfigurationProvider(
         val heavyExecutor = Executors.newSingleThreadExecutor()
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
-                publishers.add(OutputPublisher(this.outputPublisher, logger))
+                publishers.add(OutputPublisher(this, logger))
             }
 
             influxDbPublisher?.apply {
