@@ -9,7 +9,6 @@ import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.HybridPublisher
 import com.cdsap.talaiot.publisher.base.OutputPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
-import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
@@ -74,7 +73,7 @@ class HybridPublisherTest : BehaviorSpec() {
                             durationMs = "10",
                             configurationDurationMs = "1",
                             customProperties = CustomProperties(
-                                taskProperties = ExecutionReportProvider.getMetricsTasks()
+                                taskProperties = getMetricsTasks()
                             ),
                             tasks = listOf(
                                 TaskLength(
@@ -122,7 +121,7 @@ class HybridPublisherTest : BehaviorSpec() {
                 then("Error is notified") {
                     hybridPublisher.publish(
                         ExecutionReport(
-                            customProperties = CustomProperties(taskProperties = ExecutionReportProvider.getMetricsTasks()),
+                            customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
@@ -147,7 +146,7 @@ class HybridPublisherTest : BehaviorSpec() {
                 then("Validation inform the error of null publishers") {
                     hybridPublisher.publish(
                         ExecutionReport(
-                            customProperties = CustomProperties(taskProperties = ExecutionReportProvider.getMetricsTasks()),
+                            customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
@@ -184,7 +183,7 @@ class HybridPublisherTest : BehaviorSpec() {
                 then("RethinkDbPublisher only reports builds") {
                     hybridPublisher.publish(
                         ExecutionReport(
-                            customProperties = CustomProperties(taskProperties = ExecutionReportProvider.getMetricsTasks()),
+                            customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
@@ -212,6 +211,13 @@ class HybridPublisherTest : BehaviorSpec() {
         }
     }
 
+    fun getMetricsTasks(): MutableMap<String, String> {
+        return mutableMapOf(
+            "metric1" to "value1",
+            "metric2" to "value2"
+        )
+    }
+    
     private fun getConnection(url: String): Connection {
         val url = URL(url)
         return r.connection().hostname(url.host).port(url.port).connect()
