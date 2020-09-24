@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.CustomProperties
@@ -6,6 +6,8 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.publisher.HybridPublisher
+import com.cdsap.talaiot.publisher.base.OutputPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor

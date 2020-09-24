@@ -1,7 +1,5 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.base
 
-import com.cdsap.talaiot.configuration.Order
-import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState

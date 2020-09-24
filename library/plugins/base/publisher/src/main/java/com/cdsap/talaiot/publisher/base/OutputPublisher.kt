@@ -1,10 +1,9 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.base
 
-import com.cdsap.talaiot.configuration.Order
-import com.cdsap.talaiot.configuration.OutputPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.publisher.Publisher
 import java.util.concurrent.TimeUnit
 
 /**

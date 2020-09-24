@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.timeline
+package com.cdsap.talaiot.publisher.base.timeline
 
 import com.google.gson.annotations.SerializedName
 
