@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec

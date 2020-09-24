@@ -84,14 +84,17 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                 createFinishEvent(
                     ExecuteTaskBuildOperationTypeResult(
                         cachingDisabledReasonCategory = null,
-                        skipMessage = "FROM-CACHE")
+                        skipMessage = "FROM-CACHE"
+                    )
                 )
             )
 
             listenerUnderTest.finished(
                 BuildOperationDescriptor.displayName("load remote cache")
                     .build(taskACachelLoadIdentifier, taskAIdentifier),
-                createRemoteCacheLoadEvent(LoadOperationHitResult(1L))
+                createRemoteCacheLoadEvent(
+                    LoadOperationHitResult(1L)
+                )
             )
             then("report hit for local cache miss and hit for remote cache") {
                 listenerUnderTest.get().shouldBe(
@@ -143,14 +146,17 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                 createFinishEvent(
                     ExecuteTaskBuildOperationTypeResult(
                         cachingDisabledReasonCategory = null,
-                        skipMessage = "FROM-CACHE")
+                        skipMessage = "FROM-CACHE"
+                    )
                 )
             )
 
             listenerUnderTest.finished(
                 BuildOperationDescriptor.displayName("load remote cache")
                     .build(taskCCachelLoadIdentifier, taskCIdentifier),
-                createRemoteCacheLoadEvent(LoadOperationHitResult(1L))
+                createRemoteCacheLoadEvent(
+                    LoadOperationHitResult(1L)
+                )
             )
             then("each task reported correctly") {
                 listenerUnderTest.get().shouldBe(

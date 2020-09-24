@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package org.testcontainers.elasticsearch
 
 import org.testcontainers.elasticsearch.ElasticsearchContainer
 

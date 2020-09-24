@@ -14,7 +14,7 @@ fun Project.setUpJunitPlatform() = this.run {
 }
 
 fun Project.collectUnitTest() = this.run {
-    afterEvaluate {
+
         val testTask = if (rootProject.tasks.findByPath("collectUnitTest") == null) {
             rootProject.tasks.create("collectUnitTest", TestReport::class) {
             }
@@ -30,5 +30,5 @@ fun Project.collectUnitTest() = this.run {
             testTask?.let { reportOn(testTask) }
             destinationDir = file("${rootProject.buildDir}/reports/tests")
         })
-    }
+
 }

@@ -1,10 +1,18 @@
 plugins {
-    id("kotlinLib")
-    `java-gradle-plugin`
     `kotlin-dsl`
+    id("talaiotPlugin")
+}
+
+talaiotPlugin {
+    idPlugin = "com.cdsap.talaiot"
+    artifact = "talaiot"
+    group = "com.cdsap"
+    mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
+    version = "1.3.6-SNAPSHOT"
 }
 
 dependencies {
+    implementation(project(":library:talaiot"))
     implementation(project(":library:talaiot-logger"))
     implementation(project(":library:talaiot-request"))
     implementation("guru.nidi:graphviz-java:0.8.3")
@@ -13,7 +21,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
     implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+    testImplementation(gradleTestKit())
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
     testImplementation(project(":library:talaiot-test-utils"))
 }
-

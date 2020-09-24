@@ -1,14 +1,14 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 
-class PushGatewayPublisherBuildTest : BehaviorSpec({
+class NoOutputsBuildTest : BehaviorSpec({
     given("Build Gradle File") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with PushGatewayPublisher") {
+        `when`("Talaiot is included but no logger mode included") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(
@@ -19,14 +19,10 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                    }
 
                   talaiot{
-                      logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                      publishers {
-                         pushGatewayPublisher {
-                             url = "http://localhost:9091"
-                             taskJobName = "tracking"
-                    }
-                }
-            }
+                    publishers {
+                      outputPublisher {}
+                  }
+               }
             """
             )
             val result = GradleRunner.create()
@@ -34,9 +30,9 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            println(result.output)
-            then("logs are shown in the output and including the pushGateway format") {
-                assert(result.output.contains(":assemble{state=\"EXECUTED\","))
+            then("no logs are shown in the output") {
+                assert(!result.output.contains("OutputPublisher"))
+                assert(!result.output.contains("¯\\_(ツ)_/¯"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
 
             }

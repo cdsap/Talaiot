@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.graphpublisher
+package org.testcontainers.influxdb
 
 import org.testcontainers.containers.InfluxDBContainer
 

@@ -2,11 +2,10 @@ package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.RethinkDbPublisherConfiguration
 import com.cdsap.talaiot.entities.*
-
+import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor
-import com.cdsap.talaiot.utils.TestLogTrackerRecorder
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import com.rethinkdb.net.Cursor
@@ -16,6 +15,7 @@ import io.kotlintest.inspectors.forAtLeastOne
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert.assertTrue
+import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
 class RethinkDbPublisherTest : BehaviorSpec() {

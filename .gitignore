@@ -12,6 +12,7 @@
 /.idea/codeStyles/Project.xml
 /.idea/encodings.xml
 .DS_Store
+/**/out/**
 talaiot/out/**
 /build
 /library/**/build/**

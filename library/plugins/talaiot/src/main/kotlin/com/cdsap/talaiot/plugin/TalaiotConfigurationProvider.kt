@@ -1,8 +1,8 @@
-package com.cdsap.talaiot.provider
+package com.cdsap.talaiot.plugin
 
-import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.configuration.PublishersConfiguration
+
+import com.cdsap.talaiot.logger.LogTrackerImpl
+import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
@@ -11,31 +11,17 @@ import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
-import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
-/**
- * Provides the [Publisher]s defined in the [PublishersConfiguration] of the [TalaiotExtension]
- */
-class PublishersProvider(
-    /**
-     * Gradle Project used to retrieve the extension
-     */
-    val project: Project,
-    val logger: LogTracker,
-    val executor: Executor,
-    val heavyExecutor: Executor
-) : Provider<List<Publisher>> {
-
-    /**
-     * Check the main [TalaiotExtension] which publishers have been enabled.
-     * When one publisher is enabled it initialize it with the required parameters
-     *
-     * @return list of available Publisher for the configuration
-     */
+class TalaiotConfigurationProvider(
+    val project: Project
+) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
-        val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-
+        val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotPluginExtension
+        val logger = LogTrackerImpl(talaiotExtension.logger)
+        val executor = Executors.newSingleThreadExecutor()
+        val heavyExecutor = Executors.newSingleThreadExecutor()
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
                 publishers.add(OutputPublisher(this, logger))

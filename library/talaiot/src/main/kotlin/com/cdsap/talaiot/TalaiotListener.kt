@@ -1,11 +1,11 @@
 package com.cdsap.talaiot
 
+import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.logger.LogTrackerImpl
-import com.cdsap.talaiot.entities.ExecutedTasksInfo
 import com.cdsap.talaiot.provider.MetricsProvider
 import com.cdsap.talaiot.provider.Provider
-import com.cdsap.talaiot.provider.PublishersProvider
+import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import com.cdsap.talaiot.util.TaskAbbreviationMatcher
 import com.cdsap.talaiot.util.TaskName
@@ -17,6 +17,7 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
 import org.gradle.api.internal.GradleInternal
 import org.gradle.api.invocation.Gradle
+
 import org.gradle.api.tasks.TaskState
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
@@ -43,7 +44,8 @@ class TalaiotListener(
      * Talaiot plugin extension. Contains main configuration of the plugin
      */
     private val extension: TalaiotExtension,
-    private val tasksInfoProvider: Provider<ExecutedTasksInfo>
+    private val tasksInfoProvider: Provider<ExecutedTasksInfo>,
+    private val publisherConfigurationProvider: PublisherConfigurationProvider
 ) : BuildListener, TaskExecutionListener {
 
     private val talaiotTracker = TalaiotTracker()
@@ -65,7 +67,7 @@ class TalaiotListener(
                 extension,
                 logger,
                 MetricsProvider(project, result, executedTasksInfo),
-                PublishersProvider(project, logger, executor, heavyExecutor),
+                publisherConfigurationProvider,
                 executedTasksInfo
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,

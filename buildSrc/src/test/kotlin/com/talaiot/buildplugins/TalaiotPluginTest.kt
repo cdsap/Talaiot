@@ -178,7 +178,7 @@ class TalaiotPluginTest {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
                        group = "com.cdsap.overridegroup"
-                       mainClass = "com.cdsap.talaiot.TalaiotPlugin"
+                       mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
                        version = "1.3.6"
                   }
 
@@ -204,7 +204,7 @@ class TalaiotPluginTest {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
                        group = "com.cdsap"
-                       mainClass = "com.cdsap.talaiot.TalaiotPlugin"
+                       mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
                   }
 
                    publishing {
@@ -228,7 +228,7 @@ class TalaiotPluginTest {
                   talaiotPlugin {
                        idPlugin = "com.cdsap.talaiot"
                        artifact = "talaiot"
-                       mainClass = "com.cdsap.talaiot.TalaiotPlugin"
+                       mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
                   }
 
                    publishing {

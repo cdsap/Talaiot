@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.e2e
+package com.cdsap.talaiot
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.utils.TemporaryFolder
@@ -17,16 +17,11 @@ class DefaultConfigurationSpec : StringSpec({
             "6.2.1",
             "6.0.1",
             "5.6.4",
-            "5.6.2",
             "5.5.1",
             "5.4.1",
-            "5.4",
             "5.3.1",
-            "5.3",
             "5.2.1",
-            "5.2",
-            "5.1.1",
-            "5.1"
+            "5.1.1"
         )) { version: String ->
             val testProjectDir = TemporaryFolder()
 

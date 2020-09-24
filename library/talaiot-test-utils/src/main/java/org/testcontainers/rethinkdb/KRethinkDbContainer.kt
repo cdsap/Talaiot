@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package org.testcontainers.rethinkdb
 
 import org.testcontainers.rethinkdb.RethinkDbContainer
 
