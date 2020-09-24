@@ -1,4 +1,3 @@
-include(":hybrid")
 pluginManagement {
     repositories {
         mavenCentral()
