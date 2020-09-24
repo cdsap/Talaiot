@@ -4,6 +4,8 @@ package com.cdsap.talaiot.plugin
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.*
+import com.cdsap.talaiot.publisher.base.JsonPublisher
+import com.cdsap.talaiot.publisher.base.OutputPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
@@ -24,7 +26,7 @@ class TalaiotConfigurationProvider(
         val heavyExecutor = Executors.newSingleThreadExecutor()
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
-                publishers.add(OutputPublisher(this, logger))
+                publishers.add(OutputPublisher(this.outputPublisher, logger))
             }
 
             influxDbPublisher?.apply {
