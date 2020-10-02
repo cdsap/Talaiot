@@ -3,9 +3,9 @@ import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.plugin.base.BaseExtension
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.Publisher
-import com.cdsap.talaiot.publisher.base.JsonPublisher
-import com.cdsap.talaiot.publisher.base.OutputPublisher
-import com.cdsap.talaiot.publisher.base.timeline.TimelinePublisher
+import com.cdsap.talaiot.publisher.JsonPublisher
+import com.cdsap.talaiot.publisher.OutputPublisher
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import org.gradle.api.Project
 
 class BaseConfigurationProvider(

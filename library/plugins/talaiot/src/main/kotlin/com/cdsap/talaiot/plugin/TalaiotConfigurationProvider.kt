@@ -4,13 +4,13 @@ package com.cdsap.talaiot.plugin
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.*
-import com.cdsap.talaiot.publisher.base.JsonPublisher
-import com.cdsap.talaiot.publisher.base.OutputPublisher
+import com.cdsap.talaiot.publisher.JsonPublisher
+import com.cdsap.talaiot.publisher.OutputPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
-import com.cdsap.talaiot.publisher.base.timeline.TimelinePublisher
+import com.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import com.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors

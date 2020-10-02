@@ -2,7 +2,7 @@ package com.cdsap.talaiot.plugin.base
 
 
 import com.cdsap.talaiot.publisher.PublishersConfiguration
-import com.cdsap.talaiot.publisher.base.OutputPublisherConfiguration
+import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 

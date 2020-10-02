@@ -1,3 +1,3 @@
-package com.cdsap.talaiot.publisher.base.timeline
+package com.cdsap.talaiot.publisher.timeline
 
 data class ExecutionResult(val measures: List<Measure>)

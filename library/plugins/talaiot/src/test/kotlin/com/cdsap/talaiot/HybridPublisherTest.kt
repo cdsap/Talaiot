@@ -7,7 +7,7 @@ import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.HybridPublisher
-import com.cdsap.talaiot.publisher.base.OutputPublisherConfiguration
+import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB

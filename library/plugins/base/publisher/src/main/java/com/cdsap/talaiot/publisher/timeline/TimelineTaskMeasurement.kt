@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.base.timeline
+package com.cdsap.talaiot.publisher.timeline
 
 import com.cdsap.talaiot.entities.TaskMessageState
 
