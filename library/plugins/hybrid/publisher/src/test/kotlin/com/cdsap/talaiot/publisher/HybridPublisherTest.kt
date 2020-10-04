@@ -1,4 +1,4 @@
-package com.cdsap.talaiot
+package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.CustomProperties
@@ -6,8 +6,6 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
-import com.cdsap.talaiot.publisher.HybridPublisher
-import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB
@@ -97,7 +95,8 @@ class HybridPublisherTest : BehaviorSpec() {
                         buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
                     assert(combinedBuildValues.matches("""\[.+, 10\.0, 1\.0, false\]""".toRegex()))
 
-                    val taskResult = influxDB.query(Query("select value from $database.rpTalaiot.task"))
+                    val taskResult =
+                        influxDB.query(Query("select value from $database.rpTalaiot.task"))
 
                     assert(taskResult.results[0].series == null)
                 }
@@ -108,7 +107,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskJobName = "tracking"
                 }
 
-                val outputPublisherConfiguration = OutputPublisherConfiguration()
+                val outputPublisherConfiguration = PublisherTestConfiguration()
 
                 val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
                     buildPublisher = outputPublisherConfiguration
@@ -217,9 +216,17 @@ class HybridPublisherTest : BehaviorSpec() {
             "metric2" to "value2"
         )
     }
-    
+
     private fun getConnection(url: String): Connection {
         val url = URL(url)
         return r.connection().hostname(url.host).port(url.port).connect()
+    }
+
+
+
+    class PublisherTestConfiguration : PublisherConfiguration {
+        override var name: String = "testConf"
+        override var publishBuildMetrics: Boolean = true
+        override var publishTaskMetrics: Boolean = true
     }
 }

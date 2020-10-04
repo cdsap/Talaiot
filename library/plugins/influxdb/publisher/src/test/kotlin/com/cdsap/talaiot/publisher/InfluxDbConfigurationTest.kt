@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher
 
 import io.kotlintest.specs.BehaviorSpec
 

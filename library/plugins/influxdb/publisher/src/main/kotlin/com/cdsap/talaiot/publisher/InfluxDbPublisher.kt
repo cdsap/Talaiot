@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider

@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":library:talaiot"))
     implementation(project(":library:plugins:base:publisher"))
     implementation(project(":library:plugins:influxdb:publisher"))
+    implementation(project(":library:plugins:hybrid:publisher"))
     implementation("guru.nidi:graphviz-java:0.8.3")
     implementation("org.influxdb:influxdb-java:2.19")
     implementation("com.github.oshi:oshi-core:3.13.3")

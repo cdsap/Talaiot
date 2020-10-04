@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor
