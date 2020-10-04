@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":library:talaiot-logger"))
-    implementation(project(":library:talaiot-request"))
+    api(project(":library:talaiot-logger"))
+    api(project(":library:talaiot-request"))
     implementation("guru.nidi:graphviz-java:0.8.3")
     implementation("org.influxdb:influxdb-java:2.19")
     implementation("com.github.oshi:oshi-core:3.13.3")

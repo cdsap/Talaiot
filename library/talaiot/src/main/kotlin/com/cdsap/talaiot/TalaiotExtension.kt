@@ -4,7 +4,6 @@ import com.cdsap.talaiot.configuration.FilterConfiguration
 import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.configuration.MetricsConfiguration
-import com.cdsap.talaiot.configuration.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 

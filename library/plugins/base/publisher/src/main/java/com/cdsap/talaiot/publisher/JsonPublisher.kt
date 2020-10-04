@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.publisher
 
 import com.cdsap.talaiot.entities.ExecutionReport
+import com.cdsap.talaiot.publisher.Publisher
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.gradle.api.invocation.Gradle

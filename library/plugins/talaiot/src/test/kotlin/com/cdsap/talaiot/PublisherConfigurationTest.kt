@@ -1,5 +1,7 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot
 
+import com.cdsap.talaiot.configuration.*
+import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
 class PublisherConfigurationTest : BehaviorSpec({
