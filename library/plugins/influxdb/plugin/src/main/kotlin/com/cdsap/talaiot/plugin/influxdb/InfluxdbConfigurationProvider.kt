@@ -2,7 +2,7 @@ package com.cdsap.talaiot.plugin.influxdb
 
 import com.cdsap.talaiot.logger.LogTrackerImpl
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
-import com.cdsap.talaiot.publisher.InfluxDbPublisher
+import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import com.cdsap.talaiot.publisher.Publisher
 import org.gradle.api.Project
 import java.util.concurrent.Executors

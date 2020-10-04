@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.base
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.publisher.Publisher

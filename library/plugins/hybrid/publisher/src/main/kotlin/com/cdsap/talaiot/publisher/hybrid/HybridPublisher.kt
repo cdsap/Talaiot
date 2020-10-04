@@ -1,8 +1,11 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.hybrid
 
 import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.publisher.ElasticSearchPublisher
+import com.cdsap.talaiot.publisher.InfluxDbPublisher
+import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher

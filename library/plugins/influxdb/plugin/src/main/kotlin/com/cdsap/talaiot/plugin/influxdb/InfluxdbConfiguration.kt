@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.plugin.influxdb
 
-import com.cdsap.talaiot.publisher.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project

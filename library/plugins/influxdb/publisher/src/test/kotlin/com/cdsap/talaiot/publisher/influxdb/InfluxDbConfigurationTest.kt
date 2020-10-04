@@ -1,5 +1,6 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.influxdb
 
+import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
 class InfluxDbConfigurationTest : BehaviorSpec({
