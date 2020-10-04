@@ -7,6 +7,7 @@ import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.JsonPublisher
 import com.cdsap.talaiot.publisher.OutputPublisher
 import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactoryImpl
+import com.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
