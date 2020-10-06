@@ -2,9 +2,7 @@ package com.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.*
 
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
