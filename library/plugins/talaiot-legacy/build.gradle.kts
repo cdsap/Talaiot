@@ -13,7 +13,7 @@ talaiotPlugin {
 
 dependencies {
     implementation(project(":library:talaiot"))
-    implementation(project(":library:plugins:base:publisher"))
+    implementation(project(":library:plugins:base:base-publisher"))
     implementation(project(":library:plugins:hybrid:publisher"))
     implementation("guru.nidi:graphviz-java:0.8.3")
     implementation("org.influxdb:influxdb-java:2.19")
