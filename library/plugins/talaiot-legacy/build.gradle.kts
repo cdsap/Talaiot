@@ -23,5 +23,6 @@ dependencies {
     implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
     testImplementation(gradleTestKit())
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
+    testImplementation("org.influxdb:influxdb-java:2.19")
     testImplementation(project(":library:talaiot-test-utils"))
 }
