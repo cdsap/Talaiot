@@ -32,10 +32,9 @@ fun Project.setUpPublishing(
         }
 
         publications {
-            create<MavenPublication>(namePublication) {
-                groupId = group.toString()
+
+            register(namePublication, MavenPublication::class) {
                 artifactId = getArtifact(configurationArtifactId, project)
-                version = version.toString()
                 from(components["java"])
                 versionMapping {
                     usage("java-api") {
