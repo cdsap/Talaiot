@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.graphpublisher
+package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.writer.FileWriter

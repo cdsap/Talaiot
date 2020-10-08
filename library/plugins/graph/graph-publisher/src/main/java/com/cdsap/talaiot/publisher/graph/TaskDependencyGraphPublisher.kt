@@ -1,11 +1,9 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
+import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.writer.DotWriter
 import com.cdsap.talaiot.writer.TaskGraphWriter
 import java.util.concurrent.Executor

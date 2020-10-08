@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.graphpublisher
+package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskDependencyNode

@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher.graphpublisher.resources
+package com.cdsap.talaiot.publisher.graph.resources
 
 
 /**
