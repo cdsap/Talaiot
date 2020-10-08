@@ -1,10 +1,11 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher.graph
 
+import com.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
 /**
- * Configuration for [com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher]
+ * Configuration for [com.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher]
  * taskDependencyGraphPublisher{
  *    gexf = true
  *    html = false
@@ -21,15 +22,15 @@ class TaskDependencyGraphConfiguration(val project: Project) {
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.GexfPublisher]
+     * Flag to enable [com.cdsap.talaiot.publisher.graph.GexfPublisher]
      */
     var gexf = false
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.HtmlPublisher]
+     * Flag to enable [com.cdsap.talaiot.publisher.graph.HtmlPublisher]
      */
     var html = false
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graphpublisher.DotPublisher]
+     * Flag to enable [com.cdsap.talaiot.publisher.graph.DotPublisher]
      */
     var dot = false
 

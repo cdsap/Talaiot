@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher.graph
 
-import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graph.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
 import com.nhaarman.mockitokotlin2.*
