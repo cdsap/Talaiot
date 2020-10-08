@@ -1,11 +1,8 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.configuration.TaskDependencyGraphConfiguration
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.mock.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
-import com.cdsap.talaiot.publisher.graphpublisher.DiskPublisher
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherFactory
-import com.cdsap.talaiot.publisher.graphpublisher.GraphPublisherType
+import com.cdsap.talaiot.publisher.graph.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
 import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.kotlin.dsl.extra

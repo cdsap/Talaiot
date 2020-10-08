@@ -15,7 +15,7 @@ import com.cdsap.talaiot.provider.Provider
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.publisher.TalaiotPublisherImpl
-import com.cdsap.talaiot.publisher.TaskDependencyGraphPublisher
+import com.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argThat
 import com.nhaarman.mockitokotlin2.argumentCaptor

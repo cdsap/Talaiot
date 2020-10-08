@@ -1,5 +1,6 @@
 plugins {
     id("kotlinLib")
+    `kotlin-dsl`
 }
 
 dependencies {

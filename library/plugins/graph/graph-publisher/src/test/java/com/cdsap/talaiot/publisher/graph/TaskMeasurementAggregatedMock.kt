@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.mock
+package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.entities.CustomProperties
 import com.cdsap.talaiot.entities.ExecutionReport
