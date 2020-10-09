@@ -1,6 +1,6 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher.hybrid
 
-import com.cdsap.talaiot.publisher.HybridPublisher
+import com.cdsap.talaiot.configuration.PublisherConfiguration
 
 /**
  * Configuration for the [HybridPublisher]. It belongs to the Publisher configurations
