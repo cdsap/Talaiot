@@ -14,9 +14,9 @@ talaiotPlugin {
 dependencies {
     implementation(project(":library:talaiot"))
     implementation(project(":library:plugins:base:base-publisher"))
+    implementation(project(":library:plugins:graph:graph-publisher"))
     implementation(project(":library:plugins:hybrid:hybrid-publisher"))
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
-    implementation("guru.nidi:graphviz-java:0.8.3")
     implementation("com.github.oshi:oshi-core:3.13.3")
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")

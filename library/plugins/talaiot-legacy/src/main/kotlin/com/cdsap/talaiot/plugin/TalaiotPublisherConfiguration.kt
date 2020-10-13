@@ -7,6 +7,7 @@ import com.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 
 
+import com.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
