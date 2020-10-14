@@ -8,6 +8,7 @@ import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import com.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
+import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import org.testcontainers.influxdb.KInfluxDBContainer
 import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB

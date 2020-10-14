@@ -1,14 +1,12 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
-import org.testcontainers.influxdb.KInfluxDBContainer
-import com.cdsap.talaiot.report.ExecutionReportProvider
+import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
-
+import org.testcontainers.influxdb.KInfluxDBContainer
 
 class InfluxDbPublisherTest : BehaviorSpec() {
 
@@ -43,7 +41,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
                 )
-                influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                influxDbPublisher.publish(executionReport())
                 then("task and build data is store in the database") {
 
                     val taskResultTask =
@@ -67,7 +65,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
                 )
-                influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                influxDbPublisher.publish(executionReport())
                 then("database contains only build information") {
                     val taskResultTask =
                         influxDB.query(Query("select * from $databaseNoTaskMetrics.rpTalaiot.task"))
@@ -89,7 +87,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
                 )
-                influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                influxDbPublisher.publish(executionReport())
                 then("database contains only task information") {
                     val taskResultTask =
                         influxDB.query(Query("select * from $databaseNoBuildMetrics.rpTalaiot.task"))
@@ -110,7 +108,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
                 )
-                influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the task execution") {
                     val taskResult =
                         influxDB.query(Query("select value,state,module,rootNode,task,metric1,metric2 from $databaseTaskMetrics.rpTalaiot.task"))
@@ -135,7 +133,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
                 )
-                influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the build execution") {
 
                     val buildResult =
@@ -166,7 +164,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 )
 
                 then("build metrics are sent and task metrics doesn't") {
-                    influxDbPublisher.publish(ExecutionReportProvider.executionReport())
+                    influxDbPublisher.publish(executionReport())
 
                     val buildResult =
                         influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
@@ -187,6 +185,34 @@ class InfluxDbPublisherTest : BehaviorSpec() {
             }
 
         }
+    }
+
+    private fun executionReport(): ExecutionReport {
+        return ExecutionReport(
+            requestedTasks = "assemble",
+            durationMs = "10",
+            success = true,
+            environment = Environment(
+                cpuCount = "12", maxWorkers = "4"
+            ),
+            customProperties = CustomProperties(
+                taskProperties =  mutableMapOf(
+                    "metric1" to "value1",
+                    "metric2" to "value2"
+                ),
+                buildProperties = mutableMapOf(
+                    "metric3" to "value3",
+                    "metric4" to "value4"
+                )
+            ),
+
+            tasks = listOf(
+                TaskLength(
+                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
+                    "app", emptyList()
+                )
+            )
+        )
     }
 
 }

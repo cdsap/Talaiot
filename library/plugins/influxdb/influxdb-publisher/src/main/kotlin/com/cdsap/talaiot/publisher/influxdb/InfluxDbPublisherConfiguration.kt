@@ -1,7 +1,7 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher.influxdb
 
+import com.cdsap.talaiot.configuration.PublisherConfiguration
 import groovy.lang.Closure
-import com.cdsap.talaiot.publisher.InfluxDbPublisher
 
 /**
  * Configuration for the [InfluxDbPublisher]. It belongs to the Publisher configurations

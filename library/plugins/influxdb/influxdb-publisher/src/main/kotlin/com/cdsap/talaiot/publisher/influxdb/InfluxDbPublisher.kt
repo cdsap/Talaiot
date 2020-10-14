@@ -1,10 +1,10 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.configuration.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
+import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBException
