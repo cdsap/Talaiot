@@ -1,10 +1,8 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.elasticsearch
 
-import com.cdsap.talaiot.configuration.ElasticSearchPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
 
-import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.google.gson.JsonObject
@@ -39,10 +37,11 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             val logger = TestLogTrackerRecorder
 
             `when`("Tasks and build information is published ") {
-                val elasticSearchPublisherConfiguration = ElasticSearchPublisherConfiguration().apply {
-                    url = "http://" + container.httpHostAddress
+                val elasticSearchPublisherConfiguration =
+                    ElasticSearchPublisherConfiguration().apply {
+                        url = "http://" + container.httpHostAddress
 
-                }
+                    }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
                 )
@@ -53,15 +52,22 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     Thread.sleep(10000)
 
                     val url = container.httpHostAddress.split(":")
-                    val client = RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
+                    val client =
+                        RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
 
 
                     val responseBuild =
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/build/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/build/_search?"
+                            )
+                        )
 
                     val contentBuild = EntityUtils.toString(responseBuild.entity)
-                    val hitsBuild = (parser.parse(contentBuild.toString()) as JsonObject).get("hits").asJsonObject
+                    val hitsBuild =
+                        (parser.parse(contentBuild.toString()) as JsonObject).get("hits").asJsonObject
                     val hitsContentBuild = (hitsBuild.get("hits").asJsonArray)[0].asJsonObject
                     val elementsBuild = hitsContentBuild.get("_source").asJsonObject
 
@@ -71,10 +77,16 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
 
                     val responseTask =
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/task/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/task/_search?"
+                            )
+                        )
 
                     val contentTask = EntityUtils.toString(responseTask.entity)
-                    val hitsTask = (parser.parse(contentTask.toString()) as JsonObject).get("hits").asJsonObject
+                    val hitsTask =
+                        (parser.parse(contentTask.toString()) as JsonObject).get("hits").asJsonObject
                     val hitsContentTask = (hitsTask.get("hits").asJsonArray)[0].asJsonObject
                     val elementsTask = hitsContentTask.get("_source").asJsonObject
 
@@ -88,13 +100,14 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("Publishing Task metrics are disabled ") {
-                val elasticSearchPublisherConfiguration = ElasticSearchPublisherConfiguration().apply {
-                    url = "http://" + container.httpHostAddress
-                    taskIndexName = "task2"
-                    buildIndexName = "build2"
-                    publishTaskMetrics = false
+                val elasticSearchPublisherConfiguration =
+                    ElasticSearchPublisherConfiguration().apply {
+                        url = "http://" + container.httpHostAddress
+                        taskIndexName = "task2"
+                        buildIndexName = "build2"
+                        publishTaskMetrics = false
 
-                }
+                    }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
                 )
@@ -105,15 +118,22 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     Thread.sleep(10000)
 
                     val url = container.httpHostAddress.split(":")
-                    val client = RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
+                    val client =
+                        RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
 
 
                     val responseBuild =
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/build2/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/build2/_search?"
+                            )
+                        )
 
                     val contentBuild = EntityUtils.toString(responseBuild.entity)
-                    val hitsBuild = (parser.parse(contentBuild.toString()) as JsonObject).get("hits").asJsonObject
+                    val hitsBuild =
+                        (parser.parse(contentBuild.toString()) as JsonObject).get("hits").asJsonObject
                     val hitsContentBuild = (hitsBuild.get("hits").asJsonArray)[0].asJsonObject
                     val elementsBuild = hitsContentBuild.get("_source").asJsonObject
 
@@ -124,19 +144,25 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
 
 
                     val exception = shouldThrow<ResponseException> {
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/task2/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/task2/_search?"
+                            )
+                        )
                     }
                     assert(exception.message!!.contains("index_not_found_exception"))
                 }
             }
             `when`("Publishing Build metrics are disabled ") {
-                val elasticSearchPublisherConfiguration = ElasticSearchPublisherConfiguration().apply {
-                    url = "http://" + container.httpHostAddress
-                    taskIndexName = "task3"
-                    buildIndexName = "build3"
-                    publishBuildMetrics = false
+                val elasticSearchPublisherConfiguration =
+                    ElasticSearchPublisherConfiguration().apply {
+                        url = "http://" + container.httpHostAddress
+                        taskIndexName = "task3"
+                        buildIndexName = "build3"
+                        publishBuildMetrics = false
 
-                }
+                    }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
                 )
@@ -148,20 +174,32 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     Thread.sleep(10000)
 
                     val url = container.httpHostAddress.split(":")
-                    val client = RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
+                    val client =
+                        RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
 
                     val exception = shouldThrow<ResponseException> {
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/build3/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/build3/_search?"
+                            )
+                        )
                     }
                     assert(exception.message!!.contains("index_not_found_exception"))
 
 
                     val responseTask =
-                        client.performRequest(org.elasticsearch.client.Request("GET", "/task3/_search?"))
+                        client.performRequest(
+                            org.elasticsearch.client.Request(
+                                "GET",
+                                "/task3/_search?"
+                            )
+                        )
 
                     val contentTask = EntityUtils.toString(responseTask.entity)
-                    val hitsTask = (parser.parse(contentTask.toString()) as JsonObject).get("hits").asJsonObject
+                    val hitsTask =
+                        (parser.parse(contentTask.toString()) as JsonObject).get("hits").asJsonObject
                     val hitsContentTask = (hitsTask.get("hits").asJsonArray)[0].asJsonObject
                     val elementsTask = hitsContentTask.get("_source").asJsonObject
 
@@ -183,7 +221,12 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             environment = Environment(
                 cpuCount = "12", maxWorkers = "4"
             ),
-            customProperties = CustomProperties(taskProperties = ExecutionReportProvider.getMetricsTasks()),
+            customProperties = CustomProperties(
+                taskProperties = mutableMapOf(
+                    "metric1" to "value1",
+                    "metric2" to "value2"
+                )
+            ),
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
