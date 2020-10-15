@@ -6,6 +6,7 @@ import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import com.cdsap.talaiot.publisher.*
 import com.cdsap.talaiot.publisher.JsonPublisher
 import com.cdsap.talaiot.publisher.OutputPublisher
+import com.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import com.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import com.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl

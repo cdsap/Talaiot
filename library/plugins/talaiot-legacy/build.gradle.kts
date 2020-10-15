@@ -14,6 +14,7 @@ talaiotPlugin {
 dependencies {
     implementation(project(":library:talaiot"))
     implementation(project(":library:plugins:base:base-publisher"))
+    implementation(project(":library:plugins:elastic-search:elastic-search-publisher"))
     implementation(project(":library:plugins:graph:graph-publisher"))
     implementation(project(":library:plugins:hybrid:hybrid-publisher"))
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
