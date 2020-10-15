@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher.rethinkdb
 
-import com.cdsap.talaiot.configuration.RethinkDbPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.utils.TestExecutor
