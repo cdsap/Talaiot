@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.pushgateway
 
 /**
  * Extension Function for Type String to format tags and values

@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher.pushgateway
 
-import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.Publisher

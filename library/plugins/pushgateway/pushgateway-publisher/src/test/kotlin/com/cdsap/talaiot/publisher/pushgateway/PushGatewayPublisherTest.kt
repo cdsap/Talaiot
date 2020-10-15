@@ -1,11 +1,7 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.pushgateway
 
-import com.cdsap.talaiot.configuration.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 
-import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
-import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
-import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.request.SimpleRequest
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.utils.TestExecutor
@@ -215,8 +211,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = ExecutionReportProvider.getMetricsTasks(),
-                buildProperties = ExecutionReportProvider.getMetricsBuild()
+                taskProperties = mutableMapOf(
+                    "metric1" to "value1",
+                    "metric2" to "value2"
+                ),
+                buildProperties = mutableMapOf(
+                    "metric3" to "value3",
+                    "metric4" to "value4"
+                )
             ),
             tasks = listOf(
                 TaskLength(
@@ -243,8 +245,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = ExecutionReportProvider.getMetricsTasks(),
-                buildProperties = ExecutionReportProvider.getMetricsBuild()
+                taskProperties = mutableMapOf(
+                    "metric1" to "value1",
+                    "metric2" to "value2"
+                ),
+                buildProperties = mutableMapOf(
+                    "metric3" to "value3",
+                    "metric4" to "value4"
+                )
             ),
             tasks = listOf(
                 TaskLength(
