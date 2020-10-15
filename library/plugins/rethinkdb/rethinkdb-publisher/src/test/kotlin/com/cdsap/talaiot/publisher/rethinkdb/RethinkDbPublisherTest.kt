@@ -1,10 +1,7 @@
-package com.cdsap.talaiot.publisher
+package com.cdsap.talaiot.publisher.rethinkdb
 
-import com.cdsap.talaiot.configuration.RethinkDbPublisherConfiguration
 import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
-import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
-import com.cdsap.talaiot.report.ExecutionReportProvider
 import com.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
@@ -162,8 +159,14 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = ExecutionReportProvider.getMetricsTasks(),
-                buildProperties = ExecutionReportProvider.getMetricsBuild()
+                taskProperties = mutableMapOf(
+                    "metric1" to "value1",
+                    "metric2" to "value2"
+                ),
+                buildProperties =  mutableMapOf(
+                    "metric3" to "value3",
+                    "metric4" to "value4"
+                )
             ),
             tasks = listOf(
                 TaskLength(

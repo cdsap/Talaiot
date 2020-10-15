@@ -1,4 +1,6 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher.rethinkdb
+
+import com.cdsap.talaiot.configuration.PublisherConfiguration
 
 /**
  * Configuration for the [RethinkDbPublisher]. It belongs to the Publisher configurations

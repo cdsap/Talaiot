@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":library:plugins:graph:graph-publisher"))
     implementation(project(":library:plugins:hybrid:hybrid-publisher"))
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
+    implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation("com.github.oshi:oshi-core:3.13.3")
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")

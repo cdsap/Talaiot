@@ -4,6 +4,7 @@ import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import com.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
+import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
 class PublisherConfigurationTest : BehaviorSpec({
