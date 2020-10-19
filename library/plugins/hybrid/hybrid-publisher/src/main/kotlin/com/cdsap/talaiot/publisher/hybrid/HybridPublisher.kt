@@ -11,6 +11,7 @@ import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import com.cdsap.talaiot.request.SimpleRequest

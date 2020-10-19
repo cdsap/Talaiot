@@ -9,6 +9,7 @@ import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 
 
 import com.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
