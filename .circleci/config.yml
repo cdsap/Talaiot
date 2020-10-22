@@ -33,7 +33,7 @@ jobs:
       - checkout
       - run:
           name: snapshot
-          command: ./gradlew publishPluginMavenPublicationToSnapshotsRepository
+          command: ./gradlew publishMavenTalaiotLibPublicationToSnapshotsRepository publishPluginMavenPublicationToSnapshotsRepository
 
 workflows:
   version: 2.1
