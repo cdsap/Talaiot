@@ -1,7 +1,9 @@
-package com.cdsap.talaiot.configuration
+package com.cdsap.talaiot.publisher.pushgateway
+
+import com.cdsap.talaiot.configuration.PublisherConfiguration
 
 /**
- * Configuration for the [com.cdsap.talaiot.publisher.PushGatewayPublisher]
+ * Configuration for the [PushGatewayPublisher]
  *
  * pushGatewayPublisher {
  *    url = "http://some.company:8086"

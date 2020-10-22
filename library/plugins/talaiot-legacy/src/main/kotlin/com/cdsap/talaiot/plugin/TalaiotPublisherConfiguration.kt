@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.plugin
 
-import com.cdsap.talaiot.configuration.*
 import com.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
@@ -10,6 +9,7 @@ import com.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 
 
 import com.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
+import com.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
