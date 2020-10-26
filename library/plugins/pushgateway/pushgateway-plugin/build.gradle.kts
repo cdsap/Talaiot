@@ -12,5 +12,5 @@ talaiotPlugin {
 
 dependencies {
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))
-    implementation(project(":library:talaiot"))
+    implementation(project(":library:core:talaiot"))
 }
