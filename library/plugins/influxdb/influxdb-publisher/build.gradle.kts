@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":library:talaiot"))
+    implementation(project(":library:core:talaiot"))
     implementation("org.influxdb:influxdb-java:2.19")
-    testImplementation(project(":library:talaiot-test-utils"))
+    testImplementation(project(":library:core:talaiot-test-utils"))
 }

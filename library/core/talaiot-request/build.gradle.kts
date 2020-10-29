@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":library:talaiot-logger"))
+    api(project(":library:core:talaiot-logger"))
     implementation("io.github.rybalkinsd:kohttp:0.10.0")
 }

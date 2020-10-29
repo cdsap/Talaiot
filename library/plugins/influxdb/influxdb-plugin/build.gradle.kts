@@ -12,6 +12,6 @@ talaiotPlugin {
 
 dependencies {
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
-    implementation(project(":library:talaiot"))
+    implementation(project(":library:core:talaiot"))
 }
 

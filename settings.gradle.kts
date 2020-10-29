@@ -9,10 +9,10 @@ pluginManagement {
     }
 }
 include(":library:docs")
-include(":library:talaiot")
-include(":library:talaiot-request")
-include(":library:talaiot-logger")
-include(":library:talaiot-test-utils")
+include(":library:core:talaiot")
+include(":library:core:talaiot-request")
+include(":library:core:talaiot-logger")
+include(":library:core:talaiot-test-utils")
 include(":library:plugins:base:base-plugin")
 include(":library:plugins:base:base-publisher")
 include(":library:plugins:elastic-search:elastic-search-plugin")
