@@ -13,5 +13,5 @@ talaiotPlugin {
 dependencies {
     implementation(project(":library:core:talaiot"))
     implementation(project(":library:plugins:graph:graph-publisher"))
-    testImplementation(project(":library:talaiot-test-utils"))
+    testImplementation(project(":library:core:talaiot-test-utils"))
 }
