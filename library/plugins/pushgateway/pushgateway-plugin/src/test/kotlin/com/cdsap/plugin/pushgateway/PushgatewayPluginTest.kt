@@ -33,13 +33,13 @@ class PushgatewayPluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.rethinkdb'
+                      id 'com.cdsap.talaiot.plugin.pushgateway'
                    }
 
                   talaiot {
                     publishers {
-                      rethinkDbPublisher {
-                             url = "http://"${container.httpHostAddress}
+                      pushGatewayPublisher {
+                             url = "http://${container.httpHostAddress}"
                       }
                     }
                   }
@@ -52,6 +52,7 @@ class PushgatewayPluginTest : BehaviorSpec() {
                     .withPluginClasspath()
                     .build()
                 then("there are build/task records in the Pushgateway instance") {
+                    Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
                     val a = httpGet {
@@ -64,12 +65,9 @@ class PushgatewayPluginTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
+                    println(content)
                     assert(
                         content?.contains(":assemble{")
-                            ?: false
-                    )
-                    assert(
-                        content?.contains(":clean{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
                             ?: false
                     )
                     assert(

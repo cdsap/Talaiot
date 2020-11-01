@@ -42,7 +42,7 @@ class RethinkdbPluginTest : BehaviorSpec() {
                   talaiot {
                     publishers {
                       rethinkDbPublisher {
-                             url = "http://"${container.httpHostAddress}
+                             url = "http://${container.httpHostAddress}"
                              taskTableName = "tasks"
                              buildTableName = "builds"
                              dbName = "tracking"
@@ -58,6 +58,9 @@ class RethinkdbPluginTest : BehaviorSpec() {
                     .withPluginClasspath()
                     .build()
                 then("there are records in the Rethinkdb instance") {
+                    // We are testing the plugin and we can't inject
+                    // a test scheduler, forcing to sleep
+                    Thread.sleep(2000)
                     val conn = getConnection("http://${container.httpHostAddress}")
                     val existsTableTasks =
                         r.db("tracking").tableList().contains("tasks")
