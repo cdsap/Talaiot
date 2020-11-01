@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.publisher.graph
 
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.writer.FileWriter
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter
 import java.util.concurrent.Executor
 
 class GraphPublisherFactoryImpl

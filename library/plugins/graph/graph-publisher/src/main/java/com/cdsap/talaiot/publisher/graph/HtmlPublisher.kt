@@ -5,7 +5,7 @@ import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.graph.resources.ResourcesHtml
 import com.cdsap.talaiot.publisher.graph.resources.ResourcesHtml.LEGEND_HEADER
-import com.cdsap.talaiot.writer.FileWriter
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter
 import java.util.concurrent.Executor
 
 /**

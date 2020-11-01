@@ -4,7 +4,7 @@ import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskDependencyNode
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.writer.FileWriter
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter
 
 /**
  * Abstract class implementing DiskPublisher.

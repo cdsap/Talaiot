@@ -3,7 +3,7 @@ package com.cdsap.talaiot.publisher.graph
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.publisher.Publisher
 import com.cdsap.talaiot.utils.TestExecutor
-import com.cdsap.talaiot.writer.FileWriter
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter
 import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 

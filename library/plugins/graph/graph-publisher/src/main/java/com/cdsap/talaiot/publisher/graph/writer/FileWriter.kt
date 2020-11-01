@@ -1,4 +1,4 @@
-package com.cdsap.talaiot.writer
+package com.cdsap.talaiot.publisher.graph.writer
 
 import com.cdsap.talaiot.logger.LogTracker
 import org.gradle.api.Project
