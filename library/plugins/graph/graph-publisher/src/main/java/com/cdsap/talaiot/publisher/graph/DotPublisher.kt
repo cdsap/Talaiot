@@ -4,7 +4,7 @@ package com.cdsap.talaiot.publisher.graph
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.entities.TaskMessageState
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.writer.FileWriter
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter
 import guru.nidi.graphviz.attribute.RankDir
 import guru.nidi.graphviz.engine.Engine
 import guru.nidi.graphviz.engine.Format

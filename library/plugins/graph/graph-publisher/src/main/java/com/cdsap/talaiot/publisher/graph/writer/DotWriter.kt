@@ -1,15 +1,15 @@
-package com.cdsap.talaiot.writer
+package com.cdsap.talaiot.publisher.graph.writer
 
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.writer.FileWriter.Companion.TALAIOT_OUTPUT_DIR
+import com.cdsap.talaiot.publisher.graph.writer.FileWriter.Companion.TALAIOT_OUTPUT_DIR
+import guru.nidi.graphviz.engine.Renderer
 import org.gradle.api.Project
 import java.io.File
-import java.nio.file.Files
 
 /**
- * Implementation of FileWriter to writes bytes to a file
+ * Implementation of FileWriter using Renderer from GraphViz library
  */
-class TaskGraphWriter(
+class DotWriter(
     override var project: Project,
     override var logTracker: LogTracker
 ) : FileWriter {
@@ -21,8 +21,8 @@ class TaskGraphWriter(
         val file = File(dir, name)
 
         createFile {
-            if (content is String) {
-                Files.write(file.toPath(), content.toByteArray())
+            if (content is Renderer) {
+                content.toFile(file)
             }
         }
     }
