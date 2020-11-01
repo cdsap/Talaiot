@@ -8,9 +8,9 @@ import java.io.File
 
 class DependencyGraphPublisherTest : BehaviorSpec({
 
-    given("Build Gradle File") {
+    given("Graph Talaiot Plugin") {
         val testProjectDir = TemporaryFolder()
-        `when`("Talaiot is included with TaskDependencyGraph") {
+        `when`("Project includes the plugin") {
             testProjectDir.create()
             val buildFile = testProjectDir.newFile("build.gradle")
             buildFile.appendText(

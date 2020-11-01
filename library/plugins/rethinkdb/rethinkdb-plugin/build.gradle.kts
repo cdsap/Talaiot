@@ -13,5 +13,6 @@ talaiotPlugin {
 dependencies {
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation(project(":library:talaiot"))
+    testImplementation(project(":library:talaiot-test-utils"))
 }
 
