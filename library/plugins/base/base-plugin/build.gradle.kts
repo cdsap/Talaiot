@@ -13,5 +13,6 @@ talaiotPlugin {
 dependencies {
     implementation(project(":library:plugins:base:base-publisher"))
     implementation(project(":library:core:talaiot"))
+    testImplementation(project(":library:core:talaiot-test-utils"))
 }
 

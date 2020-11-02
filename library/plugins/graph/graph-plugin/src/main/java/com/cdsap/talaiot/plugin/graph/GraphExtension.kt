@@ -5,7 +5,7 @@ import com.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
-class GraphExtension(project: Project) : TalaiotExtension(project) {
+open class GraphExtension(project: Project) : TalaiotExtension(project) {
     /**
      * General Publisher configuration included in the build.
      */
