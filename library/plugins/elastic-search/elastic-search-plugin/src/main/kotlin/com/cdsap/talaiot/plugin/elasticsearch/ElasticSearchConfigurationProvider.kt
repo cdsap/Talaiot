@@ -15,13 +15,15 @@ class ElasticSearchConfigurationProvider(
         val talaiotExtension = project.extensions.getByName("talaiot") as ElasticSearchExtension
 
         talaiotExtension.publishers?.apply {
-            publishers.add(
-                ElasticSearchPublisher(
-                    this.elasticSearchPublisher!!,
-                    LogTrackerImpl(talaiotExtension.logger),
-                    Executors.newSingleThreadExecutor()
+            elasticSearchPublisher?.let { publisherConfig ->
+                publishers.add(
+                    ElasticSearchPublisher(
+                        publisherConfig,
+                        LogTrackerImpl(talaiotExtension.logger),
+                        Executors.newSingleThreadExecutor()
+                    )
                 )
-            )
+            }
             publishers.addAll(customPublishers)
         }
         return publishers
