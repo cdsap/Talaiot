@@ -32,12 +32,12 @@ _"... while some certainly had a defensive purpose, the use of others is not cle
 https://en.wikipedia.org/wiki/Talaiot
 
 # Table of Contents
-1. [Setup Plugin](#setup)
+1. [Setup](#setup)
 2. [Snapshots](#snapshots)
 3. [Basic Configuration](#basic-configuration)
-4. [Talaiot](#talaiot-extension)
+4. [Talaiot Extension](#talaiot-extension)
 5. [Example: Analyzing Data provided by Talaiot](#example)
-6. [Other Plugins](#plugins)
+6. [Other Existing Libraries](#other_libraries)
 7. [Docs](#docs)
 8. [Articles](#articles)
 9. [Contributing](#contributing)
@@ -315,7 +315,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins.
 
 ##### RetentionPolicyConfiguration
 
@@ -371,6 +371,8 @@ Example:
 
 ![](resources/graph_example_plaid.png)
 
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.graph` plugins.
+
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
 
@@ -383,7 +385,7 @@ Talaiot will send to the PushGateway server defined in the configuration the val
 | publishBuildMetrics  | Publish build metrics of the publisher, true by default                           |
 | publishTaskMetrics   | Publish tasks metrics of the publisher, true by default                           |
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.graph` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.pushgateway` plugins.
 
 #### JsonPublisher
 Talaiot will Publish the results of the build with a json format .
@@ -395,7 +397,7 @@ Talaiot will Publish the results of the build with a json format .
     }
 ```
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
 
 #### TimelinePublisher
 Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
@@ -409,7 +411,7 @@ in the different workers.
 
     }
 ```
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
 
 #### ElasticSearchPublisher
 Talaiot will send to the ElasticSearch server defined in the configuration the values collected for tasks and build metrics during the execution
@@ -434,7 +436,7 @@ Example:
         }
     }
 ```
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.elasticsearch` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.elasticsearch` plugins.
 
 #### HybridPublisher
 This Publisher allows composition over publishers to report tasks and build metrics.
@@ -467,7 +469,7 @@ Example:
 ```
 In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics.
 
-Included in: `com.cdsap.talaiot` plugin
+Included in: `com.cdsap.talaiot` plugin.
 
 #### RethinkDbPublisher
 Talaiot will send to the RethinkDb server defined in the configuration the values collected during the execution
@@ -484,7 +486,7 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                               |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                               |
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.rethinkdb` plugins
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.rethinkdb` plugins.
 
 #### Custom Publishers
 Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
@@ -500,7 +502,7 @@ talaiot {
 }
 ```
 Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
-In you are not using additional plugins we recommend to use  `com.cdsap.talaiot.plugin.base`
+In you are not using additional plugins we recommend to use  `com.cdsap.talaiot.plugin.base`.
 
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
@@ -564,7 +566,7 @@ http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1
 
 
 
-## Other Existing libraries  <a name="plugins"></a>
+## Other Existing Libraries  <a name="other_libraries"></a>
 Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:
 
 * [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation
