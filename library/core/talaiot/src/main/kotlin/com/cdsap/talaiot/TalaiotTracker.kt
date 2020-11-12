@@ -4,6 +4,7 @@ import com.cdsap.talaiot.entities.NodeArgument
 import com.cdsap.talaiot.entities.TaskLength
 import com.cdsap.talaiot.entities.TaskMessageState
 import org.gradle.api.Task
+import org.gradle.api.internal.tasks.TaskDependencyResolveException
 import org.gradle.api.tasks.TaskState
 import java.util.*
 
@@ -16,6 +17,7 @@ class TalaiotTracker {
      * List of tasks executed during the build and tracked
      */
     val taskLengthList = mutableListOf<TaskLength>()
+
     /**
      * Queue that represents the tasks used in the gradlew/gradle to start the build. We need to register these
      * tasks because we want to aggregate the overall duration for these tasks.
@@ -27,14 +29,17 @@ class TalaiotTracker {
      *
      */
     var queue = ArrayDeque<NodeArgument>()
+
     /**
      * HashTable to track the execution time of the task
      */
     private var listOfTasks: HashMap<String, Long> = hashMapOf()
+
     /**
      * current item retrieved from the queue
      */
     private var currentNode = NodeArgument("", 0, 0)
+
     /**
      * in cases where Gradle executes the default tasks we don't want to track the build
      */
@@ -152,7 +157,13 @@ class TalaiotTracker {
      *
      * @return list of task paths depending of the given task
      */
-    private fun taskDependencies(task: Task) = task.taskDependencies.getDependencies(task).map { it.path }
+    private fun taskDependencies(task: Task): List<String> =
+        try {
+            task.taskDependencies.getDependencies(task).map { it.path }
+        } catch (e: TaskDependencyResolveException) {
+            emptyList()
+        }
+
 
     /**
      * Get the current module of a given task
