@@ -3,16 +3,25 @@
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
 [![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
-Talaiot is a simple and extensible plugin targeting teams using Gradle Build System.
-It records the duration of your Gradle tasks helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics. 
+Talaiot is an extensible library targeting teams using the Gradle Build System.
+It records build/task duration helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics.
 
-Some of the features are:
+Talaiot is compatible with different systems like InfluxDb, Elasticsearch or RethinkDb. You need to use a Plugin to work with Talaiot.
+You can use the standard plugin, including all the functionality, or if you have a specific requirement with a individual plugin.
 
-* Integration with Time/Series systems like InfluxDb, ElasticSearch and Prometheus.
-* Extensible definition of metrics depending on the requirements.
-* Definition of custom publishers
-* Develop it entirely with Kotlin 
-* Generation Task Dependency Graph for the build
+Current available plugins:
+
+| Plugin         |      Description                                                          |
+|----------------|---------------------------------------------------------------------------|
+| standard       | Contains all the available publishers listed below                        |
+| base           | Talaiot core functionality with Json, Output and Timeline publishers     |
+| elasticsearch  | Talaiot core functionality with Elasticsearch publisher                  |
+| graph          | Talaiot core functionality with Graph publisher                          |
+| influxdb       | Talaiot core functionality with Influxdb publisher                       |
+| pushgateway    | Talaiot core functionality with Pushgateway publisher                    |
+| rethinkdb      | Talaiot core functionality with Rethinkdb publisher                      |
+
+Once you have Talaiot integrated you can create dashboards using the build information stored:
 
 ![](resources/dashboard.png)
 
@@ -23,25 +32,26 @@ _"... while some certainly had a defensive purpose, the use of others is not cle
 https://en.wikipedia.org/wiki/Talaiot
 
 # Table of Contents
-1. [Setup Plugin](#setup-plugin)
+1. [Setup](#setup)
 2. [Snapshots](#snapshots)
 3. [Basic Configuration](#basic-configuration)
 4. [Talaiot Extension](#talaiot-extension)
 5. [Example: Analyzing Data provided by Talaiot](#example)
-6. [Other Plugins](#plugins)
+6. [Other Existing Libraries](#other_libraries)
 7. [Docs](#docs)
 8. [Articles](#articles)
 9. [Contributing](#contributing)
 10. [Contributors](#contributors)
 11. [Thanks](#thanks)
 
-## Setup Plugin <a name="setup-plugin"></a>
+## Setup <a name="setup"></a>
 
-### Kotlin
-Using the plugins DSL
+### Standard Plugin
+#### Kotlin
+Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.3.5"
+  id("com.cdsap.talaiot") version "1.4.0"
 }
 ```
 
@@ -54,18 +64,18 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.3.5")
+    classpath("com.cdsap:talaiot:1.4.0")
   }
 }
 
 apply(plugin = "com.cdsap.talaiot")
 ```
 
-### Groovy
+#### Groovy
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.3.5"
+  id "com.cdsap.talaiot" version "1.4.0"
 }
 
 ```
@@ -79,12 +89,76 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.3.5"
+    classpath "com.cdsap:talaiot:1.4.0"
   }
 }
 
 apply plugin: "com.cdsap.talaiot"
 ```
+
+### Individual Plugins
+
+Each plugin is deployed to the Gradle Plugin Portal using thee following convention:
+
+| Plugin         |      Id                                 |
+|----------------|-----------------------------------------|
+| base           | com.cdsap.talaiot.plugin.base           |
+| elasticsearch  | com.cdsap.talaiot.plugin.elasticsearch  |
+| graph          | com.cdsap.talaiot.plugin.graph          |
+| influxdb       | com.cdsap.talaiot.plugin.influxdb       |
+| pushgateway    | com.cdsap.talaiot.plugin.pushgateway    |
+| rethinkdb      | com.cdsap.talaiot.plugin.rehinkdb       |
+
+
+#### Kotlin Example Plugin
+Using the plugins DSL:
+```
+plugins {
+  id("com.cdsap.talaiot.plugin.base") version "1.4.0"
+}
+```
+
+Using legacy plugin application:
+```
+buildscript {
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
+  }
+  dependencies {
+    classpath("com.cdsap.talaiot.plugin:base:1.4.0")
+  }
+}
+
+apply(plugin = "com.cdsap.talaiot.plugin.base")
+```
+
+#### Groovy
+Using the plugins DSL:
+```
+plugins {
+  id "com.cdsap.talaiot.plugin.base" version "1.4.0"
+}
+
+```
+
+Using legacy plugin application:
+```
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath ""com.cdsap.talaiot.plugin:base:1.4.0""
+  }
+}
+
+apply plugin: "com.cdsap.talaiot.plugin.base"
+```
+
 
 
 ## Snapshots  <a name="snapshots"></a>
@@ -93,15 +167,119 @@ Include the OJO artifactory oss-snapshot local:
 ````
 maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 ````
-And the current Snapshot:
+### Standard Plugin
 
 ````
-classpath("com.cdsap:talaiot:1.3.6-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.4.1-SNAPSHOT")
+````
+### Individual Plugin
+
+````
+classpath("com.cdsap.talaiot.plugin:base:1.4.1-SNAPSHOT")
 ````
 
-## Basic configuration  <a name="basic-configuration"></a>
+## Talaiot Extension  <a name="talaiot-extension"></a>
+
+| Property       |      Description                                                          |
+|----------------|---------------------------------------------------------------------------|
+| logger         | Mode for logging (Silent,Info)                                            |
+| ignoreWhen     | Configuration to ignore the execution of Talaiot                          |
+| generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
+| publishers     | Configuration to define where to submit the information of the build      |
+| metrics        | Additional information tracked during the execution of the task           |
+| filter         | Rules to filter the build or the tasks to be reported                     |
+### Metrics
+We can include extra information on the build and task tracked data during the build. This information will be added to the default metrics defined.
+
+```
+talaiot {
+    metrics {
+        // You can add your own custom Metric objects:
+        customMetrics(
+            MyCustomMetric(),
+            // Including some of the provided metrics, individually.
+            HostnameMetric()
+        )
+
+        // Or define build or task metrics directly:
+        customBuildMetrics(
+            "kotlinVersion" to $kotlinVersion,
+            "javaVersion" to $javaVersion
+        )
+        customTaskMetrics(
+            "customProperty" to $value
+        )
+    }
+}
+```
+
+Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
+
+### Filters
+For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
+
+
+ | Property             |      Description                                                                             |
+ |----------------------|----------------------------------------------------------------------------------------------|
+ | tasks                |Configuration used to filter which tasks we want to exclude and include in the execution      |
+ | module               |Configuration used to filter which modules we want to exclude and include in the execution    |
+ | threshold            |Configuration used to define time execution ranges to filter tasks to be reported             |
+
+ For every measurement done, Talaiot can completely skip publishing process. These filters affect all publishers:
+
+ | Property             |      Description                                                                             |
+ |----------------------|----------------------------------------------------------------------------------------------|
+ | build.success        |Configuration used to skip publishing based on build success.                                 |
+ | build.requestedTasks |Configuration used to skip publishing based on what was the requested task.                   |
+
+
+ Example:
+ ```
+  filter {
+      tasks {
+          excludes = arrayOf("preDebugBuild", "processDebugResources")
+      }
+      modules {
+          excludes = arrayOf(":app")
+      }
+      threshold {
+          minExecutionTime = 10
+      }
+      build {
+          success = true
+          requestedTasks {
+              includes = arrayOf(":app:assemble.*")
+              excludes = arrayOf(":app:generate.*")
+          }
+      }
+  }
+ ```
+
+
+### IgnoreWhen
+
+| Property   |      Description      |
+|----------- |-----------------------|
+| envName    |Name of the Property   |
+| envValue   |Value of the Property  |
+
+We will use IgnoreWhen when we want to ignore publishing the results of the build. One use case is to ignore it when we
+are building on CI:
 
 ````
+talaiot {
+    ignoreWhen {
+        envName = "CI"
+        envValue = "true"
+    }
+}
+````
+
+
+### Publishers configuration  <a name="talaiot-extension"></a>
+The Publisher configuration will change depending on the type of plugin you are using. Standard Plugin provides
+all the different publisher configurations, for example:
+```
 talaiot {
     publishers {
         influxDbPublisher {
@@ -118,42 +296,8 @@ talaiot {
         }
     }
 }
-````
-This example adds the `InfluxDbPublisher` with the information of the InfluxDb Server where it will be posted the information tracked.
-Additionally, we are disabling the metrics for Git and Performance.
-
-## Talaiot Extension  <a name="talaiot-extension"></a>
-
-| Property       |      Description                                                          |
-|----------------|---------------------------------------------------------------------------|
-| logger         | Mode for logging (Silent,Info)                                            |
-| ignoreWhen     | Configuration to ignore the execution of Talaiot                          |
-| generateBuildId| Generation of unique identifier for each execution(disabled by default)   |
-| publishers     | Configuration to define where to submit the information of the build      |
-| metrics        | Additional information tracked during the execution of the task           |
-| filter         | Rules to filter the build or the tasks to be reported                     |
-
-    
-### Publishers
-In terms of publishing Talaiot includes some default Publishers, but at the same time 
-you can extend it and create your publisher for your requirements
-
-#### Predefined Publishers
- 
-
-| Property                      |      Description                                                                                           |
-|------------------------------ |------------------------------------------------------------------------------------------------------------|
-| OutputPublisher               | Publish the results of the build on the console, this Publisher will only print the task name and duration |
-| InfluxDbPublisher             | Publish the results of the build to the InfluxDb database defined in the configuration                     |
-| TaskDependencyGraphPublisher  | Publish the results of the build using the dependency graph of the tasks executed                          |
-| PushGatewayGraphPublisher     | Publish the results of the build to the PushGateway server defined in the configuration                    |
-| JsonPublisher                 | Publish the results of the build with a json format                                                        |
-| TimelinePublisher             | Publish the results of the build decomposed by the different workers used in the execution                 |
-| ElasticSearchPublisher        | Publish the results of the build to the ElasticSearch instance defined in the configuration                |
-| HybridPublisher               | Publish the results of the build in two different publishers defined for tasks metrics and build metrics   |
-| RethinkDbPublisher            | Publish the results of the build in the RethinkDb instance defined in the configuration                    |
-
-
+```
+This configuration would be valid for the InfluxDb Plugin.
 
 #### InfluxDbPublisher
 Talaiot will send to the InfluxDb server defined in the configuration the values collected during the execution
@@ -171,6 +315,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
 
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins.
 
 ##### RetentionPolicyConfiguration
 
@@ -215,16 +360,18 @@ Talaiot will generate the Task Dependency Graph in the specific format specified
 | dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
 
 This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
-parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is 
+parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is
 use this publisher and collect the files on CI.
 
 The output will be found `"${project.rootDir}/talaiot`:
 
-![](resources/output_graph_publisher.png) 
+![](resources/output_graph_publisher.png)
 
 Example:
 
-![](resources/graph_example_plaid.png) 
+![](resources/graph_example_plaid.png)
+
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.graph` plugins.
 
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
@@ -238,6 +385,7 @@ Talaiot will send to the PushGateway server defined in the configuration the val
 | publishBuildMetrics  | Publish build metrics of the publisher, true by default                           |
 | publishTaskMetrics   | Publish tasks metrics of the publisher, true by default                           |
 
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.pushgateway` plugins.
 
 #### JsonPublisher
 Talaiot will Publish the results of the build with a json format .
@@ -245,9 +393,11 @@ Talaiot will Publish the results of the build with a json format .
 ```
     publishers {
         jsonPublisher = true
-   
+
     }
 ```
+
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
 
 #### TimelinePublisher
 Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
@@ -258,9 +408,10 @@ in the different workers.
 ```
     publishers {
         timelinePublisher = true
-   
+
     }
 ```
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
 
 #### ElasticSearchPublisher
 Talaiot will send to the ElasticSearch server defined in the configuration the values collected for tasks and build metrics during the execution
@@ -285,6 +436,7 @@ Example:
         }
     }
 ```
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.elasticsearch` plugins.
 
 #### HybridPublisher
 This Publisher allows composition over publishers to report tasks and build metrics.
@@ -305,7 +457,7 @@ Example:
                 buildIndexName = "build"
                 taskIndexName = "task"
             }
-            
+
             buildPublisher = InfluxDbPublisherConfiguration().apply {
                 dbName = "tracking"
                 url = "http://localhost:8086"
@@ -315,8 +467,10 @@ Example:
         }
     }
 ```
-In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics. 
- 
+In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics.
+
+Included in: `com.cdsap.talaiot` plugin.
+
 #### RethinkDbPublisher
 Talaiot will send to the RethinkDb server defined in the configuration the values collected during the execution
 
@@ -332,7 +486,7 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                               |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                               |
 
-
+Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.rethinkdb` plugins.
 
 #### Custom Publishers
 Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
@@ -347,98 +501,10 @@ talaiot {
     }
 }
 ```
-
 Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
+In you are not using additional plugins we recommend to use  `com.cdsap.talaiot.plugin.base`.
 
-### Metrics
-We can include extra information on the build and task tracked data during the build. This information will be added to the default metrics defined.
-
-```
-talaiot {
-    metrics {
-        // You can add your own custom Metric objects:
-        customMetrics(
-            MyCustomMetric(),
-            // Including some of the provided metrics, individually.
-            HostnameMetric()
-        )
-
-        // Or define build or task metrics directly:
-        customBuildMetrics(
-            "kotlinVersion" to $kotlinVersion,
-            "javaVersion" to $javaVersion
-        )
-        customTaskMetrics(
-            "customProperty" to $value
-        )
-    }
-}
-```
-
-Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
- 
- ### Filters
- For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
- 
- 
- | Property             |      Description                                                                             |
- |----------------------|----------------------------------------------------------------------------------------------|
- | tasks                |Configuration used to filter which tasks we want to exclude and include in the execution      |
- | module               |Configuration used to filter which modules we want to exclude and include in the execution    |
- | threshold            |Configuration used to define time execution ranges to filter tasks to be reported             |
- 
- For every measurement done, Talaiot can completely skip publishing process. These filters affect all publishers:
- 
- | Property             |      Description                                                                             |
- |----------------------|----------------------------------------------------------------------------------------------|
- | build.success        |Configuration used to skip publishing based on build success.                                 |
- | build.requestedTasks |Configuration used to skip publishing based on what was the requested task.                   |
- 
- 
- Example:
- ```
-  filter {
-      tasks {
-          excludes = arrayOf("preDebugBuild", "processDebugResources")
-      }
-      modules {
-          excludes = arrayOf(":app")
-      }
-      threshold {
-          minExecutionTime = 10
-      }
-      build {
-          success = true
-          requestedTasks {
-              includes = arrayOf(":app:assemble.*")
-              excludes = arrayOf(":app:generate.*")
-          }
-      }
-  }
- ```
-
- 
- ### IgnoreWhen
-
-| Property   |      Description      |
-|----------- |-----------------------|
-| envName    |Name of the Property   |
-| envValue   |Value of the Property  |
-
-We will use IgnoreWhen when we want to ignore publishing the results of the build. One use case is to ignore it when we 
-are building on CI:
-
-````
-talaiot {
-    ignoreWhen {
-        envName = "CI"
-        envValue = "true"
-    }
-}
-````
-
-               
-## Example: Analyzing Data provided by Talaiot  <a name="example"></a>
+## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
 ### Docker, InfluxDb and Grafana
 To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
@@ -457,22 +523,22 @@ docker run -d \
   -v /var/lib/grafana \
   cdsap/talaiot:latest
 ```
-  
+
 You can access to the local instance of Grafana:
 
 `http://localhost:3003` root/root
-    
-### Populating data 
+
+### Populating data
 If you access to the provisioned Dashboards included in the Docker Image(http://localhost:3003/d/F9jppxQiz/android-task-tracking?orgId=1 and http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1), you will see an empty dashboard like:
 
 ![](resources/empty_dashboard.png)
 
-To see Talaiot in action, you need to populate the data. We are providing a script to populate data based in the sample project included in the repository. 
+To see Talaiot in action, you need to populate the data. We are providing a script to populate data based in the sample project included in the repository.
 You can execute the script:
 
 `bash scripts/populate.sh `
 
-The script will download the repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler) 
+The script will download the repository and with the help of Gradle Profiler(https://github.com/gradle/gradle-profiler)
 will trigger number of builds defined in the scenario file:
 
 ```
@@ -494,17 +560,17 @@ Once is finished you can check the results on the Grafana Dashboard http://local
 
 Additionally, we have included a new Dashboard to show how to work with the Caching information of the task execution:
 
-![](resources/taskcache.png) 
+![](resources/taskcache.png)
 
 http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1
 
 
 
-## Other Plugins  <a name="plugins"></a>
+## Other Existing Libraries  <a name="other_libraries"></a>
 Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:
 
-* [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation 
-is great and you have the support from Gradle :) 
+* [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation
+is great and you have the support from Gradle :)
 
 * [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig(@passy).
 
@@ -515,11 +581,11 @@ is great and you have the support from Gradle :)
 [Docs](https://cdsap.github.io/Talaiot/)
 
 ## Articles  <a name="articles"></a>
- 
+
 [Metrics Configuration](https://medium.com/@mydogtom/explore-talaiot-plugin-configure-metrics-5ef3ae9a8c5d) by [Svyatoslav Chatchenko](https://github.com/MyDogTom)
 
 [Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
- 
+
 [Exploring the InfluxDbPublisher in Talaiot](https://proandroiddev.com/exploring-the-influxdbpublisher-in-talaiot-ae6c60a0b0ec)
 
 [Graphs, Gradle and Talaiot](https://proandroiddev.com/graphs-gradle-and-talaiot-b0c02c50d2b1)
@@ -529,6 +595,8 @@ is great and you have the support from Gradle :)
 
 ## Contributing  <a name="contributing"></a>
 Talaiot is Open Source and accepts contributions of new Publishers, Metrics and Dashboards that we can include as provisioned ones in the Docker image.
+With the new Plugin structure you can create your own plugins, feel free to contribute with new plugins or if you want to use your own repo
+drop us comment to include it in a community plugins.
 
 ## Contributors  <a name="contributors"></a>
 
