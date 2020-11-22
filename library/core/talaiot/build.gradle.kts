@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-talaiotLib{
+talaiotLib {
     artifact = "talaiot"
     group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
     version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION

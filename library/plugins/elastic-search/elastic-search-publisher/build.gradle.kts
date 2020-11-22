@@ -2,7 +2,7 @@ plugins {
     id("kotlinLib")
 }
 
-talaiotLib{
+talaiotLib {
     artifact = "elastic-search-publisher"
     group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
     version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION

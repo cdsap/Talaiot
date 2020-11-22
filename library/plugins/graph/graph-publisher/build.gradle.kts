@@ -3,7 +3,7 @@ plugins {
     `kotlin-dsl`
 }
 
-talaiotLib{
+talaiotLib {
     artifact = "graph-publisher"
     group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
     version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
