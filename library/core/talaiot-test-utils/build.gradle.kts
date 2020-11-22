@@ -2,6 +2,12 @@ plugins {
     id("kotlinLib")
 }
 
+talaiotLib{
+    artifact = "talaiot-test-utils"
+    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
+    version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+}
+
 dependencies {
     implementation(project(":library:core:talaiot-logger"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.72")

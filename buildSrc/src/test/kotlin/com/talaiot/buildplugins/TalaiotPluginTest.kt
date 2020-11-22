@@ -90,7 +90,7 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryNoVersion(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
+        buildResult(rootFolder, "publishTalaiotLibPublicationToTestRepo")
 
         assert(
             File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot//${Constants.TALAIOT_VERSION}")
@@ -109,7 +109,7 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryNoGroup(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
+        buildResult(rootFolder, "publishTalaiotLibPublicationToTestRepo")
 
         assert(
             File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot/plugin/talaiot/${Constants.TALAIOT_VERSION}")
@@ -127,7 +127,7 @@ class TalaiotPluginTest {
             buildGradleWithTalaiotAndCustomRepositoryAndVerionGroup(rootFolder.absolutePath).trimIndent()
         )
 
-        buildResult(rootFolder, "publishMavenTalaiotPublicationToTestRepo")
+        buildResult(rootFolder, "publishTalaiotLibPublicationToTestRepo")
 
         assert(File("${rootFolder.absoluteFile}/repo/com/cdsap/overridegroup/talaiot/1.3.6/talaiot-1.3.6.jar").exists())
         rootFolder.deleteRecursively()

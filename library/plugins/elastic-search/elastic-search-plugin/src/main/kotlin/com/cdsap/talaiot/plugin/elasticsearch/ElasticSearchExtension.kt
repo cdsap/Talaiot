@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.plugin.elasticsearch
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
@@ -11,7 +10,7 @@ open class ElasticSearchExtension(project: Project) : TalaiotExtension(project) 
      */
     var publishers: ElasticSearchConfiguration? = null
 
-    fun publishers(block: PublishersConfiguration.() -> Unit) {
+    fun publishers(block: ElasticSearchConfiguration.() -> Unit) {
         publishers = ElasticSearchConfiguration(project).also(block)
     }
 

@@ -11,7 +11,7 @@ open class RethinkdbExtension(project: Project) : TalaiotExtension(project) {
      */
     var publishers: RethinkdbConfiguration? = null
 
-    fun publishers(block: PublishersConfiguration.() -> Unit) {
+    fun publishers(block: RethinkdbConfiguration.() -> Unit) {
         publishers = RethinkdbConfiguration(project).also(block)
     }
 
