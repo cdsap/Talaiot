@@ -70,7 +70,7 @@ fun Project.setUpPublishing(
                         }
                         developer {
                             id.set("mokkun")
-                            name.set("Mozart Peter")
+                            name.set("Mozart Petter")
                         }
                         developer {
                             id.set("cdsap")
