@@ -32,19 +32,18 @@ class TalaiotPlugin : Plugin<Project> {
         target.setUpJunitPlatform()
 
         target.afterEvaluate {
-            val extension = extensions.getByType<TalaiotPluginConfiguration>()
+            val extension = target.extensions.getByType<TalaiotPluginConfiguration>()
             setProjectVersion(extension.version)
-            setProjectGroup(extension.group, Constants.DEFAULT_GROUP_PLUGIN)
-            collectUnitTest()
-            setUpPublishing("mavenTalaiot", extension.artifact)
+            setProjectGroup(extension.group, Type.PLUGIN)
             setUpGradlePublishing()
+            setUpPublishing(Type.PLUGIN)
+            collectUnitTest()
         }
 
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
             add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
         }
-
     }
 }
 

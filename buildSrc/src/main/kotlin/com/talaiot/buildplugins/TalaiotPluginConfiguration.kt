@@ -1,6 +1,7 @@
 package com.talaiot.buildplugins
 
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
+import com.gradle.publish.PluginBundleExtension
 
 /**
  * Plugin Extension to configure a [TalaiotPlugin]
@@ -24,13 +25,12 @@ open class TalaiotPluginConfiguration : BaseConfiguration() {
     var idPlugin: String? = null
 
     /**
-     *  Deployment for snapshots/maven local requires inform about the artifact coordinates of the
-     *  new artifact
-     */
-    var artifact: String? = null
-
-    /**
      * Main Class of the plugin, required by the [GradlePluginDevelopmentExtension]
      */
     var mainClass: String? = null
+
+    /**
+     * Display Name property for the plugin [PluginBundleExtension]]
+     */
+    var displayName: String? = null
 }

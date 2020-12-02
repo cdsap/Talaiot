@@ -12,4 +12,10 @@ open class BaseConfiguration {
      * If it's not informed will use version from [Constants]
      */
     var version: String? = null
+
+    /**
+     *  Deployment for snapshots/maven local requires inform about the artifact coordinates of the
+     *  new artifact
+     */
+    var artifact: String? = null
 }

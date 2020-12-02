@@ -2,12 +2,14 @@ plugins {
     id("talaiotPlugin")
 }
 
+
 talaiotPlugin {
     idPlugin = "com.cdsap.talaiot.plugin.rethinkdb"
     artifact = "rethinkdb"
-    group = "com.cdsap.talaiot.plugin"
+    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
     mainClass = "com.cdsap.talaiot.plugin.rethinkdb.TalaiotRethinkdbPlugin"
-    version = "1.3.6-SNAPSHOT"
+    version =  com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    displayName = "Talaiot, RethinkDb Plugin"
 }
 
 dependencies {

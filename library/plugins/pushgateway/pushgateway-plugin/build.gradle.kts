@@ -5,9 +5,10 @@ plugins {
 talaiotPlugin {
     idPlugin = "com.cdsap.talaiot.plugin.pushgateway"
     artifact = "pushgateway"
-    group = "com.cdsap.talaiot.plugin"
+    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
     mainClass = "com.cdsap.talaiot.plugin.pushgateway.TalaiotPushgatewayPlugin"
-    version = "1.3.6-SNAPSHOT"
+    version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    displayName = "Talaiot, Pushgateway Plugin"
 }
 
 dependencies {

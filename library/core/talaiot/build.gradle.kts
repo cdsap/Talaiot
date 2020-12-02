@@ -4,6 +4,12 @@ plugins {
     `kotlin-dsl`
 }
 
+talaiotLib {
+    artifact = "talaiot"
+    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
+    version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+}
+
 dependencies {
     api(project(":library:core:talaiot-logger"))
     api(project(":library:core:talaiot-request"))

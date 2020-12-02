@@ -1,7 +1,6 @@
 package com.cdsap.talaiot.plugin.graph
 
 import com.cdsap.talaiot.TalaiotExtension
-import com.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
 import org.gradle.api.Project
 
@@ -11,7 +10,7 @@ open class GraphExtension(project: Project) : TalaiotExtension(project) {
      */
     internal var publishers: GraphConfiguration? = null
 
-    fun publishers(block: PublishersConfiguration.() -> Unit) {
+    fun publishers(block: GraphConfiguration.() -> Unit) {
         publishers = GraphConfiguration(project).also(block)
     }
 

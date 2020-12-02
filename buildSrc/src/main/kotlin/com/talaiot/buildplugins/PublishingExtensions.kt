@@ -1,24 +1,30 @@
 package com.talaiot.buildplugins
 
 import org.gradle.api.Project
-import org.gradle.api.attributes.LibraryElements
-import org.gradle.api.component.AdhocComponentWithVariants
-import org.gradle.api.file.CopySpec
-import org.gradle.api.plugins.JavaLibraryPlugin
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.javadoc.Javadoc
-import org.gradle.jvm.tasks.Jar
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.*
-import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import java.net.URI
 
 fun Project.setUpPublishing(
-    namePublication: String,
-    configurationArtifactId: String?
+    type: Type
 ) {
 
-    this.configure<PublishingExtension> {
+    val extension = if (type == Type.LIBRARY) {
+        extensions.getByType<BaseConfiguration>()
+    } else {
+        extensions.getByType<TalaiotPluginConfiguration>()
+    }
+    val artifcact = getArtifact(extension.artifact, this)
+
+    configure<JavaPluginExtension> {
+        withJavadocJar()
+        withSourcesJar()
+    }
+    configure<PublishingExtension> {
+
         repositories {
             maven {
                 name = "Snapshots"
@@ -33,15 +39,47 @@ fun Project.setUpPublishing(
 
         publications {
 
-            register(namePublication, MavenPublication::class) {
-                artifactId = getArtifact(configurationArtifactId, project)
-                from(components["java"])
+            register("TalaiotLib", MavenPublication::class) {
+                from(components.findByName("java"))
+                artifactId = artifcact
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")
                     }
                     usage("java-runtime") {
                         fromResolutionResult()
+                    }
+                }
+                pom {
+                    name.set("Talaiot")
+                    url.set("https://github.com/cdsap/Talaiot/")
+                    description.set(
+                        "is a simple and extensible plugin to track timing in your Gradle Project."
+                    )
+                    licenses {
+                        license {
+                            name.set("The MIT License (MIT)")
+                            url.set("http://opensource.org/licenses/MIT")
+                            distribution.set("repo")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("Malinskiy")
+                            name.set("Anton Malinskiy")
+                        }
+                        developer {
+                            id.set("mokkun")
+                            name.set("Mozart Petter")
+                        }
+                        developer {
+                            id.set("cdsap")
+                            name.set("Inaki Villar")
+                        }
+                        developer {
+                            id.set("MyDogTom")
+                            name.set("Svyatoslav Chatchenko")
+                        }
                     }
                 }
             }
@@ -51,24 +89,23 @@ fun Project.setUpPublishing(
 
 fun Project.setProjectGroup(
     configurationGroup: String?,
-    default: String
+    type: Type
 ) {
-    group = configurationGroup ?: default
-}
-
-fun Project.setProjectGroup(
-    default: String
-) {
-    group = default
+    group = configurationGroup ?: when (type) {
+        Type.LIBRARY -> Constants.DEFAULT_GROUP_LIBRARY
+        Type.PLUGIN -> Constants.DEFAULT_GROUP_PLUGIN
+    }
 }
 
 fun Project.setProjectVersion(configurationVersion: String?) {
     version = configurationVersion ?: Constants.TALAIOT_VERSION
 }
 
-fun Project.setProjectVersion() {
-    version = Constants.TALAIOT_VERSION
-}
-
 fun getArtifact(configurationArtifactId: String?, project: Project) =
     configurationArtifactId ?: project.name
+
+
+enum class Type {
+    PLUGIN,
+    LIBRARY
+}
