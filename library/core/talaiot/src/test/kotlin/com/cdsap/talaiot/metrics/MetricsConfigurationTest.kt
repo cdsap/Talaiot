@@ -246,8 +246,7 @@ private val defaultMetricsTypes = listOf(
     GradleRequestedTasksMetric::class,
     GradleVersionMetric::class,
     GradleBuildCacheModeMetric::class,
-    GradleBuildCachePushEnabled::class,
-    GradleScanLinkMetric::class
+    GradleBuildCachePushEnabled::class
 )
 private val performanceMetricsTypes = listOf(
     ProcessorCountMetric::class,
