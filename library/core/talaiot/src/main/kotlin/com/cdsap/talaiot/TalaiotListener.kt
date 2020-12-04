@@ -19,6 +19,7 @@ import org.gradle.api.internal.GradleInternal
 import org.gradle.api.invocation.Gradle
 
 import org.gradle.api.tasks.TaskState
+import org.gradle.internal.InternalBuildListener
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
@@ -46,7 +47,7 @@ class TalaiotListener(
     private val extension: TalaiotExtension,
     private val tasksInfoProvider: Provider<ExecutedTasksInfo>,
     private val publisherConfigurationProvider: PublisherConfigurationProvider
-) : BuildListener, TaskExecutionListener {
+) : InternalBuildListener, TaskExecutionListener {
 
     private val talaiotTracker = TalaiotTracker()
     private var start: Long = 0L
