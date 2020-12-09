@@ -244,10 +244,7 @@ class MetricsConfigurationTest : BehaviorSpec({
 private val defaultMetricsTypes = listOf(
     RootProjectNameMetric::class,
     GradleRequestedTasksMetric::class,
-    GradleVersionMetric::class,
-    GradleBuildCacheModeMetric::class,
-    GradleBuildCachePushEnabled::class,
-    GradleScanLinkMetric::class
+    GradleVersionMetric::class
 )
 private val performanceMetricsTypes = listOf(
     ProcessorCountMetric::class,

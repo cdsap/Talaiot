@@ -13,6 +13,8 @@ import java.io.File
 class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(listOf(
+            "6.7.1",
+            "6.5.1",
             "6.4.1",
             "6.2.1",
             "6.0.1"
@@ -37,15 +39,11 @@ class DefaultConfigurationSpec : StringSpec({
                     }
                 }
 
-                buildScan {
-                    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-                    termsOfServiceAgree = 'yes'
-                }
             """.trimIndent()
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--scan")
+                .withArguments("assemble", "--info","--stacktrace")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
@@ -54,9 +52,7 @@ class DefaultConfigurationSpec : StringSpec({
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
             testProjectDir.delete()
-
             report.environment.gradleVersion shouldBe version
-            report.environment.cacheMode shouldBe "local"
             report.beginMs shouldNotBe null
             report.endMs shouldNotBe null
             report.durationMs shouldNotBe null
@@ -70,7 +66,6 @@ class DefaultConfigurationSpec : StringSpec({
             report.requestedTasks shouldBe "assemble"
             report.rootProject shouldNotBe null
             report.success shouldBe true
-            report.scanLink shouldNotBe null
             tasks.forEach {
                 it.ms shouldNotBe null
                 it.taskName shouldNotBe null

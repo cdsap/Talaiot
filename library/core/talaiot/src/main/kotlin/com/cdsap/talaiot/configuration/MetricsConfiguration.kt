@@ -6,11 +6,8 @@ import com.cdsap.talaiot.metrics.CacheHitMetric
 import com.cdsap.talaiot.metrics.DefaultCharsetMetric
 import com.cdsap.talaiot.metrics.GitBranchMetric
 import com.cdsap.talaiot.metrics.GitUserMetric
-import com.cdsap.talaiot.metrics.GradleBuildCacheModeMetric
-import com.cdsap.talaiot.metrics.GradleBuildCachePushEnabled
 import com.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import com.cdsap.talaiot.metrics.GradleRequestedTasksMetric
-import com.cdsap.talaiot.metrics.GradleScanLinkMetric
 import com.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import com.cdsap.talaiot.metrics.GradleSwitchCachingMetric
 import com.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
@@ -56,9 +53,6 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
- *  [GradleBuildCacheModeMetric]
- *  [GradleBuildCachePushEnabled]
- *  [GradleScanLinkMetric]
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
@@ -132,9 +126,6 @@ class MetricsConfiguration {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
-            add(GradleBuildCacheModeMetric())
-            add(GradleBuildCachePushEnabled())
-            add(GradleScanLinkMetric())
         }
     }
 

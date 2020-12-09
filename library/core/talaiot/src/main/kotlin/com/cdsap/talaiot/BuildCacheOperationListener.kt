@@ -57,8 +57,10 @@ internal class BuildCacheOperationListener : BuildOperationListener, Provider<Ex
     override fun finished(descriptor: BuildOperationDescriptor, finishEvent: OperationFinishEvent) {
         when (val result = finishEvent.result) {
             is ExecuteTaskBuildOperationType.Result -> {
-                tasksMap[descriptor.id] =
-                    TaskExecutionResults(descriptor.name, result)
+                descriptor.id?.let {
+                    tasksMap[it] =
+                        TaskExecutionResults(descriptor.name, result)
+                }
             }
             is BuildCacheRemoteLoadBuildOperationType.Result -> {
                 taskCacheDownloadResults[descriptor.parentId!!] = result
