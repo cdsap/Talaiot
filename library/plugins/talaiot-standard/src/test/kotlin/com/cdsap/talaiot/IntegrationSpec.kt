@@ -52,8 +52,6 @@ class DefaultConfigurationSpec : StringSpec({
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
             testProjectDir.delete()
-println(report)
-            println("ososos")
             report.environment.gradleVersion shouldBe version
             report.beginMs shouldNotBe null
             report.endMs shouldNotBe null
