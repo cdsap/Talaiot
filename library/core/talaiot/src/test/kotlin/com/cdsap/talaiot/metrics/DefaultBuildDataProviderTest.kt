@@ -37,7 +37,6 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
                     "buildId" to "12",
                     "rootProject" to "app",
                     "requestedTasks" to "app:assembleDebug",
-                    "scanLink" to "www.scan.link",
                     "buildInvocationId" to "123",
                     "osVersion" to "Linux 1.4",
                     "maxWorkers" to 2.toInt(),
