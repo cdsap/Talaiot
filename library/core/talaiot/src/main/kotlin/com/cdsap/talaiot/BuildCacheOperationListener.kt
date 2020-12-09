@@ -12,10 +12,11 @@ import org.gradle.internal.operations.OperationFinishEvent
 import org.gradle.internal.operations.OperationIdentifier
 import org.gradle.internal.operations.OperationProgressEvent
 import org.gradle.internal.operations.OperationStartEvent
+import java.util.concurrent.ConcurrentHashMap
 
 internal class BuildCacheOperationListener : BuildOperationListener, Provider<ExecutedTasksInfo> {
-    private val taskCacheDownloadResults = HashMap<OperationIdentifier, BuildCacheRemoteLoadBuildOperationType.Result>()
-    private val tasksMap = HashMap<OperationIdentifier, TaskExecutionResults>()
+    private val taskCacheDownloadResults = ConcurrentHashMap<OperationIdentifier, BuildCacheRemoteLoadBuildOperationType.Result>()
+    private val tasksMap = ConcurrentHashMap<OperationIdentifier, TaskExecutionResults>()
     override fun get(): ExecutedTasksInfo {
         val tasksList = tasksMap.map { (taskIdentifier, executionResult) ->
             val isCacheEnabled = executionResult.result.cachingDisabledReasonCategory == null
