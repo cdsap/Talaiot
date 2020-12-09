@@ -41,7 +41,6 @@ object ExecutionReportProvider {
         buildId = "12",
         rootProject = "app",
         requestedTasks = "app:assembleDebug",
-        scanLink = "www.scan.link",
         buildInvocationId = "123",
         configurationDurationMs = "32",
         environment = Environment(
@@ -55,8 +54,6 @@ object ExecutionReportProvider {
             defaultChartset = "default",
             ideVersion = "2.1",
             gradleVersion = "6.2.2",
-            cacheMode = "cacheMode",
-            cachePushEnabled = "true",
             cacheUrl = "cacheUrl",
             cacheStore = "10",
             localCacheHit = 1,

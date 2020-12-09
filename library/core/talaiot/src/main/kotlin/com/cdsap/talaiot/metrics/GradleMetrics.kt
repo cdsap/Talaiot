@@ -6,7 +6,6 @@ import com.cdsap.talaiot.metrics.base.JvmArgsMetric
 import com.cdsap.talaiot.util.TaskAbbreviationMatcher
 import com.cdsap.talaiot.util.TaskName
 import org.gradle.api.internal.project.DefaultProject
-import org.gradle.api.internal.project.ProjectInternal
 import org.gradle.api.invocation.Gradle
 import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo
 
@@ -89,25 +88,6 @@ class JvmMaxPermSizeMetric : JvmArgsMetric(
         maxPermSize?.split("=")?.get(1)?.toBytes()
     },
     assigner = { report, value -> report.environment.javaMaxPermSize = value }
-)
-
-class GradleBuildCacheModeMetric : GradleMetric<String>(
-    provider = {
-        val settings = (it.rootProject as ProjectInternal).gradle.settings
-        when {
-            settings.buildCache.remote == null -> "local"
-            else -> "remote"
-        }
-    },
-    assigner = { report, value -> report.environment.cacheMode = value }
-)
-
-class GradleBuildCachePushEnabled : GradleMetric<String?>(
-    provider = {
-        val settings = (it.rootProject as ProjectInternal).gradle.settings
-        settings.buildCache.remote?.isPush?.toString()
-    },
-    assigner = { report, value -> report.environment.cachePushEnabled = value }
 )
 
 class GradleRequestedTasksMetric : GradleMetric<String>(

@@ -20,8 +20,6 @@ class DefaultBuildMetricsProvider(
             cacheRatio?.let { map["cacheRatio"] = it.toDouble() }
             beginMs?.let { map["start"] = it.toDouble() }
             rootProject?.let { map["rootProject"] = it }
-            scanLink?.let { map["scanLink"] = it }
-
             with(environment) {
                 osVersion?.let { map["osVersion"] = it }
                 maxWorkers?.let { map["maxWorkers"] = it.toInt() }
@@ -43,8 +41,6 @@ class DefaultBuildMetricsProvider(
                 hostname?.let { map["hostname"] = it }
                 osManufacturer?.let { map["osManufacturer"] = it }
                 publicIp?.let { map["publicIp"] = it }
-                cacheMode?.let { map["cacheMode"] = it }
-                cachePushEnabled?.let { map["cachePushEnabled"] = it }
                 cacheUrl?.let { map["cacheUrl"] = it }
                 localCacheHit?.let { map["localCacheHit"] = it.toString() }
                 localCacheMiss?.let { map["localCacheMiss"] = it.toString() }
