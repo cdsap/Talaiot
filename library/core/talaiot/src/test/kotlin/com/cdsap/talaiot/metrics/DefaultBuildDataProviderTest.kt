@@ -53,8 +53,6 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
                     "gitUser" to "git_user",
                     "hostname" to "localMachine",
                     "osManufacturer" to "osManufact4r",
-                    "cacheMode" to "cacheMode",
-                    "cachePushEnabled" to "true",
                     "cacheUrl" to "cacheUrl",
                     "cacheStore" to "10",
                     "localCacheHit" to "1",

@@ -53,8 +53,6 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
- *  [GradleBuildCacheModeMetric]
- *  [GradleBuildCachePushEnabled]
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
