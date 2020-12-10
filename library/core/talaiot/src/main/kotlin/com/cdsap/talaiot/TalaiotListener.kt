@@ -25,7 +25,7 @@ import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-
+import org.gradle.internal.operations.BuildOperationListenerManager
 
 /**
  * Custom listener that combines the [BuildListener] and [TaskExecutionListener]. For each [Task] we need to
@@ -57,6 +57,7 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
+        project.gradle.removeListener(tasksInfoProvider)
         if (shouldPublish()) {
             val end = System.currentTimeMillis()
             val logger = LogTrackerImpl(extension.logger)
