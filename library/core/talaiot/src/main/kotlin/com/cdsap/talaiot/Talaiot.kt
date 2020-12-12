@@ -2,10 +2,6 @@ package com.cdsap.talaiot
 
 import com.cdsap.talaiot.provider.PublisherConfigurationProvider
 import org.gradle.api.Project
-import org.gradle.api.internal.GradleInternal
-import org.gradle.api.invocation.Gradle
-import org.gradle.internal.operations.BuildOperationListenerManager
-
 
 /**
  * Talaiot main [Plugin].
@@ -46,9 +42,5 @@ class Talaiot <T : TalaiotExtension>(
         )
         target.gradle.addBuildListener(listener)
         target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
-
     }
-
-    private fun Gradle.buildOperationListenerManager(): BuildOperationListenerManager =
-        (this as GradleInternal).services[BuildOperationListenerManager::class.java]
 }
