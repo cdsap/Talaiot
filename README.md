@@ -51,7 +51,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.4.0"
+  id("com.cdsap.talaiot") version "1.4.1"
 }
 ```
 
@@ -64,7 +64,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.4.0")
+    classpath("com.cdsap:talaiot:1.4.1")
   }
 }
 
@@ -75,7 +75,7 @@ apply(plugin = "com.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.4.0"
+  id "com.cdsap.talaiot" version "1.4.1"
 }
 
 ```
@@ -89,7 +89,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.4.0"
+    classpath "com.cdsap:talaiot:1.4.1"
   }
 }
 
@@ -114,7 +114,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot.plugin.base") version "1.4.0"
+  id("com.cdsap.talaiot.plugin.base") version "1.4.1"
 }
 ```
 
@@ -127,7 +127,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap.talaiot.plugin:base:1.4.0")
+    classpath("com.cdsap.talaiot.plugin:base:1.4.1")
   }
 }
 
@@ -138,7 +138,7 @@ apply(plugin = "com.cdsap.talaiot.plugin.base")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot.plugin.base" version "1.4.0"
+  id "com.cdsap.talaiot.plugin.base" version "1.4.1"
 }
 
 ```
@@ -152,7 +152,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath ""com.cdsap.talaiot.plugin:base:1.4.0""
+    classpath ""com.cdsap.talaiot.plugin:base:1.4.1""
   }
 }
 
@@ -170,12 +170,12 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 ### Standard Plugin
 
 ````
-classpath("com.cdsap:talaiot:1.4.1-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.4.2-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("com.cdsap.talaiot.plugin:base:1.4.1-SNAPSHOT")
+classpath("com.cdsap.talaiot.plugin:base:1.4.2-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
