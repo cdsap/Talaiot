@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
     implementation("com.gradle.publish:plugin-publish-plugin:0.12.0")
     testImplementation("junit:junit:4.12")
 }
