@@ -43,3 +43,6 @@ workflows:
       - deploy-snapshot:
           requires:
             - build
+          filters:
+            branches:
+              only: master
