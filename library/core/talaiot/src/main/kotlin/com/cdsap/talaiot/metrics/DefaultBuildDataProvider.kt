@@ -32,7 +32,6 @@ class DefaultBuildMetricsProvider(
                 cpuCount?.let { map["cpuCount"] = it.toInt() }
                 locale?.let { map["locale"] = it }
                 username?.let { map["username"] = it }
-                publicIp?.let { map["publicIp"] = it }
                 defaultChartset?.let { map["defaultCharset"] = it }
                 ideVersion?.let { map["ideVersion"] = it }
                 gradleVersion?.let { map["gradleVersion"] = it }

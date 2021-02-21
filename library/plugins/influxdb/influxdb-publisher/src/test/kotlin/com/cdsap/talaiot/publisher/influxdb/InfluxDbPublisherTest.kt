@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher.influxdb
 import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.metrics.BuildMetrics
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query

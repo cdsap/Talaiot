@@ -1,5 +1,6 @@
 package com.cdsap.talaiot.publisher.influxdb
 
+import com.cdsap.talaiot.metrics.BuildMetrics
 import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
@@ -17,6 +18,7 @@ class InfluxDbConfigurationTest : BehaviorSpec({
         }
         `when`("There is custom retention policy defined") {
             val influxDbPublisherConfiguration = InfluxDbPublisherConfiguration()
+
             influxDbPublisherConfiguration.retentionPolicyConfiguration {
                 name = "customRp"
                 duration = "99w"
