@@ -2,7 +2,6 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.metrics.BuildMetrics
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
@@ -131,24 +130,6 @@ class InfluxDbPublisher(
                 .tag(tagFieldProvider.tags())
                 .fields(tagFieldProvider.fields())
                 .build()
-    }
-
-    private fun pair(metricsProvider: Map<String, Any>, report: ExecutionReport):
-            Pair<Map<String, String>, Map<String, Any>> {
-
-        val tags = metricsProvider
-                .filter {
-                    influxDbPublisherConfiguration.tags.contains(BuildMetrics.valueOf(it.key)) ||
-                            (influxDbPublisherConfiguration.tags.contains(BuildMetrics.Custom)
-                                    && report.customProperties.buildProperties.contains(it.key))
-                }.mapValues { it.value.toString() }
-
-        val fields = metricsProvider
-                .minus(tags)
-                .mapValues { it.value.toString() }
-                .mapKeys { it.value.toString() }
-
-        return Pair(tags, fields)
     }
 
     private fun createDb(): InfluxDB {
