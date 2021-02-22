@@ -36,7 +36,7 @@ enum class BuildMetrics {
     RemoteCacheMiss,
     CacheStore,
     SwitchCache,
-    SwitchCscan,
+    SwitchScan,
     SwitchConfigurationOnDemand,
     SwitchContinueOnFailure,
     SwitchDaemon,

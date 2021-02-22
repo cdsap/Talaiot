@@ -1,7 +1,7 @@
 package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.entities.ExecutionReport
-
+import com.cdsap.talaiot.metrics.BuildMetrics.*
 class DefaultBuildMetricsProvider(
     private val report: ExecutionReport
 ) : ValuesProvider {
@@ -9,53 +9,53 @@ class DefaultBuildMetricsProvider(
     override fun get(): Map<String, Any> {
         val map = mutableMapOf<String, Any>()
 
-        map["duration"] = report.durationMs?.toLong() ?: 0L
-        map["configuration"] = report.configurationDurationMs?.toLong() ?: 0L
+        map[Duration.toString()] = report.durationMs?.toLong() ?: 0L
+        map[Configuration.toString()] = report.configurationDurationMs?.toLong() ?: 0L
 
         with(report) {
-            success.let { map["success"] = it }
-            buildId?.let { map["buildId"] = it }
-            buildInvocationId?.let { map["buildInvocationId"] = it }
-            requestedTasks?.let { map["requestedTasks"] = it }
-            cacheRatio?.let { map["cacheRatio"] = it.toDouble() }
-            beginMs?.let { map["start"] = it.toDouble() }
-            rootProject?.let { map["rootProject"] = it }
+            success.let { map[Success.toString()] = it }
+            buildId?.let { map[BuildId.toString()] = it }
+            buildInvocationId?.let { map[BuildInvocationId.toString()] = it }
+            requestedTasks?.let { map[RequestedTasks.toString()] = it }
+            cacheRatio?.let { map[CacheRatio.toString()] = it.toDouble() }
+            beginMs?.let { map[Start.toString()] = it.toDouble() }
+            rootProject?.let { map[RootProject.toString()] = it }
             with(environment) {
-                osVersion?.let { map["osVersion"] = it }
-                maxWorkers?.let { map["maxWorkers"] = it.toInt() }
-                javaRuntime?.let { map["javaRuntime"] = it }
-                javaVmName?.let { map["javaVmName"] = it }
-                javaXmsBytes?.let { map["javaXmsBytes"] = it.toLong() }
-                javaXmxBytes?.let { map["javaXmxBytes"] = it.toLong() }
-                javaMaxPermSize?.let { map["javaMaxPermSize"] = it.toLong() }
-                totalRamAvailableBytes?.let { map["totalRamAvailableBytes"] = it.toLong() }
-                cpuCount?.let { map["cpuCount"] = it.toInt() }
-                locale?.let { map["locale"] = it }
-                username?.let { map["username"] = it }
-                defaultChartset?.let { map["defaultCharset"] = it }
-                ideVersion?.let { map["ideVersion"] = it }
-                gradleVersion?.let { map["gradleVersion"] = it }
-                gitBranch?.let { map["gitBranch"] = it }
-                gitUser?.let { map["gitUser"] = it }
-                hostname?.let { map["hostname"] = it }
-                osManufacturer?.let { map["osManufacturer"] = it }
-                publicIp?.let { map["publicIp"] = it }
-                cacheUrl?.let { map["cacheUrl"] = it }
-                localCacheHit?.let { map["localCacheHit"] = it.toString() }
-                localCacheMiss?.let { map["localCacheMiss"] = it.toString() }
-                remoteCacheHit?.let { map["remoteCacheHit"] = it.toString() }
-                remoteCacheMiss?.let { map["remoteCacheMiss"] = it.toString() }
-                cacheStore?.let { map["cacheStore"] = it }
-                switches.buildCache?.let { map["switch.cache"] = it }
-                switches.buildScan?.let { map["switch.scan"] = it }
-                switches.configurationOnDemand?.let { map["switch.configurationOnDemand"] = it }
-                switches.continueOnFailure?.let { map["switch.continueOnFailure"] = it }
-                switches.daemon?.let { map["switch.daemon"] = it }
-                switches.dryRun?.let { map["switch.dryRun"] = it }
-                switches.offline?.let { map["switch.offline"] = it }
-                switches.parallel?.let { map["switch.parallel"] = it }
-                switches.refreshDependencies?.let { map["switch.refreshDependencies"] = it }
-                switches.rerunTasks?.let { map["switch.rerunTasks"] = it }
+                osVersion?.let { map[OsVersion.toString()] = it }
+                maxWorkers?.let { map[MaxWorkers.toString()] = it.toInt() }
+                javaRuntime?.let { map[JavaRuntime.toString()] = it }
+                javaVmName?.let { map[JavaVmName.toString()] = it }
+                javaXmsBytes?.let { map[JavaXmsBytes.toString()] = it.toLong() }
+                javaXmxBytes?.let { map[JavaXmxBytes.toString()] = it.toLong() }
+                javaMaxPermSize?.let { map[JavaMaxPermSize.toString()] = it.toLong() }
+                totalRamAvailableBytes?.let { map[TotalRamAvailableBytes.toString()] = it.toLong() }
+                cpuCount?.let { map[CpuCount.toString()] = it.toInt() }
+                locale?.let { map[Locale.toString()] = it }
+                username?.let { map[Username.toString()] = it }
+                defaultChartset?.let { map[DefaultCharset.toString()] = it }
+                ideVersion?.let { map[IdeVersion.toString()] = it }
+                gradleVersion?.let { map[GradleVersion.toString()] = it }
+                gitBranch?.let { map[GitBranch.toString()] = it }
+                gitUser?.let { map[GitUser.toString()] = it }
+                hostname?.let { map[Hostname.toString()] = it }
+                osManufacturer?.let { map[OsManufacturer.toString()] = it }
+                publicIp?.let { map[PublicIp.toString()] = it }
+                cacheUrl?.let { map[CacheUrl.toString()] = it }
+                localCacheHit?.let { map[LocalCacheHit.toString()] = it.toString() }
+                localCacheMiss?.let { map[LocalCacheMiss.toString()] = it.toString() }
+                remoteCacheHit?.let { map[RemoteCacheHit.toString()] = it.toString() }
+                remoteCacheMiss?.let { map[RemoteCacheMiss.toString()] = it.toString() }
+                cacheStore?.let { map[CacheStore.toString()] = it }
+                switches.buildCache?.let { map[SwitchCache.toString()] = it }
+                switches.buildScan?.let { map[SwitchScan.toString()] = it }
+                switches.configurationOnDemand?.let { map[SwitchConfigurationOnDemand.toString()] = it }
+                switches.continueOnFailure?.let { map[SwitchContinueOnFailure.toString()] = it }
+                switches.daemon?.let { map[SwitchDaemon.toString()] = it }
+                switches.dryRun?.let { map[SwitchDryRun.toString()] = it }
+                switches.offline?.let { map[SwitchOffline.toString()] = it }
+                switches.parallel?.let { map[SwitchParallel.toString()] = it }
+                switches.refreshDependencies?.let { map[SwitchRefreshDependencies.toString()] = it }
+                switches.rerunTasks?.let { map[SwitchRerunTasks.toString()] = it }
             }
         }
         map.putAll(report.customProperties.buildProperties)

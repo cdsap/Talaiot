@@ -184,6 +184,41 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                 }
             }
+            `when`("custon metrics are inclided as tags") {
+                val databaseNoMetrics = "databaseWithoutTasks"
+                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                    dbName = databaseNoMetrics
+                    url = container.url
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                    publishTaskMetrics = false
+                    tags = listOf(BuildMetrics.Custom)
+                }
+                val influxDbPublisher = InfluxDbPublisher(
+                    influxDbConfiguration, logger, TestExecutor()
+                )
+
+                then("build metrics are sent and task metrics doesn't") {
+                    influxDbPublisher.publish(executionReport())
+
+                    val buildResult =
+                        influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
+
+                    val combinedBuildColumns =
+                        buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
+                    assert(combinedBuildColumns == "time, duration, configuration, success")
+
+                    val combinedBuildValues =
+                        buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
+                    assert(combinedBuildValues.matches("""\[.+, 10\.0, 0\.0, true\]""".toRegex()))
+
+                    val taskResult = influxDB.query(Query("select value from $databaseNoMetrics.rpTalaiot.task"))
+
+                    assert(taskResult.results[0].series == null)
+
+                }
+            }
+
 
         }
     }

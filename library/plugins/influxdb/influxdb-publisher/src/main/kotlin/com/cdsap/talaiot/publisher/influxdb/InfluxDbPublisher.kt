@@ -3,7 +3,6 @@ package com.cdsap.talaiot.publisher.influxdb
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
 import com.cdsap.talaiot.metrics.BuildMetrics
-import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
@@ -126,13 +125,11 @@ class InfluxDbPublisher(
     }
 
     private fun createBuildPoint(report: ExecutionReport): Point {
-        val metricsProvider = DefaultBuildMetricsProvider(report).get()
-        val (tags, fields) = pair(metricsProvider, report)
-
+        val tagFieldProvider = TagFieldProvider(report,influxDbPublisherConfiguration.tags)
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
                 .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag(tags)
-                .fields(fields)
+                .tag(tagFieldProvider.tags())
+                .fields(tagFieldProvider.fields())
                 .build()
     }
 
