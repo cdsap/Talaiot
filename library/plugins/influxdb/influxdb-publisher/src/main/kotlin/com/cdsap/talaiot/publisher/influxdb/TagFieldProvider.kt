@@ -35,23 +35,3 @@ class TagFieldProvider(
             false
         }
 }
-
-
-fun main() {
-    val mapa = mutableMapOf("Rorri" to "String", "petting" to "W")
-    val customProperties = CustomProperties()
-    customProperties.buildProperties = mapa
-    val executionReport = ExecutionReport(
-        customProperties = customProperties,
-        environment = Environment(
-            cpuCount = "12"
-        )
-    )
-    val tagFieldProvider = TagFieldProvider(
-        executionReport,
-        listOf(BuildMetrics.Custom, BuildMetrics.CpuCount)
-    )
-    tagFieldProvider.tags()
-
-    println("end")
-}
