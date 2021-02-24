@@ -184,15 +184,15 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                 }
             }
-            `when`("custon metrics are inclided as tags") {
-                val databaseNoMetrics = "databaseWithoutTasks"
+            `when`("custom metrics are included as tags") {
+                val databaseTags = "databaseTags"
                 val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                    dbName = databaseNoMetrics
+                    dbName = databaseTags
                     url = container.url
                     taskMetricName = "task"
                     buildMetricName = "build"
                     publishTaskMetrics = false
-                    tags = listOf(BuildMetrics.Custom)
+                    tags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
                 }
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()
@@ -202,24 +202,15 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     influxDbPublisher.publish(executionReport())
 
                     val buildResult =
-                        influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
-
-                    val combinedBuildColumns =
-                        buildResult.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
-                    assert(combinedBuildColumns == "time, duration, configuration, success")
-
-                    val combinedBuildValues =
-                        buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
-                    assert(combinedBuildValues.matches("""\[.+, 10\.0, 0\.0, true\]""".toRegex()))
-
-                    val taskResult = influxDB.query(Query("select value from $databaseNoMetrics.rpTalaiot.task"))
-
-                    assert(taskResult.results[0].series == null)
-
+                        influxDB.query(Query("select * from $databaseTags.rpTalaiot.build group by *"))
+                    assert(buildResult.results[0].series[0].tags.containsKey(BuildMetrics.MaxWorkers.toString()))
+                    assert(buildResult.results[0].series[0].tags.containsKey("metric3"))
+                    assert(buildResult.results[0].series[0].tags.containsKey("metric4"))
+                    assert(!buildResult.results[0].series[0].columns.contains(BuildMetrics.MaxWorkers.toString()))
+                    assert(!buildResult.results[0].series[0].columns.contains("metric3"))
+                    assert(!buildResult.results[0].series[0].columns.contains("metric4"))
                 }
             }
-
-
         }
     }
 

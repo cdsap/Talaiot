@@ -1,7 +1,5 @@
 package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.metrics.BuildMetrics
-import com.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
 class InfluxDbConfigurationTest : BehaviorSpec({
@@ -11,8 +9,9 @@ class InfluxDbConfigurationTest : BehaviorSpec({
             val influxDbPublisherConfiguration = InfluxDbPublisherConfiguration()
             then("default values are given") {
                 assert(
-                    influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "rpTalaiot"
-                            && influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "30d"
+                    influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "rpTalaiot" &&
+                            influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "30d" &&
+                            influxDbPublisherConfiguration.tags.isEmpty()
                 )
             }
         }
