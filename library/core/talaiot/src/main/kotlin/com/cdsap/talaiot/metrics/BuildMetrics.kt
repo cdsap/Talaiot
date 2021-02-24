@@ -50,7 +50,7 @@ enum class BuildMetrics {
     override fun toString(): String {
         return if (super.toString().startsWith("Switch")) {
             val temp = super.toString().split("Switch")
-            "switch.${temp[0].decapitalize()}"
+            "switch.${temp[1].decapitalize()}"
         } else {
             super.toString().decapitalize()
         }
