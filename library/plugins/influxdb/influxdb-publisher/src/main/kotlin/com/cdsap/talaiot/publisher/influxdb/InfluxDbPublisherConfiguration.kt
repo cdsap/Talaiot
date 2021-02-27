@@ -56,7 +56,7 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     /**
      * by default all build metrics are considered fields, specify required [BuildMetrics] to be consider as Tags in InfluxDb
      */
-    var tags : MutableList<BuildMetrics> = emptyList<BuildMetrics>().toMutableList()
+    var tags : List<BuildMetrics> = emptyList()
 
     /**
      * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
