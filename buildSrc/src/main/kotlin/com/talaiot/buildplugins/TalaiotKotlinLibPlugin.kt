@@ -39,7 +39,6 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         }
 
         target.dependencies {
-            add("implementation", "org.jetbrains.kotlin:kotlin-stdlib:1.3.72")
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
             add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
         }
