@@ -3,6 +3,7 @@ package com.cdsap.talaiot.publisher.influxdb
 import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.metrics.BuildMetrics
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
@@ -183,7 +184,33 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                 }
             }
+            `when`("custom metrics are included as tags") {
+                val databaseTags = "databaseTags"
+                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
+                    dbName = databaseTags
+                    url = container.url
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                    publishTaskMetrics = false
+                    tags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
+                }
+                val influxDbPublisher = InfluxDbPublisher(
+                    influxDbConfiguration, logger, TestExecutor()
+                )
 
+                then("build metrics are sent and task metrics doesn't") {
+                    influxDbPublisher.publish(executionReport())
+
+                    val buildResult =
+                        influxDB.query(Query("select * from $databaseTags.rpTalaiot.build group by *"))
+                    assert(buildResult.results[0].series[0].tags.containsKey(BuildMetrics.MaxWorkers.toString()))
+                    assert(buildResult.results[0].series[0].tags.containsKey("metric3"))
+                    assert(buildResult.results[0].series[0].tags.containsKey("metric4"))
+                    assert(!buildResult.results[0].series[0].columns.contains(BuildMetrics.MaxWorkers.toString()))
+                    assert(!buildResult.results[0].series[0].columns.contains("metric3"))
+                    assert(!buildResult.results[0].series[0].columns.contains("metric4"))
+                }
+            }
         }
     }
 

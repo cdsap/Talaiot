@@ -2,7 +2,6 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
@@ -125,18 +124,19 @@ class InfluxDbPublisher(
     }
 
     private fun createBuildPoint(report: ExecutionReport): Point {
-        val metricsProvider = DefaultBuildMetricsProvider(report)
+        val tagFieldProvider = TagFieldProvider(report,influxDbPublisherConfiguration.tags)
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
-            .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-            .fields(metricsProvider.get())
-            .build()
+                .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                .tag(tagFieldProvider.tags())
+                .fields(tagFieldProvider.fields())
+                .build()
     }
 
     private fun createDb(): InfluxDB {
         val okHttpBuilder = OkHttpClient.Builder()
-            .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
         val user = influxDbPublisherConfiguration.username
         val password = influxDbPublisherConfiguration.password
         val url = influxDbPublisherConfiguration.url

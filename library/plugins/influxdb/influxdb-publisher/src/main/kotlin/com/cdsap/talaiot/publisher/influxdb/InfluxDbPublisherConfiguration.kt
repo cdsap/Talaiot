@@ -1,6 +1,7 @@
 package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.configuration.PublisherConfiguration
+import com.cdsap.talaiot.metrics.BuildMetrics
 import groovy.lang.Closure
 
 /**
@@ -51,6 +52,11 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
      * metrics retention policy. By default it's named as rpTalaiot and duration is 30 days
      */
     var retentionPolicyConfiguration: RetentionPolicyConfiguration = RetentionPolicyConfiguration()
+
+    /**
+     * by default all build metrics are considered fields, specify required [BuildMetrics] to be consider as Tags in InfluxDb
+     */
+    var tags : List<BuildMetrics> = emptyList()
 
     /**
      * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]

@@ -314,6 +314,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | retentionPolicyConfiguration | retention policy which is used for writing points                                   |
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
+| tags                         | Collection of BuildMetrics used as tags                                             |
 
 Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins.
 
