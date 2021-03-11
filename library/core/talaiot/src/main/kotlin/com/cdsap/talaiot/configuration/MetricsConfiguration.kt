@@ -1,36 +1,7 @@
 package com.cdsap.talaiot.configuration
 
 import com.cdsap.talaiot.entities.ExecutionReport
-import com.cdsap.talaiot.metrics.BuildIdMetric
-import com.cdsap.talaiot.metrics.CacheHitMetric
-import com.cdsap.talaiot.metrics.DefaultCharsetMetric
-import com.cdsap.talaiot.metrics.GitBranchMetric
-import com.cdsap.talaiot.metrics.GitUserMetric
-import com.cdsap.talaiot.metrics.GradleMaxWorkersMetric
-import com.cdsap.talaiot.metrics.GradleRequestedTasksMetric
-import com.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
-import com.cdsap.talaiot.metrics.GradleSwitchCachingMetric
-import com.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
-import com.cdsap.talaiot.metrics.GradleSwitchDaemonMetric
-import com.cdsap.talaiot.metrics.GradleSwitchDryRunMetric
-import com.cdsap.talaiot.metrics.GradleSwitchParallelMetric
-import com.cdsap.talaiot.metrics.GradleSwitchRefreshDependenciesMetric
-import com.cdsap.talaiot.metrics.GradleSwitchRerunTasksMetric
-import com.cdsap.talaiot.metrics.GradleVersionMetric
-import com.cdsap.talaiot.metrics.HostnameMetric
-import com.cdsap.talaiot.metrics.JavaVmNameMetric
-import com.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
-import com.cdsap.talaiot.metrics.JvmXmsMetric
-import com.cdsap.talaiot.metrics.JvmXmxMetric
-import com.cdsap.talaiot.metrics.LocaleMetric
-import com.cdsap.talaiot.metrics.OsManufacturerMetric
-import com.cdsap.talaiot.metrics.OsMetric
-import com.cdsap.talaiot.metrics.ProcessorCountMetric
-import com.cdsap.talaiot.metrics.PublicIpMetric
-import com.cdsap.talaiot.metrics.RamAvailableMetric
-import com.cdsap.talaiot.metrics.RootProjectNameMetric
-import com.cdsap.talaiot.metrics.SimpleMetric
-import com.cdsap.talaiot.metrics.UserMetric
+import com.cdsap.talaiot.metrics.*
 import com.cdsap.talaiot.metrics.base.Metric
 
 /**
@@ -122,10 +93,17 @@ class MetricsConfiguration {
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
 
     private fun addDefaultMetrics() {
-        with(metrics){
+        with(metrics) {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
+            add(GradleVersionMetric())
+        }
+    }
+
+    private fun addGradleScanMetrics() {
+        with(metrics) {
+            add(GradleScanLinkMetric())
         }
     }
 
@@ -274,6 +252,8 @@ class MetricsConfiguration {
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
+
+        addGradleScanMetrics()
 
         return metrics.toList()
     }
