@@ -51,7 +51,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.4.1"
+  id("com.cdsap.talaiot") version "1.4.2"
 }
 ```
 
@@ -64,7 +64,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.4.1")
+    classpath("com.cdsap:talaiot:1.4.2")
   }
 }
 
@@ -75,7 +75,7 @@ apply(plugin = "com.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.4.1"
+  id "com.cdsap.talaiot" version "1.4.2"
 }
 
 ```
@@ -89,7 +89,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.4.1"
+    classpath "com.cdsap:talaiot:1.4.2"
   }
 }
 
@@ -114,7 +114,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot.plugin.base") version "1.4.1"
+  id("com.cdsap.talaiot.plugin.base") version "1.4.2"
 }
 ```
 
@@ -127,7 +127,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap.talaiot.plugin:base:1.4.1")
+    classpath("com.cdsap.talaiot.plugin:base:1.4.2")
   }
 }
 
@@ -138,7 +138,7 @@ apply(plugin = "com.cdsap.talaiot.plugin.base")
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot.plugin.base" version "1.4.1"
+  id "com.cdsap.talaiot.plugin.base" version "1.4.2"
 }
 
 ```
@@ -152,7 +152,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath ""com.cdsap.talaiot.plugin:base:1.4.1""
+    classpath ""com.cdsap.talaiot.plugin:base:1.4.2""
   }
 }
 
@@ -170,12 +170,12 @@ maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
 ### Standard Plugin
 
 ````
-classpath("com.cdsap:talaiot:1.4.2-SNAPSHOT")
+classpath("com.cdsap:talaiot:1.4.3-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("com.cdsap.talaiot.plugin:base:1.4.2-SNAPSHOT")
+classpath("com.cdsap.talaiot.plugin:base:1.4.3-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
@@ -315,6 +315,9 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
 | tags                         | Collection of BuildMetrics used as tags                                             |
+
+For complete list of tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/com/cdsap/talaiot/metrics/BuildMetrics.kt
+If you need to include custom metrics as tags, you need to use the type `Custom`
 
 Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins.
 
