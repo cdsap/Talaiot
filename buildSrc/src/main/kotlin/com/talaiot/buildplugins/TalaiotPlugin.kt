@@ -3,6 +3,7 @@ package com.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
+import java.net.URI
 
 /**
  * Talaiot Plugin abstracts the build logic for modules used as Gradle Plugin.
@@ -26,6 +27,7 @@ class TalaiotPlugin : Plugin<Project> {
         target.repositories {
             jcenter()
             mavenCentral()
+            maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
         target.setUpJacoco()

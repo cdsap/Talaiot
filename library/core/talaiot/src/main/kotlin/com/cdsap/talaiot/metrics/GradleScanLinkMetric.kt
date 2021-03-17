@@ -24,39 +24,6 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
         val services = gradleInternal.services
 
         when {
-            GradleVersion.current() > GradleVersion.version("5.0")
-                    && GradleVersion.current() <= GradleVersion.version("6.5.1") -> {
-                classFor("org.gradle.internal.scan.eob.DefaultBuildScanEndOfBuildNotifier")?.let {
-                    services.get(it)
-                }?.let { endOfBuildNotifier ->
-                    val loggingManager: LoggingManagerInternal = services.get(LoggingManagerInternal::class.java)
-                    var shouldCaptureNext = false
-                    var link: String? = null
-                    val listener: (OutputEvent) -> Unit = {
-                        if (it is StyledTextOutputEvent) {
-                            if (it.spans.any { span -> span.text.contains("Publishing build scan") }) {
-                                shouldCaptureNext = true
-                            } else if (shouldCaptureNext) {
-                                shouldCaptureNext = false
-                                link = it.spans.map { it.text }.joinToString(separator = "").trim()
-                            }
-                        }
-                    }
-                    loggingManager.addOutputEventListener(listener)
-                    
-                    val fireBuildCompleteMethod =
-                        endOfBuildNotifier::class.java.getDeclaredMethod("fireBuildComplete", Throwable::class.java)
-                    fireBuildCompleteMethod.invoke(endOfBuildNotifier, result.failure)
-
-                    val listenerField = endOfBuildNotifier::class.java.getDeclaredField("listener")
-                    listenerField.isAccessible = true
-                    listenerField.set(endOfBuildNotifier, null)
-
-                    loggingManager.removeOutputEventListener(listener)
-
-                    link
-                } ?: null
-            }
             GradleVersion.current() >= GradleVersion.version("6.7") -> {
                 val gradleEnterprisePluginManager: GradleEnterprisePluginManager =
                     services.get(GradleEnterprisePluginManager::class.java) as GradleEnterprisePluginManager
