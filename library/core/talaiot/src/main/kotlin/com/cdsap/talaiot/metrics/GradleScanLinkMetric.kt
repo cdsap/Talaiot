@@ -4,11 +4,9 @@ import com.cdsap.talaiot.metrics.base.BuildResultMetric
 import com.gradle.scan.plugin.BuildScanExtension
 import com.gradle.scan.plugin.PublishedBuildScan
 import org.gradle.api.Action
+import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.enterprise.core.GradleEnterprisePluginManager
-import org.gradle.internal.logging.LoggingManagerInternal
-import org.gradle.internal.logging.events.OutputEvent
-import org.gradle.internal.logging.events.StyledTextOutputEvent
 import org.gradle.util.GradleVersion
 
 
@@ -25,21 +23,26 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
 
         when {
             GradleVersion.current() >= GradleVersion.version("6.7") -> {
-                val gradleEnterprisePluginManager: GradleEnterprisePluginManager =
-                    services.get(GradleEnterprisePluginManager::class.java) as GradleEnterprisePluginManager
+                try {
+                    val gradleEnterprisePluginManager: GradleEnterprisePluginManager =
+                        services.get(GradleEnterprisePluginManager::class.java) as GradleEnterprisePluginManager
+                    val project = gradleInternal.rootProject
+                    val buildScanExtension =
+                        project.extensions.getByType(BuildScanExtension::class.java)
+                    val scanLinkListener = GradleScanLinkListener()
 
-                val project = gradleInternal.rootProject
-                val buildScanExtension: BuildScanExtension =
-                    project.extensions.getByType(BuildScanExtension::class.java)
-                val scanLinkListener = GradleScanLinkListener()
-                buildScanExtension.buildScanPublished(scanLinkListener)
-                gradleEnterprisePluginManager.buildFinished(result.failure)
+                    buildScanExtension.buildScanPublished(scanLinkListener)
+                    gradleEnterprisePluginManager.buildFinished(result.failure)
 
-                val adapterField = gradleEnterprisePluginManager::class.java.getDeclaredField("adapter")
-                adapterField.isAccessible = true
-                adapterField.set(gradleEnterprisePluginManager, null)
+                    val adapterField =
+                        gradleEnterprisePluginManager::class.java.getDeclaredField("adapter")
+                    adapterField.isAccessible = true
+                    adapterField.set(gradleEnterprisePluginManager, null)
 
-                scanLinkListener.scanLink
+                    scanLinkListener.scanLink
+                } catch (e: UnknownDomainObjectException) {
+                    null
+                }
             }
             else -> {
                 /**
@@ -55,14 +58,6 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
         report.scanLink = value
     }
 )
-
-private fun classFor(name: String): Class<*>? {
-    return try {
-        Class.forName(name)
-    } catch (e: ClassNotFoundException) {
-        null
-    }
-}
 
 class GradleScanLinkListener(override var scanLink: String? = null) : GradleScanLinkAccumulator {
     override fun execute(publishedBuildScan: PublishedBuildScan) {
