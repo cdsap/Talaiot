@@ -7,6 +7,9 @@ import org.gradle.api.Action
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.enterprise.core.GradleEnterprisePluginManager
+import org.gradle.internal.logging.LoggingManagerInternal
+import org.gradle.internal.logging.events.OutputEvent
+import org.gradle.internal.logging.events.StyledTextOutputEvent
 import org.gradle.util.GradleVersion
 
 
@@ -22,6 +25,43 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
         val services = gradleInternal.services
 
         when {
+            GradleVersion.current() >= GradleVersion.version("6.0") &&
+                    GradleVersion.current() <= GradleVersion.version("6.5.1") -> {
+                classFor("org.gradle.internal.scan.eob.DefaultBuildScanEndOfBuildNotifier")?.let {
+                    services.get(it)
+                }?.let { endOfBuildNotifier ->
+                    val loggingManager: LoggingManagerInternal =
+                        services.get(LoggingManagerInternal::class.java)
+                    var shouldCaptureNext = false
+                    var link: String? = null
+                    val listener: (OutputEvent) -> Unit = {
+                        if (it is StyledTextOutputEvent) {
+                            if (it.spans.any { span -> span.text.contains("Publishing build scan") }) {
+                                shouldCaptureNext = true
+                            } else if (shouldCaptureNext) {
+                                shouldCaptureNext = false
+                                link = it.spans.map { it.text }.joinToString(separator = "").trim()
+                            }
+                        }
+                    }
+                    loggingManager.addOutputEventListener(listener)
+
+                    val fireBuildCompleteMethod =
+                        endOfBuildNotifier::class.java.getDeclaredMethod(
+                            "fireBuildComplete",
+                            Throwable::class.java
+                        )
+                    fireBuildCompleteMethod.invoke(endOfBuildNotifier, result.failure)
+
+                    val listenerField = endOfBuildNotifier::class.java.getDeclaredField("listener")
+                    listenerField.isAccessible = true
+                    listenerField.set(endOfBuildNotifier, null)
+
+                    loggingManager.removeOutputEventListener(listener)
+
+                    link
+                } ?: null
+            }
             GradleVersion.current() >= GradleVersion.version("6.7") -> {
                 try {
                     val gradleEnterprisePluginManager: GradleEnterprisePluginManager =
@@ -58,6 +98,14 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
         report.scanLink = value
     }
 )
+
+private fun classFor(name: String): Class<*>? {
+    return try {
+        Class.forName(name)
+    } catch (e: ClassNotFoundException) {
+        null
+    }
+}
 
 class GradleScanLinkListener(override var scanLink: String? = null) : GradleScanLinkAccumulator {
     override fun execute(publishedBuildScan: PublishedBuildScan) {

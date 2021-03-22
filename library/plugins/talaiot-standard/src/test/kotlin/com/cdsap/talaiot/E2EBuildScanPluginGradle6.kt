@@ -53,8 +53,14 @@ class E2EBuildScanPluginGradle6 : BehaviorSpec() {
                     Thread.sleep(2000)
                     val taskResultBuild =
                         influxDB.query(Query("select ${BuildMetrics.GradleScanLink}  from tracking.rpTalaiot.build"))
-                    assert(taskResultBuild.results[0].series == null)
-                    assert(taskResultBuild.results[0].error == null)
+                    val columns =
+                        taskResultBuild.results.joinToString { it.series.joinToString { it.columns.joinToString() } }
+                    assert(columns == "time, ${BuildMetrics.GradleScanLink}")
+
+                    val values =
+                        taskResultBuild.results.joinToString { it.series.joinToString { it.values.joinToString() } }
+                    assert(values.contains("https://gradle.com/s/"))
+
 
 
                 }
