@@ -24,6 +24,7 @@ import com.cdsap.talaiot.metrics.base.Metric
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
+ *  [GradleScanLinkMetric]
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
@@ -97,7 +98,7 @@ class MetricsConfiguration {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
-            add(GradleVersionMetric())
+            add(GradleScanLinkMetric())
         }
     }
 
@@ -150,7 +151,6 @@ class MetricsConfiguration {
             add(GradleSwitchRefreshDependenciesMetric())
             add(GradleSwitchRerunTasksMetric())
             add(GradleSwitchDaemonMetric())
-
         }
     }
 
@@ -252,8 +252,6 @@ class MetricsConfiguration {
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
-
-        addGradleScanMetrics()
 
         return metrics.toList()
     }
