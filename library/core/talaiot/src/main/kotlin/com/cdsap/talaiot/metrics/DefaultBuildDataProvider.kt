@@ -2,6 +2,7 @@ package com.cdsap.talaiot.metrics
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.BuildMetrics.*
+
 class DefaultBuildMetricsProvider(
     private val report: ExecutionReport
 ) : ValuesProvider {
@@ -19,6 +20,7 @@ class DefaultBuildMetricsProvider(
             requestedTasks?.let { map[RequestedTasks.toString()] = it }
             cacheRatio?.let { map[CacheRatio.toString()] = it.toDouble() }
             beginMs?.let { map[Start.toString()] = it.toDouble() }
+            scanLink?.let { map[GradleScanLink.toString()] = it }
             rootProject?.let { map[RootProject.toString()] = it }
             with(environment) {
                 osVersion?.let { map[OsVersion.toString()] = it }

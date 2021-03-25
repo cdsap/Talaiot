@@ -18,6 +18,7 @@ package com.cdsap.talaiot.entities
  * @property rootProject name of the root gradle project
  * @property success true if build finished successfully, false otherwise
  *
+ * @property scanLink link to the generated gradle scan
  *
  * @property environment information about the environment of gradle execution
  * @property customProperties custom properties defined in [com.cdsap.talaiot.configuration.MetricsConfiguration]
@@ -35,6 +36,7 @@ data class ExecutionReport(
     var rootProject: String? = null,
     var requestedTasks: String? = null,
     var success: Boolean = false,
+    var scanLink: String? = null,
     var buildInvocationId: String? = null
 ) {
 

@@ -24,6 +24,7 @@ enum class BuildMetrics {
     DefaultCharset,
     IdeVersion,
     GradleVersion,
+    GradleScanLink,
     GitBranch,
     GitUser,
     Hostname,

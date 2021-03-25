@@ -13,7 +13,7 @@ repositories {
 
 plugins {
     kotlin("jvm") version "1.3.60"
-    id("com.cdsap.talaiot") version "1.3.6-SNAPSHOT"
+    id("com.cdsap.talaiot") version "1.4.2-SNAPSHOT"
 }
 
 dependencies {
@@ -80,6 +80,7 @@ class CustomPublisher : Publisher {
         println("[CustomPublisher] : Kotlin = ${report.customProperties.buildProperties["kotlin"]}")
         println("[CustomPublisher] : Java = ${report.customProperties.buildProperties["java"]}")
         println("[CustomPublisher] : PID = ${report.customProperties.taskProperties["pid"]}")
+        println("[CustomPublisher] : Scan link = ${report.scanLink}")
     }
 }
 
