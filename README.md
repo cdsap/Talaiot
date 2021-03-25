@@ -34,15 +34,14 @@ https://en.wikipedia.org/wiki/Talaiot
 # Table of Contents
 1. [Setup](#setup)
 2. [Snapshots](#snapshots)
-3. [Basic Configuration](#basic-configuration)
-4. [Talaiot Extension](#talaiot-extension)
-5. [Example: Analyzing Data provided by Talaiot](#example)
-6. [Other Existing Libraries](#other_libraries)
-7. [Docs](#docs)
-8. [Articles](#articles)
-9. [Contributing](#contributing)
-10. [Contributors](#contributors)
-11. [Thanks](#thanks)
+3. [Talaiot Extension](#talaiot-extension)
+4. [Example: Analyzing Data provided by Talaiot](#example)
+5. [Other Existing Libraries](#other_libraries)
+6. [Docs](#docs)
+7. [Articles](#articles)
+8. [Contributing](#contributing)
+9. [Contributors](#contributors)
+10. [Thanks](#thanks)
 
 ## Setup <a name="setup"></a>
 
