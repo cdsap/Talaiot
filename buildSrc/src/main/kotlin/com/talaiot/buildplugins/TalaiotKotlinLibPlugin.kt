@@ -21,6 +21,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.plugins.apply("kotlin")
         target.plugins.apply("maven-publish")
         target.plugins.apply("jacoco")
+        target.plugins.apply("signing")
         target.plugins.apply("java-library")
         target.plugins.apply("com.jfrog.bintray")
 
