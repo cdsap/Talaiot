@@ -3,6 +3,7 @@ package com.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugins.signing.SigningExtension
 import java.net.URI
 
 /**
@@ -38,6 +39,9 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             collectUnitTest()
             setUpPublishing(Type.LIBRARY)
             setUpJfrog()
+            configure<SigningExtension> {
+                sign(publication("TalaiotLib"))
+            }
         }
 
         target.dependencies {

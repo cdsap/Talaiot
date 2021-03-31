@@ -3,6 +3,7 @@ package com.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugins.signing.SigningExtension
 import java.net.URI
 
 /**
@@ -19,6 +20,7 @@ class TalaiotPlugin : Plugin<Project> {
         target.plugins.apply("java-gradle-plugin")
         target.plugins.apply("maven-publish")
         target.plugins.apply("jacoco")
+        target.plugins.apply("signing")
         target.plugins.apply("kotlin")
         target.plugins.apply("java-library")
         target.plugins.apply("application")
@@ -40,6 +42,9 @@ class TalaiotPlugin : Plugin<Project> {
             setUpGradlePublishing()
             setUpPublishing(Type.PLUGIN)
             collectUnitTest()
+            configure<SigningExtension> {
+                sign(publication("TalaiotLib"),publication("pluginMaven"))
+            }
         }
 
         target.dependencies {

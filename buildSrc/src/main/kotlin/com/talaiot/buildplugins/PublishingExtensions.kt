@@ -2,6 +2,7 @@ package com.talaiot.buildplugins
 
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.publish.Publication
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
@@ -17,7 +18,7 @@ fun Project.setUpPublishing(
     } else {
         extensions.getByType<TalaiotPluginConfiguration>()
     }
-    val artifcact = getArtifact(extension.artifact, this)
+    val artifact = getArtifact(extension.artifact, this)
 
     configure<JavaPluginExtension> {
         withJavadocJar()
@@ -41,7 +42,7 @@ fun Project.setUpPublishing(
 
             register("TalaiotLib", MavenPublication::class) {
                 from(components.findByName("java"))
-                artifactId = artifcact
+                artifactId = artifact
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")
@@ -86,6 +87,10 @@ fun Project.setUpPublishing(
         }
     }
 }
+
+fun Project.publication(value: String) : Publication =
+    (extensions.getByName("publishing")
+            as PublishingExtension).publications[value]
 
 fun Project.setProjectGroup(
     configurationGroup: String?,
