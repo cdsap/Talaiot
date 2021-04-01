@@ -42,9 +42,7 @@ class TalaiotPlugin : Plugin<Project> {
             setUpGradlePublishing()
             setUpPublishing(Type.PLUGIN)
             collectUnitTest()
-            configure<SigningExtension> {
-                sign(publication("TalaiotLib"),publication("pluginMaven"))
-            }
+            setUpSigning("TalaiotLib", "pluginMaven")
         }
 
         target.dependencies {

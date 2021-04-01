@@ -40,9 +40,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             collectUnitTest()
             setUpPublishing(Type.LIBRARY)
             setUpJfrog()
-            configure<SigningExtension> {
-                sign(publication("TalaiotLib"))
-            }
+            setUpSigning("TalaiotLib")
         }
 
         target.dependencies {
