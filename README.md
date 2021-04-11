@@ -585,6 +585,8 @@ is great and you have the support from Gradle :)
 
 ## Articles  <a name="articles"></a>
 
+[🇹🇭 มาทำความรู้จักกับโปรเจค Android ของเราให้มากขึ้นดีกว่า (part 2)](https://kajornsakp.medium.com/understanding-your-android-projects-part-2-f37ef19f4aab) by [Kajornsak P.](https://github.com/kajornsakp)
+
 [Metrics Configuration](https://medium.com/@mydogtom/explore-talaiot-plugin-configure-metrics-5ef3ae9a8c5d) by [Svyatoslav Chatchenko](https://github.com/MyDogTom)
 
 [Understanding Talaiot](https://proandroiddev.com/understanding-talaiot-5da62594b00c)
