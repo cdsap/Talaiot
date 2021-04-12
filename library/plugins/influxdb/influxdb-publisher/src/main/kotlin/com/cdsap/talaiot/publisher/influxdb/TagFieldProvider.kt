@@ -1,19 +1,19 @@
 package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.entities.CustomProperties
-import com.cdsap.talaiot.entities.Environment
-import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.BuildMetrics
-import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
-import java.lang.IllegalArgumentException
+import com.cdsap.talaiot.metrics.Metrics
+import com.cdsap.talaiot.metrics.ValuesProvider
 
 class TagFieldProvider(
-    private val executionReport: ExecutionReport,
-    private val tagsConfiguration: List<BuildMetrics>
+    private val tagsConfiguration: List<Metrics>,
+    valuesProvider: ValuesProvider,
+    private val customMetrics: Map<String, String>,
+    private val keyMapper: (String) -> Metrics
 ) {
-    private val buildMetrics = DefaultBuildMetricsProvider(executionReport).get()
 
-    fun tags(): Map<String, String> = buildMetrics
+    private val metrics: Map<String, Any> = valuesProvider.get()
+
+    fun tags(): Map<String, String> = metrics
         .filter {
             customMetrics(it.key) || defaultMetrics(it.key)
         }.mapValues { it.value.toString() }
@@ -21,16 +21,15 @@ class TagFieldProvider(
 
     fun fields(): Map<String, Any> {
         val tags = tags()
-        return buildMetrics.filter { !tags.containsKey(it.key) }
+        return metrics.filter { !tags.containsKey(it.key) }
     }
 
     private fun customMetrics(key: String) =
-        tagsConfiguration.contains(BuildMetrics.Custom) &&
-                executionReport.customProperties.buildProperties.contains(key)
+        tagsConfiguration.contains(BuildMetrics.Custom) && customMetrics.contains(key)
 
     private fun defaultMetrics(key: String) =
         try {
-            tagsConfiguration.contains(BuildMetrics.valueOf(key.capitalize()))
+            tagsConfiguration.contains(keyMapper(key))
         } catch (e: IllegalArgumentException){
             false
         }

@@ -2,6 +2,7 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.configuration.PublisherConfiguration
 import com.cdsap.talaiot.metrics.BuildMetrics
+import com.cdsap.talaiot.metrics.TaskMetrics
 import groovy.lang.Closure
 
 /**
@@ -56,7 +57,12 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     /**
      * by default all build metrics are considered fields, specify required [BuildMetrics] to be consider as Tags in InfluxDb
      */
-    var tags : List<BuildMetrics> = emptyList()
+    var buildTags : List<BuildMetrics> = emptyList()
+
+    /**
+     * by default all task metrics except execution time are considered tags, specify required [TaskMetrics] to be consider as Tags in InfluxDb
+     */
+    var taskTags : List<TaskMetrics> = TaskMetrics.values().filter { it != TaskMetrics.Value }
 
     /**
      * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
