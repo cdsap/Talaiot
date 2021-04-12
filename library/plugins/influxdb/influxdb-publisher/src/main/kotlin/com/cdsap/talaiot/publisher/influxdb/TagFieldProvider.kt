@@ -1,6 +1,5 @@
 package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.metrics.BuildMetrics
 import com.cdsap.talaiot.metrics.Metrics
 import com.cdsap.talaiot.metrics.ValuesProvider
 
@@ -13,6 +12,8 @@ class TagFieldProvider(
 
     private val metrics: Map<String, Any> = valuesProvider.get()
 
+    private val shouldIncludeCustom = tagsConfiguration.any { it.isCustom }
+
     fun tags(): Map<String, String> = metrics
         .filter {
             customMetrics(it.key) || defaultMetrics(it.key)
@@ -24,8 +25,7 @@ class TagFieldProvider(
         return metrics.filter { !tags.containsKey(it.key) }
     }
 
-    private fun customMetrics(key: String) =
-        tagsConfiguration.contains(BuildMetrics.Custom) && customMetrics.contains(key)
+    private fun customMetrics(key: String) = shouldIncludeCustom && customMetrics.contains(key)
 
     private fun defaultMetrics(key: String) =
         try {
