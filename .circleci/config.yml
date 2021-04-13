@@ -17,7 +17,9 @@ jobs:
       - checkout
       - run:
           name: build
-          command: ./gradlew assemble collectUnitTest jacocoTestReport --stacktrace --info
+          command: |
+            export SIGNING_PASSWORD=""
+            ./gradlew assemble collectUnitTest jacocoTestReport --stacktrace --info
       - codecov/upload:
           file: build/reports/jacoco/test/*.xml
       - store_test_results:
