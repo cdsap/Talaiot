@@ -2,7 +2,10 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
+import com.cdsap.talaiot.metrics.BuildMetrics
+import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
+import com.cdsap.talaiot.metrics.TaskMetrics
 import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
@@ -110,21 +113,27 @@ class InfluxDbPublisher(
 
     private fun createTaskPoints(report: ExecutionReport): List<Point>? {
         return report.tasks?.map { task ->
+            val tagFieldProvider = TagFieldProvider(
+                influxDbPublisherConfiguration.taskTags,
+                DefaultTaskDataProvider(task, report),
+                report.customProperties.taskProperties,
+                keyMapper = { TaskMetrics.fromKey(it) }
+            )
             Point.measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag(
-                    DefaultTaskDataProvider(task, report).get()
-                        .mapValues {
-                            it.value.toString()
-                        }
-                        .filter { it.key != "value" })
-                .addField("value", task.ms)
+                .tag(tagFieldProvider.tags())
+                .fields(tagFieldProvider.fields())
                 .build()
         }
     }
 
     private fun createBuildPoint(report: ExecutionReport): Point {
-        val tagFieldProvider = TagFieldProvider(report,influxDbPublisherConfiguration.tags)
+        val tagFieldProvider = TagFieldProvider(
+            influxDbPublisherConfiguration.buildTags,
+            DefaultBuildMetricsProvider(report),
+            report.customProperties.buildProperties,
+            keyMapper = { BuildMetrics.fromKey(it) }
+        )
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
                 .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag(tagFieldProvider.tags())

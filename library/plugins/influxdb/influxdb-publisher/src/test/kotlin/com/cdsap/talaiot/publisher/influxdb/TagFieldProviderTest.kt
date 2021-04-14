@@ -4,6 +4,7 @@ import com.cdsap.talaiot.entities.*
 import com.cdsap.talaiot.utils.TestExecutor
 import com.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.cdsap.talaiot.metrics.BuildMetrics
+import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
@@ -26,7 +27,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     emptyList()
                 )
@@ -51,7 +52,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     listOf(BuildMetrics.CpuCount)
                 )
@@ -75,7 +76,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     listOf(BuildMetrics.Custom)
                 )
@@ -92,4 +93,14 @@ class TagFieldProviderTest : BehaviorSpec() {
             }
         }
     }
+
+    private fun createBuildTagFieldProvider(
+        report: ExecutionReport,
+        configuration: List<BuildMetrics>
+    ) = TagFieldProvider(
+        configuration,
+        DefaultBuildMetricsProvider(report),
+        report.customProperties.buildProperties,
+        keyMapper = { BuildMetrics.fromKey(it) }
+    )
 }

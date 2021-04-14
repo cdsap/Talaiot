@@ -11,7 +11,7 @@ class InfluxDbConfigurationTest : BehaviorSpec({
                 assert(
                     influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "rpTalaiot" &&
                             influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "30d" &&
-                            influxDbPublisherConfiguration.tags.isEmpty()
+                            influxDbPublisherConfiguration.buildTags.isEmpty()
                 )
             }
         }

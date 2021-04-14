@@ -192,7 +192,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     taskMetricName = "task"
                     buildMetricName = "build"
                     publishTaskMetrics = false
-                    tags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
+                    buildTags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
                 }
                 val influxDbPublisher = InfluxDbPublisher(
                     influxDbConfiguration, logger, TestExecutor()

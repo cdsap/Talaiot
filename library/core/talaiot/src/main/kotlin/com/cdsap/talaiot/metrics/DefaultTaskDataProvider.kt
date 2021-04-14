@@ -9,18 +9,18 @@ class DefaultTaskDataProvider(
 ) : ValuesProvider {
     override fun get(): Map<String, Any> {
         return mapOf(
-            "state" to task.state.name,
-            "module" to task.module,
-            "rootNode" to task.rootNode.toString(),
-            "task" to task.taskPath,
-            "workerId" to task.workerId,
-            "critical" to task.critical.toString(),
-            "value" to task.ms,
-            "cacheEnabled" to task.isCacheEnabled,
-            "localCacheHit" to task.isLocalCacheHit,
-            "localCacheMiss" to task.isLocalCacheMiss,
-            "remoteCacheHit" to task.isRemoteCacheHit,
-            "remoteCacheMiss" to task.isRemoteCacheMiss
+            TaskMetrics.State.toKey() to task.state.name,
+            TaskMetrics.Module.toKey() to task.module,
+            TaskMetrics.RootNode.toKey() to task.rootNode.toString(),
+            TaskMetrics.Task.toKey() to task.taskPath,
+            TaskMetrics.WorkerId.toKey() to task.workerId,
+            TaskMetrics.Critical.toKey() to task.critical.toString(),
+            TaskMetrics.Value.toKey() to task.ms,
+            TaskMetrics.CacheEnabled.toKey() to task.isCacheEnabled,
+            TaskMetrics.LocalCacheHit.toKey() to task.isLocalCacheHit,
+            TaskMetrics.LocalCacheMiss.toKey() to task.isLocalCacheMiss,
+            TaskMetrics.RemoteCacheHit.toKey() to task.isRemoteCacheHit,
+            TaskMetrics.RemoteCacheMiss.toKey() to task.isRemoteCacheMiss
 
         ) + report.customProperties.taskProperties
     }
