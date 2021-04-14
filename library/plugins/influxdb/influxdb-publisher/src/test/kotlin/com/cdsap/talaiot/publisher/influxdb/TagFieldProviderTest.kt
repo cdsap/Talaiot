@@ -1,13 +1,11 @@
 package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.entities.*
-import com.cdsap.talaiot.utils.TestExecutor
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.entities.CustomProperties
+import com.cdsap.talaiot.entities.Environment
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.BuildMetrics
-import io.kotlintest.Spec
+import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.kotlintest.specs.BehaviorSpec
-import org.influxdb.dto.Query
-import org.testcontainers.influxdb.KInfluxDBContainer
 
 class TagFieldProviderTest : BehaviorSpec() {
 
@@ -26,7 +24,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     emptyList()
                 )
@@ -51,7 +49,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     listOf(BuildMetrics.CpuCount)
                 )
@@ -75,7 +73,7 @@ class TagFieldProviderTest : BehaviorSpec() {
                     )
                 )
 
-                val tagFieldProvider = TagFieldProvider(
+                val tagFieldProvider = createBuildTagFieldProvider(
                     executionReport,
                     listOf(BuildMetrics.Custom)
                 )
@@ -92,4 +90,13 @@ class TagFieldProviderTest : BehaviorSpec() {
             }
         }
     }
+
+    private fun createBuildTagFieldProvider(
+        report: ExecutionReport,
+        configuration: List<BuildMetrics>
+    ) = TagFieldProvider(
+        configuration,
+        DefaultBuildMetricsProvider(report),
+        report.customProperties.buildProperties
+    )
 }

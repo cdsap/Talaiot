@@ -1,6 +1,6 @@
 package com.cdsap.talaiot.metrics
 
-enum class BuildMetrics {
+enum class BuildMetrics : Metrics {
     Duration,
     Configuration,
     Success,
@@ -46,7 +46,11 @@ enum class BuildMetrics {
     SwitchParallel,
     SwitchRefreshDependencies,
     SwitchRerunTasks,
-    Custom;
+    Custom {
+        override val isCustom: Boolean = true
+    };
+
+    override fun toKey(): String = toString()
 
     override fun toString(): String {
         return if (super.toString().startsWith("Switch")) {
