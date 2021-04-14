@@ -91,7 +91,7 @@ class TalaiotPluginTest {
         )
         GradleRunner.create()
             .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo","-x","signTalaiotLibPublication")
+            .withArguments("publishTalaiotLibPublicationToTestRepo")
             .withPluginClasspath()
             .build()
 
@@ -114,7 +114,7 @@ class TalaiotPluginTest {
 
         GradleRunner.create()
             .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo","-x","signTalaiotLibPublication")
+            .withArguments("publishTalaiotLibPublicationToTestRepo")
             .withPluginClasspath()
             .build()
 
@@ -136,7 +136,7 @@ class TalaiotPluginTest {
 
         GradleRunner.create()
             .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo","-x","signTalaiotLibPublication")
+            .withArguments("publishTalaiotLibPublicationToTestRepo")
             .withPluginClasspath()
             .build()
 
