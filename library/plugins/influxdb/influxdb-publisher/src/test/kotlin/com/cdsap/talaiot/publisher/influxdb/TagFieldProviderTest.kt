@@ -1,14 +1,11 @@
 package com.cdsap.talaiot.publisher.influxdb
 
-import com.cdsap.talaiot.entities.*
-import com.cdsap.talaiot.utils.TestExecutor
-import com.cdsap.talaiot.logger.TestLogTrackerRecorder
+import com.cdsap.talaiot.entities.CustomProperties
+import com.cdsap.talaiot.entities.Environment
+import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.metrics.BuildMetrics
 import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
-import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
-import org.influxdb.dto.Query
-import org.testcontainers.influxdb.KInfluxDBContainer
 
 class TagFieldProviderTest : BehaviorSpec() {
 
@@ -100,7 +97,6 @@ class TagFieldProviderTest : BehaviorSpec() {
     ) = TagFieldProvider(
         configuration,
         DefaultBuildMetricsProvider(report),
-        report.customProperties.buildProperties,
-        keyMapper = { BuildMetrics.fromKey(it) }
+        report.customProperties.buildProperties
     )
 }

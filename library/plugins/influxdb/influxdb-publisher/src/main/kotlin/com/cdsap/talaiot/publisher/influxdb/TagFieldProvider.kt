@@ -4,19 +4,19 @@ import com.cdsap.talaiot.metrics.Metrics
 import com.cdsap.talaiot.metrics.ValuesProvider
 
 class TagFieldProvider(
-    private val tagsConfiguration: List<Metrics>,
+    tagsConfiguration: List<Metrics>,
     valuesProvider: ValuesProvider,
-    private val customMetrics: Map<String, String>,
-    private val keyMapper: (String) -> Metrics
+    private val customMetrics: Map<String, String>
 ) {
 
     private val metrics: Map<String, Any> = valuesProvider.get()
 
+    private val tagMetricKeys = tagsConfiguration.mapTo(HashSet()) { it.toKey() }
     private val shouldIncludeCustom = tagsConfiguration.any { it.isCustom }
 
     fun tags(): Map<String, String> = metrics
         .filter {
-            customMetrics(it.key) || defaultMetrics(it.key)
+            customMetrics(it.key) || it.key in tagMetricKeys
         }.mapValues { it.value.toString() }
 
 
@@ -26,11 +26,4 @@ class TagFieldProvider(
     }
 
     private fun customMetrics(key: String) = shouldIncludeCustom && customMetrics.contains(key)
-
-    private fun defaultMetrics(key: String) =
-        try {
-            tagsConfiguration.contains(keyMapper(key))
-        } catch (e: IllegalArgumentException){
-            false
-        }
 }

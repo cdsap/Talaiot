@@ -20,8 +20,4 @@ enum class TaskMetrics : Metrics {
     override fun toKey(): String = toString()
 
     override fun toString(): String = super.toString().decapitalize()
-
-    companion object {
-        fun fromKey(key: String): Metrics = valueOf(key.capitalize())
-    }
 }

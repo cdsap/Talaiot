@@ -2,10 +2,8 @@ package com.cdsap.talaiot.publisher.influxdb
 
 import com.cdsap.talaiot.entities.ExecutionReport
 import com.cdsap.talaiot.logger.LogTracker
-import com.cdsap.talaiot.metrics.BuildMetrics
 import com.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import com.cdsap.talaiot.metrics.DefaultTaskDataProvider
-import com.cdsap.talaiot.metrics.TaskMetrics
 import com.cdsap.talaiot.publisher.Publisher
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
@@ -116,8 +114,7 @@ class InfluxDbPublisher(
             val tagFieldProvider = TagFieldProvider(
                 influxDbPublisherConfiguration.taskTags,
                 DefaultTaskDataProvider(task, report),
-                report.customProperties.taskProperties,
-                keyMapper = { TaskMetrics.fromKey(it) }
+                report.customProperties.taskProperties
             )
             Point.measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
@@ -131,8 +128,7 @@ class InfluxDbPublisher(
         val tagFieldProvider = TagFieldProvider(
             influxDbPublisherConfiguration.buildTags,
             DefaultBuildMetricsProvider(report),
-            report.customProperties.buildProperties,
-            keyMapper = { BuildMetrics.fromKey(it) }
+            report.customProperties.buildProperties
         )
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
                 .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)

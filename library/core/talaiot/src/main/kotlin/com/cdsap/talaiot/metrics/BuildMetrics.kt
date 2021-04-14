@@ -60,8 +60,4 @@ enum class BuildMetrics : Metrics {
             super.toString().decapitalize()
         }
     }
-
-    companion object {
-        fun fromKey(key: String): Metrics = valueOf(key.capitalize())
-    }
 }
