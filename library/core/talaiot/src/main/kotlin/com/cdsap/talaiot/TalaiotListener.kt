@@ -101,10 +101,6 @@ class TalaiotListener(
     override fun projectsLoaded(gradle: Gradle) {
     }
 
-    override fun buildStarted(gradle: Gradle) {
-        //This never gets called because we're registering after the build has already started
-    }
-
     override fun projectsEvaluated(gradle: Gradle) {
         start = assignBuildStarted(gradle)
         configurationEnd = System.currentTimeMillis()

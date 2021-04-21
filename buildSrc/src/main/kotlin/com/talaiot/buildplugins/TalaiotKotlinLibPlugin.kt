@@ -2,8 +2,9 @@ package com.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
-import org.gradle.plugins.signing.SigningExtension
 import java.net.URI
 
 /**
@@ -26,11 +27,11 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.plugins.apply("com.jfrog.bintray")
 
         target.repositories {
-            jcenter()
             mavenCentral()
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
+        target.setUpKotlinCompiler()
         target.setUpJacoco()
         target.setUpJunitPlatform()
         target.afterEvaluate {
