@@ -2,6 +2,8 @@ package com.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.SigningExtension
 import java.net.URI
@@ -27,11 +29,11 @@ class TalaiotPlugin : Plugin<Project> {
         target.plugins.apply("com.gradle.plugin-publish")
 
         target.repositories {
-            jcenter()
             mavenCentral()
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
+        target.setUpKotlinCompiler()
         target.setUpJacoco()
         target.setUpJunitPlatform()
 
