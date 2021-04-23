@@ -29,7 +29,7 @@ fun Project.setUpPublishing(
         repositories {
             maven {
                 name = "Snapshots"
-                url = URI("http://oss.jfrog.org/artifactory/oss-snapshot-local")
+                url = URI("https://oss.jfrog.org/artifactory/oss-snapshot-local")
 
                 credentials {
                     username = System.getenv("USERNAME_SNAPSHOT")
