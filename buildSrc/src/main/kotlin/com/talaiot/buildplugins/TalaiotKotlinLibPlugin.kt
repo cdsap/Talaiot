@@ -31,7 +31,6 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
-        target.setUpKotlinCompiler()
         target.setUpJacoco()
         target.setUpJunitPlatform()
         target.afterEvaluate {
