@@ -17,7 +17,7 @@ class DependencyGraphPublisherTest : BehaviorSpec({
                 """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.graph'
+                      id 'io.github.cdsap.talaiot.plugin.graph'
                    }
 
                   talaiot {

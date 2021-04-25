@@ -10,7 +10,7 @@ import io.kotlintest.specs.BehaviorSpec
 
 class TaskFilterProcessorTest : BehaviorSpec({
     given("a TaskFilterProcessor") {
-        val logger = LogTrackerImpl(_root_ide_package_.io.github.cdsap.talaiot.logger.LogTracker.Mode.SILENT)
+        val logger = LogTrackerImpl(LogTracker.Mode.SILENT)
         `when`("Task Name is excluded") {
             val taskFilter = TaskFilterProcessor(logger, FilterConfiguration().apply {
                 tasks {

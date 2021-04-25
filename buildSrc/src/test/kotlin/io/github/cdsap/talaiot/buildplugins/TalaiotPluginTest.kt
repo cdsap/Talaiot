@@ -21,7 +21,7 @@ class TalaiotPluginTest {
               talaiotPlugin {
                   idPlugin = "io.github.cdsap.talaiot"
                    artifact = "talaiot"
-                   group = "com.cdsap"
+                   group = "io.github.cdsap"
                    mainClass = "io.github.cdsap.talaiot.TalaiotPlugin"
                    version = "1.3.6-SNAPSHOT"
               }
@@ -96,7 +96,7 @@ class TalaiotPluginTest {
             .build()
 
         assert(
-            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot//${Constants.TALAIOT_VERSION}")
+            File("${rootFolder.absoluteFile}/repo/io/github/cdsap/talaiot//${Constants.TALAIOT_VERSION}")
                 .walkTopDown().filter {
                     it.name.contains("talaiot-")
                 }.count() > 0
@@ -119,7 +119,7 @@ class TalaiotPluginTest {
             .build()
 
         assert(
-            File("${rootFolder.absoluteFile}/repo/com/cdsap/talaiot/plugin/talaiot/${Constants.TALAIOT_VERSION}")
+            File("${rootFolder.absoluteFile}/repo/io/github/cdsap/talaiot/plugin/talaiot/${Constants.TALAIOT_VERSION}")
                 .walkTopDown().filter {
                     it.name.contains("talaiot-")
                 }.count() > 0
@@ -140,7 +140,7 @@ class TalaiotPluginTest {
             .withPluginClasspath()
             .build()
 
-        assert(File("${rootFolder.absoluteFile}/repo/com/cdsap/overridegroup/talaiot/1.3.6/talaiot-1.3.6.jar").exists())
+        assert(File("${rootFolder.absoluteFile}/repo/io/github/cdsap/overridegroup/talaiot/1.3.6/talaiot-1.3.6.jar").exists())
         rootFolder.deleteRecursively()
     }
 
@@ -170,7 +170,7 @@ class TalaiotPluginTest {
                   talaiotPlugin {
                       idPlugin = "io.github.cdsap.talaiot"
                        artifact = "talaiot"
-                       group = "com.cdsap"
+                       group = "io.github.cdsap"
                        mainClass = "io.github.cdsap.talaiot.TalaiotPlugin"
                        version = "1.3.6-SNAPSHOT"
                   }
@@ -188,7 +188,7 @@ class TalaiotPluginTest {
                   talaiotPlugin {
                        idPlugin = "io.github.cdsap.talaiot"
                        artifact = "talaiot"
-                       group = "com.cdsap.overridegroup"
+                       group = "io.github.cdsap.overridegroup"
                        mainClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
                        version = "1.3.6"
                   }
@@ -214,7 +214,7 @@ class TalaiotPluginTest {
                   talaiotPlugin {
                        idPlugin = "io.github.cdsap.talaiot"
                        artifact = "talaiot"
-                       group = "com.cdsap"
+                       group = "io.github.cdsap"
                        mainClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
                   }
 

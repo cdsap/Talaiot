@@ -9,7 +9,7 @@ import org.gradle.api.Project
  * Talaiot is a simple and extensible plugin for teams that use Gradle Build System. It stores information about
  * your Gradle tasks and helps you detect problems and bottlenecks of your builds. For every tracked task and build
  * it will add additional information defined by default and custom metrics
- * specified in [com.cdsap.talaiot.configuration.MetricsConfiguration].
+ * specified in [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
  *
  * usage:
  * plugins {

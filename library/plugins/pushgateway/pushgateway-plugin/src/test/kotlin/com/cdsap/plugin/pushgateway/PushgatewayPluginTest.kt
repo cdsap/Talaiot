@@ -33,7 +33,7 @@ class PushgatewayPluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.pushgateway'
+                      id 'io.github.cdsap.talaiot.plugin.pushgateway'
                    }
 
                   talaiot {

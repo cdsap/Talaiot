@@ -36,7 +36,7 @@ class RethinkdbPluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.rethinkdb'
+                      id 'io.github.cdsap.talaiot.plugin.rethinkdb'
                    }
 
                   talaiot {

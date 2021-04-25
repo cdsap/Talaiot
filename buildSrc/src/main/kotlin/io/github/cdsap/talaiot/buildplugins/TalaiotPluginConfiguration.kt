@@ -20,7 +20,7 @@ import com.gradle.publish.PluginBundleExtension
 open class TalaiotPluginConfiguration : BaseConfiguration() {
     /**
      * Plugin's Gradle id. This id will be used by the final consumer and the [GradlePluginDevelopmentExtension]
-     * example: apply plugin: "com.cdsap.talaiot.plugin.base"
+     * example: apply plugin: "io.github.cdsap.talaiot.plugin.base"
      */
     var idPlugin: String? = null
 

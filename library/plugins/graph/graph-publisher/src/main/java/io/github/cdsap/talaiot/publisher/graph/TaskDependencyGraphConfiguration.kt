@@ -5,7 +5,7 @@ import groovy.lang.Closure
 import org.gradle.api.Project
 
 /**
- * Configuration for [com.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher]
+ * Configuration for [io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher]
  * taskDependencyGraphPublisher{
  *    gexf = true
  *    html = false
@@ -22,15 +22,15 @@ class TaskDependencyGraphConfiguration(val project: Project) {
      */
     var ignoreWhen: IgnoreWhenConfiguration? = null
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graph.GexfPublisher]
+     * Flag to enable [io.github.cdsap.talaiot.publisher.graph.GexfPublisher]
      */
     var gexf = false
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graph.HtmlPublisher]
+     * Flag to enable [io.github.cdsap.talaiot.publisher.graph.HtmlPublisher]
      */
     var html = false
     /**
-     * Flag to enable [com.cdsap.talaiot.publisher.graph.DotPublisher]
+     * Flag to enable [io.github.cdsap.talaiot.publisher.graph.DotPublisher]
      */
     var dot = false
 

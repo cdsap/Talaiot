@@ -19,7 +19,7 @@ class BasePluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.base'
+                      id 'io.github.cdsap.talaiot.plugin.base'
                    }
 
                   talaiot {

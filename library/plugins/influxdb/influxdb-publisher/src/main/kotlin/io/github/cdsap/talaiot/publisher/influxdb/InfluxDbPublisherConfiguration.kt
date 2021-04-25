@@ -65,7 +65,7 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     var taskTags : List<TaskMetrics> = TaskMetrics.values().filter { it != TaskMetrics.Value }
 
     /**
-     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
+     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [io.github.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
      *
      * @param configuration Configuration block for the [RetentionPolicyConfiguration]
      */
@@ -74,7 +74,7 @@ class InfluxDbPublisherConfiguration : PublisherConfiguration {
     }
 
     /**
-     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [com.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
+     * Configuration accessor within the [InfluxDbPublisherConfiguration] for the [io.github.cdsap.talaiot.configuration.RetentionPolicyConfiguration]
      *
      * @param closure closure for the [RetentionPolicyConfiguration]
      */

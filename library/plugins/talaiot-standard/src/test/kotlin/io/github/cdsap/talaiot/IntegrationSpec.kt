@@ -30,11 +30,11 @@ class DefaultConfigurationSpec : StringSpec({
                 import io.github.cdsap.talaiot.publisher.JsonPublisher
                 plugins {
                     id 'java'
-                    id 'com.cdsap.talaiot'
+                    id 'io.github.cdsap.talaiot'
                 }
 
                 talaiot {
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                    logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
                         jsonPublisher = true
                         customPublishers(new JsonPublisher(getGradle()))

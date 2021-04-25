@@ -35,7 +35,7 @@ class InfluxDbPluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.influxdb'
+                      id 'io.github.cdsap.talaiot.plugin.influxdb'
                    }
 
                   talaiot {

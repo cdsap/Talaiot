@@ -15,11 +15,11 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot'
+                      id 'io.github.cdsap.talaiot'
                    }
 
                   talaiot{
-                    logger = com.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                    logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
                      publishers {
                       outputPublisher {}
                   }

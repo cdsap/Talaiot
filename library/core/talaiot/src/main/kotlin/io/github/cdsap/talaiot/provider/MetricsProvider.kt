@@ -11,7 +11,7 @@ import org.gradle.BuildResult
 import org.gradle.api.Project
 
 /**
- * Provider for all metrics defined in the main [com.cdsap.talaiot.configuration.MetricsConfiguration].
+ * Provider for all metrics defined in the main [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
  */
 class MetricsProvider(
     /**
@@ -26,7 +26,7 @@ class MetricsProvider(
 ) : Provider<ExecutionReport> {
 
     /**
-     * Aggregates all metrics based on [com.cdsap.talaiot.configuration.MetricsConfiguration].
+     * Aggregates all metrics based on [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
      *
      * @return execution report
      */

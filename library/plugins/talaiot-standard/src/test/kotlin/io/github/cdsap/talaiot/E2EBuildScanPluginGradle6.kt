@@ -85,7 +85,7 @@ class E2EBuildScanPluginGradle6 : BehaviorSpec() {
             """
                         plugins {
                           id 'java'
-                          id 'com.cdsap.talaiot'
+                          id 'io.github.cdsap.talaiot'
                       }
                       
                       gradleEnterprise {

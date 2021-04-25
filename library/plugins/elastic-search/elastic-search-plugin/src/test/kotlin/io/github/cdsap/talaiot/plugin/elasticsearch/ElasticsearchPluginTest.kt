@@ -35,7 +35,7 @@ class ElasticsearchPluginTest : BehaviorSpec() {
                     """
                    plugins {
                       id 'java'
-                      id 'com.cdsap.talaiot.plugin.elasticsearch'
+                      id 'io.github.cdsap.talaiot.plugin.elasticsearch'
                    }
 
                   talaiot {
