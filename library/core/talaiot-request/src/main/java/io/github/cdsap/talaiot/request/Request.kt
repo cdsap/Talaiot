@@ -9,7 +9,7 @@ interface Request {
     /**
      * LogTracker to print in console depending on the Mode
      */
-    var logTracker:LogTracker
+    var logTracker: LogTracker
 
     fun send(url: String, content: String)
 }

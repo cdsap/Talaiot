@@ -9,7 +9,7 @@ class GraphPublisherFactoryImpl
 
     override fun createPublisher(
         graphType: GraphPublisherType,
-        logTracker:LogTracker,
+        logTracker: LogTracker,
         fileWriter: FileWriter,
         executor: Executor
     ): DiskPublisher = when (graphType) {

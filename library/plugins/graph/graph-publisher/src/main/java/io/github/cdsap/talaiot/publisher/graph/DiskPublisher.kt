@@ -13,7 +13,7 @@ interface DiskPublisher : Publisher {
     /**
      * LogTracker to print in console depending on the Mode
      */
-    var logTracker:LogTracker
+    var logTracker: LogTracker
     /**
      * File I/O utility
      */

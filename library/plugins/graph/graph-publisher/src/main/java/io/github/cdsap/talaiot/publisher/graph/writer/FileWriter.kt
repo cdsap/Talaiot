@@ -18,7 +18,7 @@ interface FileWriter {
     /**
      * LogTracker to print in console depending on the Mode
      */
-    var logTracker:LogTracker
+    var logTracker: LogTracker
 
     /**
      * Previous step where it will invoke the creation of the file depending on the Publisher and the way we want to

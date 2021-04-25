@@ -19,7 +19,7 @@ import java.util.concurrent.Executor
  * Publisher used to publish with the Dot format. It's using Graphviz to render the graph
  */
 class DotPublisher(
-    override var logTracker:LogTracker,
+    override var logTracker: LogTracker,
     override var fileWriter: FileWriter,
     /**
      * Executor to schedule a task in Background

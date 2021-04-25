@@ -28,7 +28,7 @@ class InfluxDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker:LogTracker,
+    private val logTracker: LogTracker,
     /**
      * Executor to schedule a task in Background
      */

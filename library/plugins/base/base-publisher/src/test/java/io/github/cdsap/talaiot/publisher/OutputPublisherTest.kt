@@ -12,7 +12,7 @@ import io.kotlintest.specs.BehaviorSpec
 class OutputPublisherTest : BehaviorSpec({
     given("OutputPublisher configuration") {
         `when`("There are no tasks tracked") {
-            val logTracker:LogTracker = mock()
+            val logTracker: LogTracker = mock()
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("shouldn't print anything") {
@@ -28,7 +28,7 @@ class OutputPublisherTest : BehaviorSpec({
             }
         }
         `when`("There are tasks tracked") {
-            val logTracker:LogTracker = mock()
+            val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
                 val outputPublisherConfiguration = OutputPublisherConfiguration()
                 val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
@@ -141,7 +141,7 @@ class OutputPublisherTest : BehaviorSpec({
             }
         }
         `when`("There is task tracked with 0 length") {
-            val logTracker:LogTracker = mock()
+            val logTracker: LogTracker = mock()
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print the task with 0 length") {
@@ -173,7 +173,7 @@ class OutputPublisherTest : BehaviorSpec({
             }
         }
         `when`("There are different time units on the task tracked") {
-            val logTracker:LogTracker = mock()
+            val logTracker: LogTracker = mock()
             val outputPublisherConfiguration = OutputPublisherConfiguration()
             val outputPublisher = OutputPublisher(outputPublisherConfiguration, logTracker)
             then("should print length in the correct unit") {
@@ -229,7 +229,7 @@ class OutputPublisherTest : BehaviorSpec({
             }
         }
         `when`("There are tasks tracked and the configuration of the Publisher exceeds number of tasks ") {
-            val logTracker:LogTracker = mock()
+            val logTracker: LogTracker = mock()
             then("should apply sorting desc") {
                 val outputPublisherConfiguration = OutputPublisherConfiguration()
                 outputPublisherConfiguration.numberOfTasks = 100

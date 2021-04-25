@@ -14,7 +14,7 @@ import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
  *
  */
 abstract class DefaultDiskPublisher(
-    override var logTracker:LogTracker,
+    override var logTracker: LogTracker,
     override var fileWriter: FileWriter
 ) : DiskPublisher {
 

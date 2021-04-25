@@ -19,7 +19,7 @@ import java.util.concurrent.Executor
 
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,
-    private val logTracker:LogTracker,
+    private val logTracker: LogTracker,
     /**
      * Executor to schedule a task in Background
      */

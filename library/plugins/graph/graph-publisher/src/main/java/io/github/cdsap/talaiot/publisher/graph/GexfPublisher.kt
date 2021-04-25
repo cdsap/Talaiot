@@ -11,7 +11,7 @@ import java.util.concurrent.Executor
  * Publisher used to publish with the Gexf format.
  */
 class GexfPublisher(
-    override var logTracker:LogTracker,
+    override var logTracker: LogTracker,
     override var fileWriter: FileWriter,
     /**
      * Executor to schedule a task in Background

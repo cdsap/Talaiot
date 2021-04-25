@@ -5,7 +5,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.logger.LogTracker
 
 class BuildFilterProcessor(
-    val logTracker:LogTracker,
+    val logTracker: LogTracker,
     val filter: BuildFilterConfiguration
 ) {
 

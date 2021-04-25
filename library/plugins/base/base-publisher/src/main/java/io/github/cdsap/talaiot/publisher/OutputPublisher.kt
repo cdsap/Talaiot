@@ -16,7 +16,7 @@ class OutputPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker:LogTracker
+    private val logTracker: LogTracker
 ) : Publisher {
 
     private val TAG = "OutputPublisher"

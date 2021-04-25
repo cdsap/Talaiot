@@ -11,7 +11,7 @@ import java.nio.file.Files
  */
 class TaskGraphWriter(
     override var project: Project,
-    override var logTracker:LogTracker
+    override var logTracker: LogTracker
 ) : FileWriter {
     override fun prepareFile(content: Any, name: String) {
         val path = listOf(project.rootDir, TALAIOT_OUTPUT_DIR, "taskgraph").joinToString(separator = File.separator)

@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.logger.LogTracker
 
 class TaskFilterProcessor(
-    val logTracker:LogTracker,
+    val logTracker: LogTracker,
     val filter: FilterConfiguration?
 ) {
 
