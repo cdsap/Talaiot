@@ -1,7 +1,7 @@
 package com.cdsap.plugin.pushgateway
 
 
-import com.cdsap.talaiot.utils.TemporaryFolder
+import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import io.kotlintest.Spec

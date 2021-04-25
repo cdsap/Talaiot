@@ -23,7 +23,7 @@ gradlePlugin {
     plugins {
         register("PluginTalaiot") {
             id = "talaiotPlugin"
-            implementationClass = "com.talaiot.buildplugins.TalaiotPlugin"
+            implementationClass = "io.github.cdsap.talaiot.buildplugins.TalaiotPlugin"
         }
         register("PluginPublisher") {
             id = "publisherPlugin"
@@ -31,7 +31,7 @@ gradlePlugin {
         }
         register("TalaiotKotlinLibPlugin") {
             id = "kotlinLib"
-            implementationClass = "com.talaiot.buildplugins.TalaiotKotlinLibPlugin"
+            implementationClass = "io.github.cdsap.talaiot.buildplugins.TalaiotKotlinLibPlugin"
         }
     }
 }

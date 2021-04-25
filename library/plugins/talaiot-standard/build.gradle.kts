@@ -4,11 +4,11 @@ plugins {
 }
 
 talaiotPlugin {
-    idPlugin = "com.cdsap.talaiot"
+    idPlugin = "io.github.cdsap.talaiot"
     artifact = "talaiot"
     group = "com.cdsap"
-    mainClass = "com.cdsap.talaiot.plugin.TalaiotPlugin"
-    version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    mainClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
+     version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot"
 }
 
