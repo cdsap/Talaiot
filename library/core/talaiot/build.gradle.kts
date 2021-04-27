@@ -4,7 +4,7 @@ plugins {
 }
 
 talaiotLib {
-    artifact = "talaiot-core"
+    artifact = "talaiot"
     group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_LIBRARY
      version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
 }
