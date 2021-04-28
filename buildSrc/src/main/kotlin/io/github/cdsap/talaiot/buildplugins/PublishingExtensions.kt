@@ -35,6 +35,15 @@ fun Project.setUpPublishing(
                     password = System.getenv("PASSWORD_SNAPSHOT")
                 }
             }
+            maven {
+                name = "Release"
+                url = URI("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+
+                credentials {
+                    username = System.getenv("USERNAME_SNAPSHOT")
+                    password = System.getenv("PASSWORD_SNAPSHOT")
+                }
+            }
         }
 
         publications {
@@ -91,7 +100,7 @@ fun Project.setUpPublishing(
     }
 }
 
-fun Project.publication(value: String) : Publication =
+fun Project.publication(value: String): Publication =
     (extensions.getByName("publishing")
             as PublishingExtension).publications[value]
 

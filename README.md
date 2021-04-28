@@ -50,7 +50,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot") version "1.4.2"
+  id("io.github.cdsap.talaiot") version "1.5.0"
 }
 ```
 
@@ -63,18 +63,18 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap:talaiot:1.4.2")
+    classpath("io.github.cdsap:talaiot:1.5.0")
   }
 }
 
-apply(plugin = "com.cdsap.talaiot")
+apply(plugin = "io.github.cdsap.talaiot")
 ```
 
 #### Groovy
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot" version "1.4.2"
+  id "io.github.cdsap.talaiot" version "1.5.0"
 }
 
 ```
@@ -88,11 +88,11 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.cdsap:talaiot:1.4.2"
+    classpath "io.github.cdsap:talaiot:1.5.0"
   }
 }
 
-apply plugin: "com.cdsap.talaiot"
+apply plugin: "io.github.cdsap.talaiot"
 ```
 
 ### Individual Plugins
@@ -101,19 +101,19 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 
 | Plugin         |      Id                                 |
 |----------------|-----------------------------------------|
-| base           | com.cdsap.talaiot.plugin.base           |
-| elasticsearch  | com.cdsap.talaiot.plugin.elasticsearch  |
-| graph          | com.cdsap.talaiot.plugin.graph          |
-| influxdb       | com.cdsap.talaiot.plugin.influxdb       |
-| pushgateway    | com.cdsap.talaiot.plugin.pushgateway    |
-| rethinkdb      | com.cdsap.talaiot.plugin.rehinkdb       |
+| base           | io.github.cdsap.talaiot.plugin.base           |
+| elasticsearch  | io.github.cdsap.talaiot.plugin.elasticsearch  |
+| graph          | io.github.cdsap.talaiot.plugin.graph          |
+| influxdb       | io.github.cdsap.talaiot.plugin.influxdb       |
+| pushgateway    | io.github.cdsap.talaiot.plugin.pushgateway    |
+| rethinkdb      | io.github.cdsap.talaiot.plugin.rehinkdb       |
 
 
 #### Kotlin Example Plugin
 Using the plugins DSL:
 ```
 plugins {
-  id("com.cdsap.talaiot.plugin.base") version "1.4.2"
+  id("io.github.cdsap.talaiot.plugin.base") version "1.5.0"
 }
 ```
 
@@ -126,18 +126,18 @@ buildscript {
     }
   }
   dependencies {
-    classpath("com.cdsap.talaiot.plugin:base:1.4.2")
+    classpath("io.github.cdsap.talaiot.plugin:base:1.5.0")
   }
 }
 
-apply(plugin = "com.cdsap.talaiot.plugin.base")
+apply(plugin = "io.github.cdsap.talaiot.plugin.base")
 ```
 
 #### Groovy
 Using the plugins DSL:
 ```
 plugins {
-  id "com.cdsap.talaiot.plugin.base" version "1.4.2"
+  id "io.github.cdsap.talaiot.plugin.base" version "1.5.0"
 }
 
 ```
@@ -151,11 +151,11 @@ buildscript {
     }
   }
   dependencies {
-    classpath ""com.cdsap.talaiot.plugin:base:1.4.2""
+    classpath ""io.github.cdsap.talaiot.plugin:base:1.5.0""
   }
 }
 
-apply plugin: "com.cdsap.talaiot.plugin.base"
+apply plugin: "io.github.cdsap.talaiot.plugin.base"
 ```
 
 
@@ -164,17 +164,17 @@ apply plugin: "com.cdsap.talaiot.plugin.base"
 
 Include the OJO artifactory oss-snapshot local:
 ````
-maven ( url = uri("http://oss.jfrog.org/artifactory/oss-snapshot-local") )
+maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") )
 ````
 ### Standard Plugin
 
 ````
-classpath("com.cdsap:talaiot:1.4.3-SNAPSHOT")
+classpath("io.github.cdsap:talaiot:1.5.1-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("com.cdsap.talaiot.plugin:base:1.4.3-SNAPSHOT")
+classpath("io.github.cdsap.talaiot.plugin:base:1.5.1-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
@@ -318,7 +318,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 For complete list of tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/com/cdsap/talaiot/metrics/BuildMetrics.kt
 If you need to include custom metrics as tags, you need to use the type `Custom`
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.influxdb` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.influxdb` plugins.
 
 ##### RetentionPolicyConfiguration
 
@@ -374,7 +374,7 @@ Example:
 
 ![](resources/graph_example_plaid.png)
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.graph` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.graph` plugins.
 
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
@@ -388,7 +388,7 @@ Talaiot will send to the PushGateway server defined in the configuration the val
 | publishBuildMetrics  | Publish build metrics of the publisher, true by default                           |
 | publishTaskMetrics   | Publish tasks metrics of the publisher, true by default                           |
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.pushgateway` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.pushgateway` plugins.
 
 #### JsonPublisher
 Talaiot will Publish the results of the build with a json format .
@@ -400,7 +400,7 @@ Talaiot will Publish the results of the build with a json format .
     }
 ```
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
 
 #### TimelinePublisher
 Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
@@ -414,7 +414,7 @@ in the different workers.
 
     }
 ```
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.base` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
 
 #### ElasticSearchPublisher
 Talaiot will send to the ElasticSearch server defined in the configuration the values collected for tasks and build metrics during the execution
@@ -439,7 +439,7 @@ Example:
         }
     }
 ```
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.elasticsearch` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.elasticsearch` plugins.
 
 #### HybridPublisher
 This Publisher allows composition over publishers to report tasks and build metrics.
@@ -472,7 +472,7 @@ Example:
 ```
 In this example we are using `InfluxDbPublisher` to report build metrics and `ElasticSearchPublisher` to report task metrics.
 
-Included in: `com.cdsap.talaiot` plugin.
+Included in: `io.github.cdsap.talaiot` plugin.
 
 #### RethinkDbPublisher
 Talaiot will send to the RethinkDb server defined in the configuration the values collected during the execution
@@ -489,7 +489,7 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                               |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                               |
 
-Included in: `com.cdsap.talaiot` and `com.cdsap.talaiot.plugin.rethinkdb` plugins.
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.rethinkdb` plugins.
 
 #### Custom Publishers
 Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
@@ -505,7 +505,7 @@ talaiot {
 }
 ```
 Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
-In you are not using additional plugins we recommend to use  `com.cdsap.talaiot.plugin.base`.
+In you are not using additional plugins we recommend to use  `io.github.cdsap.talaiot.plugin.base`.
 
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
@@ -619,13 +619,13 @@ drop us comment to include it in a community plugins.
 
 * [Satyarth Sampath](https://github.com/satyarths)
 
+* [Yaroslav Legovich](https://github.com/yarolegovich)
+
 * [Iñaki Villar](https://github.com/cdsap/)
 
 
 ## Thanks  <a name="thanks"></a>
 Pascal Hartig, [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) it was an inspiration to build this plugin.
-
-[Bintray release plugin](https://github.com/novoda/bintray-release) plugin by Novoda
 
 [Kohttp Library](https://github.com/rybalkinsd/kohttp)
 
