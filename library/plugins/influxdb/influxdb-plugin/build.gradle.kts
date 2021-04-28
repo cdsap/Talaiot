@@ -3,11 +3,11 @@ plugins {
 }
 
 talaiotPlugin {
-    idPlugin = "com.cdsap.talaiot.plugin.influxdb"
+    idPlugin = "io.github.cdsap.talaiot.plugin.influxdb"
     artifact = "influxdb"
-    group =  com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
-    mainClass = "com.cdsap.talaiot.plugin.influxdb.TalaiotInfluxdbPlugin"
-    version =  com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
+    mainClass = "io.github.cdsap.talaiot.plugin.influxdb.TalaiotInfluxdbPlugin"
+    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot, InfluxDb Plugin"
 }
 

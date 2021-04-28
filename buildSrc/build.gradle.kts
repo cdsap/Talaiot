@@ -5,7 +5,6 @@ plugins {
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
     maven {
         url = uri("https://plugins.gradle.org/m2/")
@@ -13,7 +12,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     implementation("com.gradle.publish:plugin-publish-plugin:0.12.0")
     testImplementation("junit:junit:4.12")
@@ -23,7 +21,7 @@ gradlePlugin {
     plugins {
         register("PluginTalaiot") {
             id = "talaiotPlugin"
-            implementationClass = "com.talaiot.buildplugins.TalaiotPlugin"
+            implementationClass = "io.github.cdsap.talaiot.buildplugins.TalaiotPlugin"
         }
         register("PluginPublisher") {
             id = "publisherPlugin"
@@ -31,7 +29,7 @@ gradlePlugin {
         }
         register("TalaiotKotlinLibPlugin") {
             id = "kotlinLib"
-            implementationClass = "com.talaiot.buildplugins.TalaiotKotlinLibPlugin"
+            implementationClass = "io.github.cdsap.talaiot.buildplugins.TalaiotKotlinLibPlugin"
         }
     }
 }

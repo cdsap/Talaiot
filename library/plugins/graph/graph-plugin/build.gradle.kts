@@ -3,11 +3,11 @@ plugins {
 }
 
 talaiotPlugin {
-    idPlugin = "com.cdsap.talaiot.plugin.graph"
+    idPlugin = "io.github.cdsap.talaiot.plugin.graph"
     artifact = "graph"
-    group =  com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
-    mainClass = "com.cdsap.talaiot.plugin.graph.TalaiotGraphPlugin"
-    version = com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
+    mainClass = "io.github.cdsap.talaiot.plugin.graph.TalaiotGraphPlugin"
+    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot, Graph Plugin"
 }
 

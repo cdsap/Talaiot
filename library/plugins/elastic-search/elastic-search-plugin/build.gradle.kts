@@ -3,11 +3,11 @@ plugins {
 }
 
 talaiotPlugin {
-    idPlugin = "com.cdsap.talaiot.plugin.elasticsearch"
+    idPlugin = "io.github.cdsap.talaiot.plugin.elasticsearch"
     artifact = "elasticsearch"
-    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
-    mainClass = "com.cdsap.talaiot.plugin.elasticsearch.TalaiotElasticSearchPlugin"
-    version =  com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
+    mainClass = "io.github.cdsap.talaiot.plugin.elasticsearch.TalaiotElasticSearchPlugin"
+    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot, Elastic Search Plugin"
 }
 

@@ -4,11 +4,11 @@ plugins {
 
 
 talaiotPlugin {
-    idPlugin = "com.cdsap.talaiot.plugin.rethinkdb"
+    idPlugin = "io.github.cdsap.talaiot.plugin.rethinkdb"
     artifact = "rethinkdb"
-    group = com.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
-    mainClass = "com.cdsap.talaiot.plugin.rethinkdb.TalaiotRethinkdbPlugin"
-    version =  com.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
+    mainClass = "io.github.cdsap.talaiot.plugin.rethinkdb.TalaiotRethinkdbPlugin"
+    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot, RethinkDb Plugin"
 }
 
