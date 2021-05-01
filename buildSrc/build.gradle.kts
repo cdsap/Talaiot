@@ -14,6 +14,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
     implementation("com.gradle.publish:plugin-publish-plugin:0.12.0")
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:10.0.0")
     testImplementation("junit:junit:4.12")
 }
 

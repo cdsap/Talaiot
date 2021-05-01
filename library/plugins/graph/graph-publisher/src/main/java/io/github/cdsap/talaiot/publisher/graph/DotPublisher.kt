@@ -1,10 +1,5 @@
 package io.github.cdsap.talaiot.publisher.graph
 
-
-import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.entities.TaskMessageState
-import io.github.cdsap.talaiot.logger.LogTracker
-import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import guru.nidi.graphviz.attribute.RankDir
 import guru.nidi.graphviz.engine.Engine
 import guru.nidi.graphviz.engine.Format
@@ -13,6 +8,10 @@ import guru.nidi.graphviz.model.Factory.graph
 import guru.nidi.graphviz.model.Factory.node
 import guru.nidi.graphviz.model.LinkSource
 import guru.nidi.graphviz.model.Node
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.logger.LogTracker
+import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import java.util.concurrent.Executor
 
 /**
@@ -58,7 +57,6 @@ class DotPublisher(
                 mapNodes[dependency]?.let { n ->
                     nodes.add(n.link(node))
                 }
-
             }
         }
         return nodes.toList()
@@ -76,9 +74,9 @@ class DotPublisher(
                 logTracker.log(TAG, "writing png")
                 fileWriter.prepareFile(
                     Graphviz.fromGraph(g).engine(Engine.DOT).fontAdjust(0.90)
-                        .render(Format.PNG), fileName
+                        .render(Format.PNG),
+                    fileName
                 )
-
             } catch (e: Exception) {
                 logTracker.log(TAG, "Error -> ${e.message}")
             }

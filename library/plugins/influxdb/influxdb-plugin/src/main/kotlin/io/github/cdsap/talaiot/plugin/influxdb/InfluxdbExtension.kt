@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.plugin.influxdb
 
-import io.github.cdsap.talaiot.TalaiotExtension
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
 open class InfluxdbExtension(project: Project) : TalaiotExtension(project) {
@@ -19,6 +19,4 @@ open class InfluxdbExtension(project: Project) : TalaiotExtension(project) {
         closure.delegate = publishers
         closure.call()
     }
-
-
 }

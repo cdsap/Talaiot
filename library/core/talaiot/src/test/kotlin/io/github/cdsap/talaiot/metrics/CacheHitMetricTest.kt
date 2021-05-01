@@ -21,7 +21,6 @@ class CacheHitMetricTest : BehaviorSpec({
                 report.environment.localCacheMiss.shouldBe(0)
                 report.environment.remoteCacheHit.shouldBe(0)
                 report.environment.remoteCacheMiss.shouldBe(0)
-
             }
         }
 

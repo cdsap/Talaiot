@@ -1,10 +1,9 @@
 package org.testcontainers.pushgateway
 
-import org.testcontainers.utility.Base58
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.containers.wait.strategy.WaitAllStrategy
-
+import org.testcontainers.utility.Base58
 import java.net.InetSocketAddress
 
 /**

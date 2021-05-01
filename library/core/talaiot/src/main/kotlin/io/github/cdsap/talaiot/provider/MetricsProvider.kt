@@ -1,10 +1,10 @@
 package io.github.cdsap.talaiot.provider
 
 import io.github.cdsap.talaiot.TalaiotExtension
+import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.base.BuildResultMetric
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.metrics.base.ExecutedTasksMetric
 import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import org.gradle.BuildResult

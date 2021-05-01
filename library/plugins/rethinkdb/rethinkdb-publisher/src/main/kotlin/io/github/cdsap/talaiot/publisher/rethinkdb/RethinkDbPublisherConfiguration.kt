@@ -46,6 +46,4 @@ class RethinkDbPublisherConfiguration : PublisherConfiguration {
      * optional password for authorization
      */
     var password: String = ""
-
-
 }

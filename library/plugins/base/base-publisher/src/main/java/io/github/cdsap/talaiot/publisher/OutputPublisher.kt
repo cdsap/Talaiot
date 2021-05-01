@@ -97,7 +97,6 @@ class OutputPublisher(
             else -> TimeUnit.MILLISECONDS.toMinutes(ms).toString() + "min"
         }
 
-
     companion object {
         const val MAX_UNIT = "¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯ ¯\\_(ツ)_/¯"
     }

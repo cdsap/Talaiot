@@ -1,9 +1,8 @@
 package io.github.cdsap.talaiot.publisher.hybrid
 
-import io.github.cdsap.talaiot.configuration.*
+import io.github.cdsap.talaiot.configuration.PublisherConfiguration
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.logger.LogTracker
-
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
@@ -29,11 +28,11 @@ class HybridPublisher(
     private val TAG = "HybridPublisher"
 
     override fun publish(report: ExecutionReport) {
-        logTracker.log(TAG,"================")
-        logTracker.log(TAG,"HybridPublisher")
-        logTracker.log(TAG,"publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log(TAG,"publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log(TAG,"================")
+        logTracker.log(TAG, "================")
+        logTracker.log(TAG, "HybridPublisher")
+        logTracker.log(TAG, "publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(TAG, "publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(TAG, "================")
 
         if (validate()) {
             hybridPublisherConfiguration.buildPublisher?.let {
@@ -56,7 +55,6 @@ class HybridPublisher(
         return true
     }
 
-
     private fun getPublisher(publisherConfiguration: PublisherConfiguration): Publisher? =
         when (publisherConfiguration) {
             is InfluxDbPublisherConfiguration -> {
@@ -65,7 +63,6 @@ class HybridPublisher(
                     logTracker,
                     executor
                 )
-
             }
             is PushGatewayPublisherConfiguration -> {
                 PushGatewayPublisher(
@@ -96,10 +93,9 @@ class HybridPublisher(
             else -> {
                 logTracker.error(
                     "HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: " +
-                            "InfluxDbPublisher, PushGatewayPublisher, ElasticSearchPublisher and RethinkDbPublisher"
+                        "InfluxDbPublisher, PushGatewayPublisher, ElasticSearchPublisher and RethinkDbPublisher"
                 )
                 null
             }
         }
-
 }

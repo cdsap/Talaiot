@@ -47,8 +47,8 @@ class HtmlPublisher(
         numberDependencies: Int,
         taskMessageState: TaskMessageState
     ): String = "      nodes.push({id: $internalId, title:'$taskName', group:'$module', " +
-            "label: '$taskName', " +
-            "value: $numberDependencies});\n"
+        "label: '$taskName', " +
+        "value: $numberDependencies});\n"
 
     override fun formatEdge(
         from: Int,
@@ -70,10 +70,8 @@ class HtmlPublisher(
         }?.forEach {
             count++
             nodes += "      nodes.push({id: $count, x: x, y: y, label: '${it.module}', group: '${it.module}', value: 1, " +
-                    "fixed: true, physics:false});\n"
+                "fixed: true, physics:false});\n"
         }
         return nodes
     }
-
-
 }

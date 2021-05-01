@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.plugin.graph
 
-import io.github.cdsap.talaiot.TalaiotExtension
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
 open class GraphExtension(project: Project) : TalaiotExtension(project) {

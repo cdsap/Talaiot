@@ -1,12 +1,12 @@
 package io.github.cdsap.talaiot.publisher.rethinkdb
 
-import io.github.cdsap.talaiot.entities.*
+import com.rethinkdb.RethinkDB
+import com.rethinkdb.net.Connection
+import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
-import com.rethinkdb.RethinkDB
-import com.rethinkdb.net.Connection
 import java.net.URL
 import java.util.concurrent.Executor
 
@@ -40,17 +40,15 @@ class RethinkDbPublisher(
         ) {
             error(
                 "RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName: \n" +
-                        "rethinkDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            buildTableName = \"build\"\n" +
-                        "            taskTableName = \"task\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "rethinkDbPublisher {\n" +
+                    "            dbName = \"tracking\"\n" +
+                    "            url = \"http://localhost:8086\"\n" +
+                    "            buildTableName = \"build\"\n" +
+                    "            taskTableName = \"task\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
         }
-
-
 
         executor.execute {
             logTracker.log(TAG, "================")
@@ -111,7 +109,6 @@ class RethinkDbPublisher(
                         )
                     }
                 }
-
             } catch (e: Exception) {
                 logTracker.error("RethinkDbPublisher- Error executing the Runnable: ${e.message}")
             }

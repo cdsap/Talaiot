@@ -19,7 +19,7 @@ import org.gradle.api.Project
 class Talaiot <T : TalaiotExtension>(
     private val classExtension: Class<T>,
     private val publisherConfigurationProvider: PublisherConfigurationProvider
-)  {
+) {
     /**
      * Initialization of the plugin. The plugin needs to receive callbacks
      * from the [org.gradle.api.execution.TaskExecutionListener]

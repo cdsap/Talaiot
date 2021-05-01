@@ -4,7 +4,6 @@ import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 
-
 class IgnoreWhenConfigurationTest : BehaviorSpec({
     given("IgnoreWhenConfiguration configuration") {
 

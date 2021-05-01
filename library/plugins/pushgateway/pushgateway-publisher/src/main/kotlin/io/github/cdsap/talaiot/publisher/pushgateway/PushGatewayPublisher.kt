@@ -40,13 +40,12 @@ class PushGatewayPublisher(
         ) {
             println(
                 "PushGatewayPublisher not executed. Configuration requires url and taskJobName: \n" +
-                        "pushGatewayPublisher {\n" +
-                        "            url = \"http://localhost:9093\"\n" +
-                        "            taskJobName = \"tracking\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "pushGatewayPublisher {\n" +
+                    "            url = \"http://localhost:9093\"\n" +
+                    "            taskJobName = \"tracking\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
-
         } else {
             val url = pushGatewayPublisherConfiguration.url
             var contentTaskMetrics = ""
@@ -54,9 +53,8 @@ class PushGatewayPublisher(
             val urlTaskMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
             val urlBuildMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.buildJobName}"
 
-
             if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
-               contentTaskMetrics += formatter.getTaskMetricsContent(report)
+                contentTaskMetrics += formatter.getTaskMetricsContent(report)
             }
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {

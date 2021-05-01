@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.plugin.elasticsearch
 
-import io.github.cdsap.talaiot.utils.TemporaryFolder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.apache.http.HttpHost
@@ -62,7 +62,6 @@ class ElasticsearchPluginTest : BehaviorSpec() {
                         RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
 
-
                     val responseBuild =
                         client.performRequest(
                             org.elasticsearch.client.Request(
@@ -79,7 +78,6 @@ class ElasticsearchPluginTest : BehaviorSpec() {
 
                     assert(hitsContentBuild.get("_index").asString == "build")
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
-
                 }
                 testProjectDir.delete()
             }

@@ -4,7 +4,7 @@ import io.github.cdsap.talaiot.Talaiot
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class TalaiotRethinkdbPlugin: Plugin<Project> {
+class TalaiotRethinkdbPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         Talaiot(
@@ -14,5 +14,4 @@ class TalaiotRethinkdbPlugin: Plugin<Project> {
             )
         ).setUpPlugin(target)
     }
-
 }

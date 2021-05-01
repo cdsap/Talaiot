@@ -14,7 +14,6 @@ fun Project.setUpJunitPlatform() = this.run {
 }
 
 fun Project.collectUnitTest() = this.run {
-
         val testTask = if (rootProject.tasks.findByPath("collectUnitTest") == null) {
             rootProject.tasks.create("collectUnitTest", TestReport::class) {
             }

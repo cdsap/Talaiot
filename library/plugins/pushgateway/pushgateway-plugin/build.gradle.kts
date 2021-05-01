@@ -7,7 +7,7 @@ talaiotPlugin {
     artifact = "pushgateway"
     group = io.github.cdsap.talaiot.buildplugins.Constants.DEFAULT_GROUP_PLUGIN
     mainClass = "io.github.cdsap.talaiot.plugin.pushgateway.TalaiotPushgatewayPlugin"
-     version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
+    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
     displayName = "Talaiot, Pushgateway Plugin"
 }
 

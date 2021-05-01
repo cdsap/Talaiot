@@ -4,7 +4,6 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 
-
 /**
  * Extension of Publisher interface with a FileWriter implementation to write on disk
  *

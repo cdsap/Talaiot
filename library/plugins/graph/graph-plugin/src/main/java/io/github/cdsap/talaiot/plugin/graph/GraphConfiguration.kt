@@ -1,9 +1,9 @@
 package io.github.cdsap.talaiot.plugin.graph
 
+import groovy.lang.Closure
 import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
-import groovy.lang.Closure
 import org.gradle.api.Project
 
 class GraphConfiguration(project: Project) : PublishersConfiguration(project) {

@@ -33,6 +33,5 @@ class PublisherConfigurationTest : BehaviorSpec({
                 assert(rethinkDbPublisherConfiguration.publishBuildMetrics)
             }
         }
-
     }
 })

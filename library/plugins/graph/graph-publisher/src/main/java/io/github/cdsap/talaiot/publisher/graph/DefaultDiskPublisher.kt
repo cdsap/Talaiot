@@ -18,7 +18,6 @@ abstract class DefaultDiskPublisher(
     override var fileWriter: FileWriter
 ) : DiskPublisher {
 
-
     /**
      * Abstract function to format the information related with the node.
      * Depending on the Publisher we may want to format the node representation on different way.
@@ -53,7 +52,6 @@ abstract class DefaultDiskPublisher(
         to: Int?
     ): String
 
-
     /**
      * It builds a String with the different parts of the required format defined. This format is composed by a header
      * a content and a footer. Optionally it can be defined a legend. Used by the HtmlPublisher
@@ -73,7 +71,6 @@ abstract class DefaultDiskPublisher(
         }
         append(footer)
     }.toString()
-
 
     fun writeFile(contentFile: String, name: String) = fileWriter.prepareFile(contentFile, name)
 

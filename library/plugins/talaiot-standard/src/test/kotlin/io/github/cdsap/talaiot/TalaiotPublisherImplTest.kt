@@ -1,21 +1,5 @@
 package io.github.cdsap.talaiot
 
-import io.github.cdsap.talaiot.configuration.MetricsConfiguration
-import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
-import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.entities.TaskLength
-import io.github.cdsap.talaiot.entities.TaskMessageState
-import io.github.cdsap.talaiot.logger.LogTrackerImpl
-import io.github.cdsap.talaiot.entities.CacheInfo
-import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
-import io.github.cdsap.talaiot.plugin.TalaiotConfigurationProvider
-import io.github.cdsap.talaiot.plugin.TalaiotPluginExtension
-import io.github.cdsap.talaiot.provider.Provider
-import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
-import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
-import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argThat
 import com.nhaarman.mockitokotlin2.argumentCaptor
@@ -23,11 +7,26 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
-import io.kotlintest.specs.BehaviorSpec
+import io.github.cdsap.talaiot.configuration.MetricsConfiguration
+import io.github.cdsap.talaiot.entities.CacheInfo
+import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
+import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.logger.LogTrackerImpl
+import io.github.cdsap.talaiot.plugin.TalaiotConfigurationProvider
+import io.github.cdsap.talaiot.plugin.TalaiotPluginExtension
+import io.github.cdsap.talaiot.provider.Provider
+import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
+import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
+import io.github.cdsap.talaiot.publisher.Publisher
+import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import io.kotlintest.shouldBe
+import io.kotlintest.specs.BehaviorSpec
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
-
 
 class TalaiotPublisherImplTest : BehaviorSpec({
 
@@ -49,7 +48,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-
             val publisher = TalaiotPublisherImpl(
                 extension, logger, getMetricsProvider(), publishers,
                 ExecutedTasksInfo(emptyMap())
@@ -63,10 +61,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
-
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
         `when`("more than one publisher is included ") {
@@ -103,10 +102,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 2
-                })
-
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 2
+                    }
+                )
             }
         }
         `when`("one filter has been configured") {
@@ -148,9 +148,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
 
@@ -192,9 +194,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(argThat {
-                    this.tasks!!.size == 1
-                })
+                verify(publishers.get()[0]).publish(
+                    argThat {
+                        this.tasks!!.size == 1
+                    }
+                )
             }
         }
 
@@ -213,7 +217,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             setUpMockExtension(project, extension)
 
             then("successful build is published") {
-                val publisher : Publisher = mock()
+                val publisher: Publisher = mock()
                 TalaiotPublisherImpl(
                     extension,
                     logger,
@@ -232,7 +236,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
 
             then("failed build is not published") {
-                val publisher : Publisher = mock()
+                val publisher: Publisher = mock()
                 TalaiotPublisherImpl(
                     extension,
                     logger,
@@ -395,7 +399,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             setUpMockExtension(project, extension)
 
             then("build with at least one task included is published") {
-                val publisher : Publisher = mock()
+                val publisher: Publisher = mock()
                 val report = ExecutionReport(requestedTasks = ":module:taskA :module:taskB")
 
                 TalaiotPublisherImpl(
@@ -450,7 +454,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-
             val publisher = TalaiotPublisherImpl(
                 extension, logger, getMetricsProvider(), publishers,
                 ExecutedTasksInfo(
@@ -491,22 +494,22 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 verify(publishers.get()[0]).publish(reportCaptor.capture())
 
                 val expectedTaskA = TaskLength(
-                    ms=1,
-                    taskName="a",
-                    taskPath=":app:a",
-                    state=TaskMessageState.EXECUTED,
-                    rootNode=false,
-                    module="app",
-                    taskDependencies= emptyList(),
-                    workerId="",
-                    startMs=0,
-                    stopMs=0,
-                    critical=false,
-                    isCacheEnabled=false,
-                    isLocalCacheHit=false,
-                    isLocalCacheMiss=false,
-                    isRemoteCacheHit=false,
-                    isRemoteCacheMiss=false
+                    ms = 1,
+                    taskName = "a",
+                    taskPath = ":app:a",
+                    state = TaskMessageState.EXECUTED,
+                    rootNode = false,
+                    module = "app",
+                    taskDependencies = emptyList(),
+                    workerId = "",
+                    startMs = 0,
+                    stopMs = 0,
+                    critical = false,
+                    isCacheEnabled = false,
+                    isLocalCacheHit = false,
+                    isLocalCacheMiss = false,
+                    isRemoteCacheHit = false,
+                    isRemoteCacheMiss = false
                 )
 
                 val expectedTasks = listOf(
@@ -529,11 +532,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     )
                 )
                 reportCaptor.firstValue.tasks.shouldBe(expectedTasks)
-
             }
         }
     }
-
 })
 
 private fun setUpPublisherProvider(publisher: Publisher): PublisherConfigurationProvider {

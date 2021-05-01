@@ -17,7 +17,7 @@ class PushGatewayFormatter {
                     "${k.formatTagPublisher().replace(".", "_")}=\"${v.toString().formatTagPublisher()}\""
                 }
                 .joinToString(separator = ",")
-        return "${buildJobName}{$buildTags} ${report.durationMs}"
+        return "$buildJobName{$buildTags} ${report.durationMs}"
     }
 
     fun getTaskMetricsContent(report: ExecutionReport): String {

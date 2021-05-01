@@ -1,6 +1,8 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.configuration.*
+import com.rethinkdb.RethinkDB
+import com.rethinkdb.net.Connection
+import io.github.cdsap.talaiot.configuration.PublisherConfiguration
 import io.github.cdsap.talaiot.entities.CustomProperties
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
@@ -11,17 +13,14 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import org.testcontainers.influxdb.KInfluxDBContainer
 import io.github.cdsap.talaiot.utils.TestExecutor
-import com.rethinkdb.RethinkDB
-import com.rethinkdb.net.Connection
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
+import org.testcontainers.influxdb.KInfluxDBContainer
 import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
-
 
 class HybridPublisherTest : BehaviorSpec() {
 
@@ -226,8 +225,6 @@ class HybridPublisherTest : BehaviorSpec() {
         val url = URL(url)
         return r.connection().hostname(url.host).port(url.port).connect()
     }
-
-
 
     class PublisherTestConfiguration : PublisherConfiguration {
         override var name: String = "testConf"

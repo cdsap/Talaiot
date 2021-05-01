@@ -4,8 +4,8 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
 import java.util.concurrent.Executor
 
-class GraphPublisherFactoryImpl
-    : GraphPublisherFactory {
+class GraphPublisherFactoryImpl :
+    GraphPublisherFactory {
 
     override fun createPublisher(
         graphType: GraphPublisherType,

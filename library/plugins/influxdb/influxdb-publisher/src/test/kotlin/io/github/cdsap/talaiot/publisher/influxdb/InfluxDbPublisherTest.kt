@@ -1,9 +1,13 @@
 package io.github.cdsap.talaiot.publisher.influxdb
 
-import io.github.cdsap.talaiot.entities.*
-import io.github.cdsap.talaiot.utils.TestExecutor
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.metrics.BuildMetrics
+import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
@@ -119,8 +123,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                     val combinedTaskValues =
                         taskResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
-                     assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :assemble, value1, value2\]""".toRegex()))
-
+                    assert(combinedTaskValues.matches("""\[.+, 1\.0, EXECUTED, app, false, :assemble, value1, value2\]""".toRegex()))
                 }
             }
             `when`("the execution report includes custom build metrics") {
@@ -147,7 +150,6 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     val combinedBuildValues =
                         buildResult.results.joinToString { it.series.joinToString { it.values.joinToString() } }
                     assert(combinedBuildValues.matches("""\[.+, 0\.0, value3, value4, true\]""".toRegex()))
-
                 }
             }
 
@@ -181,7 +183,6 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     val taskResult = influxDB.query(Query("select value from $databaseNoMetrics.rpTalaiot.task"))
 
                     assert(taskResult.results[0].series == null)
-
                 }
             }
             `when`("custom metrics are included as tags") {
@@ -223,7 +224,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties =  mutableMapOf(
+                taskProperties = mutableMapOf(
                     "metric1" to "value1",
                     "metric2" to "value2"
                 ),
@@ -241,5 +242,4 @@ class InfluxDbPublisherTest : BehaviorSpec() {
             )
         )
     }
-
 }

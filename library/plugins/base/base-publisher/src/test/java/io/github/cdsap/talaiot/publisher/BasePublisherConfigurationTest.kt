@@ -1,6 +1,5 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.kotlintest.specs.BehaviorSpec
 
 class BasePublisherConfigurationTest : BehaviorSpec({
@@ -13,6 +12,5 @@ class BasePublisherConfigurationTest : BehaviorSpec({
                 assert(outputPublisherConfiguration.publishBuildMetrics)
             }
         }
-
     }
 })
