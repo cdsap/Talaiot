@@ -10,19 +10,26 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
         `when`("Environment includes just the build Information") {
             val metrics = DefaultBuildMetricsProvider(ExecutionReportProvider.simpleExecutionReport()).get()
             then("no additional metrics are registered") {
-                assertTrue(metrics.filter {
-                    it.key == "duration" && it.value == 10L
-                }.count() == 1)
-                assertTrue(metrics.filter {
-                    it.key == "configuration" && it.value == 20L
-                }.count() == 1)
-                assertTrue(metrics.filter {
-                    it.key == "success" && it.value == true
-                }.count() == 1)
-                assertTrue(metrics.filter {
-                    it.key == "osVersion"
-                }.count() == 0)
-
+                assertTrue(
+                    metrics.filter {
+                        it.key == "duration" && it.value == 10L
+                    }.count() == 1
+                )
+                assertTrue(
+                    metrics.filter {
+                        it.key == "configuration" && it.value == 20L
+                    }.count() == 1
+                )
+                assertTrue(
+                    metrics.filter {
+                        it.key == "success" && it.value == true
+                    }.count() == 1
+                )
+                assertTrue(
+                    metrics.filter {
+                        it.key == "osVersion"
+                    }.count() == 0
+                )
             }
         }
         `when`("Complete execution Report") {

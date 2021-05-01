@@ -37,7 +37,6 @@ class PushGatewayPublisherBuildTest : BehaviorSpec({
             println(result.output)
             then("logs are shown in the output and including the pushGateway format") {
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
             }
             testProjectDir.delete()
         }

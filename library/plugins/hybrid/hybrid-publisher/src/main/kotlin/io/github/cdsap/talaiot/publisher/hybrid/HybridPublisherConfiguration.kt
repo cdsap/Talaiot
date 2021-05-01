@@ -37,5 +37,4 @@ class HybridPublisherConfiguration : PublisherConfiguration {
      * Publisher used to report only build metrics
      */
     var buildPublisher: PublisherConfiguration? = null
-
 }

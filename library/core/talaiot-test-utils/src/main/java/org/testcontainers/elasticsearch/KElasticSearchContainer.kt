@@ -1,5 +1,3 @@
 package org.testcontainers.elasticsearch
 
-import org.testcontainers.elasticsearch.ElasticsearchContainer
-
-class KElasticSearchContainer: ElasticsearchContainer()
+class KElasticSearchContainer : ElasticsearchContainer()

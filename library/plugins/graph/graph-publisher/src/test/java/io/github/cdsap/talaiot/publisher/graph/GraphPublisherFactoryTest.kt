@@ -1,10 +1,10 @@
 package io.github.cdsap.talaiot.publisher.graph
 
+import com.nhaarman.mockitokotlin2.mock
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter
-import com.nhaarman.mockitokotlin2.*
+import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.specs.BehaviorSpec
 
 class GraphPublisherFactoryTest : BehaviorSpec({
@@ -36,7 +36,7 @@ private fun initPublisher(
     graphPublisherFactory: GraphPublisherFactory,
     type: GraphPublisherType
 ): Publisher {
-    val logger:LogTracker = mock()
+    val logger: LogTracker = mock()
     val fileWriter: FileWriter = mock()
     val executor = TestExecutor()
     return graphPublisherFactory.createPublisher(type, logger, fileWriter, executor)

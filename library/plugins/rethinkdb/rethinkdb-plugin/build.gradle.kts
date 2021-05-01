@@ -2,7 +2,6 @@ plugins {
     id("talaiotPlugin")
 }
 
-
 talaiotPlugin {
     idPlugin = "io.github.cdsap.talaiot.plugin.rethinkdb"
     artifact = "rethinkdb"
@@ -18,4 +17,3 @@ dependencies {
     testImplementation(project(":library:core:talaiot-test-utils"))
     testImplementation("com.rethinkdb:rethinkdb-driver:2.3.3")
 }
-

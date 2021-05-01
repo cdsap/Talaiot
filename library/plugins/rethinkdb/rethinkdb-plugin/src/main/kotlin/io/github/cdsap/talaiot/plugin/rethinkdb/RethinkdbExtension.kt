@@ -1,8 +1,7 @@
 package io.github.cdsap.talaiot.plugin.rethinkdb
 
-import io.github.cdsap.talaiot.TalaiotExtension
-import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
 open class RethinkdbExtension(project: Project) : TalaiotExtension(project) {
@@ -20,6 +19,4 @@ open class RethinkdbExtension(project: Project) : TalaiotExtension(project) {
         closure.delegate = publishers
         closure.call()
     }
-
-
 }

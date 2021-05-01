@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.plugin.elasticsearch
 
-import io.github.cdsap.talaiot.TalaiotExtension
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
 open class ElasticSearchExtension(project: Project) : TalaiotExtension(project) {
@@ -19,6 +19,4 @@ open class ElasticSearchExtension(project: Project) : TalaiotExtension(project) 
         closure.delegate = publishers
         closure.call()
     }
-
-
 }

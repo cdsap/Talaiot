@@ -49,16 +49,15 @@ class GexfPublisher(
         numberDependencies: Int,
         taskMessageState: TaskMessageState
     ): String = "       <node id=\"$internalId\" label=\"$taskName\">\n" +
-            "              <attvalues>\n" +
-            "                     <attvalue for=\"0\" value=\"$module\"/>\n" +
-            "                     <attvalue for=\"1\" value=\"${taskMessageState.name}\"/>\n" +
-            "              </attvalues>\n" +
-            "       </node>\n"
-
+        "              <attvalues>\n" +
+        "                     <attvalue for=\"0\" value=\"$module\"/>\n" +
+        "                     <attvalue for=\"1\" value=\"${taskMessageState.name}\"/>\n" +
+        "              </attvalues>\n" +
+        "       </node>\n"
 
     override fun formatEdge(
         from: Int,
         to: Int?
     ) = "       <edge id=\"${internalCounterEdges++}\" " +
-            "source=\"$from\" target=\"$to\" />\n"
+        "source=\"$from\" target=\"$to\" />\n"
 }

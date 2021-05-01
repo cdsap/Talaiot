@@ -9,10 +9,9 @@ class TalaiotInfluxdbPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         Talaiot(
             InfluxdbExtension::class.java,
-           InfluxdbConfigurationProvider(
+            InfluxdbConfigurationProvider(
                 target
             )
         ).setUpPlugin(target)
     }
-
 }

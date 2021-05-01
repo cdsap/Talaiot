@@ -9,7 +9,6 @@ import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
 import java.io.File
 
-
 class E2ENoBuildScanPluginIncluded : BehaviorSpec() {
 
     val container: KInfluxDBContainer = KInfluxDBContainer().withAuthEnabled(false)
@@ -34,7 +33,6 @@ class E2ENoBuildScanPluginIncluded : BehaviorSpec() {
             val testProjectDir = TemporaryFolder()
             testProjectDir.create()
 
-
             val buildFile = testProjectDir.newFile("build.gradle")
             buildGradle(buildFile)
 
@@ -53,11 +51,9 @@ class E2ENoBuildScanPluginIncluded : BehaviorSpec() {
                     assert(taskResultBuild.results[0].series == null)
                     assert(taskResultBuild.results[0].error == null)
                 }
-
             }
             testProjectDir.delete()
         }
-
     }
 
     private fun buildGradle(buildFile: File) {
@@ -78,7 +74,8 @@ class E2ENoBuildScanPluginIncluded : BehaviorSpec() {
                              buildMetricName = "build"
                           }
                         }
-                      }  """.trimIndent()
+                      }  
+            """.trimIndent()
         )
     }
 }

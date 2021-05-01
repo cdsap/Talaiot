@@ -10,7 +10,7 @@ import org.gradle.internal.scan.scopeids.BuildScanScopeIds
 import oshi.SystemInfo
 import java.net.InetAddress
 import java.nio.charset.Charset
-import java.util.*
+import java.util.UUID
 
 open class SimpleMetric<T>(provider: (Unit) -> T, assigner: (ExecutionReport, T) -> Unit) :
     Metric<T, Unit>(provider, assigner)

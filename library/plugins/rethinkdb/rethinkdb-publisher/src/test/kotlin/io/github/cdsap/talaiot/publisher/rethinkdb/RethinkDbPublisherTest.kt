@@ -1,11 +1,15 @@
 package io.github.cdsap.talaiot.publisher.rethinkdb
 
-import io.github.cdsap.talaiot.entities.*
-import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.github.cdsap.talaiot.utils.TestExecutor
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
 import com.rethinkdb.net.Cursor
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
+import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.inspectors.forAtLeastOne
@@ -145,7 +149,6 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                         it.containsKey("rootNode")
                         it.containsKey("false")
                     }
-
                 }
             }
         }
@@ -163,7 +166,7 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                     "metric1" to "value1",
                     "metric2" to "value2"
                 ),
-                buildProperties =  mutableMapOf(
+                buildProperties = mutableMapOf(
                     "metric3" to "value3",
                     "metric4" to "value4"
                 )

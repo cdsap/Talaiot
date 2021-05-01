@@ -6,7 +6,6 @@ import java.io.IOException
 class TemporaryFolder {
     private var folder: File? = null
 
-
     @Throws(IOException::class)
     fun create() {
         folder = createTemporaryFolderIn(null)
@@ -48,7 +47,6 @@ class TemporaryFolder {
         }
         return file
     }
-
 
     @Throws(IOException::class)
     private fun validateFolderName(folderName: String) {

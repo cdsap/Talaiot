@@ -1,6 +1,5 @@
 package io.github.cdsap.talaiot.publisher
 
-
 import io.github.cdsap.talaiot.TalaiotExtension
 import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.entities.CacheInfo
@@ -24,7 +23,7 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
  */
 class TalaiotPublisherImpl(
     extension: TalaiotExtension,
-    logger:LogTracker,
+    logger: LogTracker,
     private val metricsProvider: Provider<ExecutionReport>,
     private val publisherProvider: PublisherConfigurationProvider,
     private val executedTasksInfo: ExecutedTasksInfo

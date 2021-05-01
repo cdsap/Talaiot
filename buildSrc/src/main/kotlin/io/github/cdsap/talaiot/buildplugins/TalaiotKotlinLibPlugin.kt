@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 import java.net.URI
 
+
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
  * of java-libraries]/kotlin modules.
@@ -22,6 +23,8 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.plugins.apply("jacoco")
         target.plugins.apply("signing")
         target.plugins.apply("java-library")
+        target.plugins.apply("org.jlleitschuh.gradle.ktlint")
+
         target.repositories {
             mavenCentral()
             maven { url = URI("https://plugins.gradle.org/m2/") }
@@ -29,6 +32,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.setUpJacoco()
         target.setUpJunitPlatform()
+        target.setUpKtlint()
         target.afterEvaluate {
             val extension = extensions.getByType<BaseConfiguration>()
             setProjectVersion(extension.version)

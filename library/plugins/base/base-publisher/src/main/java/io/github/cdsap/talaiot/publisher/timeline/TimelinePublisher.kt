@@ -1,9 +1,9 @@
 package io.github.cdsap.talaiot.publisher.timeline
 
-import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.publisher.Publisher
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.publisher.Publisher
 import org.gradle.api.invocation.Gradle
 import java.io.BufferedWriter
 import java.io.File
@@ -16,16 +16,19 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
             ?.filter { !it.rootNode }
             ?.groupBy { it.workerId }
         val timelineMeasures = measures?.map {
-            Measure(it.key, it.value.map { task ->
-                TimelineTaskMeasurement(
-                    task.taskPath,
-                    task.state,
-                    task.critical,
-                    task.startMs,
-                    task.workerId,
-                    task.stopMs
-                )
-            })
+            Measure(
+                it.key,
+                it.value.map { task ->
+                    TimelineTaskMeasurement(
+                        task.taskPath,
+                        task.state,
+                        task.critical,
+                        task.startMs,
+                        task.workerId,
+                        task.stopMs
+                    )
+                }
+            )
         } ?: emptyList()
 
         val executionResult = ExecutionResult(timelineMeasures)

@@ -1,6 +1,5 @@
 package io.github.cdsap.talaiot.plugin.base
 
-
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
@@ -38,7 +37,6 @@ class BasePluginTest : BehaviorSpec() {
                 then("json build info exists") {
                     assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").exists())
                     assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
                 }
                 testProjectDir.delete()
             }

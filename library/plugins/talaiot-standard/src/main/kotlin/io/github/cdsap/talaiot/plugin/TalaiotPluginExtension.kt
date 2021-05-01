@@ -1,8 +1,7 @@
 package io.github.cdsap.talaiot.plugin
 
-
-import io.github.cdsap.talaiot.TalaiotExtension
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
 open class TalaiotPluginExtension(project: Project) : TalaiotExtension(project) {

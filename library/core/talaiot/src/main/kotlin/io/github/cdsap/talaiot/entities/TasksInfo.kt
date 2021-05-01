@@ -13,7 +13,7 @@ data class ExecutedGradleTaskInfo(
 )
 
 sealed class CacheInfo {
-    object CacheDisabled: CacheInfo()
-    object CacheMiss: CacheInfo()
-    object CacheHit: CacheInfo()
+    object CacheDisabled : CacheInfo()
+    object CacheMiss : CacheInfo()
+    object CacheHit : CacheInfo()
 }

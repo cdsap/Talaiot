@@ -35,7 +35,6 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 assert(result.output.contains("OutputPublisher"))
                 assert(result.output.contains("¯\\_(ツ)_/¯"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
-
             }
             testProjectDir.delete()
         }

@@ -25,13 +25,13 @@ class TaskFilterProcessor(
             filter.threshold?.let { x ->
                 thresholdIncluded = threshold(x, taskLength)
             }
-
         }
         return isTaskIncluded && isModuleIncluded && thresholdIncluded
     }
 
     private fun executeFilterProcessor(
-        filter: StringFilter, argument: String
+        filter: StringFilter,
+        argument: String
     ): Boolean {
         return with(StringFilterProcessor(filter, logTracker)) {
             matches(argument)

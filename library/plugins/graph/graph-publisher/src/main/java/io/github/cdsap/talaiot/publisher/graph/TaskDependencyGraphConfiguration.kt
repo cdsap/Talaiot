@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.publisher.graph
 
-import io.github.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.configuration.IgnoreWhenConfiguration
 import org.gradle.api.Project
 
 /**

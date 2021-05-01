@@ -28,6 +28,4 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration {
      */
     var taskJobName: String = "task"
     var buildJobName: String = "build"
-
-
 }

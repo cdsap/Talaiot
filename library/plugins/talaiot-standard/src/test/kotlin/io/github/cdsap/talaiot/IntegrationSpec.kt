@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot
 
+import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import com.google.gson.Gson
 import io.kotlintest.forAll
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -12,15 +12,17 @@ import java.io.File
 
 class DefaultConfigurationSpec : StringSpec({
     "given default config" {
-        forAll(listOf(
-            "7.0",
-            "6.8.1",
-            "6.7.1",
-            "6.5.1",
-            "6.4.1",
-            "6.2.1",
-            "6.0.1"
-        )) { version: String ->
+        forAll(
+            listOf(
+                "7.0",
+                "6.8.1",
+                "6.7.1",
+                "6.5.1",
+                "6.4.1",
+                "6.2.1",
+                "6.0.1"
+            )
+        ) { version: String ->
             val testProjectDir = TemporaryFolder()
 
             testProjectDir.create()
@@ -41,11 +43,11 @@ class DefaultConfigurationSpec : StringSpec({
                     }
                 }
 
-            """.trimIndent()
+                """.trimIndent()
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info","--stacktrace")
+                .withArguments("assemble", "--info", "--stacktrace")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()

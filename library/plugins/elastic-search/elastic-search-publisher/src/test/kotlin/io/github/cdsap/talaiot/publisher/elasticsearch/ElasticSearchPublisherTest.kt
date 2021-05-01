@@ -1,12 +1,14 @@
 package io.github.cdsap.talaiot.publisher.elasticsearch
 
-import io.github.cdsap.talaiot.entities.*
-
-
-import io.github.cdsap.talaiot.utils.TestExecutor
-import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
+import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Spec
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
@@ -15,7 +17,6 @@ import org.apache.http.util.EntityUtils
 import org.elasticsearch.client.ResponseException
 import org.elasticsearch.client.RestClient
 import org.testcontainers.elasticsearch.KElasticSearchContainer
-
 
 class ElasticSearchPublisherTest : BehaviorSpec() {
 
@@ -31,7 +32,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
         container.stop()
     }
 
-
     init {
         given("ElasticSearch configuration") {
             val logger = TestLogTrackerRecorder
@@ -40,7 +40,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                 val elasticSearchPublisherConfiguration =
                     ElasticSearchPublisherConfiguration().apply {
                         url = "http://" + container.httpHostAddress
-
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
@@ -55,7 +54,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val client =
                         RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
-
 
                     val responseBuild =
                         client.performRequest(
@@ -96,7 +94,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     assert(elementsTask.get("state").asString == "EXECUTED")
                     assert(elementsTask.get("metric1").asString == "value1")
                     assert(elementsTask.get("metric2").asString == "value2")
-
                 }
             }
             `when`("Publishing Task metrics are disabled ") {
@@ -106,7 +103,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         taskIndexName = "task2"
                         buildIndexName = "build2"
                         publishTaskMetrics = false
-
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
@@ -121,7 +117,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val client =
                         RestClient.builder(HttpHost(url[0], url[1].toInt(), "http")).build()
                     val parser = JsonParser()
-
 
                     val responseBuild =
                         client.performRequest(
@@ -142,7 +137,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     assert(elementsBuild.get("cpuCount").asString == "12")
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
 
-
                     val exception = shouldThrow<ResponseException> {
                         client.performRequest(
                             org.elasticsearch.client.Request(
@@ -161,7 +155,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         taskIndexName = "task3"
                         buildIndexName = "build3"
                         publishBuildMetrics = false
-
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
                     elasticSearchPublisherConfiguration, logger, TestExecutor()
@@ -188,7 +181,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     }
                     assert(exception.message!!.contains("index_not_found_exception"))
 
-
                     val responseTask =
                         client.performRequest(
                             org.elasticsearch.client.Request(
@@ -209,7 +201,6 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     assert(elementsTask.get("state").asString == "EXECUTED")
                     assert(elementsTask.get("metric1").asString == "value1")
                     assert(elementsTask.get("metric2").asString == "value2")
-
                 }
             }
         }

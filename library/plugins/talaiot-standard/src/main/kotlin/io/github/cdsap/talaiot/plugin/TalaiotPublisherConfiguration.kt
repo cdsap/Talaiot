@@ -1,18 +1,15 @@
 package io.github.cdsap.talaiot.plugin
 
+import groovy.lang.Closure
 import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
+import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-
-
-import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
-import groovy.lang.Closure
+import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import org.gradle.api.Project
-
 
 class TalaiotPublisherConfiguration(
     val project: Project

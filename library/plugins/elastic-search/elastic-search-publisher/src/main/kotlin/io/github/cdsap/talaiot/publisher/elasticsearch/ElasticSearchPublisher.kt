@@ -37,8 +37,14 @@ class ElasticSearchPublisher(
             executor.execute {
                 logTracker.log(TAG, "================")
                 logTracker.log(TAG, "ElasticSearchPublisher")
-                logTracker.log(TAG, "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}")
-                logTracker.log(TAG, "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(
+                    TAG,
+                    "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}"
+                )
+                logTracker.log(
+                    TAG,
+                    "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}"
+                )
                 logTracker.log(TAG, "================")
 
                 try {
@@ -50,11 +56,9 @@ class ElasticSearchPublisher(
                         logTracker.log(TAG, "Sending Task metrics")
                         sendTasksMetrics(report, client)
                     }
-
                 } catch (e: Exception) {
                     logTracker.error("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
                 }
-
             }
         }
     }
@@ -66,17 +70,16 @@ class ElasticSearchPublisher(
         ) {
             logTracker.error(
                 "ElasticSearchPublisher not executed. Configuration requires url, taskIndexName and buildIndexName: \n" +
-                        "elasticSearchPublisher {\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            buildIndexName = \"build\"\n" +
-                        "            taskIndexName = \"task\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "elasticSearchPublisher {\n" +
+                    "            url = \"http://localhost:8086\"\n" +
+                    "            buildIndexName = \"build\"\n" +
+                    "            taskIndexName = \"task\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
             return false
         }
         return true
-
     }
 
     private fun sendBuildMetrics(report: ExecutionReport, client: RestHighLevelClient) {
@@ -86,7 +89,7 @@ class ElasticSearchPublisher(
             RequestOptions.DEFAULT
 
         )
-        logTracker.log(TAG, "Result Build metrics ${response.toString()}")
+        logTracker.log(TAG, "Result Build metrics $response")
     }
 
     private fun sendTasksMetrics(
@@ -98,9 +101,10 @@ class ElasticSearchPublisher(
             try {
                 val response = client.index(
                     IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
-                        .source(DefaultTaskDataProvider(it, report).get()), RequestOptions.DEFAULT
+                        .source(DefaultTaskDataProvider(it, report).get()),
+                    RequestOptions.DEFAULT
                 )
-                logTracker.log(TAG, "Result Task metrics ${response}")
+                logTracker.log(TAG, "Result Task metrics $response")
             } catch (e: java.lang.Exception) {
                 logTracker.error(e.message.toString())
             }
@@ -124,5 +128,4 @@ class ElasticSearchPublisher(
             RestHighLevelClient(restClientBuilder)
         }
     }
-
 }

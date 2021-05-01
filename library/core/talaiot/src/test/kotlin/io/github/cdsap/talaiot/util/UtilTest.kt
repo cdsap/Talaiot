@@ -3,7 +3,6 @@ package io.github.cdsap.talaiot.util
 import io.github.cdsap.talaiot.extensions.toBytes
 import io.kotlintest.specs.BehaviorSpec
 
-
 class UtilTest : BehaviorSpec({
 
     given("some memory conversion") {
