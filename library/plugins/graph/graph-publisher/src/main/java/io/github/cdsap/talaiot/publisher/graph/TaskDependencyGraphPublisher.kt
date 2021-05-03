@@ -71,10 +71,8 @@ open class TaskDependencyGraphPublisher(
                 listOfPublishers.forEach {
                     it.publish(filteredReport)
                 }
-
             } else {
                 logTracker.log(TAG, "Execution ignored")
-
             }
         }
     }

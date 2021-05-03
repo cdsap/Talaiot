@@ -25,8 +25,8 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     isLocalCacheMiss = true,
                     isRemoteCacheHit = true,
                     isRemoteCacheMiss = false
-                )
-                , ExecutionReportProvider.executionReport()
+                ),
+                ExecutionReportProvider.executionReport()
             ).get()
 
             then("all the values are are mapped") {

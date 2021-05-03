@@ -17,4 +17,3 @@ dependencies {
     testImplementation(project(":library:core:talaiot-test-utils"))
     testImplementation("org.influxdb:influxdb-java:2.19")
 }
-

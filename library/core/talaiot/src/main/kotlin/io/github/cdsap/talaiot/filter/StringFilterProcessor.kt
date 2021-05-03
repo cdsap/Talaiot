@@ -15,16 +15,16 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
             excludes = if (listContainsMatchingItem(it, string)) 1 else 0
         }
 
-        //No config provided
+        // No config provided
         return if (includes == -1 && excludes == -1)
             true
-        //Includes not provided,excludes provided
+        // Includes not provided,excludes provided
         else if (includes == -1 && excludes > -1)
             excludes == 0
-        //Excludes not provided , includes provided
+        // Excludes not provided , includes provided
         else if (excludes == -1 && includes > -1)
             includes == 1
-        //Excludes and includes provided
+        // Excludes and includes provided
         else {
             if (excludes == 1 && includes == 1)
                 logTracker.log(TAG, "$string matches with inclusion and exclusion filter")
@@ -32,10 +32,7 @@ class StringFilterProcessor(private val filter: StringFilter, private val logTra
         }
     }
 
-
     private fun listContainsMatchingItem(regexes: Array<String>, string: String): Boolean {
         return regexes.find { string.matches(it.toRegex()) } != null
     }
-
 }
-

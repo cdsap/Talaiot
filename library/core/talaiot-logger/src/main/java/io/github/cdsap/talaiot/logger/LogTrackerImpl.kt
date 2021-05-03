@@ -17,7 +17,7 @@ class LogTrackerImpl(
      */
     override fun log(tag: String, message: String) {
         when (mode) {
-           LogTracker.Mode.INFO -> println("[$tag]: $message")
+            LogTracker.Mode.INFO -> println("[$tag]: $message")
             else -> {
             }
         }
@@ -26,5 +26,4 @@ class LogTrackerImpl(
     override fun error(message: String) {
         println(message)
     }
-
 }

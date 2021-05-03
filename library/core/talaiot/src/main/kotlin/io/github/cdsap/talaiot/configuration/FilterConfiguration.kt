@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.configuration
 
-import io.github.cdsap.talaiot.filter.StringFilter
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.filter.StringFilter
 
 /**
  * Configuration to specify the filters for the tasks that should be processed by the publisher or for the build in general.
@@ -71,7 +71,6 @@ class FilterConfiguration {
         closure.delegate = tasks
         closure.call()
     }
-
 
     fun modules(configuration: StringFilter.() -> Unit) {
         modules = StringFilter().also(configuration)

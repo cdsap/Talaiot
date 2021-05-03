@@ -1,13 +1,13 @@
 package io.github.cdsap.talaiot
 
-import org.testcontainers.remotecache.KRedisContainer
-import org.testcontainers.influxdb.KInfluxDBContainer
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert.assertTrue
 import org.gradle.testkit.runner.GradleRunner
 import org.influxdb.dto.Query
+import org.testcontainers.influxdb.KInfluxDBContainer
+import org.testcontainers.remotecache.KRedisContainer
 
 /**
  * E2E Test to check the if the event BuildCacheRemoteLoadBuildOperationType is emitted by Gradle.
@@ -95,13 +95,11 @@ class BuildCacheRemoteLoadBuildOperationTypeTest : BehaviorSpec() {
                         influxDB.query(Query("select * from tracking.rpTalaiot.task where remoteCacheHit='true'"))
 
                     assert(remoteCacheHit.results[0].series[0].values.size == 1)
-
                 }
                 testProjectDir.delete()
             }
         }
     }
-
 }
 
 object Configuration {

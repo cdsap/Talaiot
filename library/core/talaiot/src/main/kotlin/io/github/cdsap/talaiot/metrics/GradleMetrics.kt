@@ -21,36 +21,43 @@ class GradleVersionMetric : GradleMetric<String>(
 
 class GradleSwitchCachingMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isBuildCacheEnabled.toString() },
-    assigner = { report, value -> report.environment.switches.buildCache = value })
+    assigner = { report, value -> report.environment.switches.buildCache = value }
+)
 
 class GradleSwitchBuildScanMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isBuildScan.toString() },
-    assigner = { report, value -> report.environment.switches.buildScan = value })
+    assigner = { report, value -> report.environment.switches.buildScan = value }
+)
 
 class GradleSwitchConfigureOnDemandMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isConfigureOnDemand.toString() },
-    assigner = { report, value -> report.environment.switches.configurationOnDemand = value })
+    assigner = { report, value -> report.environment.switches.configurationOnDemand = value }
+)
 
 class GradleSwitchParallelMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isParallelProjectExecutionEnabled.toString() },
-    assigner = { report, value -> report.environment.switches.parallel = value })
+    assigner = { report, value -> report.environment.switches.parallel = value }
+)
 
 class GradleSwitchRerunTasksMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isRerunTasks.toString() },
-    assigner = { report, value -> report.environment.switches.rerunTasks = value })
+    assigner = { report, value -> report.environment.switches.rerunTasks = value }
+)
 
 class GradleSwitchDryRunMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isDryRun.toString() },
-    assigner = { report, value -> report.environment.switches.dryRun = value })
+    assigner = { report, value -> report.environment.switches.dryRun = value }
+)
 
 class GradleSwitchOfflineMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isOffline.toString() },
-    assigner = { report, value -> report.environment.switches.offline = value })
+    assigner = { report, value -> report.environment.switches.offline = value }
+)
 
 class GradleSwitchRefreshDependenciesMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isRefreshDependencies.toString() },
-    assigner = { report, value -> report.environment.switches.refreshDependencies = value })
-
+    assigner = { report, value -> report.environment.switches.refreshDependencies = value }
+)
 
 class GradleSwitchDaemonMetric : GradleMetric<String?>(
     provider = {

@@ -9,7 +9,7 @@ import java.net.InetSocketAddress
 /**
  * Custom TestContainer to support E2E tests for RethinkDb
  */
-open class RethinkDbContainer  :
+open class RethinkDbContainer :
     GenericContainer<RethinkDbContainer>("$RETHINKDB_DEFAULT_IMAGE:$RETHINKDB_DEFAULT_VERSION") {
     init {
 

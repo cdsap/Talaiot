@@ -10,8 +10,8 @@ class InfluxDbConfigurationTest : BehaviorSpec({
             then("default values are given") {
                 assert(
                     influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "rpTalaiot" &&
-                            influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "30d" &&
-                            influxDbPublisherConfiguration.buildTags.isEmpty()
+                        influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "30d" &&
+                        influxDbPublisherConfiguration.buildTags.isEmpty()
                 )
             }
         }
@@ -25,9 +25,9 @@ class InfluxDbConfigurationTest : BehaviorSpec({
 
             then("custom values are given") {
                 assert(
-                    influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "customRp"
-                            && influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "99w"
-                            && influxDbPublisherConfiguration.retentionPolicyConfiguration.shardDuration == "30m"
+                    influxDbPublisherConfiguration.retentionPolicyConfiguration.name == "customRp" &&
+                        influxDbPublisherConfiguration.retentionPolicyConfiguration.duration == "99w" &&
+                        influxDbPublisherConfiguration.retentionPolicyConfiguration.shardDuration == "30m"
                 )
             }
         }

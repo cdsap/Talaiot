@@ -9,7 +9,6 @@ import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
 
-
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {
         `when`("configuration is not changed") {
@@ -17,10 +16,10 @@ class MetricsConfigurationTest : BehaviorSpec({
             val metrics = metricsConfiguration.build()
             then("included all metrics") {
                 val expectedMetricsTypes = defaultMetricsTypes +
-                        environmentMetricsTypes +
-                        performanceMetricsTypes +
-                        gradleSwitchesMetricsTypes +
-                        gitMetricsTypes
+                    environmentMetricsTypes +
+                    performanceMetricsTypes +
+                    gradleSwitchesMetricsTypes +
+                    gitMetricsTypes
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
@@ -284,4 +283,3 @@ private val gradleSwitchesMetricsTypes = listOf(
     GradleSwitchRerunTasksMetric::class,
     GradleSwitchDaemonMetric::class
 )
-

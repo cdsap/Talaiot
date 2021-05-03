@@ -1,8 +1,15 @@
 package io.github.cdsap.talaiot.publisher.graph
 
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.argThat
+import com.nhaarman.mockitokotlin2.atLeast
+import com.nhaarman.mockitokotlin2.doNothing
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.TaskMeasurementAggregatedMock.taskMeasurementAggregatedWrongMetricsFormat
-import com.nhaarman.mockitokotlin2.*
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.kotlin.dsl.extra
 import org.gradle.testfixtures.ProjectBuilder
@@ -48,7 +55,6 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                     any(),
                     any()
                 )
-
             }
         }
         `when`("configuration shouldn't be ignored and html is enabled") {
@@ -93,7 +99,6 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                     any()
                 )
             }
-
         }
         `when`("configuration shouldn't be ignored and dot is enabled") {
             val project = ProjectBuilder.builder().build()
@@ -116,7 +121,6 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                 )
             }
         }
-
 
         `when`("configuration shouldn't be ignored and all options are enabled") {
             val project = ProjectBuilder.builder().build()
@@ -152,19 +156,16 @@ class TaskDependencyGraphPublisherTest : BehaviorSpec({
                     any()
                 )
             }
-
         }
     }
-
 })
-
 
 private fun getGraphPublisher(
     taskDependencyGraphPublisherConfiguration: TaskDependencyGraphConfiguration,
     graphPublisherFactory: GraphPublisherFactory
 ): TaskDependencyGraphPublisher {
     val testExecutor: Executor = mock()
-    val logger:LogTracker = mock()
+    val logger: LogTracker = mock()
     val publisher: DiskPublisher = mock()
     whenever(graphPublisherFactory.createPublisher(any(), any(), any(), any())).thenReturn(publisher)
     doNothing().`when`(publisher).publish(any())

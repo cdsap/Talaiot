@@ -9,7 +9,6 @@ import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
 import java.io.File
 
-
 class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
 
     val container: KInfluxDBContainer = KInfluxDBContainer().withAuthEnabled(false)
@@ -54,7 +53,6 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
                     println(taskResultBuild.results[0].series == null)
                     println(taskResultBuild.results[0].error == null)
                 }
-
             }
             testProjectDir.delete()
         }
@@ -77,7 +75,8 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
                              buildMetricName = "build"
                           }
                         }
-                      }  """.trimIndent()
+                      }  
+            """.trimIndent()
         )
     }
 }

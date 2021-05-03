@@ -24,6 +24,7 @@ class TalaiotPlugin : Plugin<Project> {
         target.plugins.apply("java-library")
         target.plugins.apply("application")
         target.plugins.apply("com.gradle.plugin-publish")
+        target.plugins.apply("org.jlleitschuh.gradle.ktlint")
 
         target.repositories {
             mavenCentral()

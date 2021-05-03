@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.configuration
 
-import io.github.cdsap.talaiot.filter.StringFilter
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.filter.StringFilter
 
 class BuildFilterConfiguration {
     var success: Boolean? = null

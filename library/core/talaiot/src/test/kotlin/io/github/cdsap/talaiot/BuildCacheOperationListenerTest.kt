@@ -31,13 +31,13 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                     ExecutedTasksInfo(
                         mapOf(
                             taskAName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 1,
-                                        taskName = taskAName,
-                                        isCacheEnabled = false,
-                                        localCacheInfo = CacheInfo.CacheDisabled,
-                                        remoteCacheInfo = CacheInfo.CacheDisabled
-                                    )
+                                ExecutedGradleTaskInfo(
+                                    id = 1,
+                                    taskName = taskAName,
+                                    isCacheEnabled = false,
+                                    localCacheInfo = CacheInfo.CacheDisabled,
+                                    remoteCacheInfo = CacheInfo.CacheDisabled
+                                )
                         )
                     )
                 )
@@ -61,13 +61,13 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                     ExecutedTasksInfo(
                         mapOf(
                             taskAName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 1,
-                                        taskName = taskAName,
-                                        isCacheEnabled = true,
-                                        localCacheInfo = CacheInfo.CacheHit,
-                                        remoteCacheInfo = CacheInfo.CacheMiss
-                                    )
+                                ExecutedGradleTaskInfo(
+                                    id = 1,
+                                    taskName = taskAName,
+                                    isCacheEnabled = true,
+                                    localCacheInfo = CacheInfo.CacheHit,
+                                    remoteCacheInfo = CacheInfo.CacheMiss
+                                )
                         )
                     )
                 )
@@ -101,13 +101,13 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                     ExecutedTasksInfo(
                         mapOf(
                             taskAName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 1,
-                                        taskName = taskAName,
-                                        isCacheEnabled = true,
-                                        localCacheInfo = CacheInfo.CacheMiss,
-                                        remoteCacheInfo = CacheInfo.CacheHit
-                                    )
+                                ExecutedGradleTaskInfo(
+                                    id = 1,
+                                    taskName = taskAName,
+                                    isCacheEnabled = true,
+                                    localCacheInfo = CacheInfo.CacheMiss,
+                                    remoteCacheInfo = CacheInfo.CacheHit
+                                )
                         )
                     )
                 )
@@ -163,29 +163,29 @@ class BuildCacheOperationListenerTest : BehaviorSpec({
                     ExecutedTasksInfo(
                         mapOf(
                             taskAName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 1,
-                                        taskName = taskAName,
-                                        isCacheEnabled = false,
-                                        localCacheInfo = CacheInfo.CacheDisabled,
-                                        remoteCacheInfo = CacheInfo.CacheDisabled
-                                    ),
+                                ExecutedGradleTaskInfo(
+                                    id = 1,
+                                    taskName = taskAName,
+                                    isCacheEnabled = false,
+                                    localCacheInfo = CacheInfo.CacheDisabled,
+                                    remoteCacheInfo = CacheInfo.CacheDisabled
+                                ),
                             taskBName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 2,
-                                        taskName = taskBName,
-                                        isCacheEnabled = true,
-                                        localCacheInfo = CacheInfo.CacheHit,
-                                        remoteCacheInfo = CacheInfo.CacheMiss
-                                    ),
+                                ExecutedGradleTaskInfo(
+                                    id = 2,
+                                    taskName = taskBName,
+                                    isCacheEnabled = true,
+                                    localCacheInfo = CacheInfo.CacheHit,
+                                    remoteCacheInfo = CacheInfo.CacheMiss
+                                ),
                             taskCName to
-                                    ExecutedGradleTaskInfo(
-                                        id = 3,
-                                        taskName = taskCName,
-                                        isCacheEnabled = true,
-                                        localCacheInfo = CacheInfo.CacheMiss,
-                                        remoteCacheInfo = CacheInfo.CacheHit
-                                    )
+                                ExecutedGradleTaskInfo(
+                                    id = 3,
+                                    taskName = taskCName,
+                                    isCacheEnabled = true,
+                                    localCacheInfo = CacheInfo.CacheMiss,
+                                    remoteCacheInfo = CacheInfo.CacheHit
+                                )
                         )
                     )
                 )

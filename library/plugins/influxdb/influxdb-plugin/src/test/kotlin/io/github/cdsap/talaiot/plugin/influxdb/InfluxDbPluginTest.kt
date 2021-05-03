@@ -65,7 +65,6 @@ class InfluxDbPluginTest : BehaviorSpec() {
                         influxDB.query(Query("select * from tracking.rpTalaiot.build"))
                     assert(taskResultTask.results.isNotEmpty() && taskResultTask.results[0].series[0].name == "task")
                     assert(taskResultBuild.results.isNotEmpty() && taskResultBuild.results[0].series[0].name == "build")
-
                 }
                 testProjectDir.delete()
             }

@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.plugin.rethinkdb
 
-import io.github.cdsap.talaiot.utils.TemporaryFolder
 import com.rethinkdb.RethinkDB
 import com.rethinkdb.net.Connection
+import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import junit.framework.Assert
@@ -14,7 +14,6 @@ class RethinkdbPluginTest : BehaviorSpec() {
 
     val container = KRethinkDbContainer()
     val r = RethinkDB.r
-
 
     override fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
@@ -73,7 +72,6 @@ class RethinkdbPluginTest : BehaviorSpec() {
                 }
                 testProjectDir.delete()
             }
-
         }
     }
 
@@ -81,5 +79,4 @@ class RethinkdbPluginTest : BehaviorSpec() {
         val url = URL(url)
         return r.connection().hostname(url.host).port(url.port).connect()
     }
-
 }

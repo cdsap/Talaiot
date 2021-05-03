@@ -1,10 +1,10 @@
 package io.github.cdsap.talaiot
 
+import groovy.lang.Closure
 import io.github.cdsap.talaiot.configuration.FilterConfiguration
 import io.github.cdsap.talaiot.configuration.IgnoreWhenConfiguration
-import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
-import groovy.lang.Closure
+import io.github.cdsap.talaiot.logger.LogTracker
 import org.gradle.api.Project
 
 /**
@@ -51,7 +51,6 @@ open class TalaiotExtension(val project: Project) {
         closure.delegate = metrics
         closure.call()
     }
-
 
     fun filter(configuration: FilterConfiguration.() -> Unit) {
         filter = FilterConfiguration().also(configuration)

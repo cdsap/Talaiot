@@ -1,16 +1,15 @@
 package io.github.cdsap.talaiot.plugin
 
-
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
-import io.github.cdsap.talaiot.publisher.*
 import io.github.cdsap.talaiot.publisher.JsonPublisher
 import io.github.cdsap.talaiot.publisher.OutputPublisher
+import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
-import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
-import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl
 import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
+import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
+import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher

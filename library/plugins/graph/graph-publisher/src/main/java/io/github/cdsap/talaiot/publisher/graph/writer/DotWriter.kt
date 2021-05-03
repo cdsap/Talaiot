@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.publisher.graph.writer
 
+import guru.nidi.graphviz.engine.Renderer
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.graph.writer.FileWriter.Companion.TALAIOT_OUTPUT_DIR
-import guru.nidi.graphviz.engine.Renderer
 import org.gradle.api.Project
 import java.io.File
 
