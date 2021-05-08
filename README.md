@@ -162,7 +162,6 @@ apply plugin: "io.github.cdsap.talaiot.plugin.base"
 
 ## Snapshots  <a name="snapshots"></a>
 
-Include the OJO artifactory oss-snapshot local:
 ````
 maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") )
 ````
