@@ -35,13 +35,14 @@ https://en.wikipedia.org/wiki/Talaiot
 1. [Setup](#setup)
 2. [Snapshots](#snapshots)
 3. [Talaiot Extension](#talaiot-extension)
-4. [Example: Analyzing Data provided by Talaiot](#example)
-5. [Other Existing Libraries](#other_libraries)
-6. [Docs](#docs)
-7. [Articles](#articles)
-8. [Contributing](#contributing)
-9. [Contributors](#contributors)
-10. [Thanks](#thanks)
+4. [Samples](#samples)
+5. [Example: Analyzing Data provided by Talaiot](#example)
+6. [Other Existing Libraries](#other_libraries)
+7. [Docs](#docs)
+8. [Articles](#articles)
+9. [Contributing](#contributing)
+10. [Contributors](#contributors)
+11. [Thanks](#thanks)
 
 ## Setup <a name="setup"></a>
 
@@ -162,7 +163,6 @@ apply plugin: "io.github.cdsap.talaiot.plugin.base"
 
 ## Snapshots  <a name="snapshots"></a>
 
-Include the OJO artifactory oss-snapshot local:
 ````
 maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/") )
 ````
@@ -506,6 +506,14 @@ talaiot {
 ```
 Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
 In you are not using additional plugins we recommend to use  `io.github.cdsap.talaiot.plugin.base`.
+
+## Sample  <a name="sample"></a>
+Folder `sample` contains a Gradle project using Talaiot:
+```
+cd sample
+./gradlew assemble
+```
+The project includes examples creating custom publishers, defining metrics using different publishers.
 
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
