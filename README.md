@@ -313,9 +313,13 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | retentionPolicyConfiguration | retention policy which is used for writing points                                   |
 | publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
 | publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
-| tags                         | Collection of BuildMetrics used as tags                                             |
+| buildTags                    | Collection of BuildMetrics used as tags                                             |
+| taskTags                     | Collection of TaskMetrics used as tags                                              |
 
-For complete list of tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/com/cdsap/talaiot/metrics/BuildMetrics.kt
+For complete list of 
+- build tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/BuildMetrics.kt
+- task tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/TaskMetrics.kt
+
 If you need to include custom metrics as tags, you need to use the type `Custom`
 
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.influxdb` plugins.
