@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot
 
+import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import com.google.gson.Gson
 import io.kotlintest.forAll
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -43,11 +43,11 @@ class DefaultConfigurationSpec : StringSpec({
                     }
                 }
 
-            """.trimIndent()
+                """.trimIndent()
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info","--stacktrace")
+                .withArguments("assemble", "--info", "--stacktrace")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()

@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.entities.TaskMessageState
 import org.gradle.api.Task
 import org.gradle.api.internal.tasks.TaskDependencyResolveException
 import org.gradle.api.tasks.TaskState
-import java.util.*
+import java.util.ArrayDeque
 
 /**
  * Tracker of executed tasks during the build
@@ -111,7 +111,6 @@ class TalaiotTracker {
                 )
             )
         }
-
     }
 
     /**
@@ -149,7 +148,6 @@ class TalaiotTracker {
             stopMs = stopMs
         )
 
-
     /**
      * Retrieve the dependencies of a given task
      *
@@ -163,7 +161,6 @@ class TalaiotTracker {
         } catch (e: TaskDependencyResolveException) {
             emptyList()
         }
-
 
     /**
      * Get the current module of a given task
@@ -181,4 +178,3 @@ class TalaiotTracker {
         else "no_module"
     }
 }
-

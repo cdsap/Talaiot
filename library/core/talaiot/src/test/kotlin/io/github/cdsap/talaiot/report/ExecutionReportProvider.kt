@@ -1,6 +1,11 @@
 package io.github.cdsap.talaiot.report
 
-import io.github.cdsap.talaiot.entities.*
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.Switches
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
 
 object ExecutionReportProvider {
 
@@ -82,14 +87,14 @@ object ExecutionReportProvider {
         )
     )
 
-     fun getMetricsTasks(): MutableMap<String, String> {
+    fun getMetricsTasks(): MutableMap<String, String> {
         return mutableMapOf(
             "metric1" to "value1",
             "metric2" to "value2"
         )
     }
 
-     fun getMetricsBuild(): MutableMap<String, String> {
+    fun getMetricsBuild(): MutableMap<String, String> {
         return mutableMapOf(
             "metric3" to "value3",
             "metric4" to "value4"

@@ -38,8 +38,6 @@ class InfluxDbPublisher(
     private val TAG = "InfluxDbPublisher"
 
     override fun publish(report: ExecutionReport) {
-
-
         if (influxDbPublisherConfiguration.url.isEmpty() ||
             influxDbPublisherConfiguration.dbName.isEmpty() ||
             influxDbPublisherConfiguration.taskMetricName.isEmpty() ||
@@ -47,20 +45,20 @@ class InfluxDbPublisher(
         ) {
             logTracker.error(
                 "InfluxDbPublisher not executed. Configuration requires url, dbName, taskMetricName and buildMetricName: \n" +
-                        "influxDbPublisher {\n" +
-                        "            dbName = \"tracking\"\n" +
-                        "            url = \"http://localhost:8086\"\n" +
-                        "            buildMetricName = \"build\"\n" +
-                        "            taskMetricName = \"task\"\n" +
-                        "}\n" +
-                        "Please update your configuration"
+                    "influxDbPublisher {\n" +
+                    "            dbName = \"tracking\"\n" +
+                    "            url = \"http://localhost:8086\"\n" +
+                    "            buildMetricName = \"build\"\n" +
+                    "            taskMetricName = \"task\"\n" +
+                    "}\n" +
+                    "Please update your configuration"
             )
             return
         }
 
         try {
             val pointsBuilder = BatchPoints.builder()
-                //See https://github.com/influxdata/influxdb-java/issues/373
+                // See https://github.com/influxdata/influxdb-java/issues/373
                 .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
 
             if (influxDbPublisherConfiguration.publishTaskMetrics) {
@@ -73,24 +71,27 @@ class InfluxDbPublisher(
             if (influxDbPublisherConfiguration.publishBuildMetrics) {
                 val buildMeasurement = createBuildPoint(report)
                 pointsBuilder.point(buildMeasurement)
-
             }
-
             executor.execute {
                 logTracker.log(TAG, "================")
                 logTracker.log(TAG, "InfluxDbPublisher")
-                logTracker.log(TAG, "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}")
-                logTracker.log(TAG, "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}")
+                logTracker.log(
+                    TAG,
+                    "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+                )
+                logTracker.log(
+                    TAG,
+                    "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+                )
                 logTracker.log(TAG, "================")
 
                 try {
                     val _db = createDb()
                     val points = pointsBuilder.build()
-                    logTracker.log(TAG, "Sending points to InfluxDb server ${points.toString()}")
+                    logTracker.log(TAG, "Sending points to InfluxDb server $points")
                     _db.write(points)
                 } catch (e: Exception) {
                     logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
-
                 }
             }
         } catch (e: Exception) {
@@ -131,22 +132,23 @@ class InfluxDbPublisher(
             report.customProperties.buildProperties
         )
         return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
-                .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .tag(tagFieldProvider.tags())
-                .fields(tagFieldProvider.fields())
-                .build()
+            .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+            .tag(tagFieldProvider.tags())
+            .fields(tagFieldProvider.fields())
+            .build()
     }
 
     private fun createDb(): InfluxDB {
         val okHttpBuilder = OkHttpClient.Builder()
-                .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-                .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-                .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
         val user = influxDbPublisherConfiguration.username
         val password = influxDbPublisherConfiguration.password
         val url = influxDbPublisherConfiguration.url
         val dbName = influxDbPublisherConfiguration.dbName
-        val retentionPolicyConfiguration = influxDbPublisherConfiguration.retentionPolicyConfiguration
+        val retentionPolicyConfiguration =
+            influxDbPublisherConfiguration.retentionPolicyConfiguration
 
         val influxDb = if (user.isNotEmpty() && password.isNotEmpty()) {
             InfluxDBFactory.connect(url, user, password, okHttpBuilder)
@@ -166,7 +168,14 @@ class InfluxDbPublisher(
             val replicationFactor = retentionPolicyConfiguration.replicationFactor
             val isDefault = retentionPolicyConfiguration.isDefault
 
-            influxDb.createRetentionPolicy(rpName, dbName, duration, shardDuration, replicationFactor, isDefault)
+            influxDb.createRetentionPolicy(
+                rpName,
+                dbName,
+                duration,
+                shardDuration,
+                replicationFactor,
+                isDefault
+            )
         }
 
         influxDb.setDatabase(dbName)
@@ -176,4 +185,3 @@ class InfluxDbPublisher(
         return influxDb
     }
 }
-

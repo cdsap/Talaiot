@@ -19,7 +19,6 @@ class TagFieldProvider(
             customMetrics(it.key) || it.key in tagMetricKeys
         }.mapValues { it.value.toString() }
 
-
     fun fields(): Map<String, Any> {
         val tags = tags()
         return metrics.filter { !tags.containsKey(it.key) }

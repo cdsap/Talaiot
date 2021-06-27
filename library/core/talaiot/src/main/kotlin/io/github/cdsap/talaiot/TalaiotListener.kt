@@ -17,7 +17,6 @@ import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.initialization.Settings
 import org.gradle.api.internal.GradleInternal
 import org.gradle.api.invocation.Gradle
-
 import org.gradle.api.tasks.TaskState
 import org.gradle.internal.InternalBuildListener
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
@@ -95,8 +94,10 @@ class TalaiotListener(
      * This method checks if the executions has to be published by checking the main [TalaiotExtension.ignoreWhen]
      * configuration and the state of the [TalaiotTracker]
      */
-    private fun shouldPublish() = ((extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false)
-            && talaiotTracker.isTracking)
+    private fun shouldPublish() = (
+        (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
+            talaiotTracker.isTracking
+        )
 
     override fun projectsLoaded(gradle: Gradle) {
     }

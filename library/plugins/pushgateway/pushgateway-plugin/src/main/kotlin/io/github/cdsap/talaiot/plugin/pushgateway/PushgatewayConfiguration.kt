@@ -1,12 +1,12 @@
 package io.github.cdsap.talaiot.plugin.pushgateway
 
+import groovy.lang.Closure
 import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
-import groovy.lang.Closure
 import org.gradle.api.Project
 
-class  PushgatewayConfiguration(project: Project) : PublishersConfiguration(project) {
+class PushgatewayConfiguration(project: Project) : PublishersConfiguration(project) {
 
     var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
 

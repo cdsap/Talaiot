@@ -1,9 +1,8 @@
 package io.github.cdsap.talaiot.plugin.base
 
-
-import io.github.cdsap.talaiot.publisher.PublishersConfiguration
-import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
+import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import org.gradle.api.Project
 
 class BaseConfiguration(project: Project) : PublishersConfiguration(project) {

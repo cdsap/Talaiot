@@ -1,9 +1,13 @@
 package io.github.cdsap.talaiot.publisher.pushgateway
 
-import io.github.cdsap.talaiot.entities.*
-
-import io.github.cdsap.talaiot.request.SimpleRequest
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.Switches
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
+import io.github.cdsap.talaiot.request.SimpleRequest
 import io.github.cdsap.talaiot.utils.TestExecutor
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
@@ -11,7 +15,6 @@ import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.testcontainers.pushgateway.KPushGatewayContainer
 import java.net.URL
-
 
 class PushGatewayPublisherTest : BehaviorSpec() {
 
@@ -116,7 +119,6 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     )
 
                     assert(!(content?.contains("build2{") ?: true))
-
                 }
             }
             `when`("There is configuration with metrics only to send build ") {
@@ -125,8 +127,6 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     publishTaskMetrics = false
                     buildJobName = "build3"
                     taskJobName = "task3"
-
-
                 }
 
                 val pushGateway = PushGatewayPublisher(
@@ -157,7 +157,6 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                             ?: false
                     )
                     assert(!(content?.contains("task3") ?: true))
-
                 }
             }
 
@@ -191,13 +190,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     }
                     val content = a.body()?.string()
 
-
                     content?.contains("metric1=\"value1\",metric2=\"value2\",module=\":test-module\",rootNode=\"false\",state=\"EXECUTED\",task=\":test-module:clean\",value=\"1\",workerId=\"\"} 100")
 
                     content?.contains(":test_module:app:assemble{critical=\"false\",instance=\"\",job=\"task4\",metric1=\"value1\",metric2=\"value2\",module=\":test-module\",rootNode=\"false\",state=\"EXECUTED\",task=\":test-module:app:assemble\",value=\"100\",workerId=\"\"} 1")
 
                     content?.contains("build4{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build4\",maxWorkers=\"4\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\",success=\"false\",switch_configurationOnDemand=\"true\",switch_dryRun=\"true\"} 100")
-
                 }
             }
         }

@@ -1,7 +1,7 @@
 package io.github.cdsap.talaiot.metrics.base
 
-import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.metrics.SimpleMetric
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.IllegalStateException
@@ -9,7 +9,7 @@ import java.lang.IllegalStateException
 /**
  * [Metric] that operates on some command line action output
  */
-open class CmdMetric(val cmd: String, assigner: (ExecutionReport, String) -> Unit): SimpleMetric<String>(
+open class CmdMetric(val cmd: String, assigner: (ExecutionReport, String) -> Unit) : SimpleMetric<String>(
     provider = {
         val runtime = Runtime.getRuntime()
         try {
@@ -21,7 +21,6 @@ open class CmdMetric(val cmd: String, assigner: (ExecutionReport, String) -> Uni
         } catch (e: IllegalStateException) {
             throw IllegalArgumentException("Error executing $cmd. Consider disabling the metric from your configuration", e)
         }
-
     },
     assigner = assigner
 )

@@ -1,12 +1,11 @@
 package io.github.cdsap.talaiot.plugin.influxdb
 
-import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import groovy.lang.Closure
+import io.github.cdsap.talaiot.publisher.PublishersConfiguration
+import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import org.gradle.api.Project
 
-
-class  InfluxdbConfiguration(project: Project) : PublishersConfiguration(project) {
+class InfluxdbConfiguration(project: Project) : PublishersConfiguration(project) {
 
     var influxDbPublisher: InfluxDbPublisherConfiguration? = null
 

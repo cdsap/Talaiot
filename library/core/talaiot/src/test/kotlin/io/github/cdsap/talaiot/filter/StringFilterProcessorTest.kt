@@ -29,7 +29,6 @@ class StringFilterProcessorTest : BehaviorSpec({
 
             then("The filter processor does not match when provided string matches the exclusion rule") {
                 StringFilterProcessor(excludesFilter, logTracker).matches("t1").shouldBeFalse()
-
             }
             then("The filter processor matches when provided string does not match the exclusion rule") {
                 StringFilterProcessor(excludesFilter, logTracker).matches("t111").shouldBeTrue()
@@ -40,7 +39,6 @@ class StringFilterProcessorTest : BehaviorSpec({
             val compositeFilter = StringFilter().apply {
                 excludes = arrayOf("t1.*")
                 includes = arrayOf("t2.*")
-
             }
 
             then("The filter processor does not match when provided string matches the exclusion rule") {
@@ -48,7 +46,6 @@ class StringFilterProcessorTest : BehaviorSpec({
                 StringFilterProcessor(compositeFilter, logTracker).matches("t123").shouldBeFalse()
                 StringFilterProcessor(compositeFilter, logTracker).matches("t1fdd").shouldBeFalse()
                 StringFilterProcessor(compositeFilter, logTracker).matches("t1qwer").shouldBeFalse()
-
             }
             then("The filter processor matches when provided string does not match the exclusion rule") {
                 StringFilterProcessor(compositeFilter, logTracker).matches("t2af").shouldBeTrue()
@@ -63,13 +60,11 @@ class StringFilterProcessorTest : BehaviorSpec({
             val includesFilter = StringFilter().apply {
                 excludes = arrayOf("t1.*")
                 includes = arrayOf("t1.*")
-
             }
 
             then("The filter processor does not match when provided string matches the exclusion rule and logtracker records an error") {
                 StringFilterProcessor(includesFilter, logTracker).matches("t1").shouldBeFalse()
                 logTracker.containsLog("t1 matches with inclusion and exclusion filter").shouldBeTrue()
-
             }
         }
     }

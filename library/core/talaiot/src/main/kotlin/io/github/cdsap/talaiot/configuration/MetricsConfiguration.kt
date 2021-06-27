@@ -1,7 +1,37 @@
 package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.metrics.*
+import io.github.cdsap.talaiot.metrics.BuildIdMetric
+import io.github.cdsap.talaiot.metrics.CacheHitMetric
+import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
+import io.github.cdsap.talaiot.metrics.GitBranchMetric
+import io.github.cdsap.talaiot.metrics.GitUserMetric
+import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
+import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
+import io.github.cdsap.talaiot.metrics.GradleScanLinkMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchDaemonMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchDryRunMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchParallelMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchRefreshDependenciesMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchRerunTasksMetric
+import io.github.cdsap.talaiot.metrics.GradleVersionMetric
+import io.github.cdsap.talaiot.metrics.HostnameMetric
+import io.github.cdsap.talaiot.metrics.JavaVmNameMetric
+import io.github.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
+import io.github.cdsap.talaiot.metrics.JvmXmsMetric
+import io.github.cdsap.talaiot.metrics.JvmXmxMetric
+import io.github.cdsap.talaiot.metrics.LocaleMetric
+import io.github.cdsap.talaiot.metrics.OsManufacturerMetric
+import io.github.cdsap.talaiot.metrics.OsMetric
+import io.github.cdsap.talaiot.metrics.ProcessorCountMetric
+import io.github.cdsap.talaiot.metrics.PublicIpMetric
+import io.github.cdsap.talaiot.metrics.RamAvailableMetric
+import io.github.cdsap.talaiot.metrics.RootProjectNameMetric
+import io.github.cdsap.talaiot.metrics.SimpleMetric
+import io.github.cdsap.talaiot.metrics.UserMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
 
 /**
@@ -90,7 +120,6 @@ class MetricsConfiguration {
     var gradleSwitchesMetrics = true
     var environmentMetrics = true
 
-
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
 
     private fun addDefaultMetrics() {
@@ -137,7 +166,6 @@ class MetricsConfiguration {
             add(JvmXmsMetric())
             add(JvmXmxMetric())
             add(JvmMaxPermSizeMetric())
-
         }
     }
 

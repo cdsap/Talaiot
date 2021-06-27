@@ -1,9 +1,8 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.publisher.Publisher
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import io.github.cdsap.talaiot.entities.ExecutionReport
 import org.gradle.api.invocation.Gradle
 import java.io.BufferedWriter
 import java.io.File

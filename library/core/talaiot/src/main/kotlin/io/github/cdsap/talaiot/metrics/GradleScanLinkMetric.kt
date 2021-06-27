@@ -1,8 +1,8 @@
 package io.github.cdsap.talaiot.metrics
 
-import io.github.cdsap.talaiot.metrics.base.BuildResultMetric
 import com.gradle.scan.plugin.BuildScanExtension
 import com.gradle.scan.plugin.PublishedBuildScan
+import io.github.cdsap.talaiot.metrics.base.BuildResultMetric
 import org.gradle.api.Action
 import org.gradle.api.UnknownDomainObjectException
 import org.gradle.api.internal.GradleInternal
@@ -11,7 +11,6 @@ import org.gradle.internal.logging.LoggingManagerInternal
 import org.gradle.internal.logging.events.OutputEvent
 import org.gradle.internal.logging.events.StyledTextOutputEvent
 import org.gradle.util.GradleVersion
-
 
 /**
  * Be warned: super hacky
@@ -26,7 +25,7 @@ class GradleScanLinkMetric : BuildResultMetric<String?>(
 
         when {
             GradleVersion.current() >= GradleVersion.version("6.0") &&
-                    GradleVersion.current() <= GradleVersion.version("6.5.1") -> {
+                GradleVersion.current() <= GradleVersion.version("6.5.1") -> {
                 classFor("org.gradle.internal.scan.eob.DefaultBuildScanEndOfBuildNotifier")?.let {
                     services.get(it)
                 }?.let { endOfBuildNotifier ->

@@ -4,7 +4,7 @@ import io.github.cdsap.talaiot.Talaiot
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class TalaiotElasticSearchPlugin: Plugin<Project> {
+class TalaiotElasticSearchPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         Talaiot(
@@ -14,5 +14,4 @@ class TalaiotElasticSearchPlugin: Plugin<Project> {
             )
         ).setUpPlugin(target)
     }
-
 }
