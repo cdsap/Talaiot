@@ -97,9 +97,9 @@ class TalaiotListener(
      * configuration and the state of the [TalaiotTracker]
      */
     private fun shouldPublish() = (
-            (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
-                    talaiotTracker.isTracking
-            )
+        (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
+            talaiotTracker.isTracking
+        )
 
     override fun projectsLoaded(gradle: Gradle) {
     }
