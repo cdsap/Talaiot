@@ -121,7 +121,7 @@ class DefaultConfigurationSpec : StringSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--stacktrace","--configure-on-demand")
+                .withArguments("assemble", "--info", "--stacktrace", "--configure-on-demand")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()

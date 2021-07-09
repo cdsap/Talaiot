@@ -22,7 +22,6 @@ import org.gradle.internal.InternalBuildListener
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
-import java.lang.IllegalStateException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -96,9 +95,9 @@ class TalaiotListener(
      * configuration and the state of the [TalaiotTracker]
      */
     private fun shouldPublish() = (
-            (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
-                    talaiotTracker.isTracking
-            )
+        (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
+            talaiotTracker.isTracking
+        )
 
     override fun projectsLoaded(gradle: Gradle) {
     }
@@ -106,9 +105,9 @@ class TalaiotListener(
     override fun projectsEvaluated(gradle: Gradle) {
         start = assignBuildStarted(gradle)
         configurationEnd = System.currentTimeMillis()
-            gradle.gradle.taskGraph.addTaskExecutionGraphListener {
-                initQueue(gradle)
-            }
+        gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+            initQueue(gradle)
+        }
     }
 
     private fun initQueue(gradle: Gradle) {
