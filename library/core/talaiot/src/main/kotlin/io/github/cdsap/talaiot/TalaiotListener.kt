@@ -22,6 +22,7 @@ import org.gradle.internal.InternalBuildListener
 import org.gradle.internal.scan.time.BuildScanBuildStartedTime
 import org.gradle.internal.work.WorkerLeaseService
 import org.gradle.invocation.DefaultGradle
+import java.lang.IllegalStateException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -50,6 +51,7 @@ class TalaiotListener(
     private val talaiotTracker = TalaiotTracker()
     private var start: Long = 0L
     private var configurationEnd: Long? = null
+    val logger = LogTrackerImpl(extension.logger)
 
     override fun settingsEvaluated(settings: Settings) {
     }
@@ -60,7 +62,7 @@ class TalaiotListener(
 
         if (shouldPublish()) {
             val end = System.currentTimeMillis()
-            val logger = LogTrackerImpl(extension.logger)
+
             val executor = Executors.newSingleThreadExecutor()
             val heavyExecutor = Executors.newSingleThreadExecutor()
 
@@ -95,9 +97,9 @@ class TalaiotListener(
      * configuration and the state of the [TalaiotTracker]
      */
     private fun shouldPublish() = (
-        (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
-            talaiotTracker.isTracking
-        )
+            (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
+                    talaiotTracker.isTracking
+            )
 
     override fun projectsLoaded(gradle: Gradle) {
     }
@@ -105,21 +107,29 @@ class TalaiotListener(
     override fun projectsEvaluated(gradle: Gradle) {
         start = assignBuildStarted(gradle)
         configurationEnd = System.currentTimeMillis()
-        gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+        if (gradle.startParameter.isConfigureOnDemand) {
             initQueue(gradle)
+        } else {
+            gradle.gradle.taskGraph.addTaskExecutionGraphListener {
+                initQueue(gradle)
+            }
         }
     }
 
     private fun initQueue(gradle: Gradle) {
-        val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
-        val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
-        gradle.startParameter.taskRequests.forEach {
-            it.args.forEach { task ->
-                talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
+        try {
+            val executedTasks = gradle.taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+            val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
+            gradle.startParameter.taskRequests.forEach {
+                it.args.forEach { task ->
+                    talaiotTracker.queue.add(NodeArgument(taskAbbreviationMatcher.findRequestedTask(task), 0, 0))
+                }
             }
-        }
-        if (talaiotTracker.queue.isNotEmpty()) {
-            talaiotTracker.initNodeArgument()
+            if (talaiotTracker.queue.isNotEmpty()) {
+                talaiotTracker.initNodeArgument()
+            }
+        } catch (e: IllegalStateException) {
+            logger.log("Talaiot", "Tracking not available because ${e.message}")
         }
     }
 
