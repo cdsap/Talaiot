@@ -51,7 +51,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot") version "1.5.0"
+  id("io.github.cdsap.talaiot") version "1.5.1"
 }
 ```
 
@@ -64,7 +64,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap:talaiot:1.5.0")
+    classpath("io.github.cdsap:talaiot:1.5.1")
   }
 }
 
@@ -75,7 +75,7 @@ apply(plugin = "io.github.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot" version "1.5.0"
+  id "io.github.cdsap.talaiot" version "1.5.1"
 }
 
 ```
@@ -89,7 +89,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.cdsap:talaiot:1.5.0"
+    classpath "io.github.cdsap:talaiot:1.5.1"
   }
 }
 
@@ -114,7 +114,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot.plugin.base") version "1.5.0"
+  id("io.github.cdsap.talaiot.plugin.base") version "1.5.1"
 }
 ```
 
@@ -127,7 +127,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap.talaiot.plugin:base:1.5.0")
+    classpath("io.github.cdsap.talaiot.plugin:base:1.5.1")
   }
 }
 
@@ -138,7 +138,7 @@ apply(plugin = "io.github.cdsap.talaiot.plugin.base")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot.plugin.base" version "1.5.0"
+  id "io.github.cdsap.talaiot.plugin.base" version "1.5.1"
 }
 
 ```
@@ -152,7 +152,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath ""io.github.cdsap.talaiot.plugin:base:1.5.0""
+    classpath "io.github.cdsap.talaiot.plugin:base:1.5.1"
   }
 }
 
@@ -169,12 +169,12 @@ maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"
 ### Standard Plugin
 
 ````
-classpath("io.github.cdsap:talaiot:1.5.1-SNAPSHOT")
+classpath("io.github.cdsap:talaiot:1.5.2-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("io.github.cdsap.talaiot.plugin:base:1.5.1-SNAPSHOT")
+classpath("io.github.cdsap.talaiot.plugin:base:1.5.2-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
