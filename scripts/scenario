@@ -2,7 +2,7 @@ assemble {
 tasks = ["clean"]
 }
 clean_build {
-versions = ["5.1"]
+versions = ["6.9.1"]
 tasks = ["assemble"]
 gradle-args = ["--parallel"]
 cleanup-tasks = ["clean"]
