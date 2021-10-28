@@ -4,13 +4,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.publisher.Publisher
-import org.gradle.api.invocation.Gradle
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.InputStream
 
-class TimelinePublisher(val gradle: Gradle) : Publisher {
+class TimelinePublisher(private val path: File) : Publisher {
     override fun publish(report: ExecutionReport) {
         val measures = report.tasks
             ?.filter { !it.rootNode }
@@ -35,7 +34,7 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
 
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
-        val html = File(gradle.rootProject.buildDir, "reports/talaiot/timeline/index.html")
+        val html = File(path, "reports/talaiot/timeline/index.html")
             .apply {
                 mkdirs()
                 delete()
@@ -59,7 +58,7 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
         inputStreamFromResources("timeline/chart.css").use {
             it.copyTo(
                 File(
-                    gradle.rootProject.buildDir,
+                    path,
                     "reports/talaiot/timeline/chart.css"
                 ).outputStream()
             )
@@ -67,7 +66,7 @@ class TimelinePublisher(val gradle: Gradle) : Publisher {
         inputStreamFromResources("timeline/chart.js").use {
             it.copyTo(
                 File(
-                    gradle.rootProject.buildDir,
+                    path,
                     "reports/talaiot/timeline/chart.js"
                 ).outputStream()
             )
