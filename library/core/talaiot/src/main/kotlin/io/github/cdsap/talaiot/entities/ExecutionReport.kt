@@ -109,7 +109,8 @@ data class Switches(
     var offline: String? = null,
     var rerunTasks: String? = null,
     var refreshDependencies: String? = null,
-    var buildScan: String? = null
+    var buildScan: String? = null,
+    var configurationCache: String? = null
 )
 
 data class CustomProperties(
