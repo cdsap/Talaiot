@@ -67,7 +67,7 @@ class TalaiotConfigurationProvider(
             }
 
             if (timelinePublisher) {
-                publishers.add(TimelinePublisher(project.gradle.rootProject.buildDir)))
+                publishers.add(TimelinePublisher(project.gradle.rootProject.buildDir))
             }
 
             elasticSearchPublisher?.apply {
