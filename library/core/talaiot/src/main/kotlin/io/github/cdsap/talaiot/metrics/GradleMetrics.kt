@@ -70,7 +70,13 @@ class GradleSwitchDaemonMetric : GradleMetric<String?>(
 )
 
 class GradleSwitchConfigurationCacheMetric : GradleMetric<String?>(
-    provider = { (it.gradle.startParameter as StartParameterInternal).configurationCache.get().toString() },
+    provider = {
+        try {
+            (it.gradle.startParameter as StartParameterInternal).configurationCache.get().toString()
+        } catch (e: NoSuchMethodError){
+            ""
+        }
+    },
     assigner = { report, value -> report.environment.switches.configurationCache = value }
 )
 
