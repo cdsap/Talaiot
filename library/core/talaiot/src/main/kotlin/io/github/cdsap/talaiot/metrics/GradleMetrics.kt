@@ -5,6 +5,7 @@ import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.JvmArgsMetric
 import io.github.cdsap.talaiot.util.TaskAbbreviationMatcher
 import io.github.cdsap.talaiot.util.TaskName
+import org.gradle.api.internal.StartParameterInternal
 import org.gradle.api.internal.project.DefaultProject
 import org.gradle.api.invocation.Gradle
 import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo
@@ -66,6 +67,17 @@ class GradleSwitchDaemonMetric : GradleMetric<String?>(
         daemonScanInfo?.isSingleUse?.toString()
     },
     assigner = { report, value -> report.environment.switches.daemon = value }
+)
+
+class GradleSwitchConfigurationCacheMetric : GradleMetric<String?>(
+    provider = {
+        try {
+            (it.gradle.startParameter as StartParameterInternal).configurationCache.get().toString()
+        } catch (e: NoSuchMethodError) {
+            ""
+        }
+    },
+    assigner = { report, value -> report.environment.switches.configurationCache = value }
 )
 
 class GradleMaxWorkersMetric : GradleMetric<String>(

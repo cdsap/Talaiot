@@ -11,6 +11,7 @@ import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
 import io.github.cdsap.talaiot.metrics.GradleScanLinkMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
+import io.github.cdsap.talaiot.metrics.GradleSwitchConfigurationCacheMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchDaemonMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchDryRunMetric
@@ -81,6 +82,7 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchRefreshDependenciesMetric]
  *  [GradleSwitchRerunTasksMetric]
  *  [GradleSwitchDaemonMetric]
+ *  [GradleSwitchConfigurationCacheMetric]
  *
  * [environmentMetrics] includes:
  *  [OsManufacturerMetric]
@@ -179,6 +181,7 @@ class MetricsConfiguration {
             add(GradleSwitchRefreshDependenciesMetric())
             add(GradleSwitchRerunTasksMetric())
             add(GradleSwitchDaemonMetric())
+            add(GradleSwitchConfigurationCacheMetric())
         }
     }
 
