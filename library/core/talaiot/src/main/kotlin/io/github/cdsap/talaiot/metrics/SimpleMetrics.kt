@@ -9,6 +9,7 @@ import org.gradle.internal.os.OperatingSystem
 import org.gradle.internal.scan.scopeids.BuildScanScopeIds
 import oshi.SystemInfo
 import java.net.InetAddress
+import java.net.UnknownHostException
 import java.nio.charset.Charset
 import java.util.UUID
 
@@ -73,7 +74,16 @@ class OsManufacturerMetric : SimpleMetric<String>(
 )
 
 class HostnameMetric : SimpleMetric<String>(
-    provider = { InetAddress.getLocalHost().hostName },
+    provider = {
+        try {
+            InetAddress.getLocalHost().hostName
+        } catch (e: UnknownHostException) {
+            // Issue https://github.com/cdsap/Talaiot/issues/314
+            // InetAddress.getLocalHost() ignores the /etc/resolv.conf, but only looks at the /etc/hosts file
+            // https://stackoverflow.com/a/1881967
+            ""
+        }
+    },
     assigner = { report, value -> report.environment.hostname = value }
 )
 
