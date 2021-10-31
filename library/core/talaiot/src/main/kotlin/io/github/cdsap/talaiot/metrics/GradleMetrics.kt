@@ -73,7 +73,7 @@ class GradleSwitchConfigurationCacheMetric : GradleMetric<String?>(
     provider = {
         try {
             (it.gradle.startParameter as StartParameterInternal).configurationCache.get().toString()
-        } catch (e: NoSuchMethodError){
+        } catch (e: NoSuchMethodError) {
             ""
         }
     },
