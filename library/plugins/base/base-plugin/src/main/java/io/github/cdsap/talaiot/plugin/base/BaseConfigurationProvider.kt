@@ -19,11 +19,11 @@ class BaseConfigurationProvider(
                 publishers.add(OutputPublisher(this, LogTrackerImpl(talaiotExtension.logger)))
             }
             if (jsonPublisher) {
-                publishers.add(JsonPublisher(project.gradle))
+                publishers.add(JsonPublisher(project.gradle.rootProject.buildDir))
             }
 
             if (timelinePublisher) {
-                publishers.add(TimelinePublisher(project.gradle))
+                publishers.add(TimelinePublisher(project.gradle.rootProject.buildDir))
             }
             publishers.addAll(customPublishers)
         }
