@@ -1,12 +1,8 @@
 package io.github.cdsap.talaiot
 
-import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.utils.TemporaryFolder
-import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
-import org.influxdb.dto.Query
-import org.testcontainers.influxdb.KInfluxDBContainer
 import java.io.File
 
 class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
