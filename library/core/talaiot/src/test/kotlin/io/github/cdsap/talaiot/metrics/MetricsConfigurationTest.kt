@@ -281,5 +281,6 @@ private val gradleSwitchesMetricsTypes = listOf(
     GradleSwitchDryRunMetric::class,
     GradleSwitchRefreshDependenciesMetric::class,
     GradleSwitchRerunTasksMetric::class,
-    GradleSwitchDaemonMetric::class
+    GradleSwitchDaemonMetric::class,
+    GradleSwitchConfigurationCacheMetric::class
 )
