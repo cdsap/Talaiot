@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
+import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.CacheInfo
 import io.github.cdsap.talaiot.entities.ExecutedGradleTaskInfo
@@ -14,6 +15,8 @@ import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.filter.BuildFilterProcessor
+import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.plugin.TalaiotConfigurationProvider
 import io.github.cdsap.talaiot.plugin.TalaiotPluginExtension
@@ -43,15 +46,22 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
 
             setUpMockExtension(project, extension)
+            val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+            val buildFilterProcessor =
+                BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
             val publisher = TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), publishers,
-                ExecutedTasksInfo(emptyMap())
+                getMetricsProvider(),
+                publishers,
+                ExecutedTasksInfo(emptyMap()),
+                taskFilterProcessor,
+                buildFilterProcessor
             )
+
             publisher.publish(
                 mutableListOf(getSingleTask()),
                 0,
@@ -89,8 +99,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), publishers,
+            talaiotPublisherImpl(
+                extension,
+                logger,
+                getMetricsProvider(),
+                publishers,
                 ExecutedTasksInfo(emptyMap())
             ).publish(
                 getTasks(),
@@ -135,8 +148,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val influxDbPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher, influxDbPublisher))
 
-            TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), publishers,
+            talaiotPublisherImpl(
+                extension,
+                logger,
+                getMetricsProvider(),
+                publishers,
                 ExecutedTasksInfo(emptyMap())
             ).publish(
                 getTasks(),
@@ -180,9 +196,11 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val graph: TaskDependencyGraphPublisher = mock()
             whenever(publishers.get()).thenReturn(listOf(graph))
-
-            TalaiotPublisherImpl(
-                extension, logger, getMetricsProvider(), publishers,
+            talaiotPublisherImpl(
+                extension,
+                logger,
+                getMetricsProvider(),
+                publishers,
                 ExecutedTasksInfo(emptyMap())
             ).publish(
                 getTasks(),
@@ -218,7 +236,8 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("successful build is published") {
                 val publisher: Publisher = mock()
-                TalaiotPublisherImpl(
+
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     getMetricsProvider(),
@@ -237,7 +256,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             then("failed build is not published") {
                 val publisher: Publisher = mock()
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     getMetricsProvider(),
@@ -280,7 +299,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
                 val report = ExecutionReport(requestedTasks = ":module:taskB")
 
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     SimpleProvider(report),
@@ -302,7 +321,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 val publisherProvider = TalaiotConfigurationProvider(project)
                 val report = ExecutionReport(requestedTasks = ":module:taskA")
 
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     SimpleProvider(report),
@@ -339,7 +358,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 val publisherProvider = TalaiotConfigurationProvider(project)
                 val report = ExecutionReport(requestedTasks = ":module:taskB")
 
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     SimpleProvider(report),
@@ -365,7 +384,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                         publisher
                     )
                 )
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     SimpleProvider(report),
@@ -402,7 +421,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 val publisher: Publisher = mock()
                 val report = ExecutionReport(requestedTasks = ":module:taskA :module:taskB")
 
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension,
                     logger,
                     SimpleProvider(report),
@@ -424,7 +443,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 val publisherProvider = TalaiotConfigurationProvider(project)
                 val report = ExecutionReport(requestedTasks = ":module:taskB")
 
-                TalaiotPublisherImpl(
+                talaiotPublisherImpl(
                     extension, logger, SimpleProvider(report), publisherProvider,
                     ExecutedTasksInfo(emptyMap())
                 ).publish(
@@ -454,7 +473,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-            val publisher = TalaiotPublisherImpl(
+            val publisher = talaiotPublisherImpl(
                 extension, logger, getMetricsProvider(), publishers,
                 ExecutedTasksInfo(
                     mapOf(
@@ -536,6 +555,24 @@ class TalaiotPublisherImplTest : BehaviorSpec({
         }
     }
 })
+
+private fun talaiotPublisherImpl(
+    extension: TalaiotPluginExtension,
+    logger: LogTrackerImpl,
+    metricsProvider: Provider<ExecutionReport>,
+    publishers: PublisherConfigurationProvider,
+    executedTasksInfo: ExecutedTasksInfo
+): TalaiotPublisherImpl {
+    val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+    val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
+    return TalaiotPublisherImpl(
+        metricsProvider,
+        publishers,
+        executedTasksInfo,
+        taskFilterProcessor,
+        buildFilterProcessor
+    )
+}
 
 private fun setUpPublisherProvider(publisher: Publisher): PublisherConfigurationProvider {
     val publisherProvider: PublisherConfigurationProvider = mock()
