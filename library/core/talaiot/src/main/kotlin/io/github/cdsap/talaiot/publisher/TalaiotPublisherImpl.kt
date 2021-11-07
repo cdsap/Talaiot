@@ -1,14 +1,11 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.TalaiotExtension
-import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.entities.CacheInfo
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
-import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.provider.Provider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 
@@ -22,14 +19,12 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    extension: TalaiotExtension,
-    logger: LogTracker,
     private val metricsProvider: Provider<ExecutionReport>,
     private val publisherProvider: PublisherConfigurationProvider,
-    private val executedTasksInfo: ExecutedTasksInfo
+    private val executedTasksInfo: ExecutedTasksInfo,
+    private val taskFilterProcessor: TaskFilterProcessor,
+    private val buildFilterProcessor: BuildFilterProcessor
 ) : TalaiotPublisher {
-    private val taskFilterProcessor: TaskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
-    private val buildFilterProcessor: BuildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
