@@ -1,7 +1,10 @@
 package io.github.cdsap.talaiot
 
+import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.NodeArgument
+import io.github.cdsap.talaiot.filter.BuildFilterProcessor
+import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.MetricsProvider
 import io.github.cdsap.talaiot.provider.Provider
@@ -65,14 +68,16 @@ class TalaiotListener(
 
             val executor = Executors.newSingleThreadExecutor()
             val heavyExecutor = Executors.newSingleThreadExecutor()
+            val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
+            val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
             val executedTasksInfo = tasksInfoProvider.get()
             TalaiotPublisherImpl(
-                extension,
-                logger,
                 MetricsProvider(project, result, executedTasksInfo),
                 publisherConfigurationProvider,
-                executedTasksInfo
+                executedTasksInfo,
+                taskFilterProcessor,
+                buildFilterProcessor
             ).publish(
                 taskLengthList = talaiotTracker.taskLengthList,
                 success = result.success(),
