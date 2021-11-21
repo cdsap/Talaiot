@@ -1,12 +1,14 @@
 package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.configuration.BuildFilterConfiguration
+import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
+import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.NodeArgument
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
-import io.github.cdsap.talaiot.provider.MetricsProvider
+import io.github.cdsap.talaiot.provider.MetricsPostBuildProvider
 import io.github.cdsap.talaiot.provider.Provider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
@@ -48,7 +50,9 @@ class TalaiotListener(
      */
     private val extension: TalaiotExtension,
     private val tasksInfoProvider: Provider<ExecutedTasksInfo>,
-    private val publisherConfigurationProvider: PublisherConfigurationProvider
+    private val publisherConfigurationProvider: PublisherConfigurationProvider,
+    private val metricsConfiguration: MetricsConfiguration,
+    private val executionReport: ExecutionReport
 ) : InternalBuildListener, TaskExecutionListener {
 
     private val talaiotTracker = TalaiotTracker()
@@ -73,7 +77,7 @@ class TalaiotListener(
 
             val executedTasksInfo = tasksInfoProvider.get()
             TalaiotPublisherImpl(
-                MetricsProvider(project, result, executedTasksInfo),
+                MetricsPostBuildProvider(project, result, executedTasksInfo, metricsConfiguration, executionReport),
                 publisherConfigurationProvider,
                 executedTasksInfo,
                 taskFilterProcessor,

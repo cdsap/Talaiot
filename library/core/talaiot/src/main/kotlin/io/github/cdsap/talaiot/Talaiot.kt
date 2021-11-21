@@ -1,5 +1,7 @@
 package io.github.cdsap.talaiot
 
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.provider.MetricsPreBuildProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import org.gradle.api.Project
 
@@ -16,7 +18,7 @@ import org.gradle.api.Project
  *   id("talaiot")
  * }
  */
-class Talaiot <T : TalaiotExtension>(
+class Talaiot<T : TalaiotExtension>(
     private val classExtension: Class<T>,
     private val publisherConfigurationProvider: PublisherConfigurationProvider
 ) {
@@ -33,14 +35,22 @@ class Talaiot <T : TalaiotExtension>(
 
     fun setUpPlugin(target: Project) {
         val extension = target.extensions.create("talaiot", classExtension, target)
-        val buildOperationListener = BuildCacheOperationListener()
-        val listener = TalaiotListener(
-            target,
-            extension,
-            buildOperationListener,
-            publisherConfigurationProvider
-        )
-        target.gradle.addBuildListener(listener)
-        target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
+        target.gradle.taskGraph.whenReady {
+            val buildOperationListener = BuildCacheOperationListener()
+            val executionReport = ExecutionReport()
+            val executionReportWithMetricsPreBuildPopulated =
+                MetricsPreBuildProvider(target, extension.metrics, executionReport).get()
+
+            val listener = TalaiotListener(
+                target,
+                extension,
+                buildOperationListener,
+                publisherConfigurationProvider,
+                extension.metrics,
+                executionReportWithMetricsPreBuildPopulated
+            )
+            target.gradle.addBuildListener(listener)
+            target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
+        }
     }
 }
