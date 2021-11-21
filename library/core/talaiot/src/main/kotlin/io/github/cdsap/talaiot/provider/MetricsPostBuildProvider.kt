@@ -1,21 +1,15 @@
 package io.github.cdsap.talaiot.provider
-import io.github.cdsap.talaiot.TalaiotExtension
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.base.BuildResultMetric
 import io.github.cdsap.talaiot.metrics.base.ExecutedTasksMetric
 import org.gradle.BuildResult
-import org.gradle.api.Project
 
 /**
  * Provider for all metrics defined in the main [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
  */
 class MetricsPostBuildProvider(
-    /**
-     * Gradle project required to access [TalaiotExtension]
-     */
-    private val project: Project,
     private val buildResult: BuildResult,
     /**
      * Information about all tasks that were executed
@@ -32,7 +26,6 @@ class MetricsPostBuildProvider(
      */
     override fun get(): ExecutionReport {
 
-        val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
         val metrics = metricsConfiguration.build()
 
         /**
