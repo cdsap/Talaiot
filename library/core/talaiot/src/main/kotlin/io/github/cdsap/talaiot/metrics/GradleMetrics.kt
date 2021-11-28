@@ -130,6 +130,6 @@ private fun Gradle.findRequestedTasks(): List<String> {
             taskAbbreviationHandler.findRequestedTask(it)
         }
     } catch (e: Exception) {
-       return  emptyList<String>()
+        return emptyList<String>()
     }
 }

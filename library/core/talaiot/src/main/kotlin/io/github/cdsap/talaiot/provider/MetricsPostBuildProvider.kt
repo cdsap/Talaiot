@@ -10,7 +10,7 @@ import org.gradle.BuildResult
 class MetricsPostBuildProvider(
     private val buildResult: BuildResult,
     private val executedTasksInfo: ExecutedTasksInfo,
-    private val metrics: List<Metric<*,*>>,
+    private val metrics: List<Metric<*, *>>,
     private val executionReport: ExecutionReport
 ) : Provider<ExecutionReport> {
 
