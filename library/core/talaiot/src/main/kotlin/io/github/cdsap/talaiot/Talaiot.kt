@@ -35,22 +35,21 @@ class Talaiot<T : TalaiotExtension>(
 
     fun setUpPlugin(target: Project) {
         val extension = target.extensions.create("talaiot", classExtension, target)
-        target.gradle.taskGraph.whenReady {
-            val buildOperationListener = BuildCacheOperationListener()
-            val executionReport = ExecutionReport()
-            val executionReportWithMetricsPreBuildPopulated =
-                MetricsPreBuildProvider(target, extension.metrics, executionReport).get()
+        val buildOperationListener = BuildCacheOperationListener()
+        val executionReport = ExecutionReport()
+        val metrics = extension.metrics.build()
+        val executionReportWithMetricsPreBuildPopulated =
+            MetricsPreBuildProvider(target, metrics, executionReport).get()
 
-            val listener = TalaiotListener(
-                target,
-                extension,
-                buildOperationListener,
-                publisherConfigurationProvider,
-                extension.metrics,
-                executionReportWithMetricsPreBuildPopulated
-            )
-            target.gradle.addBuildListener(listener)
-            target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
-        }
+        val listener = TalaiotListener(
+            target,
+            extension,
+            buildOperationListener,
+            publisherConfigurationProvider,
+            metrics,
+            executionReportWithMetricsPreBuildPopulated
+        )
+        target.gradle.addBuildListener(listener)
+        target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
     }
 }
