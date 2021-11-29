@@ -15,7 +15,6 @@ class MetricsPreBuildProvider(
     override fun get(): ExecutionReport {
         metrics.forEach { metric ->
             when (metric) {
-                is GradleMetric -> metric.get(project, executionReport)
                 is SimpleMetric -> metric.get(Unit, executionReport)
             }
         }

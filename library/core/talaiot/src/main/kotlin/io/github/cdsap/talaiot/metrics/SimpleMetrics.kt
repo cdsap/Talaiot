@@ -16,8 +16,8 @@ import java.util.UUID
 open class SimpleMetric<T>(provider: (Unit) -> T, assigner: (ExecutionReport, T) -> Unit) :
     Metric<T, Unit>(provider, assigner)
 
-class UserMetric : SimpleMetric<String>(
-    provider = { System.getProperty("user.name") },
+class UserMetric : GradleMetric<String>(
+    provider = { project: Project -> project.providers.systemProperty("user.name").forUseAtConfigurationTime().get() },
     assigner = { report, value -> report.environment.username = value }
 )
 
@@ -63,8 +63,10 @@ class JavaVmNameMetric : SimpleMetric<String>(
     assigner = { report, value -> report.environment.javaVmName = value }
 )
 
-class LocaleMetric : SimpleMetric<String>(
-    provider = { System.getProperty("user.language") },
+class LocaleMetric : GradleMetric<String>(
+    provider = { project: Project ->
+        project.providers.systemProperty("user.language").forUseAtConfigurationTime().get()
+    },
     assigner = { report, value -> report.environment.locale = value }
 )
 

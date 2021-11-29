@@ -77,7 +77,7 @@ class TalaiotListener(
 
             val executedTasksInfo = tasksInfoProvider.get()
             TalaiotPublisherImpl(
-                MetricsPostBuildProvider(result, executedTasksInfo, metrics, executionReport),
+                MetricsPostBuildProvider(result, executedTasksInfo, metrics, executionReport,project),
                 publisherConfigurationProvider,
                 executedTasksInfo,
                 taskFilterProcessor,
