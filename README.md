@@ -38,11 +38,10 @@ https://en.wikipedia.org/wiki/Talaiot
 4. [Samples](#samples)
 5. [Example: Analyzing Data provided by Talaiot](#example)
 6. [Other Existing Libraries](#other_libraries)
-7. [Docs](#docs)
-8. [Articles](#articles)
-9. [Contributing](#contributing)
-10. [Contributors](#contributors)
-11. [Thanks](#thanks)
+7. [Articles](#articles)
+8. [Contributing](#contributing)
+9. [Contributors](#contributors)
+10. [Thanks](#thanks)
 
 ## Setup <a name="setup"></a>
 
@@ -590,10 +589,6 @@ is great and you have the support from Gradle :)
 * [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig(@passy).
 
 * [Kuronometer](https://github.com/pedrovgs/Kuronometer) Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)
-
-## Docs  <a name="docs"></a>
-
-[Docs](https://cdsap.github.io/Talaiot/)
 
 ## Articles  <a name="articles"></a>
 
