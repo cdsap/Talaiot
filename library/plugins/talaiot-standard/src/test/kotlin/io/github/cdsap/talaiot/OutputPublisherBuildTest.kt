@@ -33,7 +33,6 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 .build()
             then("logs are shown in the output with the shrugged") {
                 assert(result.output.contains("OutputPublisher"))
-                assert(result.output.contains("¯\\_(ツ)_/¯"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
             }
             testProjectDir.delete()

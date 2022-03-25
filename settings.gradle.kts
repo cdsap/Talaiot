@@ -1,14 +1,11 @@
 pluginManagement {
     repositories {
         mavenCentral()
-        jcenter()
-        maven(url = "https://dl.bintray.com/kotlin/ktor")
         gradlePluginPortal()
         maven(url = "https://jitpack.io")
 
     }
 }
-include(":library:docs")
 include(":library:core:talaiot")
 include(":library:core:talaiot-request")
 include(":library:core:talaiot-logger")
