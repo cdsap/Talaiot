@@ -5,7 +5,7 @@ executor: machine
 jobs:
   build:
     machine:
-      image: circleci/classic:latest
+      image: ubuntu-2004:202201-02
 
     working_directory: ~/repo
 
