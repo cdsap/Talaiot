@@ -14,6 +14,7 @@ class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(
             listOf(
+                "7.4.2",
                 "7.2",
                 "7.1.1",
                 "7.0.2",
