@@ -28,7 +28,7 @@ class HybridPublisherTest : BehaviorSpec() {
     private val database = "talaiot"
     private val container = KInfluxDBContainer().withAuthEnabled(false)
     private val containerRethink = KRethinkDbContainer()
-    private val containerPushGateway =  KPushGatewayContainer()
+    private val containerPushGateway = KPushGatewayContainer()
 
     private val r = RethinkDB.r
 
@@ -62,7 +62,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url =  "http://" +containerPushGateway.httpHostAddress
+                    url = "http://" + containerPushGateway.httpHostAddress
                     taskJobName = "tracking"
                 }
 
@@ -112,7 +112,7 @@ class HybridPublisherTest : BehaviorSpec() {
             }
             `when`("Reporting task publisher is PushGateway and reporting build publisher is incorrect") {
                 val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url =  "http://" +containerPushGateway.httpHostAddress
+                    url = "http://" + containerPushGateway.httpHostAddress
                     taskJobName = "tracking"
                 }
 
