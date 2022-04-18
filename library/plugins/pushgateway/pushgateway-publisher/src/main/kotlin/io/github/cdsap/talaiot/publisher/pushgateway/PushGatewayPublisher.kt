@@ -3,7 +3,8 @@ package io.github.cdsap.talaiot.publisher.pushgateway
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.request.Request
+import io.prometheus.client.CollectorRegistry
+import io.prometheus.client.exporter.PushGateway
 import java.util.concurrent.Executor
 
 /**
@@ -19,17 +20,10 @@ class PushGatewayPublisher(
      */
     private val logTracker: LogTracker,
     /**
-     * Interface to send the measurements to an external service
-     */
-    private val requestPublisher: Request,
-    /**
      * Executor to schedule a task in Background
      */
-    private val executor: Executor,
-    /**
-     * Formatter to format build and task data formatted as Pushgateway requirement
-     */
-    private val formatter: PushGatewayFormatter
+    private val executor: Executor
+
 ) : Publisher {
     private val TAG = "PushGatewayPublisher"
 
@@ -48,18 +42,11 @@ class PushGatewayPublisher(
             )
         } else {
             val url = pushGatewayPublisherConfiguration.url
-            var contentTaskMetrics = ""
-            var contentBuildMetrics = ""
             val urlTaskMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.taskJobName}"
             val urlBuildMetrics = "$url/metrics/job/${pushGatewayPublisherConfiguration.buildJobName}"
+            val urlNoProtocol = url.replace("https://", "").replace("http://", "")
+            val pushgatewayLabelProvider = PushGatewayLabelProvider(report)
 
-            if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
-                contentTaskMetrics += formatter.getTaskMetricsContent(report)
-            }
-
-            if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
-                contentBuildMetrics += formatter.getBuildMetricsContent(report, pushGatewayPublisherConfiguration.buildJobName)
-            }
             executor.execute {
 
                 logTracker.log(TAG, "================")
@@ -67,17 +54,26 @@ class PushGatewayPublisher(
                 logTracker.log(TAG, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
                 logTracker.log(TAG, "================")
 
-                if (contentTaskMetrics.isNotBlank()) {
+                if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
                     logTracker.log(TAG, "Inserting PushGateway Task metrics")
-                    logTracker.log(TAG, "url: $urlTaskMetrics")
-                    logTracker.log(TAG, "content: $contentTaskMetrics")
-                    requestPublisher.send(urlTaskMetrics, contentTaskMetrics + "\n")
-                }
-                if (contentBuildMetrics.isNotBlank()) {
-                    logTracker.log(TAG, "Inserting PushGateway Build metrics")
                     logTracker.log(TAG, "url: $urlBuildMetrics")
-                    logTracker.log(TAG, "content: $contentBuildMetrics")
-                    requestPublisher.send(urlBuildMetrics, contentBuildMetrics + "\n")
+
+                    val registry = CollectorRegistry()
+                    PushGatewayTaskCollector(report, registry, pushgatewayLabelProvider)
+                        .collect()
+                    PushGateway(urlNoProtocol)
+                        .pushAdd(registry, pushGatewayPublisherConfiguration.taskJobName)
+                }
+
+                if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
+                    logTracker.log(TAG, "Inserting PushGateway Build metrics")
+                    logTracker.log(TAG, "url: $urlTaskMetrics")
+
+                    val registry = CollectorRegistry()
+                    PushGatewayBuildCollector(report, registry, pushgatewayLabelProvider)
+                        .collect()
+                    PushGateway(urlNoProtocol)
+                        .pushAdd(registry, pushGatewayPublisherConfiguration.buildJobName)
                 }
             }
         }
