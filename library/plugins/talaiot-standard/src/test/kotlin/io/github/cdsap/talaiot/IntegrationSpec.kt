@@ -17,7 +17,6 @@ class DefaultConfigurationSpec : StringSpec({
                 "7.4.2",
                 "7.2",
                 "7.1.1",
-                "7.0.2",
                 "6.8.1",
                 "6.7.1",
                 "6.5.1",
