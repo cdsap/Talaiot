@@ -16,8 +16,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build
+          name: style
           command: ./gradlew ktlintCheck assemble collectUnitTest jacocoTestReport --stacktrace --info
+      - run:
+          name: assemble
+          command: ./gradlew assemble
+      - run:
+          name: test
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
       - run:
           name: build sample
           command: |
