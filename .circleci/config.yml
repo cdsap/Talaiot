@@ -10,14 +10,14 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx5G
+      JVM_OPTS: -Xmx8G
       TERM: dumb
 
     steps:
       - checkout
       - run:
           name: style
-          command: ./gradlew ktlintCheck assemble collectUnitTest jacocoTestReport --stacktrace --info
+          command: ./gradlew ktlintCheck
       - run:
           name: assemble
           command: ./gradlew assemble
