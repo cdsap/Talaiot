@@ -10,9 +10,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx12G
-      JAVA_OPTS: -Xmx15G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx12G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -Djava.util.concurrent.ForkJoinPool.common.parallelism=2"  -Dorg.gradle.workers.max=8 -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false -Dorg.gradle.logging.level="quiet" -Dorg.gradle.console="plain"'
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx12G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport"  -Dorg.gradle.workers.max=8 -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false -Dorg.gradle.logging.level="quiet" -Dorg.gradle.console="plain"'
       TERM: dumb
 
     steps:
