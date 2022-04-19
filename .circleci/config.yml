@@ -5,19 +5,25 @@ executor: machine
 jobs:
   build:
     machine:
-      image: ubuntu-2004:202201-02
+      image: ubuntu-2004:edge
 
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx5G
+      JVM_OPTS: -Xmx12G
       TERM: dumb
 
     steps:
       - checkout
       - run:
-          name: build
-          command: ./gradlew ktlintCheck assemble collectUnitTest jacocoTestReport --stacktrace --info
+          name: style
+          command: ./gradlew ktlintCheck
+      - run:
+          name: assemble
+          command: ./gradlew assemble
+      - run:
+          name: test
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
       - run:
           name: build sample
           command: |
