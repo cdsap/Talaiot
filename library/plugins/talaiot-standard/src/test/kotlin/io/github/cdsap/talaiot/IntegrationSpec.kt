@@ -43,7 +43,7 @@ class DefaultConfigurationSpec : StringSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--stacktrace")
+                .withArguments("assemble")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()

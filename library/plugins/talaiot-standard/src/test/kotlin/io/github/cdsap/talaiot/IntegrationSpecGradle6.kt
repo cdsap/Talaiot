@@ -17,7 +17,9 @@ class DefaultConfigurationSpecGradle6 : StringSpec({
                 "6.8.1",
                 "6.7.1",
                 "6.5.1",
-                "6.4.1"
+                "6.4.1",
+                "6.2.1",
+                "6.0.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
@@ -44,7 +46,7 @@ class DefaultConfigurationSpecGradle6 : StringSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--stacktrace")
+                .withArguments("assemble")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
