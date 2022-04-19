@@ -12,5 +12,5 @@ dependencies {
     implementation(project(":library:core:talaiot-logger"))
     implementation("org.testcontainers:testcontainers:1.11.3")
     api("org.testcontainers:influxdb:1.15.2")
-    api("org.testcontainers:elasticsearch:1.12.0")
+    api("org.testcontainers:elasticsearch:1.17.1")
 }
