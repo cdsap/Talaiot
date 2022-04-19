@@ -10,15 +10,15 @@ import io.kotlintest.specs.StringSpec
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
-class DefaultConfigurationSpec : StringSpec({
+class DefaultConfigurationSpecGradle6 : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "7.4.2",
-                "7.2",
-                "7.1.1",
-                "7.1",
-                "7.0.2"
+                "6.8.1",
+                "6.7.1",
+                "6.5.1",
+                "6.4.1",
+                "6.2.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
