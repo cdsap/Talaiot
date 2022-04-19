@@ -36,7 +36,7 @@ class DefaultConfigurationSpec : StringSpec({
                            termsOfServiceUrl = "https://gradle.com/terms-of-service"
                            termsOfServiceAgree = "yes"
                         }
-                      }
+                  }
                       
 
                 talaiot {
@@ -51,10 +51,12 @@ class DefaultConfigurationSpec : StringSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble","--scan")
+                .withArguments("assemble", "--scan")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
+            println(version)
+            println(result.output)
 
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
