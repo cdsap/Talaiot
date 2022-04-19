@@ -30,6 +30,14 @@ class DefaultConfigurationSpec : StringSpec({
                     id 'java'
                     id 'io.github.cdsap.talaiot'
                 }
+                
+                  gradleEnterprise {
+                        buildScan {
+                           termsOfServiceUrl = "https://gradle.com/terms-of-service"
+                           termsOfServiceAgree = "yes"
+                        }
+                      }
+                      
 
                 talaiot {
                     logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
@@ -43,7 +51,7 @@ class DefaultConfigurationSpec : StringSpec({
             )
             val result = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble")
+                .withArguments("assemble","--scan")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
