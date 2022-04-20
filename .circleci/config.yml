@@ -10,7 +10,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      JVM_OPTS: -Xmx12G
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false'
       TERM: dumb
 
     steps:
