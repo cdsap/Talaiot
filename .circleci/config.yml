@@ -10,7 +10,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx12G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport"  -Dorg.gradle.workers.max=8 -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false -Dorg.gradle.logging.level="quiet" -Dorg.gradle.console="plain"'
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false -Dorg.gradle.logging.level="quiet" -Dorg.gradle.console="plain"'
       TERM: dumb
 
     steps:
@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew collectUnitTest jacocoTestReport --no-parallel --stacktrace --info
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
       - run:
           name: build sample
           command: |
