@@ -69,7 +69,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val hitsContentBuild = (hitsBuild.get("hits").asJsonArray)[0].asJsonObject
                     val elementsBuild = hitsContentBuild.get("_source").asJsonObject
 
-                    assert(hitsBuild.get("total").asInt == 1)
+                    assert(hitsBuild.get("total").asJsonObject.get("value").asInt == 1)
                     assert(hitsContentBuild.get("_index").asString == "build")
                     assert(elementsBuild.get("cpuCount").asString == "12")
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
@@ -88,7 +88,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val hitsContentTask = (hitsTask.get("hits").asJsonArray)[0].asJsonObject
                     val elementsTask = hitsContentTask.get("_source").asJsonObject
 
-                    assert(hitsTask.get("total").asInt == 1)
+                    assert(hitsTask.get("total").asJsonObject.get("value").asInt == 1)
                     assert(hitsContentTask.get("_index").asString == "task")
                     assert(elementsTask.get("task").asString == ":assemble")
                     assert(elementsTask.get("state").asString == "EXECUTED")
@@ -132,7 +132,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val hitsContentBuild = (hitsBuild.get("hits").asJsonArray)[0].asJsonObject
                     val elementsBuild = hitsContentBuild.get("_source").asJsonObject
 
-                    assert(hitsBuild.get("total").asInt == 1)
+                    assert(hitsBuild.get("total").asJsonObject.get("value").asInt == 1)
                     assert(hitsContentBuild.get("_index").asString == "build2")
                     assert(elementsBuild.get("cpuCount").asString == "12")
                     assert(elementsBuild.get("requestedTasks").asString == "assemble")
@@ -195,7 +195,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     val hitsContentTask = (hitsTask.get("hits").asJsonArray)[0].asJsonObject
                     val elementsTask = hitsContentTask.get("_source").asJsonObject
 
-                    assert(hitsTask.get("total").asInt == 1)
+                    assert(hitsTask.get("total").asJsonObject.get("value").asInt == 1)
                     assert(hitsContentTask.get("_index").asString == "task3")
                     assert(elementsTask.get("task").asString == ":assemble")
                     assert(elementsTask.get("state").asString == "EXECUTED")
