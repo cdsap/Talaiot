@@ -3,9 +3,7 @@ package io.github.cdsap.talaiot.plugin.pushgateway
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
-import io.github.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors
 
@@ -23,9 +21,7 @@ class PushgatewayConfigurationProvider(
                     PushGatewayPublisher(
                         publisherConfig,
                         logger,
-                        SimpleRequest(logger),
-                        Executors.newSingleThreadExecutor(),
-                        PushGatewayFormatter()
+                        Executors.newSingleThreadExecutor()
                     )
                 )
             }

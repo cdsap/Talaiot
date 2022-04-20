@@ -19,6 +19,7 @@ import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
+import org.testcontainers.pushgateway.KPushGatewayContainer
 import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
@@ -27,18 +28,22 @@ class HybridPublisherTest : BehaviorSpec() {
     private val database = "talaiot"
     private val container = KInfluxDBContainer().withAuthEnabled(false)
     private val containerRethink = KRethinkDbContainer()
+    private val containerPushGateway = KPushGatewayContainer()
+
     private val r = RethinkDB.r
 
     override fun beforeSpec(description: Description, spec: Spec) {
         super.beforeSpec(description, spec)
         container.start()
         containerRethink.start()
+        containerPushGateway.start()
     }
 
     override fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
         container.stop()
         containerRethink.stop()
+        containerPushGateway.stop()
     }
 
     val influxDB by lazy {
@@ -57,7 +62,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url = "http://localhost:9093"
+                    url = "http://" + containerPushGateway.httpHostAddress
                     taskJobName = "tracking"
                 }
 
@@ -107,7 +112,7 @@ class HybridPublisherTest : BehaviorSpec() {
             }
             `when`("Reporting task publisher is PushGateway and reporting build publisher is incorrect") {
                 val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url = "http://localhost:9093"
+                    url = "http://" + containerPushGateway.httpHostAddress
                     taskJobName = "tracking"
                 }
 

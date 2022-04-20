@@ -10,7 +10,7 @@ talaiotLib {
 
 dependencies {
     implementation(project(":library:core:talaiot"))
-    implementation(project(":library:core:talaiot-request"))
+    implementation("io.prometheus:simpleclient_pushgateway:0.15.0")
     testImplementation(project(":library:core:talaiot-test-utils"))
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
 }

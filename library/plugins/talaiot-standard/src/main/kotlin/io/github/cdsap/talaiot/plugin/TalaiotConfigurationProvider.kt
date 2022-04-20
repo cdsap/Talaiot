@@ -10,11 +10,9 @@ import io.github.cdsap.talaiot.publisher.graph.GraphPublisherFactoryImpl
 import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphPublisher
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
-import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.github.cdsap.talaiot.publisher.timeline.TimelinePublisher
-import io.github.cdsap.talaiot.request.SimpleRequest
 import org.gradle.api.Project
 import java.util.concurrent.Executors
 
@@ -56,9 +54,7 @@ class TalaiotConfigurationProvider(
                     PushGatewayPublisher(
                         this,
                         logger,
-                        SimpleRequest(logger),
-                        executor,
-                        PushGatewayFormatter()
+                        executor
                     )
                 )
             }
