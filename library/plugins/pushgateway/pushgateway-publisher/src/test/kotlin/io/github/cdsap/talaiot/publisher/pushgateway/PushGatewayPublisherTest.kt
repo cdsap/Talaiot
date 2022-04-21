@@ -7,7 +7,6 @@ import io.github.cdsap.talaiot.entities.Switches
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.github.cdsap.talaiot.request.SimpleRequest
 import io.github.cdsap.talaiot.utils.TestExecutor
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
@@ -43,14 +42,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, TestExecutor()
                 )
 
                 pushGateway.publish(
                     executionReportData()
                 )
 
-                then("Pushgateway contains metrics for bulid and tasks") {
+                then("Pushgateway contains metrics for build and tasks") {
 
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
@@ -65,19 +64,20 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     }
                     val content = a.body()?.string()
                     assert(
-                        content?.contains(":app:assemble{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
+                        content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 100")
                             ?: false
                     )
                     assert(
-                        content?.contains(":clean{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
+                        content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 1")
                             ?: false
                     )
                     assert(
-                        content?.contains("build{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build\",maxWorkers=\"4\",metric3=\"value3\",metric4=\"value4\",requestedTasks=\"assemble\",success=\"false\"} 100")
+                        content?.contains("gradle_build_total_time{instance=\"\",job=\"build\",metric3=\"value3\",metric4=\"value4\",requestedTasks=\"assemble\"} 100")
                             ?: false
                     )
                 }
             }
+
             `when`("There is configuration with metrics only to send tasks ") {
                 val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
                     url = "http://" + container.httpHostAddress
@@ -87,7 +87,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, TestExecutor()
                 )
 
                 pushGateway.publish(
@@ -110,15 +110,15 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     val content = a.body()?.string()
 
                     assert(
-                        content?.contains(":app:assemble{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task2\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":app:assemble\",value=\"100\",workerId=\"\"} 100")
+                        content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 1")
                             ?: false
                     )
                     assert(
-                        content?.contains(":clean{cacheEnabled=\"false\",critical=\"false\",instance=\"\",job=\"task2\",localCacheHit=\"false\",localCacheMiss=\"false\",metric1=\"value1\",metric2=\"value2\",module=\"app\",remoteCacheHit=\"false\",remoteCacheMiss=\"false\",rootNode=\"false\",state=\"EXECUTED\",task=\":clean\",value=\"1\",workerId=\"\"} 1")
+                        content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 100")
                             ?: false
                     )
 
-                    assert(!(content?.contains("build2{") ?: true))
+                    assert(!(content?.contains("job=\"build2\",") ?: true))
                 }
             }
             `when`("There is configuration with metrics only to send build ") {
@@ -130,7 +130,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, TestExecutor()
                 )
 
                 pushGateway.publish(
@@ -153,10 +153,21 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     val content = a.body()?.string()
 
                     assert(
-                        content?.contains("build3")
+                        !(
+                            content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 100")
+                                ?: true
+                            )
+                    )
+                    assert(
+                        !(
+                            content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 1")
+                                ?: true
+                            )
+                    )
+                    assert(
+                        content?.contains("gradle_build_total_time{instance=\"\",job=\"build3\",metric3=\"value3\",metric4=\"value4\",requestedTasks=\"assemble\"} 100")
                             ?: false
                     )
-                    assert(!(content?.contains("task3") ?: true))
                 }
             }
 
@@ -168,7 +179,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, SimpleRequest(logger), TestExecutor(), PushGatewayFormatter()
+                    pushGatewayConfiguration, logger, TestExecutor()
                 )
 
                 pushGateway.publish(
@@ -203,6 +214,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
     private fun executionReportData(): ExecutionReport {
         return ExecutionReport(
             durationMs = "100",
+            configurationDurationMs = "10",
             requestedTasks = "assemble",
             environment = Environment(
                 cpuCount = "12", maxWorkers = "4"

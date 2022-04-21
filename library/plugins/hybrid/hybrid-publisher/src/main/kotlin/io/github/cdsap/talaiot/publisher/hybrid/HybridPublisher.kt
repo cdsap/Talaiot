@@ -8,12 +8,10 @@ import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayFormatter
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import io.github.cdsap.talaiot.request.SimpleRequest
 import java.util.concurrent.Executor
 
 class HybridPublisher(
@@ -68,9 +66,7 @@ class HybridPublisher(
                 PushGatewayPublisher(
                     publisherConfiguration,
                     logTracker,
-                    SimpleRequest(logTracker),
-                    executor,
-                    PushGatewayFormatter()
+                    executor
                 )
             }
 

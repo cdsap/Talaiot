@@ -64,13 +64,17 @@ class PushgatewayPluginTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
-                    println(content)
+
                     assert(
-                        content?.contains(":assemble{")
+                        content?.contains("gradle_build_total_time{")
                             ?: false
                     )
                     assert(
-                        content?.contains("build")
+                        content?.contains("requestedTasks=\"assemble\"")
+                            ?: false
+                    )
+                    assert(
+                        content?.contains("gradle_task_assemble{")
                             ?: false
                     )
                 }
