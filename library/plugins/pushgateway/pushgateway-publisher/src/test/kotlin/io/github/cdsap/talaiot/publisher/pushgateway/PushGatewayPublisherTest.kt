@@ -208,6 +208,50 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     content?.contains("build4{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build4\",maxWorkers=\"4\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\",success=\"false\",switch_configurationOnDemand=\"true\",switch_dryRun=\"true\"} 100")
                 }
             }
+            `when`("Configuration enables taskNameAsLabel") {
+                val pushGatewayConfiguration = PushGatewayPublisherConfiguration().apply {
+                    url = "http://" + container.httpHostAddress
+                    publishBuildMetrics = false
+                    buildJobName = "build5"
+                    taskJobName = "task5"
+                    taskNameAsLabel = true
+                }
+
+                val pushGateway = PushGatewayPublisher(
+                    pushGatewayConfiguration, logger, TestExecutor()
+                )
+
+                pushGateway.publish(
+                    executionReportData()
+                )
+
+                then("Pushgateway contains metrics with task as labels") {
+
+                    val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
+
+                    val a = httpGet {
+                        url(urlSpec)
+                        if (urlSpec.query != null) {
+                            val query = urlSpec.query.split("=")
+                            param {
+                                query[0] to query[1]
+                            }
+                        }
+                    }
+                    val content = a.body()?.string()
+
+                    assert(
+                        content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 1")
+                            ?: false
+                    )
+                    assert(
+                        content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 100")
+                            ?: false
+                    )
+
+                    assert(!(content?.contains("job=\"build2\",") ?: true))
+                }
+            }
         }
     }
 

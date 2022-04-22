@@ -34,11 +34,11 @@ class PushGatewayPublisher(
         ) {
             println(
                 "PushGatewayPublisher not executed. Configuration requires url and taskJobName: \n" +
-                    "pushGatewayPublisher {\n" +
-                    "            url = \"http://localhost:9093\"\n" +
-                    "            taskJobName = \"tracking\"\n" +
-                    "}\n" +
-                    "Please update your configuration"
+                        "pushGatewayPublisher {\n" +
+                        "            url = \"http://localhost:9093\"\n" +
+                        "            taskJobName = \"tracking\"\n" +
+                        "}\n" +
+                        "Please update your configuration"
             )
         } else {
             val url = pushGatewayPublisherConfiguration.url
@@ -59,7 +59,12 @@ class PushGatewayPublisher(
                     logTracker.log(TAG, "url: $urlBuildMetrics")
 
                     val registry = CollectorRegistry()
-                    PushGatewayTaskCollector(report, registry, pushgatewayLabelProvider)
+                    PushGatewayTaskCollector(
+                        report,
+                        registry,
+                        pushgatewayLabelProvider,
+                        pushGatewayPublisherConfiguration.taskNameAsLabel
+                    )
                         .collect()
                     PushGateway(urlNoProtocol)
                         .pushAdd(registry, pushGatewayPublisherConfiguration.taskJobName)

@@ -17,7 +17,7 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             val report = executionReportData()
             val labelProvider = PushGatewayLabelProvider(report)
             `when`("task label names are retrieved") {
-                val taskLabelNames = labelProvider.taskLabelNames()
+                val taskLabelNames = labelProvider.taskLabelNames(taskNameAsLabel = false)
                 then("Default task metric labels are present") {
                     assert(taskLabelNames.contains(TaskMetrics.Module.name))
                     assert(taskLabelNames.contains(TaskMetrics.Critical.name))
@@ -28,10 +28,11 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             }
             `when`("task label values are retrieved") {
                 val taskLabelNames = labelProvider.taskLabelValues(
-                    TaskLength(
+                    task = TaskLength(
                         1, "clean", ":clean", TaskMessageState.EXECUTED, false,
                         "app", emptyList()
-                    )
+                    ),
+                    taskNameAsLabel = false
                 )
                 then(" Task metric values are present") {
                     assert(taskLabelNames.contains("app"))
@@ -40,22 +41,41 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 }
             }
             `when`("report includes custom task metrics and task labels are retrieved") {
-                val taskLabelNames = labelProvider.taskLabelNames()
+                val taskLabelNames = labelProvider.taskLabelNames(taskNameAsLabel = false)
                 then("custom task label names metrics are present") {
                     assert(taskLabelNames.contains("metric1"))
                     assert(taskLabelNames.contains("metric2"))
                 }
             }
+            `when`("taskNameAsLabel configuration is enabled for label names") {
+                val taskLabelNames = labelProvider.taskLabelNames(taskNameAsLabel = true)
+                then("task name is present as label name") {
+                    assert(taskLabelNames.contains(TaskMetrics.Task.name))
+                }
+            }
             `when`("report includes custom task metrics and task values are retrieved") {
                 val taskLabelNames = labelProvider.taskLabelValues(
-                    TaskLength(
+                    task = TaskLength(
                         1, "clean", ":clean", TaskMessageState.EXECUTED, false,
                         "app", emptyList()
-                    )
+                    ),
+                    taskNameAsLabel = false
                 )
                 then("custom task label values metrics are present") {
                     assert(taskLabelNames.contains("value1"))
                     assert(taskLabelNames.contains("value2"))
+                }
+            }
+            `when`("taskNameAsLabel configuration is enabled for label values") {
+                val taskLabelNames = labelProvider.taskLabelValues(
+                    task = TaskLength(
+                        1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                        "app", emptyList()
+                    ),
+                    taskNameAsLabel = true
+                )
+                then("report includes task name as label value") {
+                    assert(taskLabelNames.contains("clean"))
                 }
             }
             `when`("build label names are retrieved") {

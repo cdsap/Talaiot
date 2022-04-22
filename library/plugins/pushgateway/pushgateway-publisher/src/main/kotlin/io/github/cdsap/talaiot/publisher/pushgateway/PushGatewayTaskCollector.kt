@@ -6,16 +6,17 @@ import io.prometheus.client.CollectorRegistry
 class PushGatewayTaskCollector(
     val report: ExecutionReport,
     private val registry: CollectorRegistry,
-    private val pushGatewayLabelProvider: PushGatewayLabelProvider
+    private val pushGatewayLabelProvider: PushGatewayLabelProvider,
+    val taskNameAsLabel: Boolean
 ) : PushGatewayCollector {
 
     override fun collect() {
         report.tasks?.forEach {
-            val labelValuesTask = pushGatewayLabelProvider.taskLabelValues(it).toTypedArray()
-            val labelNamesTask = pushGatewayLabelProvider.taskLabelNames().toTypedArray()
+            val labelValuesTask = pushGatewayLabelProvider.taskLabelValues(it,taskNameAsLabel).toTypedArray()
+            val labelNamesTask = pushGatewayLabelProvider.taskLabelNames(taskNameAsLabel).toTypedArray()
 
             gaugeBuild(
-                "gradle_task_${it.taskName}",
+                if (taskNameAsLabel) "gradle_task" else "gradle_task_${it.taskName}",
                 "Gradle task ${it.taskName}",
                 (it.ms).toDouble(),
                 registry,

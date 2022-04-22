@@ -28,4 +28,14 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration {
      */
     var taskJobName: String = "task"
     var buildJobName: String = "build"
+    /**
+     * By default, task metrics are reported using the format:
+     * gradle_task_$TASK_NAME { ... }
+     * Where the task name composes the metric name.
+     * If you prefer to set the task name as metric label:
+     * gradle_task { ... label=$TASK_NAME }
+     * you can enable it in the extension with the property
+     * taskNameAsLabel = true
+     */
+    var taskNameAsLabel: Boolean = false
 }

@@ -15,7 +15,7 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
     private val customBuildLabelValues =
         report.customProperties.buildProperties.flatMap { listOf(it.value) }
 
-    fun taskLabelValues(task: TaskLength): List<String> {
+    fun taskLabelValues(task: TaskLength, taskNameAsLabel: Boolean): List<String> {
         val labels = mutableListOf(
             task.module,
             task.critical.toString(),
@@ -24,10 +24,13 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
             task.state.name
         )
         labels.addAll(customTaskLabelValues)
+        if (taskNameAsLabel) {
+            labels.add(task.taskName)
+        }
         return labels
     }
 
-    fun taskLabelNames(): List<String> {
+    fun taskLabelNames(taskNameAsLabel: Boolean): List<String> {
         val taskNameMetrics = mutableListOf(
             TaskMetrics.Module.name,
             TaskMetrics.Critical.name,
@@ -36,6 +39,9 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
             TaskMetrics.State.name
         )
         taskNameMetrics.addAll(customTaskLabelNames)
+        if (taskNameAsLabel) {
+            taskNameMetrics.add(TaskMetrics.Task.name)
+        }
         return taskNameMetrics
     }
 
