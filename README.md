@@ -323,6 +323,25 @@ If you need to include custom metrics as tags, you need to use the type `Custom`
 
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.influxdb` plugins.
 
+#### InfluxDb2Publisher
+Talaiot will send to the InfluxDb (Flux) server defined in the configuration the values collected during the execution
+
+
+| Property                     |      Description                                                                    |
+|----------------------------- |-------------------------------------------------------------------------------------|
+| token                        | Influx access token                                                                |
+| url                          | Url of the InfluxDb Server                                                          |
+| taskMetricName               | Name of the metric used for specific task in the execution                          |
+| buildMetricName              | Name of the metric used for the overall information of the build in the execution   |
+| org                          | Organization name                                                                   |
+| bucket                       | Name of bucket                                                                      |
+| publishBuildMetrics          | Publish build metrics of the publisher, true by default                             |
+| publishTaskMetrics           | Publish tasks metrics of the publisher, true by default                             |
+| buildTags                    | Collection of BuildMetrics used as tags                                             |
+| taskTags                     | Collection of TaskMetrics used as tags                                              |
+
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.influxdb2` plugins.
+
 ##### RetentionPolicyConfiguration
 
 Retention Policy (RP) describes how long InfluxDB keeps data, how many copies of the data to store in the cluster,
