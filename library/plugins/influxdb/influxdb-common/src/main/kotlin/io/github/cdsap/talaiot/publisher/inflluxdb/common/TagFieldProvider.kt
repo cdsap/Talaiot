@@ -1,4 +1,4 @@
-package io.github.cdsap.talaiot.publisher.influxdb2
+package io.github.cdsap.talaiot.publisher.inflluxdb.common
 
 import io.github.cdsap.talaiot.metrics.Metrics
 import io.github.cdsap.talaiot.metrics.ValuesProvider
