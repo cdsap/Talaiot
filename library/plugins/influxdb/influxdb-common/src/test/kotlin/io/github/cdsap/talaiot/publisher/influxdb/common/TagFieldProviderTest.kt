@@ -1,10 +1,11 @@
-package io.github.cdsap.talaiot.publisher.influxdb
+package io.github.cdsap.talaiot.publisher.influxdb.common
 
 import io.github.cdsap.talaiot.entities.CustomProperties
 import io.github.cdsap.talaiot.entities.Environment
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
+import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
 import io.kotlintest.specs.BehaviorSpec
 
 class TagFieldProviderTest : BehaviorSpec() {

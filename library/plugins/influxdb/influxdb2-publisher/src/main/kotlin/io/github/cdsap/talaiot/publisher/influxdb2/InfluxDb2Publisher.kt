@@ -10,6 +10,7 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
+import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
 import java.util.concurrent.Executor
 
 /**
