@@ -33,6 +33,12 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.setUpJacoco()
         target.setUpJunitPlatform()
         target.setUpKtlint()
+
+        target.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
         target.afterEvaluate {
             val extension = extensions.getByType<BaseConfiguration>()
             setProjectVersion(extension.version)
@@ -41,6 +47,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             setUpPublishing(Type.LIBRARY)
             setUpSigning("TalaiotLib")
         }
+
 
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")

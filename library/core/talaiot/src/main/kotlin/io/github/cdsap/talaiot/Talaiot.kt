@@ -4,6 +4,10 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.provider.MetricsPreBuildProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
+import org.gradle.build.event.BuildEventsListenerRegistry
+import org.gradle.configurationcache.extensions.serviceOf
+
 
 /**
  * Talaiot main [Plugin].
@@ -34,24 +38,36 @@ class Talaiot<T : TalaiotExtension>(
      */
 
     fun setUpPlugin(target: Project) {
+
+        println("111111222")
         val extension = target.extensions.create("talaiot", classExtension, target)
         val buildOperationListener = BuildCacheOperationListener()
         val executionReport = ExecutionReport()
-     //   target.gradle.taskGraph.whenReady {
-            val metrics = extension.metrics.build()
-            val executionReportWithMetricsPreBuildPopulated =
-                MetricsPreBuildProvider(target, metrics, executionReport).get()
 
-            val listener = TalaiotListener(
-                target,
-                extension,
-                buildOperationListener,
-                publisherConfigurationProvider,
-                metrics,
-                executionReportWithMetricsPreBuildPopulated
-            )
-            target.gradle.addBuildListener(listener)
-            target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
+        val serviceProvider: Provider<TalaiotBuildService> = target.getGradle().getSharedServices().registerIfAbsent(
+            "web",
+            TalaiotBuildService::class.java
+        ) { spec ->
+            // Provide some parameters
+        //    spec.getParameters().target().set(5005)
+        }
+        target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
+
+//        //   target.gradle.taskGraph.whenReady {
+//            val metrics = extension.metrics.build()
+//            val executionReportWithMetricsPreBuildPopulated =
+//                MetricsPreBuildProvider(target, metrics, executionReport).get()
+//println("inakiiaia")
+//            val listener = TalaiotListener(
+//                target,
+//                extension,
+//                buildOperationListener,
+//                publisherConfigurationProvider,
+//                metrics,
+//                executionReportWithMetricsPreBuildPopulated
+//            )
+//            target.gradle.addBuildListener(listener)
+//            target.gradle.buildOperationListenerManager().addListener(buildOperationListener)
        // }
     }
 }

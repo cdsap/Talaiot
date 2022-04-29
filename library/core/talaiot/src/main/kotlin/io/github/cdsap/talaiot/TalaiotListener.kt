@@ -64,7 +64,7 @@ class TalaiotListener(
     }
 
     override fun buildFinished(result: BuildResult) {
-
+        println("buildFinished")
         project.gradle.buildOperationListenerManager().removeListener(tasksInfoProvider as BuildCacheOperationListener)
 
         if (shouldPublish()) {
@@ -73,11 +73,12 @@ class TalaiotListener(
             val executor = Executors.newSingleThreadExecutor()
             val heavyExecutor = Executors.newSingleThreadExecutor()
             val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
-            val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
+            val buildFilterProcessor =
+                BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
 
             val executedTasksInfo = tasksInfoProvider.get()
             TalaiotPublisherImpl(
-                MetricsPostBuildProvider(result, executedTasksInfo, metrics, executionReport,project),
+                MetricsPostBuildProvider(result, executedTasksInfo, metrics, executionReport, project),
                 publisherConfigurationProvider,
                 executedTasksInfo,
                 taskFilterProcessor,
@@ -106,9 +107,9 @@ class TalaiotListener(
      * configuration and the state of the [TalaiotTracker]
      */
     private fun shouldPublish() = (
-        (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
-            talaiotTracker.isTracking
-        )
+            (extension.ignoreWhen == null || extension.ignoreWhen?.shouldIgnore() == false) &&
+                    talaiotTracker.isTracking
+            )
 
     override fun projectsLoaded(gradle: Gradle) {
     }
