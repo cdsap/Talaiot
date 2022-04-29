@@ -1,4 +1,4 @@
-package io.github.cdsap.talaiot.publisher.influxdb.common
+package io.github.cdsap.talaiot.publisher.influxdb
 
 import io.github.cdsap.talaiot.entities.CustomProperties
 import io.github.cdsap.talaiot.entities.Environment
