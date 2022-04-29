@@ -1,4 +1,4 @@
-package io.github.cdsap.talaiot.publisher.influxdb
+package io.github.cdsap.talaiot.publisher.influxdb.common
 
 import io.kotlintest.specs.BehaviorSpec
 
