@@ -2,7 +2,7 @@ package io.github.cdsap.talaiot.publisher.influxdb2
 
 import com.influxdb.client.InfluxDBClient
 import com.influxdb.client.InfluxDBClientFactory
-import com.influxdb.client.WriteApiBlocking
+import com.influxdb.client.WriteApi
 import com.influxdb.client.domain.WritePrecision
 import com.influxdb.client.write.Point
 import io.github.cdsap.talaiot.entities.ExecutionReport
@@ -11,7 +11,6 @@ import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
-import java.util.concurrent.Executor
 
 /**
  * Publisher using InfluxDb (Flux) and LineProtocol format to send the metrics
@@ -24,11 +23,7 @@ class InfluxDb2Publisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
+    private val logTracker: LogTracker
 ) : Publisher {
 
     private val TAG = "InfluxDb2Publisher"
@@ -63,43 +58,41 @@ class InfluxDb2Publisher(
                     influxDbPublisherConfiguration.token.toCharArray()
                 )
 
-            executor.execute {
-                logTracker.log(TAG, "================")
-                logTracker.log(TAG, "InfluxDb2Publisher")
-                logTracker.log(
-                    TAG,
-                    "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
-                )
-                logTracker.log(
-                    TAG,
-                    "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
-                )
-                logTracker.log(TAG, "================")
+            logTracker.log(TAG, "================")
+            logTracker.log(TAG, "InfluxDb2Publisher")
+            logTracker.log(
+                TAG,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+            )
+            logTracker.log(
+                TAG,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+            )
+            logTracker.log(TAG, "================")
 
-                try {
-                    val writeApi: WriteApiBlocking = influxDBClient.writeApiBlocking
-                    if (influxDbPublisherConfiguration.publishTaskMetrics) {
-                        val measurements = createTaskPoints(report)
-                        measurements?.let {
-                            writeApi.writePoints(
-                                influxDbPublisherConfiguration.bucket,
-                                influxDbPublisherConfiguration.org,
-                                it
-                            )
-                        }
-                    }
-
-                    if (influxDbPublisherConfiguration.publishBuildMetrics) {
-                        val buildMeasurement = createBuildPoint(report)
-                        writeApi.writePoint(
+            try {
+                val writeApi: WriteApi = influxDBClient.makeWriteApi()
+                if (influxDbPublisherConfiguration.publishTaskMetrics) {
+                    val measurements = createTaskPoints(report)
+                    measurements?.let {
+                        writeApi.writePoints(
                             influxDbPublisherConfiguration.bucket,
                             influxDbPublisherConfiguration.org,
-                            buildMeasurement
+                            it
                         )
                     }
-                } catch (e: Exception) {
-                    logTracker.log(TAG, "InfluxDb2Publisher-Error-Executor Runnable: ${e.message}")
                 }
+
+                if (influxDbPublisherConfiguration.publishBuildMetrics) {
+                    val buildMeasurement = createBuildPoint(report)
+                    writeApi.writePoint(
+                        influxDbPublisherConfiguration.bucket,
+                        influxDbPublisherConfiguration.org,
+                        buildMeasurement
+                    )
+                }
+            } catch (e: Exception) {
+                logTracker.log(TAG, "InfluxDb2Publisher-Error-Executor Runnable: ${e.message}")
             }
             influxDBClient.close()
         } catch (e: Exception) {
