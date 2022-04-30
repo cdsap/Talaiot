@@ -11,6 +11,6 @@ talaiotLib {
 dependencies {
     implementation(project(":library:core:talaiot"))
     implementation(project(":library:plugins:influxdb:influxdb-common"))
-    implementation("com.influxdb:influxdb-client-java:3.1.0")
+    implementation("com.influxdb:influxdb-client-java:6.0.0")
     testImplementation(project(":library:core:talaiot-test-utils"))
 }
