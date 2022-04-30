@@ -61,12 +61,12 @@ class InfluxDb2Publisher(
             logTracker.log(TAG, "================")
             logTracker.log(TAG, "InfluxDb2Publisher")
             logTracker.log(
-                    TAG,
-                    "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+                TAG,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
             )
             logTracker.log(
-                    TAG,
-                    "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+                TAG,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
             )
             logTracker.log(TAG, "================")
 
@@ -76,19 +76,19 @@ class InfluxDb2Publisher(
                     val measurements = createTaskPoints(report)
                     measurements?.let {
                         writeApi.writePoints(
-                                influxDbPublisherConfiguration.bucket,
-                                influxDbPublisherConfiguration.org,
-                                it
+                            influxDbPublisherConfiguration.bucket,
+                            influxDbPublisherConfiguration.org,
+                            it
                         )
                     }
                 }
 
-                    if (influxDbPublisherConfiguration.publishBuildMetrics) {
-                        val buildMeasurement = createBuildPoint(report)
-                        writeApi.writePoint(
-                            influxDbPublisherConfiguration.bucket,
-                            influxDbPublisherConfiguration.org,
-                            buildMeasurement
+                if (influxDbPublisherConfiguration.publishBuildMetrics) {
+                    val buildMeasurement = createBuildPoint(report)
+                    writeApi.writePoint(
+                        influxDbPublisherConfiguration.bucket,
+                        influxDbPublisherConfiguration.org,
+                        buildMeasurement
                     )
                 }
             } catch (e: Exception) {
