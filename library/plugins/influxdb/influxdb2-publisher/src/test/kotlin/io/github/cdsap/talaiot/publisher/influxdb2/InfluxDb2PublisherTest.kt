@@ -1,7 +1,11 @@
 package io.github.cdsap.talaiot.publisher.influxdb2
 
 import com.influxdb.client.InfluxDBClientFactory
-import io.github.cdsap.talaiot.entities.*
+import io.github.cdsap.talaiot.entities.CustomProperties
+import io.github.cdsap.talaiot.entities.Environment
+import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskLength
+import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
@@ -50,23 +54,25 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     assert(tablesBuild.filter { it.records.filter { it.field == "metric3" && it.value == "value3" }.size == 1 }.size == 1)
                     assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
 
-
                     val fluxTask =
                         "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"task\")"
 
-
                     val tablesTask = queryApi.query(fluxTask)
 
-                    assert(tablesTask[0].records.filter {
-                        it.values.filter {
-                            it.key == "task" && it.value == ":assemble"
+                    assert(
+                        tablesTask[0].records.filter {
+                            it.values.filter {
+                                it.key == "task" && it.value == ":assemble"
+                            }.size == 1
                         }.size == 1
-                    }.size == 1)
-                    assert(tablesTask[0].records.filter {
-                        it.values.filter {
-                            it.key == "metric1" && it.value == "value1"
+                    )
+                    assert(
+                        tablesTask[0].records.filter {
+                            it.values.filter {
+                                it.key == "metric1" && it.value == "value1"
+                            }.size == 1
                         }.size == 1
-                    }.size == 1)
+                    )
                     influxDBClient.close()
                 }
             }

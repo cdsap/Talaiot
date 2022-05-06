@@ -1,11 +1,10 @@
 package org.testcontainers.influxdb2
 
-
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.containers.wait.strategy.WaitAllStrategy
 import org.testcontainers.utility.DockerImageName
-import java.util.*
+import java.util.Optional
 
 /**
  * Following code was extracted from https://github.com/testcontainers/testcontainers-java/pull/3669
@@ -63,7 +62,6 @@ open class InfluxDBContainerV2(imageName: DockerImageName) : GenericContainer<In
             )
         }
         addEnv("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN", adminToken)
-
     }
 
     /**
