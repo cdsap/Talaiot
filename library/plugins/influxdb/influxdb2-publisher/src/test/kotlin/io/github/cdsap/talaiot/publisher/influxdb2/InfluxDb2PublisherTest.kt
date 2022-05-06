@@ -1,15 +1,8 @@
-package io.github.cdsap.talaiot.publisher.influxdb
+package io.github.cdsap.talaiot.publisher.influxdb2
 
-import io.github.cdsap.talaiot.entities.CustomProperties
-import io.github.cdsap.talaiot.entities.Environment
-import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.entities.TaskLength
-import io.github.cdsap.talaiot.entities.TaskMessageState
+import com.influxdb.client.InfluxDBClientFactory
+import io.github.cdsap.talaiot.entities.*
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.github.cdsap.talaiot.metrics.BuildMetrics
-import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2Publisher
-import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2PublisherConfiguration
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.testcontainers.influxdb2.KInfluxDb2Container
@@ -29,32 +22,54 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
     }
 
     init {
-        given("InfluxDbPublisher instance") {
+        given("InfluxDb2Publisher instance") {
             val logger = TestLogTrackerRecorder
 
             `when`("Simple configuration is provided") {
-                val database = "talaiot"
                 val influxDbConfiguration = InfluxDb2PublisherConfiguration().apply {
-                   // dbName = database
-                    url = container.httpHostAddress
+                    url = container.url
+                    bucket = "test-bucket"
+                    token = "test-token"
+                    org = "test-org"
                     taskMetricName = "task"
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDb2Publisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
+                val influxDBClient = InfluxDBClientFactory.create(container.url, "test-token".toCharArray(), "test-org")
                 influxDbPublisher.publish(executionReport())
-                then("task and build data is store in the database") {
 
-//                    val taskResultTask =
-//                        influxDB.query(Query("select *  from $database.rpTalaiot.task"))
-//                    val taskResultBuild =
-//                        influxDB.query(Query("select * from $database.rpTalaiot.build"))
-//                    assert(taskResultTask.results.isNotEmpty() && taskResultTask.results[0].series[0].name == "task")
-       //             assert(taskResultBuild.results.isNotEmpty() && taskResultBuild.results[0].series[0].name == "build")
+                then("build and task data is stored correctly on the InfluxDb2 Instance") {
+                    val queryApi = influxDBClient.queryApi
+                    val fluxBuild =
+                        "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"build\")"
+                    val tablesBuild = queryApi.query(fluxBuild)
+
+                    assert(tablesBuild.filter { it.records.filter { it.field == "cpuCount" && it.value.toString() == "12" }.size == 1 }.size == 1)
+                    assert(tablesBuild.filter { it.records.filter { it.field == "metric3" && it.value == "value3" }.size == 1 }.size == 1)
+                    assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
+
+
+                    val fluxTask =
+                        "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"task\")"
+
+
+                    val tablesTask = queryApi.query(fluxTask)
+
+                    assert(tablesTask[0].records.filter {
+                        it.values.filter {
+                            it.key == "task" && it.value == ":assemble"
+                        }.size == 1
+                    }.size == 1)
+                    assert(tablesTask[0].records.filter {
+                        it.values.filter {
+                            it.key == "metric1" && it.value == "value1"
+                        }.size == 1
+                    }.size == 1)
+                    influxDBClient.close()
                 }
             }
-
         }
     }
 

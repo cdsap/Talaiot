@@ -16,6 +16,8 @@ open class InfluxDb2Container :
         logger().info("Starting an  container using [{}]", dockerImageName)
         withNetworkAliases("influxdb2-" + Base58.randomString(6))
         withEnv("discovery.type", "single-node")
+        withEnv("bucket", "aaaaaa")
+        withEnv("org", "alo")
         addExposedPorts(
             INFLUXDB2_DEFAULT_PORT,
             INFLUXDB2_DEFAULT_TCP_PORT
