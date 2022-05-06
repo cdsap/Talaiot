@@ -37,8 +37,8 @@ class InfluxDb2Publisher(
             influxDbPublisherConfiguration.buildMetricName.isEmpty()
         ) {
             logTracker.error(
-                "InfluxDbPublisher not executed. Configuration requires url, token, org, bucket taskMetricName and buildMetricName: \n" +
-                    "influxDbPublisher {\n" +
+                "InfluxDb2Publisher not executed. Configuration requires url, token, org, bucket taskMetricName and buildMetricName: \n" +
+                    "influxDb2Publisher {\n" +
                     "            url = \"http://localhost:8086\"\n" +
                     "            token = \"<token>\"\n" +
                     "            bucket = \"myBucketName\"\n" +
