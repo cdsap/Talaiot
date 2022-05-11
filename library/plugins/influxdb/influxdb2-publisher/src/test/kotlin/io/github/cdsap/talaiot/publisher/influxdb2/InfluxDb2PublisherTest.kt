@@ -76,6 +76,33 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     influxDBClient.close()
                 }
             }
+
+            `when`("bucket doesn't exist") {
+                val influxDbConfiguration = InfluxDb2PublisherConfiguration().apply {
+                    url = container.url
+                    bucket = "test-bucket3"
+                    token = "test-token"
+                    org = "test-org"
+                    taskMetricName = "task"
+                    buildMetricName = "build"
+                }
+                val influxDbPublisher = InfluxDb2Publisher(
+                    influxDbConfiguration, logger
+                )
+                influxDbPublisher.publish(executionReport())
+
+                then("Talaiot creates the bucket") {
+                    val influxDBClient =
+                        InfluxDBClientFactory.create(container.url, "test-token".toCharArray(), "test-org")
+                    val queryApi = influxDBClient.queryApi
+                    val fluxBuild =
+                        "from(bucket:\"test-bucket3\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"build\")"
+                    val tablesBuild = queryApi.query(fluxBuild)
+
+                    assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
+                    influxDBClient.close()
+                }
+            }
         }
     }
 
