@@ -58,6 +58,8 @@ class InfluxDb2Publisher(
                     influxDbPublisherConfiguration.token.toCharArray()
                 )
 
+            checkBucket(influxDBClient)
+
             logTracker.log(TAG, "================")
             logTracker.log(TAG, "InfluxDb2Publisher")
             logTracker.log(
@@ -97,6 +99,26 @@ class InfluxDb2Publisher(
             influxDBClient.close()
         } catch (e: Exception) {
             logTracker.log(TAG, "InfluxDb2Publisher-Error ${e.stackTrace}")
+        }
+    }
+
+    private fun checkBucket(influxDBClient: InfluxDBClient) {
+        val bucket = influxDBClient.bucketsApi.findBucketByName(influxDbPublisherConfiguration.bucket)
+        if (bucket == null) {
+            val orgId = influxDBClient.organizationsApi.findOrganizations()
+                .firstOrNull { it.name == influxDbPublisherConfiguration.org }
+            if (orgId != null) {
+                val newBucket = influxDBClient.bucketsApi.createBucket(
+                    influxDbPublisherConfiguration.bucket, orgId.id
+                )
+            } else {
+                logTracker.log(
+                    TAG,
+                    "InfluxDb2Publisher-Error: Bucket ${influxDbPublisherConfiguration.bucket} " +
+                        "doesn't exist. It was not possible create the new bucket because the org  ${influxDbPublisherConfiguration.org}" +
+                        " was not found"
+                )
+            }
         }
     }
 
