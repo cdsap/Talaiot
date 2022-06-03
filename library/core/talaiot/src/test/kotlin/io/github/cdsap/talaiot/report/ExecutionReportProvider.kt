@@ -33,7 +33,7 @@ object ExecutionReportProvider {
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )
@@ -82,7 +82,7 @@ object ExecutionReportProvider {
         tasks = listOf(
             TaskLength(
                 1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                "app", emptyList()
+                "app"
             )
         )
     )

@@ -11,7 +11,6 @@ import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import java.net.URL
-import java.util.concurrent.Executor
 
 class ElasticSearchPublisher(
     /**
@@ -22,11 +21,7 @@ class ElasticSearchPublisher(
      * LogTracker to print in console depending on the Mode
      */
     private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-) : Publisher {
+) : Publisher, java.io.Serializable {
 
     private val TAG = "ElasticSearchPublisher"
 
@@ -34,31 +29,29 @@ class ElasticSearchPublisher(
 
         if (validate()) {
             val client = getClient()
-            executor.execute {
-                logTracker.log(TAG, "================")
-                logTracker.log(TAG, "ElasticSearchPublisher")
-                logTracker.log(
-                    TAG,
-                    "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}"
-                )
-                logTracker.log(
-                    TAG,
-                    "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}"
-                )
-                logTracker.log(TAG, "================")
+            logTracker.log(TAG, "================")
+            logTracker.log(TAG, "ElasticSearchPublisher")
+            logTracker.log(
+                TAG,
+                "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}"
+            )
+            logTracker.log(
+                TAG,
+                "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}"
+            )
+            logTracker.log(TAG, "================")
 
-                try {
-                    if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
-                        logTracker.log(TAG, "Sending Build metrics")
-                        sendBuildMetrics(report, client)
-                    }
-                    if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
-                        logTracker.log(TAG, "Sending Task metrics")
-                        sendTasksMetrics(report, client)
-                    }
-                } catch (e: Exception) {
-                    logTracker.error("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
+            try {
+                if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
+                    logTracker.log(TAG, "Sending Build metrics")
+                    sendBuildMetrics(report, client)
                 }
+                if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
+                    logTracker.log(TAG, "Sending Task metrics")
+                    sendTasksMetrics(report, client)
+                }
+            } catch (e: Exception) {
+                logTracker.error("ElasticSearchPublisher-Error-Executor Runnable: ${e.message}")
             }
         }
     }

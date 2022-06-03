@@ -17,7 +17,7 @@ class OutputPublisher(
      * LogTracker to print in console depending on the Mode
      */
     private val logTracker: LogTracker
-) : Publisher {
+) : Publisher, java.io.Serializable {
 
     private val TAG = "OutputPublisher"
 

@@ -12,16 +12,14 @@ class ExecutionReportTest : BehaviorSpec({
                 taskName = "task1",
                 taskPath = "module:task1",
                 state = TaskMessageState.EXECUTED,
-                module = "module",
-                taskDependencies = emptyList()
+                module = "module"
             ),
             TaskLength(
                 ms = 1000L,
                 taskName = "task2",
                 taskPath = "module:task2",
                 state = TaskMessageState.FROM_CACHE,
-                module = "module",
-                taskDependencies = emptyList()
+                module = "module"
             )
         )
 

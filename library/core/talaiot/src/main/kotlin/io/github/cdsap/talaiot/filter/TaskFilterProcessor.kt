@@ -8,7 +8,7 @@ import io.github.cdsap.talaiot.logger.LogTracker
 class TaskFilterProcessor(
     val logTracker: LogTracker,
     val filter: FilterConfiguration?
-) {
+) : java.io.Serializable {
 
     fun taskLengthFilter(taskLength: TaskLength): Boolean {
         var isTaskIncluded = true

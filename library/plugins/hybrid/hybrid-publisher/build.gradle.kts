@@ -10,7 +10,6 @@ talaiotLib {
 
 dependencies {
     implementation(project(":library:core:talaiot"))
-    implementation(project(":library:plugins:base:base-publisher"))
     implementation(project(":library:plugins:elastic-search:elastic-search-publisher"))
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))

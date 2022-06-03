@@ -12,16 +12,11 @@ import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import java.util.concurrent.Executor
 
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,
     private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-) : Publisher {
+) : Publisher, java.io.Serializable {
 
     private val TAG = "HybridPublisher"
 
@@ -58,31 +53,27 @@ class HybridPublisher(
             is InfluxDbPublisherConfiguration -> {
                 InfluxDbPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
             is PushGatewayPublisherConfiguration -> {
                 PushGatewayPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 
             is ElasticSearchPublisherConfiguration -> {
                 ElasticSearchPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 
             is RethinkDbPublisherConfiguration -> {
                 RethinkDbPublisher(
                     publisherConfiguration,
-                    logTracker,
-                    executor
+                    logTracker
                 )
             }
 

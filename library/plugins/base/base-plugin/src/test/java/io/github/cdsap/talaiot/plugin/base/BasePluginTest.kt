@@ -31,26 +31,21 @@ class BasePluginTest : BehaviorSpec() {
 
                 val result = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble","--configuration-cache","--info")
+                    .withArguments("assemble", "--configuration-cache", "--info")
                     .withPluginClasspath()
                     .build()
-                println(result.output)
-
-
 
                 val result2 = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()
                     .build()
-                println(result2.output)
-
 
                 then("json build info exists") {
-                    assert( File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").exists())
-              //     println(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").readText())
+                    assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").exists())
+                    //     println(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").readText())
 
-                //    println(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").readText())
+                    //    println(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").readText())
                     assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
                 }
                 testProjectDir.delete()

@@ -2,7 +2,6 @@ package io.github.cdsap.talaiot.provider
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.SimpleMetric
-import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
 import org.gradle.api.Project
 

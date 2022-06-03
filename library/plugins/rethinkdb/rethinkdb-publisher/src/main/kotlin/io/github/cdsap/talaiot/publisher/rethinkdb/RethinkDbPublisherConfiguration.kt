@@ -13,7 +13,7 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
  *
  * }
  */
-class RethinkDbPublisherConfiguration : PublisherConfiguration {
+class RethinkDbPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
 
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true

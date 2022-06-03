@@ -12,7 +12,6 @@ import org.influxdb.InfluxDBFactory
 import org.influxdb.InfluxDBIOException
 import org.influxdb.dto.BatchPoints
 import org.influxdb.dto.Point
-import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
 const val TIMEOUT_SEC = 10L
@@ -28,12 +27,8 @@ class InfluxDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-) : Publisher {
+    private val logTracker: LogTracker
+) : Publisher, java.io.Serializable {
 
     private val TAG = "InfluxDbPublisher"
 
@@ -72,28 +67,28 @@ class InfluxDbPublisher(
                 val buildMeasurement = createBuildPoint(report)
                 pointsBuilder.point(buildMeasurement)
             }
-            executor.execute {
-                logTracker.log(TAG, "================")
-                logTracker.log(TAG, "InfluxDbPublisher")
-                logTracker.log(
-                    TAG,
-                    "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
-                )
-                logTracker.log(
-                    TAG,
-                    "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
-                )
-                logTracker.log(TAG, "================")
+            //    executor.execute {
+            logTracker.log(TAG, "================")
+            logTracker.log(TAG, "InfluxDbPublisher")
+            logTracker.log(
+                TAG,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+            )
+            logTracker.log(
+                TAG,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+            )
+            logTracker.log(TAG, "================")
 
-                try {
-                    val _db = createDb()
-                    val points = pointsBuilder.build()
-                    logTracker.log(TAG, "Sending points to InfluxDb server $points")
-                    _db.write(points)
-                } catch (e: Exception) {
-                    logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
-                }
+            try {
+                val _db = createDb()
+                val points = pointsBuilder.build()
+                logTracker.log(TAG, "Sending points to InfluxDb server $points")
+                _db.write(points)
+            } catch (e: Exception) {
+                logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
             }
+            //       }
         } catch (e: Exception) {
             logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
@@ -145,6 +140,7 @@ class InfluxDbPublisher(
             .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
         val user = influxDbPublisherConfiguration.username
         val password = influxDbPublisherConfiguration.password
+
         val url = influxDbPublisherConfiguration.url
         val dbName = influxDbPublisherConfiguration.dbName
         val retentionPolicyConfiguration =
@@ -161,7 +157,11 @@ class InfluxDbPublisher(
 
         if (!influxDb.databaseExists(dbName)) {
             logTracker.log(TAG, "Creating db $dbName")
-            influxDb.createDatabase(dbName)
+            try {
+                influxDb.createDatabase(dbName)
+            } catch (e: Exception) {
+                println(e.message)
+            }
 
             val duration = retentionPolicyConfiguration.duration
             val shardDuration = retentionPolicyConfiguration.shardDuration

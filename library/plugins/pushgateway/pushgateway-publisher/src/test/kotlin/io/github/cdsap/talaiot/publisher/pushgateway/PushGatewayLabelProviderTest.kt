@@ -20,9 +20,6 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 val taskLabelNames = labelProvider.taskLabelNames()
                 then("Default task metric labels are present") {
                     assert(taskLabelNames.contains(TaskMetrics.Module.name))
-                    assert(taskLabelNames.contains(TaskMetrics.Critical.name))
-                    assert(taskLabelNames.contains(TaskMetrics.LocalCacheHit.name))
-                    assert(taskLabelNames.contains(TaskMetrics.RemoteCacheHit.name))
                     assert(taskLabelNames.contains(TaskMetrics.State.name))
                 }
             }
@@ -30,12 +27,11 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 val taskLabelNames = labelProvider.taskLabelValues(
                     TaskLength(
                         1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                        "app", emptyList()
+                        "app"
                     )
                 )
                 then(" Task metric values are present") {
                     assert(taskLabelNames.contains("app"))
-                    assert(taskLabelNames.contains("false"))
                     assert(taskLabelNames.contains(TaskMessageState.EXECUTED.name))
                 }
             }
@@ -50,7 +46,7 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 val taskLabelNames = labelProvider.taskLabelValues(
                     TaskLength(
                         1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                        "app", emptyList()
+                        "app"
                     )
                 )
                 then("custom task label values metrics are present") {
@@ -111,11 +107,11 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 ),
                 TaskLength(
                     100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

@@ -17,7 +17,6 @@ enum class BuildMetrics : Metrics {
     JavaXmsBytes,
     JavaXmxBytes,
     JavaMaxPermSize,
-    TotalRamAvailableBytes,
     CpuCount,
     Locale,
     Username,

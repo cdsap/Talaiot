@@ -40,8 +40,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":averageTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             30L,
@@ -49,8 +48,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":slowTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             10L,
@@ -58,8 +56,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":fastTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         )
                     )
                 )
@@ -104,8 +101,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":averageTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             30L,
@@ -114,7 +110,6 @@ class OutputPublisherTest : BehaviorSpec({
                             TaskMessageState.EXECUTED,
                             true,
                             "app",
-                            emptyList()
                         ),
                         TaskLength(
                             10L,
@@ -122,8 +117,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":fastTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         )
                     )
                 )
@@ -169,8 +163,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":zeroTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         )
                     )
                 )
@@ -204,8 +197,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":secTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             65_000L,
@@ -213,8 +205,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":minTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             10L,
@@ -222,8 +213,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":msTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         )
                     )
                 )
@@ -270,8 +260,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":averageTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             30L,
@@ -279,8 +268,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":slowTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         ),
                         TaskLength(
                             10L,
@@ -288,8 +276,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":fastTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
-                            emptyList()
+                            "app"
                         )
                     )
                 )

@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info --continue
       - run:
           name: build sample
           command: |

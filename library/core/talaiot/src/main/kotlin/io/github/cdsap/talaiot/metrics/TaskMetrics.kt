@@ -5,14 +5,8 @@ enum class TaskMetrics : Metrics {
     Module,
     RootNode,
     Task,
-    WorkerId,
-    Critical,
     Value,
     CacheEnabled,
-    LocalCacheHit,
-    LocalCacheMiss,
-    RemoteCacheHit,
-    RemoteCacheMiss,
     Custom {
         override val isCustom: Boolean = true
     };

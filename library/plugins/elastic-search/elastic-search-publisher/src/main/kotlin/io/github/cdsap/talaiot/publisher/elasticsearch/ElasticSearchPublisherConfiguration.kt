@@ -12,7 +12,7 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
  *
  * }
  */
-class ElasticSearchPublisherConfiguration : PublisherConfiguration {
+class ElasticSearchPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
 
     /**
      * name of the publisher

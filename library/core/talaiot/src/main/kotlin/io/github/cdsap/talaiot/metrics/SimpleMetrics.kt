@@ -7,7 +7,6 @@ import org.gradle.api.Project
 import org.gradle.api.internal.GradleInternal
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.internal.scan.scopeids.BuildScanScopeIds
-import oshi.SystemInfo
 import java.net.InetAddress
 import java.net.UnknownHostException
 import java.nio.charset.Charset
@@ -53,11 +52,6 @@ class ProcessorCountMetric : SimpleMetric<String>(
     assigner = { report, value -> report.environment.cpuCount = value }
 )
 
-class RamAvailableMetric : SimpleMetric<String>(
-    provider = { SystemInfo().hardware.memory.available.toString() },
-    assigner = { report, value -> report.environment.totalRamAvailableBytes = value }
-)
-
 class JavaVmNameMetric : SimpleMetric<String>(
     provider = { System.getProperty("java.runtime.version") },
     assigner = { report, value -> report.environment.javaVmName = value }
@@ -68,11 +62,6 @@ class LocaleMetric : GradleMetric<String>(
         project.providers.systemProperty("user.language").forUseAtConfigurationTime().get()
     },
     assigner = { report, value -> report.environment.locale = value }
-)
-
-class OsManufacturerMetric : SimpleMetric<String>(
-    provider = { SystemInfo().operatingSystem.manufacturer },
-    assigner = { report, value -> report.environment.osManufacturer = value }
 )
 
 class HostnameMetric : SimpleMetric<String>(
@@ -87,18 +76,6 @@ class HostnameMetric : SimpleMetric<String>(
         }
     },
     assigner = { report, value -> report.environment.hostname = value }
-)
-
-class PublicIpMetric : SimpleMetric<String?>(
-    provider = {
-        /**
-         * For simplicity we get the first available ip of the first network device
-         */
-        SystemInfo().hardware.networkIFs.firstOrNull()?.let { nif ->
-            nif.iPv4addr.firstOrNull()
-        } ?: null
-    },
-    assigner = { report, value -> report.environment.publicIp = value }
 )
 
 class DefaultCharsetMetric : SimpleMetric<String>(

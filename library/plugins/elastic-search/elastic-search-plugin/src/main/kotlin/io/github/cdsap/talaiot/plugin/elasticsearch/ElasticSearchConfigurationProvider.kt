@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import org.gradle.api.Project
-import java.util.concurrent.Executors
 
 class ElasticSearchConfigurationProvider(
     val project: Project
@@ -19,8 +18,7 @@ class ElasticSearchConfigurationProvider(
                 publishers.add(
                     ElasticSearchPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger),
-                        Executors.newSingleThreadExecutor()
+                        LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
             }

@@ -5,13 +5,13 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import org.gradle.api.Project
-import java.util.concurrent.Executors
 
 class PushgatewayConfigurationProvider(
     val project: Project
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
+        println("w")
         val talaiotExtension = project.extensions.getByName("talaiot") as PushgatewayExtension
 
         talaiotExtension.publishers?.apply {
@@ -20,8 +20,7 @@ class PushgatewayConfigurationProvider(
                 publishers.add(
                     PushGatewayPublisher(
                         publisherConfig,
-                        logger,
-                        Executors.newSingleThreadExecutor()
+                        logger
                     )
                 )
             }

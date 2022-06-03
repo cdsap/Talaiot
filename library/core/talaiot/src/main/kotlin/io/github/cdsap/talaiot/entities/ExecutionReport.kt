@@ -38,7 +38,7 @@ data class ExecutionReport(
     var success: Boolean = false,
     var scanLink: String? = null,
     var buildInvocationId: String? = null
-) {
+) : java.io.Serializable {
 
     /**
      * Cache ratio of the tasks = tasks_from_cache / all_tasks
@@ -47,26 +47,6 @@ data class ExecutionReport(
         get() = unfilteredTasks?.let {
             it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
         }?.toString()
-
-    /**
-     * Fills in the [TaskLength.critical] to later check which task was on the critical (longest in terms of time) path
-     *
-     * This would be a lot faster if it was actually a weighted graph
-     */
-    fun estimateCriticalPath() {
-        var currentRoot: TaskLength? = tasks?.find { it.rootNode } ?: return
-
-        while (currentRoot != null) {
-            currentRoot.critical = true
-
-            val dependencies = currentRoot.taskDependencies
-                .mapNotNull { dep ->
-                    tasks?.find { it.taskPath == dep }
-                }
-
-            currentRoot = dependencies.maxBy { it.stopMs } ?: null
-        }
-    }
 }
 
 data class Environment(
@@ -78,7 +58,6 @@ data class Environment(
     var javaXmsBytes: String? = null,
     var javaXmxBytes: String? = null,
     var javaMaxPermSize: String? = null,
-    var totalRamAvailableBytes: String? = null,
     var locale: String? = null,
     var username: String? = null,
     var publicIp: String? = null,
@@ -97,7 +76,7 @@ data class Environment(
     var switches: Switches = Switches(),
     var hostname: String? = null,
     var osManufacturer: String? = null
-)
+) : java.io.Serializable
 
 data class Switches(
     var buildCache: String? = null,
@@ -111,12 +90,12 @@ data class Switches(
     var refreshDependencies: String? = null,
     var buildScan: String? = null,
     var configurationCache: String? = null
-)
+) : java.io.Serializable
 
 data class CustomProperties(
     var buildProperties: MutableMap<String, String> = mutableMapOf(),
     var taskProperties: MutableMap<String, String> = mutableMapOf()
-)
+) : java.io.Serializable
 
 /**
  * TODO: figure out how to get the list of current plugins applied to the project
@@ -125,4 +104,4 @@ data class Plugin(
     var id: String,
     var mainClass: String,
     var version: String
-)
+) : java.io.Serializable

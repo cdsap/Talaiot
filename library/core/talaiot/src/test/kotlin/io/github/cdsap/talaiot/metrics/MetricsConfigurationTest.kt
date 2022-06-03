@@ -250,7 +250,6 @@ private val performanceMetricsTypes = listOf(
     ProcessorCountMetric::class,
     UserMetric::class,
     OsMetric::class,
-    RamAvailableMetric::class,
     JavaVmNameMetric::class,
     LocaleMetric::class,
     GradleMaxWorkersMetric::class,
@@ -261,10 +260,7 @@ private val performanceMetricsTypes = listOf(
 
 private val environmentMetricsTypes = listOf(
     HostnameMetric::class,
-    OsManufacturerMetric::class,
-    PublicIpMetric::class,
-    DefaultCharsetMetric::class,
-    CacheHitMetric::class
+    DefaultCharsetMetric::class
 
 )
 

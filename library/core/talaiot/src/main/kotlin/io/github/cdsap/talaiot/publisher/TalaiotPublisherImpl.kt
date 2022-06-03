@@ -1,13 +1,9 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.entities.CacheInfo
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
-import io.github.cdsap.talaiot.provider.Provider
-import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 
 /**
  * Implementation of TalaiotPublisher.
@@ -19,12 +15,11 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
  * the TaskDependencyGraphPublisher
  */
 class TalaiotPublisherImpl(
-    private val metricsProvider: Provider<ExecutionReport>,
-    private val publisherProvider: PublisherConfigurationProvider,
-    private val executedTasksInfo: ExecutedTasksInfo,
+    private val metricsProvider: ExecutionReport,
+    private val publisherProvider: List<Publisher>,
     private val taskFilterProcessor: TaskFilterProcessor,
     private val buildFilterProcessor: BuildFilterProcessor
-) : TalaiotPublisher {
+) : TalaiotPublisher, java.io.Serializable {
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
@@ -33,45 +28,25 @@ class TalaiotPublisherImpl(
         end: Long,
         success: Boolean
     ) {
-        val tasksLengthWithCacheInfo = addCacheInfoToTaskLength(taskLengthList, executedTasksInfo)
-        val report = metricsProvider.get().apply {
-            tasks = tasksLengthWithCacheInfo.filter { taskFilterProcessor.taskLengthFilter(it) }
-            unfilteredTasks = tasksLengthWithCacheInfo
-            this.beginMs = start.toString()
-            this.endMs = end.toString()
-            this.success = success
+        val xx = metricsProvider
 
-            this.durationMs = (end - start).toString()
+        xx.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+        xx.unfilteredTasks = taskLengthList
+        xx.beginMs = start.toString()
+        xx.endMs = end.toString()
+        xx.success = success
 
-            this.configurationDurationMs = when {
-                configuraionMs != null -> (configuraionMs - start).toString()
-                else -> "undefined"
-            }
+        xx.durationMs = (end - start).toString()
 
-            this.estimateCriticalPath()
+        xx.configurationDurationMs = when {
+            configuraionMs != null -> (configuraionMs - start).toString()
+            else -> "undefined"
         }
 
-        if (buildFilterProcessor.shouldPublishBuild(report)) {
-            publisherProvider.get().forEach {
-                it.publish(report)
+        if (buildFilterProcessor.shouldPublishBuild(xx)) {
+            publisherProvider.forEach {
+                it.publish(xx)
             }
-        }
-    }
-
-    private fun addCacheInfoToTaskLength(
-        taskLengthList: MutableList<TaskLength>,
-        executedTasksInfo: ExecutedTasksInfo
-    ): List<TaskLength> {
-        return taskLengthList.map { taskLength ->
-            executedTasksInfo.executedTasksInfo[taskLength.taskPath]?.let { cacheInfo ->
-                taskLength.copy(
-                    isCacheEnabled = cacheInfo.isCacheEnabled,
-                    isLocalCacheHit = cacheInfo.localCacheInfo is CacheInfo.CacheHit,
-                    isLocalCacheMiss = cacheInfo.localCacheInfo is CacheInfo.CacheMiss,
-                    isRemoteCacheHit = cacheInfo.remoteCacheInfo is CacheInfo.CacheHit,
-                    isRemoteCacheMiss = cacheInfo.remoteCacheInfo is CacheInfo.CacheMiss
-                )
-            } ?: taskLength
         }
     }
 }

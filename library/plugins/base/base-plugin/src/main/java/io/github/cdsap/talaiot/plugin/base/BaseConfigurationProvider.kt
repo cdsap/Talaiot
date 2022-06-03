@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.JsonPublisher
 import io.github.cdsap.talaiot.publisher.OutputPublisher
 import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.publisher.timeline.TimelinePublisher
 import org.gradle.api.Project
 
 class BaseConfigurationProvider(
@@ -22,9 +21,6 @@ class BaseConfigurationProvider(
                 publishers.add(JsonPublisher(project.gradle.rootProject.buildDir))
             }
 
-            if (timelinePublisher) {
-                publishers.add(TimelinePublisher(project.gradle.rootProject.buildDir))
-            }
             publishers.addAll(customPublishers)
         }
         return publishers

@@ -5,7 +5,7 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
 /**
  * Configuration for the OutputPublisher
  */
-class OutputPublisherConfiguration : PublisherConfiguration {
+class OutputPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
     override var name: String = "output"
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
