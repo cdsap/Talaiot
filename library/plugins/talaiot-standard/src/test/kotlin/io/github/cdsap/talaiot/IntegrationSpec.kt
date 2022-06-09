@@ -22,10 +22,7 @@ class DefaultConfigurationSpec : StringSpec({
                 "7.0",
                 "6.8.1",
                 "6.7.1",
-                "6.5.1",
-                "6.4.1",
-                "6.2.1",
-                "6.0.1"
+                "6.5.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()

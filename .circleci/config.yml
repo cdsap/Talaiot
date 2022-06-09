@@ -34,7 +34,9 @@ jobs:
       - store_test_results:
           path: build/reports/tests/
       - store_artifacts:
-          path: build/reports/tests/
+          path: |
+            build/reports/tests/
+            plugins/talaiot-standard/build/reports/tests/test/*
 
   deploy-snapshot:
     working_directory: ~/repo
