@@ -22,7 +22,6 @@ class InfluxdbConfigurationProvider(
                     )
                 )
             }
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

@@ -15,11 +15,6 @@ import java.util.UUID
 open class SimpleMetric<T>(provider: (Unit) -> T, assigner: (ExecutionReport, T) -> Unit) :
     Metric<T, Unit>(provider, assigner)
 
-class UserMetric : GradleMetric<String>(
-    provider = { project: Project -> project.providers.systemProperty("user.name").forUseAtConfigurationTime().get() },
-    assigner = { report, value -> report.environment.username = value }
-)
-
 class OsMetric :
     SimpleMetric<String>(
         provider = { "${OperatingSystem.current().name}-${OperatingSystem.current().version}" },
@@ -55,13 +50,6 @@ class ProcessorCountMetric : SimpleMetric<String>(
 class JavaVmNameMetric : SimpleMetric<String>(
     provider = { System.getProperty("java.runtime.version") },
     assigner = { report, value -> report.environment.javaVmName = value }
-)
-
-class LocaleMetric : GradleMetric<String>(
-    provider = { project: Project ->
-        project.providers.systemProperty("user.language").forUseAtConfigurationTime().get()
-    },
-    assigner = { report, value -> report.environment.locale = value }
 )
 
 class HostnameMetric : SimpleMetric<String>(

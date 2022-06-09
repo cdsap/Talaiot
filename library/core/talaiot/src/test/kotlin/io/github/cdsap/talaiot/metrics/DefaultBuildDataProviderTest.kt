@@ -36,6 +36,9 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
             val metrics = DefaultBuildMetricsProvider(ExecutionReportProvider.completeExecutionReport()).get()
 
             then("all values are registered") {
+                metrics.forEach {
+                    println(it.key + " " + it.value)
+                }
                 val expectedMap: Map<String, Any> = mapOf(
                     "start" to "1.590661991331E12".toDouble(),
                     "duration" to 10L,
@@ -51,20 +54,14 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
                     "cpuCount" to 4.toInt(),
                     "locale" to "EN-us",
                     "username" to "user",
-                    "publicIp" to "127.0.0.1",
                     "defaultCharset" to "default",
                     "ideVersion" to "2.1",
                     "gradleVersion" to "6.2.2",
                     "gitBranch" to "git_branch",
                     "gitUser" to "git_user",
                     "hostname" to "localMachine",
-                    "osManufacturer" to "osManufact4r",
                     "cacheUrl" to "cacheUrl",
                     "cacheStore" to "10",
-                    "localCacheHit" to "1",
-                    "localCacheMiss" to "0",
-                    "remoteCacheHit" to "0",
-                    "remoteCacheMiss" to "0",
                     "switch.daemon" to "true",
                     "switch.offline" to "true",
                     "metric3" to "value3",

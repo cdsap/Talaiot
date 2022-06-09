@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info --continue
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info --no-parallel
       - run:
           name: build sample
           command: |
@@ -34,14 +34,12 @@ jobs:
       - store_test_results:
           path: build/reports/tests/
       - store_artifacts:
-          path: |
-            build/reports/tests/
-            plugins/talaiot-standard/build/reports/tests/test/*
+          path: build/reports/tests/
 
   deploy-snapshot:
     working_directory: ~/repo
     machine:
-      image: circleci/classic:latest
+      image: ubuntu-2004:edge
     steps:
       - checkout
       - run:
@@ -58,4 +56,6 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - talaiot_2_0_test

@@ -11,17 +11,33 @@ import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
 import java.util.concurrent.Executors
 
+/**
+ * Tracks information of the tasks executed duting the build.
+ * This service is shared by multiple tasks and holds general information of the build.
+ * Once the service is finished it will publish the build/task information in configuration provided.
+ * It replaces the old TalaiotTracker.
+ *
+ */
 abstract class TalaiotBuildService :
     BuildService<TalaiotBuildService.Params>,
     AutoCloseable,
     OperationCompletionListener {
 
     var start = 0L
-    var configurationTime = 0L
-    var configurationIsSet = false
+    private var configurationTime = 0L
+    private var configurationIsSet = false
 
     interface Params : BuildServiceParameters {
+        /**
+         * Publishes the data stored in the [TalaiotBuildService]
+         */
         val publisher: Property<TalaiotPublisher>
+
+        /**
+         * List of Gradle Tasks used in the build execution:
+         *    ./gradlew clean --> clean
+         *    ./gradlew clean assemble --> clean assemble
+         */
         val startParameters: ListProperty<String>
     }
 
@@ -34,9 +50,6 @@ abstract class TalaiotBuildService :
     override fun close() {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
-            taskLengthList.forEach {
-                println(it.taskName)
-            }
             parameters.publisher.get().publish(
                 taskLengthList = taskLengthList,
                 start = start,

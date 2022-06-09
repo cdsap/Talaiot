@@ -52,11 +52,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
-                verify(publishers.get()[0]).publish(
-                    argThat {
-                        this.tasks!!.size == 1
-                    }
-                )
+                verify(publishers.get()[0]).publish(argThat { this.tasks!!.size == 1 })
             }
         }
         `when`("more than one publisher is included ") {

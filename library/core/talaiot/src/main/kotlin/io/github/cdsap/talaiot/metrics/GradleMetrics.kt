@@ -5,6 +5,7 @@ import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.JvmArgsMetric
 import io.github.cdsap.talaiot.util.TaskAbbreviationMatcher
 import io.github.cdsap.talaiot.util.TaskName
+import org.gradle.api.Project
 import org.gradle.api.internal.StartParameterInternal
 import org.gradle.api.internal.project.DefaultProject
 import org.gradle.api.invocation.Gradle
@@ -121,15 +122,23 @@ class GradleRequestedTasksMetric : GradleMetric<String>(
     assigner = { report, value -> report.requestedTasks = value }
 )
 
+class UserMetric : GradleMetric<String>(
+    provider = { project: Project -> project.providers.systemProperty("user.name").forUseAtConfigurationTime().get() },
+    assigner = { report, value -> report.environment.username = value }
+)
+
+class LocaleMetric : GradleMetric<String>(
+    provider = { project: Project ->
+        project.providers.systemProperty("user.language").forUseAtConfigurationTime().get()
+    },
+    assigner = { report, value -> report.environment.locale = value }
+)
+
 private fun Gradle.findRequestedTasks(): List<String> {
-    try {
-        val taskNames = startParameter.taskNames
-        val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
-        val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
-        return taskNames.map {
-            taskAbbreviationHandler.findRequestedTask(it)
-        }
-    } catch (e: Exception) {
-        return emptyList<String>()
+    val taskNames = startParameter.taskNames
+    val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
+    val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
+    return taskNames.map {
+        taskAbbreviationHandler.findRequestedTask(it)
     }
 }

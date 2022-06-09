@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
 import org.gradle.api.Project
 
-class MetricsPostBuildProvider(
+class MetricsProvider(
     private val metrics: List<Metric<*, *>>,
     private val executionReport: ExecutionReport,
     private val project: Project

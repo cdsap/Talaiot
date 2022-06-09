@@ -6,16 +6,16 @@ import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
 
 /**
- * Implementation of TalaiotPublisher.
- * It will retrieve all the metrics trough the MetricsProvider and the Publishers defined in the configuration
- * trough the PublisherProvider.
- * At the publishing phase it will aggregate the data of in a TaskMeasurementAggregated to publish the result
- * on each publisher retrieved.
- * Before the publishing phase we will apply the TaskFilterProcessor. Filtering doesn't apply to
- * the TaskDependencyGraphPublisher
+ * Implementation of [TalaiotPublisher].
+ * Once the [TalaiotBuildService] is closed we need to publish the build information based on the configuration.
+ * This configuration is composed by:
+ *   - Filtering task
+ *   - Build Publishing Filter
+ * Finally, it completes the [ExecutionReport] information with the general build info and
+ * publishes the build information with the publishers provided
  */
 class TalaiotPublisherImpl(
-    private val metricsProvider: ExecutionReport,
+    private val executionReport: ExecutionReport,
     private val publisherProvider: List<Publisher>,
     private val taskFilterProcessor: TaskFilterProcessor,
     private val buildFilterProcessor: BuildFilterProcessor
@@ -28,24 +28,22 @@ class TalaiotPublisherImpl(
         end: Long,
         success: Boolean
     ) {
-        val xx = metricsProvider
+        executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+        executionReport.unfilteredTasks = taskLengthList
+        executionReport.beginMs = start.toString()
+        executionReport.endMs = end.toString()
+        executionReport.success = success
 
-        xx.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
-        xx.unfilteredTasks = taskLengthList
-        xx.beginMs = start.toString()
-        xx.endMs = end.toString()
-        xx.success = success
+        executionReport.durationMs = (end - start).toString()
 
-        xx.durationMs = (end - start).toString()
-
-        xx.configurationDurationMs = when {
+        executionReport.configurationDurationMs = when {
             configuraionMs != null -> (configuraionMs - start).toString()
             else -> "undefined"
         }
 
-        if (buildFilterProcessor.shouldPublishBuild(xx)) {
+        if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             publisherProvider.forEach {
-                it.publish(xx)
+                it.publish(executionReport)
             }
         }
     }

@@ -53,21 +53,19 @@ class DefaultConfigurationSpec : StringSpec({
                 .withGradleVersion(version)
                 .build()
 
+            Thread.sleep(2000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
+            println("versssssion")
+            println(result.output)
             testProjectDir.delete()
             report.environment.gradleVersion shouldBe version
-            println("1")
             report.beginMs shouldNotBe null
-            println("12")
             report.endMs shouldNotBe null
-            println("13")
             report.durationMs shouldNotBe null
-            println("14")
 
             report.configurationDurationMs shouldNotBe null
-            println("15")
 
             val tasks = report.tasks!!
             tasks.size shouldBe 5

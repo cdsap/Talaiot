@@ -20,8 +20,6 @@ class BaseConfigurationProvider(
             if (jsonPublisher) {
                 publishers.add(JsonPublisher(project.gradle.rootProject.buildDir))
             }
-
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

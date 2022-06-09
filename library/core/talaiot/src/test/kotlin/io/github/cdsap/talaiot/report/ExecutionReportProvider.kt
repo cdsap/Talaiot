@@ -11,29 +11,23 @@ object ExecutionReportProvider {
 
     fun simpleExecutionReport(): ExecutionReport {
         return ExecutionReport(
-            success = true,
-            configurationDurationMs = "20",
-            durationMs = "10"
+            success = true, configurationDurationMs = "20", durationMs = "10"
         )
     }
 
     fun executionReport(): ExecutionReport {
         return ExecutionReport(
-            requestedTasks = "assemble",
-            durationMs = "10",
-            success = true,
+            requestedTasks = "assemble", durationMs = "10", success = true,
             environment = Environment(
                 cpuCount = "12", maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = getMetricsTasks(),
-                buildProperties = getMetricsBuild()
+                taskProperties = getMetricsTasks(), buildProperties = getMetricsBuild()
             ),
 
             tasks = listOf(
                 TaskLength(
-                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app"
+                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false, "app"
                 )
             )
         )
@@ -55,49 +49,38 @@ object ExecutionReportProvider {
             javaRuntime = "1.2",
             locale = "EN-us",
             username = "user",
-            publicIp = "127.0.0.1",
             defaultChartset = "default",
             ideVersion = "2.1",
             gradleVersion = "6.2.2",
             cacheUrl = "cacheUrl",
             cacheStore = "10",
-            localCacheHit = 1,
-            localCacheMiss = 0,
-            remoteCacheHit = 0,
-            remoteCacheMiss = 0,
             gitBranch = "git_branch",
             gitUser = "git_user",
             switches = Switches(
-                daemon = "true",
-                offline = "true"
+                daemon = "true", offline = "true"
             ),
-            hostname = "localMachine",
-            osManufacturer = "osManufact4r"
+            hostname = "localMachine"
         ),
         success = true,
         customProperties = CustomProperties(
-            taskProperties = getMetricsTasks(),
-            buildProperties = getMetricsBuild()
+            taskProperties = getMetricsTasks(), buildProperties = getMetricsBuild()
         ),
         tasks = listOf(
             TaskLength(
-                1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                "app"
+                1, "clean", ":clean", TaskMessageState.EXECUTED, false, "app"
             )
         )
     )
 
     fun getMetricsTasks(): MutableMap<String, String> {
         return mutableMapOf(
-            "metric1" to "value1",
-            "metric2" to "value2"
+            "metric1" to "value1", "metric2" to "value2"
         )
     }
 
     fun getMetricsBuild(): MutableMap<String, String> {
         return mutableMapOf(
-            "metric3" to "value3",
-            "metric4" to "value4"
+            "metric3" to "value3", "metric4" to "value4"
         )
     }
 }

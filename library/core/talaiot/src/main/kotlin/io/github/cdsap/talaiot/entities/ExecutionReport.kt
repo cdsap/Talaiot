@@ -60,22 +60,16 @@ data class Environment(
     var javaMaxPermSize: String? = null,
     var locale: String? = null,
     var username: String? = null,
-    var publicIp: String? = null,
     var defaultChartset: String? = null,
     var ideVersion: String? = null,
     var gradleVersion: String? = null,
     var cacheUrl: String? = null,
     var cacheStore: String? = null,
-    var localCacheHit: Int? = null,
-    var localCacheMiss: Int? = null,
-    var remoteCacheHit: Int? = null,
-    var remoteCacheMiss: Int? = null,
     var plugins: List<Plugin> = emptyList(),
     var gitBranch: String? = null,
     var gitUser: String? = null,
     var switches: Switches = Switches(),
-    var hostname: String? = null,
-    var osManufacturer: String? = null
+    var hostname: String? = null
 ) : java.io.Serializable
 
 data class Switches(
