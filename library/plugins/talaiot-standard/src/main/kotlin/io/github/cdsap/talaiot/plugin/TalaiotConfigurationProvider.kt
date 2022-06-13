@@ -22,7 +22,6 @@ class TalaiotConfigurationProvider(
 
         talaiotExtension.publishers?.apply {
             outputPublisher?.apply {
-                println("yes")
                 publishers.add(OutputPublisher(this, logger))
             }
 

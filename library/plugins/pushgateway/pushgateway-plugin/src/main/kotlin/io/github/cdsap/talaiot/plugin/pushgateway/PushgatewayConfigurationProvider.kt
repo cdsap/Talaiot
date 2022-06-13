@@ -11,7 +11,6 @@ class PushgatewayConfigurationProvider(
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
-        println("w")
         val talaiotExtension = project.extensions.getByName("talaiot") as PushgatewayExtension
 
         talaiotExtension.publishers?.apply {

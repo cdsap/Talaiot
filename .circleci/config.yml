@@ -23,6 +23,14 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
+          name: style
+          command: ./gradlew ktlintCheck
+      - run:
+          name: assemble
+          command: ./gradlew assemble
+      - run:
+          name: test
           command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info --no-parallel
       - run:
           name: build sample

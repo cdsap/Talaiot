@@ -1,11 +1,10 @@
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
         maven(url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
     }
     dependencies {
-        classpath("io.github.cdsap:talaiot:1.5.new-SNAPSHOT")
+        classpath("io.github.cdsap:talaiot:1.5.1-SNAPSHOT")
     }
 }
 apply(plugin = "io.github.cdsap.talaiot")
