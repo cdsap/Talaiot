@@ -647,6 +647,10 @@ drop us comment to include it in a community plugins.
 
 * [Yaroslav Legovich](https://github.com/yarolegovich)
 
+* [Marina Meier](https://github.com/MarinaShaposhnikova)
+  
+* [Konstantin Aksenov](https://github.com/Vacxe)
+
 * [Iñaki Villar](https://github.com/cdsap/)
 
 
