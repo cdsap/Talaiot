@@ -7,7 +7,6 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
 import io.github.cdsap.talaiot.metrics.BuildMetrics
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
 import org.influxdb.dto.Query
@@ -44,13 +43,16 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
                 influxDbPublisher.publish(executionReport())
+
                 then("task and build data is store in the database") {
+                    Thread.sleep(2000)
 
                     val taskResultTask =
                         influxDB.query(Query("select *  from $database.rpTalaiot.task"))
+                    println(taskResultTask.results)
                     val taskResultBuild =
                         influxDB.query(Query("select * from $database.rpTalaiot.build"))
                     assert(taskResultTask.results.isNotEmpty() && taskResultTask.results[0].series[0].name == "task")
@@ -68,10 +70,12 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishTaskMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains only build information") {
+                    Thread.sleep(2000)
+
                     val taskResultTask =
                         influxDB.query(Query("select * from $databaseNoTaskMetrics.rpTalaiot.task"))
                     val taskResultBuild =
@@ -90,10 +94,12 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishBuildMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains only task information") {
+                    Thread.sleep(2000)
+
                     val taskResultTask =
                         influxDB.query(Query("select * from $databaseNoBuildMetrics.rpTalaiot.task"))
                     val taskResultBuild =
@@ -111,10 +117,12 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the task execution") {
+                    Thread.sleep(2000)
+
                     val taskResult =
                         influxDB.query(Query("select value,state,module,rootNode,task,metric1,metric2 from $databaseTaskMetrics.rpTalaiot.task"))
                     val combinedTaskColumns =
@@ -135,10 +143,11 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the build execution") {
+                    Thread.sleep(2000)
 
                     val buildResult =
                         influxDB.query(Query("select configuration, metric3, metric4, success from $databaseBuildMetrics.rpTalaiot.build"))
@@ -163,11 +172,12 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishTaskMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
 
                 then("build metrics are sent and task metrics doesn't") {
                     influxDbPublisher.publish(executionReport())
+                    Thread.sleep(2000)
 
                     val buildResult =
                         influxDB.query(Query("select \"duration\",configuration,success from $databaseNoMetrics.rpTalaiot.build"))
@@ -196,11 +206,12 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildTags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger, TestExecutor()
+                    influxDbConfiguration, logger
                 )
 
                 then("build metrics are sent and task metrics doesn't") {
                     influxDbPublisher.publish(executionReport())
+                    Thread.sleep(2000)
 
                     val buildResult =
                         influxDB.query(Query("select * from $databaseTags.rpTalaiot.build group by *"))
@@ -237,7 +248,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

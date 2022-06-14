@@ -2,9 +2,7 @@ package io.github.cdsap.talaiot.plugin
 
 import groovy.lang.Closure
 import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
-import io.github.cdsap.talaiot.publisher.graph.TaskDependencyGraphConfiguration
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
@@ -20,14 +18,6 @@ class TalaiotPublisherConfiguration(
     internal var outputPublisher: OutputPublisherConfiguration? = null
     internal var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
     internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
-    internal var taskDependencyGraphPublisher: TaskDependencyGraphConfiguration? = null
-
-    internal var customPublishers: MutableSet<Publisher> = mutableSetOf()
-
-    /**
-     * Enables a [TimelinePublisher] if set to `true`. Disabled by default.
-     */
-    var timelinePublisher: Boolean = false
 
     /**
      * Enables a [JsonPublisher] if set to `true`. Disabled by default.
@@ -152,33 +142,5 @@ class TalaiotPublisherConfiguration(
         rethinkDbPublisher = RethinkDbPublisherConfiguration()
         closure.delegate = rethinkDbPublisher
         closure.call()
-    }
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [TaskDependencyGraphPublisher]
-     *
-     * @param configuration Configuration block for the [TaskDependencyGraphConfiguration]
-     */
-    fun taskDependencyGraphPublisher(configuration: TaskDependencyGraphConfiguration.() -> Unit) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project).also(configuration)
-    }
-
-    /**
-     * Configuration accessor within the [PublishersConfiguration] for the [TaskDependencyGraphPublisher]
-     *
-     * @param closure closure for the [TaskDependencyGraphConfiguration]
-     */
-    fun taskDependencyGraphPublisher(closure: Closure<*>) {
-        taskDependencyGraphPublisher = TaskDependencyGraphConfiguration(project)
-        closure.delegate = taskDependencyGraphPublisher
-        closure.call()
-    }
-
-    /**
-     * Adds the given custom publishers into the publisher list.
-     *
-     * @param publishers takes N [Publisher]s to be added to the publishers list.
-     */
-    fun customPublishers(vararg publishers: Publisher) {
-        customPublishers.addAll(publishers)
     }
 }

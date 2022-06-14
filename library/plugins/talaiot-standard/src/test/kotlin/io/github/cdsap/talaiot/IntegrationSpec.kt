@@ -14,6 +14,7 @@ class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(
             listOf(
+                "7.4.1",
                 "7.2",
                 "7.1.1",
                 "7.1",
@@ -21,10 +22,7 @@ class DefaultConfigurationSpec : StringSpec({
                 "7.0",
                 "6.8.1",
                 "6.7.1",
-                "6.5.1",
-                "6.4.1",
-                "6.2.1",
-                "6.0.1"
+                "6.5.1"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
@@ -43,7 +41,6 @@ class DefaultConfigurationSpec : StringSpec({
                     logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
                         jsonPublisher = true
-                        customPublishers(new JsonPublisher(getGradle().rootProject.buildDir))
                     }
                 }
 
@@ -56,34 +53,42 @@ class DefaultConfigurationSpec : StringSpec({
                 .withGradleVersion(version)
                 .build()
 
+            Thread.sleep(2000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
+            println("versssssion")
+            println(result.output)
             testProjectDir.delete()
             report.environment.gradleVersion shouldBe version
             report.beginMs shouldNotBe null
             report.endMs shouldNotBe null
             report.durationMs shouldNotBe null
+
             report.configurationDurationMs shouldNotBe null
 
             val tasks = report.tasks!!
             tasks.size shouldBe 5
             tasks.count { it.rootNode } shouldBe 1
+
             tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
+            println("19")
 
             report.requestedTasks shouldBe "assemble"
             report.rootProject shouldNotBe null
             report.success shouldBe true
+            println("20")
+
             tasks.forEach {
                 it.ms shouldNotBe null
                 it.taskName shouldNotBe null
                 it.taskPath shouldNotBe null
                 it.state shouldNotBe null
                 it.module shouldNotBe null
-                it.workerId shouldNotBe null
                 it.startMs shouldNotBe null
                 it.stopMs shouldNotBe null
             }
+            println("22")
         }
     }
 })

@@ -3,6 +3,7 @@ package io.github.cdsap.talaiot.publisher.influxdb2
 import io.github.cdsap.talaiot.configuration.PublisherConfiguration
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.metrics.TaskMetrics
+import java.io.Serializable
 
 /**
  * Configuration for the [InfluxDb2Publisher]. It belongs to the Publisher configurations
@@ -15,7 +16,7 @@ import io.github.cdsap.talaiot.metrics.TaskMetrics
  *    taskMetricName = "taskMetric"
  * }
  */
-class InfluxDb2PublisherConfiguration : PublisherConfiguration {
+class InfluxDb2PublisherConfiguration : PublisherConfiguration, Serializable {
 
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true

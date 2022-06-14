@@ -20,7 +20,7 @@ class NoOutputsBuildTest : BehaviorSpec({
 
                   talaiot{
                     publishers {
-                      outputPublisher {}
+                      outputPublisher 
                   }
                }
             """

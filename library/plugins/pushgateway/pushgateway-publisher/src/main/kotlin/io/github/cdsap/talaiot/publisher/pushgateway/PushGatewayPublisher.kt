@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.exporter.PushGateway
-import java.util.concurrent.Executor
 
 /**
  * Publisher using PushGateway format to send the metrics to an PushGateway server
@@ -19,16 +18,10 @@ class PushGatewayPublisher(
      * LogTracker to print in console depending on the Mode
      */
     private val logTracker: LogTracker,
-    /**
-     * Executor to schedule a task in Background
-     */
-    private val executor: Executor
-
-) : Publisher {
+) : Publisher, java.io.Serializable {
     private val TAG = "PushGatewayPublisher"
 
     override fun publish(report: ExecutionReport) {
-
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
             pushGatewayPublisherConfiguration.taskJobName.isEmpty()
         ) {
@@ -47,34 +40,29 @@ class PushGatewayPublisher(
             val urlNoProtocol = url.replace("https://", "").replace("http://", "")
             val pushgatewayLabelProvider = PushGatewayLabelProvider(report)
 
-            executor.execute {
+            logTracker.log(TAG, "================")
+            logTracker.log(TAG, "publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
+            logTracker.log(TAG, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
+            logTracker.log(TAG, "================")
 
-                logTracker.log(TAG, "================")
-                logTracker.log(TAG, "publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
-                logTracker.log(TAG, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
-                logTracker.log(TAG, "================")
+            if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
+                logTracker.log(TAG, "Inserting PushGateway Task metrics")
+                logTracker.log(TAG, "url: $urlBuildMetrics")
+                val registry = CollectorRegistry()
+                PushGatewayTaskCollector(report, registry, pushgatewayLabelProvider)
+                    .collect()
+                PushGateway(urlNoProtocol)
+                    .pushAdd(registry, pushGatewayPublisherConfiguration.taskJobName)
+            }
 
-                if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
-                    logTracker.log(TAG, "Inserting PushGateway Task metrics")
-                    logTracker.log(TAG, "url: $urlBuildMetrics")
-
-                    val registry = CollectorRegistry()
-                    PushGatewayTaskCollector(report, registry, pushgatewayLabelProvider)
-                        .collect()
-                    PushGateway(urlNoProtocol)
-                        .pushAdd(registry, pushGatewayPublisherConfiguration.taskJobName)
-                }
-
-                if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
-                    logTracker.log(TAG, "Inserting PushGateway Build metrics")
-                    logTracker.log(TAG, "url: $urlTaskMetrics")
-
-                    val registry = CollectorRegistry()
-                    PushGatewayBuildCollector(report, registry, pushgatewayLabelProvider)
-                        .collect()
-                    PushGateway(urlNoProtocol)
-                        .pushAdd(registry, pushGatewayPublisherConfiguration.buildJobName)
-                }
+            if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
+                logTracker.log(TAG, "Inserting PushGateway Build metrics")
+                logTracker.log(TAG, "url: $urlTaskMetrics")
+                val registry = CollectorRegistry()
+                PushGatewayBuildCollector(report, registry, pushgatewayLabelProvider)
+                    .collect()
+                PushGateway(urlNoProtocol)
+                    .pushAdd(registry, pushGatewayPublisherConfiguration.buildJobName)
             }
         }
     }

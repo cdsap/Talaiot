@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import org.gradle.api.Project
-import java.util.concurrent.Executors
 
 class PushgatewayConfigurationProvider(
     val project: Project
@@ -20,12 +19,10 @@ class PushgatewayConfigurationProvider(
                 publishers.add(
                     PushGatewayPublisher(
                         publisherConfig,
-                        logger,
-                        Executors.newSingleThreadExecutor()
+                        logger
                     )
                 )
             }
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

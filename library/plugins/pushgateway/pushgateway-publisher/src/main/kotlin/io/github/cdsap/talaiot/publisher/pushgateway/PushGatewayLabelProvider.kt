@@ -18,9 +18,6 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
     fun taskLabelValues(task: TaskLength): List<String> {
         val labels = mutableListOf(
             task.module,
-            task.critical.toString(),
-            task.isLocalCacheHit.toString(),
-            task.isRemoteCacheHit.toString(),
             task.state.name
         )
         labels.addAll(customTaskLabelValues)
@@ -30,9 +27,6 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
     fun taskLabelNames(): List<String> {
         val taskNameMetrics = mutableListOf(
             TaskMetrics.Module.name,
-            TaskMetrics.Critical.name,
-            TaskMetrics.LocalCacheHit.name,
-            TaskMetrics.RemoteCacheHit.name,
             TaskMetrics.State.name
         )
         taskNameMetrics.addAll(customTaskLabelNames)

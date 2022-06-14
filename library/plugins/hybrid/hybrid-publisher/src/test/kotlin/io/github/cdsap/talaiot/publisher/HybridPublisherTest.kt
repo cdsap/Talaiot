@@ -13,7 +13,6 @@ import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Description
 import io.kotlintest.Spec
 import io.kotlintest.specs.BehaviorSpec
@@ -71,7 +70,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = pushGatewayPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger, TestExecutor()
+                    hybridPublisherConfiguration, logger
                 )
 
                 then("InfluxDbPublisher only reports builds") {
@@ -85,11 +84,12 @@ class HybridPublisherTest : BehaviorSpec() {
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                    "app", emptyList()
+                                    "app"
                                 )
                             )
                         )
                     )
+                    Thread.sleep(2000)
                     logger.containsLog("PushGatewayPublisher")
                     logger.containsLog("InfluxDbPublisher")
 
@@ -123,7 +123,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = pushGatewayPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger, TestExecutor()
+                    hybridPublisherConfiguration, logger
                 )
 
                 then("Error is notified") {
@@ -133,11 +133,12 @@ class HybridPublisherTest : BehaviorSpec() {
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                    "app", emptyList()
+                                    "app"
                                 )
                             )
                         )
                     )
+                    Thread.sleep(2000)
                     logger.containsLog("HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: ")
                 }
             }
@@ -148,7 +149,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = null
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger, TestExecutor()
+                    hybridPublisherConfiguration, logger
                 )
 
                 then("Validation inform the error of null publishers") {
@@ -158,11 +159,12 @@ class HybridPublisherTest : BehaviorSpec() {
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                    "app", emptyList()
+                                    "app"
                                 )
                             )
                         )
                     )
+                    Thread.sleep(2000)
                     logger.containsLog("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
                 }
             }
@@ -185,7 +187,7 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = rethinkDbPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger, TestExecutor()
+                    hybridPublisherConfiguration, logger
                 )
 
                 then("RethinkDbPublisher only reports builds") {
@@ -195,11 +197,12 @@ class HybridPublisherTest : BehaviorSpec() {
                             tasks = listOf(
                                 TaskLength(
                                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                                    "app", emptyList()
+                                    "app"
                                 )
                             )
                         )
                     )
+                    Thread.sleep(2000)
                     logger.containsLog("RethinkDbPublisher")
                     logger.containsLog("InfluxDbPublisher")
 
