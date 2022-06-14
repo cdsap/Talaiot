@@ -36,9 +36,6 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
             val metrics = DefaultBuildMetricsProvider(ExecutionReportProvider.completeExecutionReport()).get()
 
             then("all values are registered") {
-                metrics.forEach {
-                    println(it.key + " " + it.value)
-                }
                 val expectedMap: Map<String, Any> = mapOf(
                     "start" to "1.590661991331E12".toDouble(),
                     "duration" to 10L,

@@ -64,7 +64,6 @@ class PushgatewayPluginTest : BehaviorSpec() {
                         }
                     }
                     val content = a.body()?.string()
-                    println(content)
                     assert(
                         content?.contains("gradle_build_total_time{")
                             ?: false

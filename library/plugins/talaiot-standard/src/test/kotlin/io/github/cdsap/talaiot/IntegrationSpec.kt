@@ -57,8 +57,6 @@ class DefaultConfigurationSpec : StringSpec({
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
-            println("versssssion")
-            println(result.output)
             testProjectDir.delete()
             report.environment.gradleVersion shouldBe version
             report.beginMs shouldNotBe null
@@ -72,12 +70,10 @@ class DefaultConfigurationSpec : StringSpec({
             tasks.count { it.rootNode } shouldBe 1
 
             tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
-            println("19")
 
             report.requestedTasks shouldBe "assemble"
             report.rootProject shouldNotBe null
             report.success shouldBe true
-            println("20")
 
             tasks.forEach {
                 it.ms shouldNotBe null
@@ -88,7 +84,6 @@ class DefaultConfigurationSpec : StringSpec({
                 it.startMs shouldNotBe null
                 it.stopMs shouldNotBe null
             }
-            println("22")
         }
     }
 })

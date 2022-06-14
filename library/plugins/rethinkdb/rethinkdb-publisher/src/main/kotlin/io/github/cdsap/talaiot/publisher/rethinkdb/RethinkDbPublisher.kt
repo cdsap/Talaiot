@@ -88,7 +88,6 @@ class RethinkDbPublisher(
                 }
             }
 
-            println(rethinkDbPublisherConfiguration.publishBuildMetrics)
             if (rethinkDbPublisherConfiguration.publishBuildMetrics) {
                 val entries = DefaultBuildMetricsProvider(report).get()
                 if (entries != null && entries.isNotEmpty()) {
