@@ -48,17 +48,13 @@ abstract class TalaiotBuildService :
     }
 
     override fun close() {
-
         val executor = Executors.newSingleThreadExecutor()
-        val end = System.currentTimeMillis()
-
         executor.execute {
             parameters.publisher.get().publish(
                 taskLengthList = taskLengthList,
                 start = start,
                 configuraionMs = configurationTime,
-                end = end,
-                duration = end - start,
+                end = System.currentTimeMillis(),
                 success = taskLengthList.none { it.state == TaskMessageState.FAILED }
             )
         }

@@ -26,16 +26,20 @@ class TalaiotPublisherImpl(
         start: Long,
         configuraionMs: Long?,
         end: Long,
-        success: Boolean,
-        duration: Long
+        success: Boolean
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
         executionReport.beginMs = start.toString()
         executionReport.endMs = end.toString()
         executionReport.success = success
-        executionReport.durationMs = duration.toString()
-        executionReport.configurationDurationMs = configuraionMs.toString()
+
+        executionReport.durationMs = (end - start).toString()
+
+        executionReport.configurationDurationMs = when {
+            configuraionMs != null -> (configuraionMs - start).toString()
+            else -> "undefined"
+        }
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             publisherProvider.forEach {
