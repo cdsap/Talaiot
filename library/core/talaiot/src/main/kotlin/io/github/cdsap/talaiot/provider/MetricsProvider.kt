@@ -1,53 +1,24 @@
 package io.github.cdsap.talaiot.provider
 
-import io.github.cdsap.talaiot.TalaiotExtension
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.SimpleMetric
-import io.github.cdsap.talaiot.metrics.base.BuildResultMetric
-import io.github.cdsap.talaiot.metrics.base.ExecutedTasksMetric
 import io.github.cdsap.talaiot.metrics.base.GradleMetric
-import org.gradle.BuildResult
+import io.github.cdsap.talaiot.metrics.base.Metric
 import org.gradle.api.Project
 
-/**
- * Provider for all metrics defined in the main [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
- */
 class MetricsProvider(
-    /**
-     * Gradle project required to access [TalaiotExtension]
-     */
-    private val project: Project,
-    private val buildResult: BuildResult,
-    /**
-     * Information about all tasks that were executed
-     */
-    private val executedTasksInfo: ExecutedTasksInfo
-) : Provider<ExecutionReport> {
+    private val metrics: List<Metric<*, *>>,
+    private val executionReport: ExecutionReport,
+    private val project: Project
+) : Provider<ExecutionReport>, java.io.Serializable {
 
-    /**
-     * Aggregates all metrics based on [io.github.cdsap.talaiot.configuration.MetricsConfiguration].
-     *
-     * @return execution report
-     */
     override fun get(): ExecutionReport {
-        val report = ExecutionReport()
-
-        val talaiotExtension = project.extensions.getByName("talaiot") as TalaiotExtension
-        val metrics = talaiotExtension.metrics.build()
-
-        /**
-         * Could be optimized but for < 100 metrics performance shouldn't be an issue
-         */
         metrics.forEach { metric ->
             when (metric) {
-                is GradleMetric -> metric.get(project, report)
-                is SimpleMetric -> metric.get(Unit, report)
-                is BuildResultMetric -> metric.get(buildResult, report)
-                is ExecutedTasksMetric -> metric.get(executedTasksInfo, report)
+                is GradleMetric -> metric.get(project, executionReport)
+                is SimpleMetric -> metric.get(Unit, executionReport)
             }
         }
-
-        return report
+        return executionReport
     }
 }

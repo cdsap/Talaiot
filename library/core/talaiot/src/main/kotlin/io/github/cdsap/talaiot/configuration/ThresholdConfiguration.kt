@@ -4,7 +4,7 @@ package io.github.cdsap.talaiot.configuration
  * Task filtering configuration
  * If specified Talaiot will report only tasks that are between [minExecutionTime] and [maxExecutionTime]
  */
-class ThresholdConfiguration {
+class ThresholdConfiguration : java.io.Serializable {
     /**
      * Minimum execution time of one task to be consider valid to be reported
      */

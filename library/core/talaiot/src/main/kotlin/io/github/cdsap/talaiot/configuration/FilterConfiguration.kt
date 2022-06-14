@@ -40,7 +40,7 @@ import io.github.cdsap.talaiot.filter.StringFilter
  *      }
  * }
  */
-class FilterConfiguration {
+class FilterConfiguration : java.io.Serializable {
 
     /**
      * A regex based filter to include and exclude tasks

@@ -16,15 +16,7 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     taskPath = "module:task1",
                     state = TaskMessageState.EXECUTED,
                     module = "module",
-                    workerId = "1",
-                    critical = false,
-                    rootNode = false,
-                    taskDependencies = emptyList(),
-                    isCacheEnabled = true,
-                    isLocalCacheHit = false,
-                    isLocalCacheMiss = true,
-                    isRemoteCacheHit = true,
-                    isRemoteCacheMiss = false
+                    rootNode = false
                 ),
                 ExecutionReportProvider.executionReport()
             ).get()
@@ -35,19 +27,10 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     "module" to "module",
                     "rootNode" to "false",
                     "task" to "module:task1",
-                    "workerId" to "1",
-                    "critical" to "false",
-                    "rootNode" to "false",
                     "metric1" to "value1",
                     "metric2" to "value2",
-                    "value" to 1000L,
-                    "cacheEnabled" to true,
-                    "localCacheHit" to false,
-                    "localCacheMiss" to true,
-                    "remoteCacheHit" to true,
-                    "remoteCacheMiss" to false
+                    "value" to 1000L
                 )
-
                 metrics.shouldBe(expectedMetrics)
             }
         }

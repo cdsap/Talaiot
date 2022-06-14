@@ -1,30 +1,25 @@
 package io.github.cdsap.talaiot.publisher
 
-import io.github.cdsap.talaiot.entities.CacheInfo
-import io.github.cdsap.talaiot.entities.ExecutedTasksInfo
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
-import io.github.cdsap.talaiot.provider.Provider
-import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 
 /**
- * Implementation of TalaiotPublisher.
- * It will retrieve all the metrics trough the MetricsProvider and the Publishers defined in the configuration
- * trough the PublisherProvider.
- * At the publishing phase it will aggregate the data of in a TaskMeasurementAggregated to publish the result
- * on each publisher retrieved.
- * Before the publishing phase we will apply the TaskFilterProcessor. Filtering doesn't apply to
- * the TaskDependencyGraphPublisher
+ * Implementation of [TalaiotPublisher].
+ * Once the [TalaiotBuildService] is closed we need to publish the build information based on the configuration.
+ * This configuration is composed by:
+ *   - Filtering task
+ *   - Build Publishing Filter
+ * Finally, it completes the [ExecutionReport] information with the general build info and
+ * publishes the build information with the publishers provided
  */
 class TalaiotPublisherImpl(
-    private val metricsProvider: Provider<ExecutionReport>,
-    private val publisherProvider: PublisherConfigurationProvider,
-    private val executedTasksInfo: ExecutedTasksInfo,
+    private val executionReport: ExecutionReport,
+    private val publisherProvider: List<Publisher>,
     private val taskFilterProcessor: TaskFilterProcessor,
     private val buildFilterProcessor: BuildFilterProcessor
-) : TalaiotPublisher {
+) : TalaiotPublisher, java.io.Serializable {
 
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
@@ -33,45 +28,23 @@ class TalaiotPublisherImpl(
         end: Long,
         success: Boolean
     ) {
-        val tasksLengthWithCacheInfo = addCacheInfoToTaskLength(taskLengthList, executedTasksInfo)
-        val report = metricsProvider.get().apply {
-            tasks = tasksLengthWithCacheInfo.filter { taskFilterProcessor.taskLengthFilter(it) }
-            unfilteredTasks = tasksLengthWithCacheInfo
-            this.beginMs = start.toString()
-            this.endMs = end.toString()
-            this.success = success
+        executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
+        executionReport.unfilteredTasks = taskLengthList
+        executionReport.beginMs = start.toString()
+        executionReport.endMs = end.toString()
+        executionReport.success = success
 
-            this.durationMs = (end - start).toString()
+        executionReport.durationMs = (end - start).toString()
 
-            this.configurationDurationMs = when {
-                configuraionMs != null -> (configuraionMs - start).toString()
-                else -> "undefined"
-            }
-
-            this.estimateCriticalPath()
+        executionReport.configurationDurationMs = when {
+            configuraionMs != null -> (configuraionMs - start).toString()
+            else -> "undefined"
         }
 
-        if (buildFilterProcessor.shouldPublishBuild(report)) {
-            publisherProvider.get().forEach {
-                it.publish(report)
+        if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
+            publisherProvider.forEach {
+                it.publish(executionReport)
             }
-        }
-    }
-
-    private fun addCacheInfoToTaskLength(
-        taskLengthList: MutableList<TaskLength>,
-        executedTasksInfo: ExecutedTasksInfo
-    ): List<TaskLength> {
-        return taskLengthList.map { taskLength ->
-            executedTasksInfo.executedTasksInfo[taskLength.taskPath]?.let { cacheInfo ->
-                taskLength.copy(
-                    isCacheEnabled = cacheInfo.isCacheEnabled,
-                    isLocalCacheHit = cacheInfo.localCacheInfo is CacheInfo.CacheHit,
-                    isLocalCacheMiss = cacheInfo.localCacheInfo is CacheInfo.CacheMiss,
-                    isRemoteCacheHit = cacheInfo.remoteCacheInfo is CacheInfo.CacheHit,
-                    isRemoteCacheMiss = cacheInfo.remoteCacheInfo is CacheInfo.CacheMiss
-                )
-            } ?: taskLength
         }
     }
 }

@@ -9,7 +9,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
  * implementations of Publisher.
  *
  */
-interface Publisher {
+interface Publisher : java.io.Serializable {
     /**
      * Publish the results given one Publisher implementation
      */

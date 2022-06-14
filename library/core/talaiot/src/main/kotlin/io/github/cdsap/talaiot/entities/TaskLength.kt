@@ -32,14 +32,6 @@ data class TaskLength(
      */
     val module: String,
     /**
-     * List of dependencies required to be executed before the current task
-     */
-    val taskDependencies: List<String>,
-    /**
-     * String id of gradle worker that executed this task
-     */
-    val workerId: String = "",
-    /**
      * Timestamp of start in millis
      */
     val startMs: Long = 0L,
@@ -50,25 +42,5 @@ data class TaskLength(
     /**
      * task is on the critical path of execution
      */
-    var critical: Boolean = false,
-    /**
-     * Cache is enabled for the task
-     */
-    val isCacheEnabled: Boolean = false,
-    /**
-     * Local cache hit was detected for the task.
-     */
-    val isLocalCacheHit: Boolean = false,
-    /**
-     * Local cache miss was detected for the task.
-     */
-    val isLocalCacheMiss: Boolean = false,
-    /**
-     * Remote cache hit was detected for the task.
-     */
-    val isRemoteCacheHit: Boolean = false,
-    /**
-     * Remote cache miss was detected for the task.
-     */
-    val isRemoteCacheMiss: Boolean = false
-)
+    // var critical: Boolean = false
+) : java.io.Serializable
