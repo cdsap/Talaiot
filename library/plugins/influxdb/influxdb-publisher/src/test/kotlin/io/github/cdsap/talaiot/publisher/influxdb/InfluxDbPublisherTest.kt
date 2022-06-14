@@ -52,6 +52,7 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
                     val taskResultTask =
                         influxDB.query(Query("select *  from $database.rpTalaiot.task"))
+                    println(taskResultTask.results)
                     val taskResultBuild =
                         influxDB.query(Query("select * from $database.rpTalaiot.build"))
                     assert(taskResultTask.results.isNotEmpty() && taskResultTask.results[0].series[0].name == "task")
