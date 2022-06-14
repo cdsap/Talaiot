@@ -31,9 +31,16 @@ class BasePluginTest : BehaviorSpec() {
 
                 val result = GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
+                    .withArguments("assemble", "--configuration-cache", "--info")
+                    .withPluginClasspath()
+                    .build()
+
+                val result2 = GradleRunner.create()
+                    .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()
                     .build()
+
                 then("json build info exists") {
                     assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").exists())
                     assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)

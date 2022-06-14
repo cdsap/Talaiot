@@ -18,12 +18,10 @@ class InfluxdbConfigurationProvider(
                 publishers.add(
                     InfluxDbPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger),
-                        Executors.newSingleThreadExecutor()
+                        LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
             }
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

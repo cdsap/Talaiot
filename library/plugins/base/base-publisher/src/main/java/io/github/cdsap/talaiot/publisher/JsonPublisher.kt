@@ -7,7 +7,7 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 
-class JsonPublisher(private val path: File) : Publisher {
+class JsonPublisher(private val path: File) : Publisher, java.io.Serializable {
     override fun publish(report: ExecutionReport) {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
