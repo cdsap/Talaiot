@@ -16,7 +16,6 @@ Current available plugins:
 | standard       | Contains all the available publishers listed below                        |
 | base           | Talaiot core functionality with Json, Output and Timeline publishers     |
 | elasticsearch  | Talaiot core functionality with Elasticsearch publisher                  |
-| graph          | Talaiot core functionality with Graph publisher                          |
 | influxdb       | Talaiot core functionality with Influxdb publisher                       |
 | pushgateway    | Talaiot core functionality with Pushgateway publisher                    |
 | rethinkdb      | Talaiot core functionality with Rethinkdb publisher                      |
@@ -103,7 +102,6 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 |----------------|-----------------------------------------|
 | base           | io.github.cdsap.talaiot.plugin.base           |
 | elasticsearch  | io.github.cdsap.talaiot.plugin.elasticsearch  |
-| graph          | io.github.cdsap.talaiot.plugin.graph          |
 | influxdb       | io.github.cdsap.talaiot.plugin.influxdb       |
 | pushgateway    | io.github.cdsap.talaiot.plugin.pushgateway    |
 | rethinkdb      | io.github.cdsap.talaiot.plugin.rehinkdb       |
@@ -168,12 +166,12 @@ maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"
 ### Standard Plugin
 
 ````
-classpath("io.github.cdsap:talaiot:1.5.2-SNAPSHOT")
+classpath("io.github.cdsap:talaiot:2.0.0-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("io.github.cdsap.talaiot.plugin:base:1.5.2-SNAPSHOT")
+classpath("io.github.cdsap.talaiot.plugin:base:2.0.0-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
@@ -214,7 +212,7 @@ talaiot {
 Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
 
 ### Filters
-For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
+For every measurement done, Talaiot can filter the tasks tracked to be published.
 
 
  | Property             |      Description                                                                             |
@@ -373,30 +371,6 @@ influxDbPublisher {
 }
 ```
 
-#### TaskDependencyGraphPublisher
-Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration
-
-
-| Property      |      Description                                                                                 |
-|---------------|--------------------------------------------------------------------------------------------------|
-| ignoreWhen    | Configuration to ignore the execution of the publisher                                           |
-| html          | Export the task dependency graph in Html format with support of [vis.js](http://visjs.org/)      |
-| gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
-| dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
-
-This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
-parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is
-use this publisher and collect the files on CI.
-
-The output will be found `"${project.rootDir}/talaiot`:
-
-![](resources/output_graph_publisher.png)
-
-Example:
-
-![](resources/graph_example_plaid.png)
-
-Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.graph` plugins.
 
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
@@ -422,20 +396,6 @@ Talaiot will Publish the results of the build with a json format .
     }
 ```
 
-Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
-
-#### TimelinePublisher
-Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
-in the different workers.
-
-![](resources/timeline.png)
-
-```
-    publishers {
-        timelinePublisher = true
-
-    }
-```
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
 
 #### ElasticSearchPublisher
@@ -513,21 +473,6 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.rethinkdb` plugins.
 
-#### Custom Publishers
-Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
-
-```
-talaiot {
-    publishers {
-        // You can define one or more custom publishers:
-        customPublishers(
-            MyCustomPublisher()
-        )
-    }
-}
-```
-Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
-In you are not using additional plugins we recommend to use  `io.github.cdsap.talaiot.plugin.base`.
 
 ## Sample  <a name="sample"></a>
 Folder `sample` contains a Gradle project using Talaiot:
@@ -535,7 +480,6 @@ Folder `sample` contains a Gradle project using Talaiot:
 cd sample
 ./gradlew assemble
 ```
-The project includes examples creating custom publishers, defining metrics using different publishers.
 
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
