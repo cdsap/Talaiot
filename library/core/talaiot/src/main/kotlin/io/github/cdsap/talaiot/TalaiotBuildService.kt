@@ -62,7 +62,7 @@ abstract class TalaiotBuildService :
 
     override fun onFinish(event: FinishEvent?) {
         if (!configurationIsSet) {
-            configurationTime = System.currentTimeMillis() - start
+            configurationTime = start - System.currentTimeMillis()
             configurationIsSet = true
         }
         val duration = event?.result?.endTime!! - event.result?.startTime!!
