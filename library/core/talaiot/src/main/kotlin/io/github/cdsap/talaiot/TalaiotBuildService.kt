@@ -48,13 +48,17 @@ abstract class TalaiotBuildService :
     }
 
     override fun close() {
+
         val executor = Executors.newSingleThreadExecutor()
+        val end = System.currentTimeMillis()
+
         executor.execute {
             parameters.publisher.get().publish(
                 taskLengthList = taskLengthList,
                 start = start,
                 configuraionMs = configurationTime,
-                end = System.currentTimeMillis(),
+                end = end,
+                duration = end - start,
                 success = taskLengthList.none { it.state == TaskMessageState.FAILED }
             )
         }
@@ -62,7 +66,7 @@ abstract class TalaiotBuildService :
 
     override fun onFinish(event: FinishEvent?) {
         if (!configurationIsSet) {
-            configurationTime = start - System.currentTimeMillis()
+            configurationTime = System.currentTimeMillis() - start
             configurationIsSet = true
         }
         val duration = event?.result?.endTime!! - event.result?.startTime!!
