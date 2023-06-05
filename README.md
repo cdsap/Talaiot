@@ -11,15 +11,16 @@ You can use the standard plugin, including all the functionality, or if you have
 
 Current available plugins:
 
-| Plugin         |      Description                                                          |
-|----------------|---------------------------------------------------------------------------|
-| standard       | Contains all the available publishers listed below                        |
-| base           | Talaiot core functionality with Json, Output and Timeline publishers     |
-| elasticsearch  | Talaiot core functionality with Elasticsearch publisher                  |
-| graph          | Talaiot core functionality with Graph publisher                          |
-| influxdb       | Talaiot core functionality with Influxdb publisher                       |
-| pushgateway    | Talaiot core functionality with Pushgateway publisher                    |
-| rethinkdb      | Talaiot core functionality with Rethinkdb publisher                      |
+| Plugin        | Description                                                          |
+|---------------|----------------------------------------------------------------------|
+| standard      | Contains all the available publishers listed below                   |
+| base          | Talaiot core functionality with Json, Output and Timeline publishers |
+| elasticsearch | Talaiot core functionality with Elasticsearch publisher              |
+| graph         | Talaiot core functionality with Graph publisher                      |
+| influxdb      | Talaiot core functionality with Influxdb publisher                   |
+| influxdb2     | Talaiot core functionality with Influxdb2 (Flux) publisher           |
+| pushgateway   | Talaiot core functionality with Pushgateway publisher                |
+| rethinkdb     | Talaiot core functionality with Rethinkdb publisher                  |
 
 Once you have Talaiot integrated you can create dashboards using the build information stored:
 
@@ -50,7 +51,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot") version "1.5.1"
+  id("io.github.cdsap.talaiot") version "<latest version>"
 }
 ```
 
@@ -63,7 +64,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap:talaiot:1.5.1")
+    classpath("io.github.cdsap:talaiot:<latest version>")
   }
 }
 
@@ -74,7 +75,7 @@ apply(plugin = "io.github.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot" version "1.5.1"
+  id "io.github.cdsap.talaiot" version "<latest version>"
 }
 
 ```
@@ -88,7 +89,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.cdsap:talaiot:1.5.1"
+    classpath "io.github.cdsap:talaiot:<latest version>"
   }
 }
 
@@ -113,7 +114,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot.plugin.base") version "1.5.1"
+  id("io.github.cdsap.talaiot.plugin.base") version "<latest version>"
 }
 ```
 
@@ -126,7 +127,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap.talaiot.plugin:base:1.5.1")
+    classpath("io.github.cdsap.talaiot.plugin:base:<latest version>")
   }
 }
 
@@ -137,7 +138,7 @@ apply(plugin = "io.github.cdsap.talaiot.plugin.base")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot.plugin.base" version "1.5.1"
+  id "io.github.cdsap.talaiot.plugin.base" version "<latest version>"
 }
 
 ```
@@ -151,7 +152,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.cdsap.talaiot.plugin:base:1.5.1"
+    classpath "io.github.cdsap.talaiot.plugin:base:<latest version>"
   }
 }
 
@@ -168,12 +169,12 @@ maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"
 ### Standard Plugin
 
 ````
-classpath("io.github.cdsap:talaiot:1.5.2-SNAPSHOT")
+classpath("io.github.cdsap:talaiot:<latest version>-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("io.github.cdsap.talaiot.plugin:base:1.5.2-SNAPSHOT")
+classpath("io.github.cdsap.talaiot.plugin:base:<latest version>-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
