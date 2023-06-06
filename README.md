@@ -16,6 +16,7 @@ Current available plugins:
 | standard       | Contains all the available publishers listed below                        |
 | base           | Talaiot core functionality with Json, Output and Timeline publishers     |
 | elasticsearch  | Talaiot core functionality with Elasticsearch publisher                  |
+| graph          | Talaiot core functionality with Graph publisher                          |
 | influxdb       | Talaiot core functionality with Influxdb publisher                       |
 | pushgateway    | Talaiot core functionality with Pushgateway publisher                    |
 | rethinkdb      | Talaiot core functionality with Rethinkdb publisher                      |
@@ -62,7 +63,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap:talaiot:1.5.1")
+    classpath("io.github.cdsap:talaiot:<latest version>")
   }
 }
 
@@ -73,7 +74,7 @@ apply(plugin = "io.github.cdsap.talaiot")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot" version "1.5.1"
+  id "io.github.cdsap.talaiot" version "<latest version>"
 }
 
 ```
@@ -87,7 +88,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.cdsap:talaiot:1.5.1"
+    classpath "io.github.cdsap:talaiot:<latest version>"
   }
 }
 
@@ -111,7 +112,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot.plugin.base") version "1.5.1"
+  id("io.github.cdsap.talaiot.plugin.base") version "<latest version>"
 }
 ```
 
@@ -124,7 +125,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath("io.github.cdsap.talaiot.plugin:base:1.5.1")
+    classpath("io.github.cdsap.talaiot.plugin:base:<latest version>")
   }
 }
 
@@ -135,7 +136,7 @@ apply(plugin = "io.github.cdsap.talaiot.plugin.base")
 Using the plugins DSL:
 ```
 plugins {
-  id "io.github.cdsap.talaiot.plugin.base" version "1.5.1"
+  id "io.github.cdsap.talaiot.plugin.base" version "<latest version>"
 }
 
 ```
@@ -149,7 +150,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.cdsap.talaiot.plugin:base:1.5.1"
+    classpath "io.github.cdsap.talaiot.plugin:base:<latest version>"
   }
 }
 
@@ -166,12 +167,12 @@ maven ( url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"
 ### Standard Plugin
 
 ````
-classpath("io.github.cdsap:talaiot:2.0.0-SNAPSHOT")
+classpath("io.github.cdsap:talaiot:<latest version>-SNAPSHOT")
 ````
 ### Individual Plugin
 
 ````
-classpath("io.github.cdsap.talaiot.plugin:base:2.0.0-SNAPSHOT")
+classpath("io.github.cdsap.talaiot.plugin:base:<latest version>-SNAPSHOT")
 ````
 
 ## Talaiot Extension  <a name="talaiot-extension"></a>
@@ -212,7 +213,7 @@ talaiot {
 Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
 
 ### Filters
-For every measurement done, Talaiot can filter the tasks tracked to be published.
+For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
 
 
  | Property             |      Description                                                                             |
@@ -313,7 +314,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | buildTags                    | Collection of BuildMetrics used as tags                                             |
 | taskTags                     | Collection of TaskMetrics used as tags                                              |
 
-For complete list of 
+For complete list of
 - build tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/BuildMetrics.kt
 - task tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/TaskMetrics.kt
 
@@ -473,6 +474,21 @@ Talaiot will send to the RethinkDb server defined in the configuration the value
 
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.rethinkdb` plugins.
 
+#### Custom Publishers
+Talaiot allows using custom publishers defined by the requirements of your environment, in case you are using another implementation.
+
+```
+talaiot {
+    publishers {
+        // You can define one or more custom publishers:
+        customPublishers(
+            MyCustomPublisher()
+        )
+    }
+}
+```
+Read more about it in the [Publishers wiki page](https://github.com/cdsap/Talaiot/wiki/Publishers#custompublishers)
+In you are not using additional plugins we recommend to use  `io.github.cdsap.talaiot.plugin.base`.
 
 ## Sample  <a name="sample"></a>
 Folder `sample` contains a Gradle project using Talaiot:
@@ -480,11 +496,12 @@ Folder `sample` contains a Gradle project using Talaiot:
 cd sample
 ./gradlew assemble
 ```
+The project includes examples creating custom publishers, defining metrics using different publishers.
 
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
 ### Docker, InfluxDb and Grafana
-To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
+To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).
 
 Additionally, the Docker image is creating a default database, a provisioned dashboard and the default datasource for InfluxDb.
 The source is [here](docker/Dockerfile):
@@ -592,7 +609,7 @@ drop us comment to include it in a community plugins.
 * [Yaroslav Legovich](https://github.com/yarolegovich)
 
 * [Marina Meier](https://github.com/MarinaShaposhnikova)
-  
+
 * [Konstantin Aksenov](https://github.com/Vacxe)
 
 * [Iñaki Villar](https://github.com/cdsap/)
