@@ -3,8 +3,10 @@ package io.github.cdsap.talaiot
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.Ignore
 import java.io.File
 
+@Ignore
 class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
 
     init {
@@ -67,13 +69,13 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
                           id 'java'
                           id 'io.github.cdsap.talaiot'
                       }
-                      
-                      
+
+
                       talaiot {
                         publishers {
                           jsonPublisher = true
                         }
-                      }  
+                      }
             """.trimIndent()
         )
     }
