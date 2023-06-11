@@ -36,7 +36,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
         target.afterEvaluate {
