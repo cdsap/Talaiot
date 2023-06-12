@@ -6,7 +6,6 @@ import org.gradle.testkit.runner.GradleRunner
 import org.junit.Ignore
 import java.io.File
 
-@Ignore
 class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
 
     init {
