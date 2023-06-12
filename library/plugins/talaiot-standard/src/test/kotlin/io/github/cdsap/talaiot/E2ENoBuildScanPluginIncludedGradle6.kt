@@ -46,7 +46,6 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
                     .withPluginClasspath()
                     .build()
 
-
                 then("InfluxDb instance doesn't contain build metric GradleScanLink") {
                     Thread.sleep(2000)
                     val taskResultBuild =

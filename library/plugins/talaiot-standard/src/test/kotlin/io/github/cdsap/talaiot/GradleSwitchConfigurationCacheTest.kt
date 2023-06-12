@@ -3,7 +3,6 @@ package io.github.cdsap.talaiot
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.specs.BehaviorSpec
 import org.gradle.testkit.runner.GradleRunner
-import org.junit.Ignore
 import java.io.File
 
 class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
