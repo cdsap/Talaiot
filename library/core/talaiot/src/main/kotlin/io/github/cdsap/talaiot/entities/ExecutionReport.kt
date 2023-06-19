@@ -64,7 +64,7 @@ data class ExecutionReport(
                     tasks?.find { it.taskPath == dep }
                 }
 
-            currentRoot = dependencies.maxBy { it.stopMs } ?: null
+            currentRoot = dependencies.maxByOrNull { it.stopMs }
         }
     }
 }

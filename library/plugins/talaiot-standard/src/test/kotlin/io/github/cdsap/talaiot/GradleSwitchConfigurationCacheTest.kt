@@ -67,13 +67,13 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
                           id 'java'
                           id 'io.github.cdsap.talaiot'
                       }
-                      
-                      
+
+
                       talaiot {
                         publishers {
                           jsonPublisher = true
                         }
-                      }  
+                      }
             """.trimIndent()
         )
     }

@@ -41,7 +41,7 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
 
                 GradleRunner.create()
                     .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
+                    .withArguments("assemble",)
                     .withGradleVersion("6.0")
                     .withPluginClasspath()
                     .build()
@@ -65,7 +65,9 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
                           id 'java'
                           id 'io.github.cdsap.talaiot'
                       }
-                      
+
+
+
                       talaiot {
                         publishers {
                           influxDbPublisher {
@@ -75,7 +77,10 @@ class E2ENoBuildScanPluginIncludedGradle6 : BehaviorSpec() {
                              buildMetricName = "build"
                           }
                         }
-                      }  
+                      }
+                      dependencies {
+                      implementation("org.codehaus.groovy:groovy:3.0.8")
+                      }
             """.trimIndent()
         )
     }
