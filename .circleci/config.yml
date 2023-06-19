@@ -5,7 +5,7 @@ executor: machine
 jobs:
   build:
     machine:
-      image: ubuntu-2004:edge
+      image: ubuntu-2004:2023.02.1
 
     working_directory: ~/repo
 
@@ -23,7 +23,7 @@ jobs:
           command: ./gradlew assemble
       - run:
           name: test
-          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info --no-parallel
+          command: ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
       - run:
           name: build sample
           command: |
@@ -39,7 +39,7 @@ jobs:
   deploy-snapshot:
     working_directory: ~/repo
     machine:
-      image: ubuntu-2004:edge
+      image: circleci/classic:latest
     steps:
       - checkout
       - run:
@@ -56,6 +56,4 @@ workflows:
             - build
           filters:
             branches:
-              only:
-                - master
-                - talaiot_2_0
+              only: master

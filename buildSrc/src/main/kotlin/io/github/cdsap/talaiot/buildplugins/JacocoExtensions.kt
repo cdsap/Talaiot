@@ -8,7 +8,7 @@ import java.io.File
 
 fun Project.setUpJacoco() = this.run {
     configure<JacocoPluginExtension> {
-        toolVersion = "0.8.6"
+        toolVersion = "0.8.7"
     }
 
     tasks.withType<JacocoReport> {
