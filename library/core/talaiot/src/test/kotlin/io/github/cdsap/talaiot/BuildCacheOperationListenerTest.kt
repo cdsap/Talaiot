@@ -221,6 +221,7 @@ private class ExecuteTaskBuildOperationTypeResult(
     override fun isActionable(): Boolean = isActionable
 
     override fun getSkipMessage(): String? = skipMessage
+    override fun getSkipReasonMessage(): String? = null
 
     override fun getCachingDisabledReasonMessage(): String? = cachingDisabledReasonMessage
 
