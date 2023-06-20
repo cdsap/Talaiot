@@ -42,7 +42,6 @@ class TalaiotPlugin : Plugin<Project> {
             setProjectGroup(extension.group, Type.PLUGIN)
             setUpPublishing(Type.PLUGIN)
             collectUnitTest()
-            setUpSigning("TalaiotLib", "pluginMaven")
         }
 
         target.dependencies {
