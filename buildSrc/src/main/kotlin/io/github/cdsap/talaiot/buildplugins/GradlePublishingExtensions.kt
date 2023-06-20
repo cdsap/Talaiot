@@ -19,19 +19,19 @@ fun Project.setUpGradlePublishing() {
         }
     }
 
-//    configure<PluginBundleExtension> {
-//        website = "https://github.com/cdsap/Talaiot"
-//        vcsUrl = "https://github.com/cdsap/Talaiot"
-//        description =
-//            "${extension.displayName}, simple and extensible plugin to track task and build times in your Gradle Project."
-//        tags = listOf("tracking", "kotlin", "gradle")
-//    }
+    configure<PluginBundleExtension> {
+        website = "https://github.com/cdsap/Talaiot"
+        vcsUrl = "https://github.com/cdsap/Talaiot"
+        description =
+            "${extension.displayName}, simple and extensible plugin to track task and build times in your Gradle Project."
+        tags = listOf("tracking", "kotlin", "gradle")
+    }
 
 
     configure<PublishingExtension> {
         publications {
 
-            create<MavenPublication>("pluginMaven") {
+            create<MavenPublication>("pluginTalaiot") {
                 artifactId = extension.artifact
             }
         }

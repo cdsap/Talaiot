@@ -33,10 +33,11 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.setUpJacoco()
         target.setUpJunitPlatform()
-        target.setUpGradlePublishing()
+
 
         target.afterEvaluate {
             val extension = target.extensions.getByType<TalaiotPluginConfiguration>()
+            target.setUpGradlePublishing()
             setProjectVersion(extension.version)
             setProjectGroup(extension.group, Type.PLUGIN)
             setUpPublishing(Type.PLUGIN)
