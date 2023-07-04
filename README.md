@@ -11,15 +11,16 @@ You can use the standard plugin, including all the functionality, or if you have
 
 Current available plugins:
 
-| Plugin         |      Description                                                          |
-|----------------|---------------------------------------------------------------------------|
-| standard       | Contains all the available publishers listed below                        |
-| base           | Talaiot core functionality with Json, Output and Timeline publishers     |
-| elasticsearch  | Talaiot core functionality with Elasticsearch publisher                  |
-| graph          | Talaiot core functionality with Graph publisher                          |
-| influxdb       | Talaiot core functionality with Influxdb publisher                       |
-| pushgateway    | Talaiot core functionality with Pushgateway publisher                    |
-| rethinkdb      | Talaiot core functionality with Rethinkdb publisher                      |
+| Plugin        | Description                                                          |
+|---------------|----------------------------------------------------------------------|
+| standard      | Contains all the available publishers listed below                   |
+| base          | Talaiot core functionality with Json, Output and Timeline publishers |
+| elasticsearch | Talaiot core functionality with Elasticsearch publisher              |
+| graph         | Talaiot core functionality with Graph publisher                      |
+| influxdb      | Talaiot core functionality with Influxdb publisher                   |
+| influxdb2     | Talaiot core functionality with Influxdb2 (Flux) publisher           |
+| pushgateway   | Talaiot core functionality with Pushgateway publisher                |
+| rethinkdb     | Talaiot core functionality with Rethinkdb publisher                  |
 
 Once you have Talaiot integrated you can create dashboards using the build information stored:
 
@@ -50,7 +51,7 @@ https://en.wikipedia.org/wiki/Talaiot
 Using the plugins DSL:
 ```
 plugins {
-  id("io.github.cdsap.talaiot") version "1.5.1"
+  id("io.github.cdsap.talaiot") version "<latest version>"
 }
 ```
 
@@ -103,6 +104,7 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 |----------------|-----------------------------------------|
 | base           | io.github.cdsap.talaiot.plugin.base           |
 | elasticsearch  | io.github.cdsap.talaiot.plugin.elasticsearch  |
+| graph          | io.github.cdsap.talaiot.plugin.graph          |
 | influxdb       | io.github.cdsap.talaiot.plugin.influxdb       |
 | pushgateway    | io.github.cdsap.talaiot.plugin.pushgateway    |
 | rethinkdb      | io.github.cdsap.talaiot.plugin.rehinkdb       |
@@ -314,7 +316,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | buildTags                    | Collection of BuildMetrics used as tags                                             |
 | taskTags                     | Collection of TaskMetrics used as tags                                              |
 
-For complete list of
+For complete list of 
 - build tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/BuildMetrics.kt
 - task tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/TaskMetrics.kt
 
@@ -372,6 +374,30 @@ influxDbPublisher {
 }
 ```
 
+#### TaskDependencyGraphPublisher
+Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration
+
+
+| Property      |      Description                                                                                 |
+|---------------|--------------------------------------------------------------------------------------------------|
+| ignoreWhen    | Configuration to ignore the execution of the publisher                                           |
+| html          | Export the task dependency graph in Html format with support of [vis.js](http://visjs.org/)      |
+| gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
+| dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
+
+This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
+parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is
+use this publisher and collect the files on CI.
+
+The output will be found `"${project.rootDir}/talaiot`:
+
+![](resources/output_graph_publisher.png)
+
+Example:
+
+![](resources/graph_example_plaid.png)
+
+Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.graph` plugins.
 
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
@@ -609,7 +635,7 @@ drop us comment to include it in a community plugins.
 * [Yaroslav Legovich](https://github.com/yarolegovich)
 
 * [Marina Meier](https://github.com/MarinaShaposhnikova)
-
+  
 * [Konstantin Aksenov](https://github.com/Vacxe)
 
 * [Iñaki Villar](https://github.com/cdsap/)
