@@ -44,7 +44,6 @@ class Talaiot<T : TalaiotExtension>(
 
         val extension = target.extensions.create("talaiot", classExtension, target)
         val executionReport = ExecutionReport()
-        println("llego1")
         target.gradle.taskGraph.whenReady {
             val parameters = target.gradle.startParameter.taskRequests.flatMap {
                 it.args.flatMap { task ->
@@ -62,7 +61,6 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.publisher.set(talaiotPublisher)
                     spec.parameters.startParameters.set(parameters)
                 }
-            println("llego2")
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }
     }

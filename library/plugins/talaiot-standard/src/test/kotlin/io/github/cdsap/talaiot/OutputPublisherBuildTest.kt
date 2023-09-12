@@ -31,7 +31,7 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
-            println(result.output)
+
             then("logs are shown in the output with the shrugged") {
                 assert(result.output.contains("OutputPublisher"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
