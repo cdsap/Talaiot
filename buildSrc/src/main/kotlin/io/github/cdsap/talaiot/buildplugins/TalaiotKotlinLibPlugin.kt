@@ -45,6 +45,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             setProjectGroup(extension.group, Type.LIBRARY)
             collectUnitTest()
             setUpPublishing(Type.LIBRARY)
+            setUpSigning("TalaiotLib")
         }
 
         target.dependencies {

@@ -15,7 +15,7 @@ class DefaultConfigurationSpec : StringSpec({
         forAll(
             listOf(
                 "8.3",
-                "8.1.1",
+                "8.2.1",
                 "7.6.2",
                 "7.1.1",
                 "7.0.2"

@@ -1,6 +1,7 @@
 package io.github.cdsap.talaiot.buildplugins
 
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.extra
 import org.gradle.plugins.signing.SigningExtension
@@ -14,8 +15,10 @@ fun Project.setUpSigning(vararg publications: String) {
         extra.set("signing.secretKeyRingFile", secring)
         if (File(secring).exists()) {
             configure<SigningExtension> {
-                publications.forEach {
-                    sign(publication(it))
+                (extensions.getByName("publishing") as PublishingExtension).publications.forEach {
+                    if (tasks.matching { it.name == "signPluginMavenPublication" }.size == 0) {
+                        sign(it)
+                    }
                 }
             }
         }
