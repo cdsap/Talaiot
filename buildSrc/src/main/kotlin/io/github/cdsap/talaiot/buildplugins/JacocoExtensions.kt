@@ -13,10 +13,9 @@ fun Project.setUpJacoco() = this.run {
 
     tasks.withType<JacocoReport> {
         reports {
-//            xml.s = true
-//            csv.isEnabled = false
-//            html.isEnabled = true
-//            html.destination = File("${rootProject.buildDir}/coverage")
+            html.isEnabled = true
+            html.destination = File("${rootProject.buildDir}/coverage")
+            xml.isEnabled = true
         }
     }
 
