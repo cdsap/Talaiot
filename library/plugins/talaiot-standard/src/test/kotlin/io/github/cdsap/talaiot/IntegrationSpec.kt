@@ -14,27 +14,23 @@ class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "7.4.1",
-                "7.2",
+                "8.3",
+                "8.1.1",
+                "7.6.2",
                 "7.1.1",
-                "7.1",
-                "7.0.2",
-                "7.0",
-                "6.8.1",
-                "6.7.1",
-                "6.5.1"
+                "7.0.2"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
 
             testProjectDir.create()
-            val buildFile = testProjectDir.newFile("build.gradle")
+            val buildFile = testProjectDir.newFile("build.gradle.kts")
             buildFile.appendText(
                 """
                 import io.github.cdsap.talaiot.publisher.JsonPublisher
                 plugins {
-                    id 'java'
-                    id 'io.github.cdsap.talaiot'
+                    id ("java")
+                    id ("io.github.cdsap.talaiot")
                 }
 
                 talaiot {
@@ -46,14 +42,14 @@ class DefaultConfigurationSpec : StringSpec({
 
                 """.trimIndent()
             )
-            val result = GradleRunner.create()
+            GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "--info", "--stacktrace")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
 
-            Thread.sleep(2000)
+
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 

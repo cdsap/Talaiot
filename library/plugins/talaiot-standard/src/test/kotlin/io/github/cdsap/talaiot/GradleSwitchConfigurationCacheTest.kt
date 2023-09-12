@@ -13,7 +13,7 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
             val testProjectDir = TemporaryFolder()
             testProjectDir.create()
 
-            val buildFile = testProjectDir.newFile("build.gradle")
+            val buildFile = testProjectDir.newFile("build.gradle.kts")
             buildGradle(buildFile)
 
             `when`("build executes assemble with JsonPublisher and configuration cache") {
@@ -64,8 +64,8 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
         buildFile.appendText(
             """
                        plugins {
-                          id 'java'
-                          id 'io.github.cdsap.talaiot'
+                          id("java")
+                          id("io.github.cdsap.talaiot")
                       }
 
 
