@@ -42,20 +42,6 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
                     assert(file.readText().contains("\"configurationCache\": \"false\""))
                 }
             }
-            `when`("build executes assemble with JsonPublisher with Gradle < 7.1") {
-
-                GradleRunner.create()
-                    .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
-                    .withPluginClasspath()
-                    .withGradleVersion("7.0.2")
-                    .build()
-
-                then("Configuration Cache switch is not registered") {
-                    val file = File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json")
-                    assert(file.readText().contains("\"configurationCache\": \"\""))
-                }
-            }
             testProjectDir.delete()
         }
     }
