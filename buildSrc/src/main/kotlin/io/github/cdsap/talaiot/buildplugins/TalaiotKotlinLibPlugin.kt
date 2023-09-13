@@ -20,7 +20,6 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.plugins.apply("kotlin")
         target.plugins.apply("maven-publish")
-        target.plugins.apply("jacoco")
         target.plugins.apply("signing")
         target.plugins.apply("java-library")
         target.plugins.apply("org.jlleitschuh.gradle.ktlint")
@@ -30,7 +29,6 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
-        target.setUpJacoco()
         target.setUpJunitPlatform()
         target.setUpKtlint()
 

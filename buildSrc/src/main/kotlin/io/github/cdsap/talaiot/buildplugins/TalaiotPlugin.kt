@@ -18,7 +18,6 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.plugins.apply("java-gradle-plugin")
         target.plugins.apply("maven-publish")
-        target.plugins.apply("jacoco")
         target.plugins.apply("signing")
         target.plugins.apply("kotlin")
         target.plugins.apply("java-library")
@@ -31,7 +30,6 @@ class TalaiotPlugin : Plugin<Project> {
             maven { url = URI("https://plugins.gradle.org/m2/") }
         }
 
-        target.setUpJacoco()
         target.setUpJunitPlatform()
 
 

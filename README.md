@@ -1,7 +1,6 @@
 # Talaiot
 
 [![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
-[![codecov](https://codecov.io/gh/cdsap/Talaiot/branch/master/graph/badge.svg)](https://codecov.io/gh/cdsap/Talaiot)
 
 Talaiot is an extensible library targeting teams using the Gradle Build System.
 It records build/task duration helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics.
@@ -316,7 +315,7 @@ Talaiot will send to the InfluxDb server defined in the configuration the values
 | buildTags                    | Collection of BuildMetrics used as tags                                             |
 | taskTags                     | Collection of TaskMetrics used as tags                                              |
 
-For complete list of 
+For complete list of
 - build tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/BuildMetrics.kt
 - task tags check: https://github.com/cdsap/Talaiot/blob/master/library/core/talaiot/src/main/kotlin/io/github/cdsap/talaiot/metrics/TaskMetrics.kt
 
@@ -635,7 +634,7 @@ drop us comment to include it in a community plugins.
 * [Yaroslav Legovich](https://github.com/yarolegovich)
 
 * [Marina Meier](https://github.com/MarinaShaposhnikova)
-  
+
 * [Konstantin Aksenov](https://github.com/Vacxe)
 
 * [Iñaki Villar](https://github.com/cdsap/)
