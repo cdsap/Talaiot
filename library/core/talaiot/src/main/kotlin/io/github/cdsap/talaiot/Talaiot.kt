@@ -66,7 +66,7 @@ class Talaiot<T : TalaiotExtension>(
     }
 
     private fun populateMetrics(executionReport: ExecutionReport, target: Project) {
-        MetricsProvider(MetricsConfiguration().build(), executionReport, target).get()
+        MetricsProvider(MetricsConfiguration().build(target), executionReport, target).get()
     }
 
     private fun createTalaiotPublisher(
