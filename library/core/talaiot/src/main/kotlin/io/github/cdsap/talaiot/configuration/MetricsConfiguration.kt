@@ -29,6 +29,7 @@ import io.github.cdsap.talaiot.metrics.RootProjectNameMetric
 import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.UserMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
+import org.gradle.api.Project
 
 /**
  * Configuration for the Metrics extensions
@@ -123,10 +124,10 @@ class MetricsConfiguration {
         }
     }
 
-    private fun addGitMetrics() {
+    private fun addGitMetrics(target: Project) {
         with(metrics) {
-            add(GitUserMetric())
-            add(GitBranchMetric())
+            add(GitUserMetric(target))
+            add(GitBranchMetric(target))
         }
     }
 
@@ -244,12 +245,12 @@ class MetricsConfiguration {
         }
     }
 
-    internal fun build(): List<Metric<*, *>> {
+    internal fun build(target: Project): List<Metric<*, *>> {
         if (defaultMetrics) {
             addDefaultMetrics()
         }
         if (gitMetrics) {
-            addGitMetrics()
+            addGitMetrics(target)
         }
         if (performanceMetrics) {
             addPerformanceMetrics()

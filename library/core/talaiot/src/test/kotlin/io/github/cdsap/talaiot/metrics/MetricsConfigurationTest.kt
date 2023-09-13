@@ -1,5 +1,6 @@
 package io.github.cdsap.talaiot.metrics
 
+import com.nhaarman.mockitokotlin2.mock
 import io.github.cdsap.talaiot.assertions.shouldContainExactlyTypesOfInAnyOrder
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.CustomProperties
@@ -8,12 +9,14 @@ import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
+import org.gradle.api.Project
 
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {
+        val target = mock<Project>()
         `when`("configuration is not changed") {
             val metricsConfiguration = MetricsConfiguration()
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("included all metrics") {
                 val expectedMetricsTypes = defaultMetricsTypes +
                     environmentMetricsTypes +
@@ -32,7 +35,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("only default metrics are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(defaultMetricsTypes)
             }
@@ -46,7 +49,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = true
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("only environment metrics are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(environmentMetricsTypes)
             }
@@ -59,7 +62,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("only performance metrics are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(performanceMetricsTypes)
             }
@@ -72,7 +75,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("only git metrics are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(gitMetricsTypes)
             }
@@ -86,7 +89,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = true
                 environmentMetrics = false
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("only gradle switches metrics is included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(gradleSwitchesMetricsTypes)
             }
@@ -100,7 +103,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("BuildIdMetric is not included") {
                 assert(metrics.count { it is BuildIdMetric } == 0)
                 metrics.shouldContainExactlyTypesOfInAnyOrder(performanceMetricsTypes)
@@ -115,7 +118,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 environmentMetrics = false
                 generateBuildId = true
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("BuildIdMetric is included") {
                 val expectedMetricsTypes = performanceMetricsTypes + BuildIdMetric::class
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
@@ -132,7 +135,7 @@ class MetricsConfigurationTest : BehaviorSpec({
 
                 customMetrics(AdbVersionMetric())
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("AdbMetric is included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(AdbVersionMetric::class))
             }
@@ -150,7 +153,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                     KotlinVersionMetric()
                 )
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("AdbMetric and KotlinVersionMetric are included") {
                 val expectedMetricsTypes = listOf(AdbVersionMetric::class, KotlinVersionMetric::class)
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
@@ -168,7 +171,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                     KotlinVersionMetric()
                 )
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("default metrics and KotlinVersionMetric are included") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(defaultMetricsTypes + KotlinVersionMetric::class)
             }
@@ -188,7 +191,7 @@ class MetricsConfigurationTest : BehaviorSpec({
 
                 customBuildMetrics(expectedBuildProperties)
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("add custom build metrics to the report") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
                 val resultingReport = ExecutionReport()
@@ -220,7 +223,7 @@ class MetricsConfigurationTest : BehaviorSpec({
 
                 customTaskMetrics(expectedTaskProperties)
             }
-            val metrics = metricsConfiguration.build()
+            val metrics = metricsConfiguration.build(target)
             then("add custom build metrics to the report") {
                 metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
                 val resultingReport = ExecutionReport()
