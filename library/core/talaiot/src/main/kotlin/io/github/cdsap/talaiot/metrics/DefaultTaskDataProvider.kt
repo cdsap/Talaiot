@@ -13,15 +13,7 @@ class DefaultTaskDataProvider(
             TaskMetrics.Module.toKey() to task.module,
             TaskMetrics.RootNode.toKey() to task.rootNode.toString(),
             TaskMetrics.Task.toKey() to task.taskPath,
-            TaskMetrics.WorkerId.toKey() to task.workerId,
-            TaskMetrics.Critical.toKey() to task.critical.toString(),
             TaskMetrics.Value.toKey() to task.ms,
-            TaskMetrics.CacheEnabled.toKey() to task.isCacheEnabled,
-            TaskMetrics.LocalCacheHit.toKey() to task.isLocalCacheHit,
-            TaskMetrics.LocalCacheMiss.toKey() to task.isLocalCacheMiss,
-            TaskMetrics.RemoteCacheHit.toKey() to task.isRemoteCacheHit,
-            TaskMetrics.RemoteCacheMiss.toKey() to task.isRemoteCacheMiss
-
         ) + report.customProperties.taskProperties
     }
 }

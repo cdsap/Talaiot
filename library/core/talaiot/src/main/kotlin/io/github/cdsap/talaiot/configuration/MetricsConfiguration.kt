@@ -2,13 +2,11 @@ package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildIdMetric
-import io.github.cdsap.talaiot.metrics.CacheHitMetric
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
-import io.github.cdsap.talaiot.metrics.GradleScanLinkMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigurationCacheMetric
@@ -25,11 +23,8 @@ import io.github.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
 import io.github.cdsap.talaiot.metrics.JvmXmsMetric
 import io.github.cdsap.talaiot.metrics.JvmXmxMetric
 import io.github.cdsap.talaiot.metrics.LocaleMetric
-import io.github.cdsap.talaiot.metrics.OsManufacturerMetric
 import io.github.cdsap.talaiot.metrics.OsMetric
 import io.github.cdsap.talaiot.metrics.ProcessorCountMetric
-import io.github.cdsap.talaiot.metrics.PublicIpMetric
-import io.github.cdsap.talaiot.metrics.RamAvailableMetric
 import io.github.cdsap.talaiot.metrics.RootProjectNameMetric
 import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.UserMetric
@@ -65,7 +60,6 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [UserMetric]
  *  [OsMetric]
  *  [ProcessorCountMetric]
- *  [RamAvailableMetric]
  *  [JavaVmNameMetric]
  *  [LocaleMetric]
  *  [GradleMaxWorkersMetric]
@@ -85,11 +79,8 @@ import io.github.cdsap.talaiot.metrics.base.Metric
  *  [GradleSwitchConfigurationCacheMetric]
  *
  * [environmentMetrics] includes:
- *  [OsManufacturerMetric]
  *  [HostnameMetric]
- *  [PublicIpMetric]
  *  [DefaultCharsetMetric]
- *  [CacheHitMetric]
  *
  *  If you want to define custom metrics:
  *
@@ -129,13 +120,6 @@ class MetricsConfiguration {
             add(RootProjectNameMetric())
             add(GradleRequestedTasksMetric())
             add(GradleVersionMetric())
-            add(GradleScanLinkMetric())
-        }
-    }
-
-    private fun addGradleScanMetrics() {
-        with(metrics) {
-            add(GradleScanLinkMetric())
         }
     }
 
@@ -148,11 +132,8 @@ class MetricsConfiguration {
 
     private fun addEnvironmentMetrics() {
         with(metrics) {
-            add(OsManufacturerMetric())
             add(HostnameMetric())
-            add(PublicIpMetric())
             add(DefaultCharsetMetric())
-            add(CacheHitMetric())
         }
     }
 
@@ -161,7 +142,6 @@ class MetricsConfiguration {
             add(UserMetric())
             add(OsMetric())
             add(ProcessorCountMetric())
-            add(RamAvailableMetric())
             add(JavaVmNameMetric())
             add(LocaleMetric())
             add(GradleMaxWorkersMetric())

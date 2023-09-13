@@ -8,7 +8,6 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.kotlintest.Spec
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.BehaviorSpec
@@ -42,7 +41,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         url = "http://" + container.httpHostAddress
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -105,7 +104,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishTaskMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
                 elasticSearchPublisher.publish(executionReport())
 
@@ -157,7 +156,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                         publishBuildMetrics = false
                     }
                 val elasticSearchPublisher = ElasticSearchPublisher(
-                    elasticSearchPublisherConfiguration, logger, TestExecutor()
+                    elasticSearchPublisherConfiguration, logger
                 )
 
                 elasticSearchPublisher.publish(executionReport())
@@ -221,7 +220,7 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

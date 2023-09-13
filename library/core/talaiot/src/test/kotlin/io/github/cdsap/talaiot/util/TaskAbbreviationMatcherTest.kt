@@ -14,7 +14,6 @@ class TaskAbbreviationMatcherTest : BehaviorSpec({
             TaskName("compileKotlin", ":modules:moduleB:compileKotlin"),
             TaskName("assembleDebug", "assembleDebug")
         )
-        println("map: $executedTasks")
         val taskAbbreviationMatcher = TaskAbbreviationMatcher(executedTasks)
 
         `when`("search abbreviation for single task") {

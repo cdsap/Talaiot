@@ -11,6 +11,7 @@ import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
+import java.io.Serializable
 
 /**
  * Publisher using InfluxDb (Flux) and LineProtocol format to send the metrics
@@ -24,7 +25,7 @@ class InfluxDb2Publisher(
      * LogTracker to print in console depending on the Mode
      */
     private val logTracker: LogTracker
-) : Publisher {
+) : Publisher, Serializable {
 
     private val TAG = "InfluxDb2Publisher"
 

@@ -10,12 +10,12 @@ class OutputPublisherBuildTest : BehaviorSpec({
         val testProjectDir = TemporaryFolder()
         `when`("Talaiot is included with OutputPublisher") {
             testProjectDir.create()
-            val buildFile = testProjectDir.newFile("build.gradle")
+            val buildFile = testProjectDir.newFile("build.gradle.kts")
             buildFile.appendText(
                 """
                    plugins {
-                      id 'java'
-                      id 'io.github.cdsap.talaiot'
+                      id ("java")
+                      id ("io.github.cdsap.talaiot")
                    }
 
                   talaiot{
@@ -31,6 +31,8 @@ class OutputPublisherBuildTest : BehaviorSpec({
                 .withArguments("assemble")
                 .withPluginClasspath()
                 .build()
+            Thread.sleep(2000)
+
             then("logs are shown in the output with the shrugged") {
                 assert(result.output.contains("OutputPublisher"))
                 assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)

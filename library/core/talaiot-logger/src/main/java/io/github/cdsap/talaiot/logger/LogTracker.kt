@@ -3,7 +3,7 @@ package io.github.cdsap.talaiot.logger
 /**
  * Logger interface
  */
-interface LogTracker {
+interface LogTracker : java.io.Serializable {
     /**
      * Main modes of for the [LogTracker] implementations.
      */

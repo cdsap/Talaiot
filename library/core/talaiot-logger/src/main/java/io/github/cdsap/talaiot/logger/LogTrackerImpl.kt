@@ -8,7 +8,7 @@ class LogTrackerImpl(
      * Mode applied to the logger
      */
     private val mode: LogTracker.Mode = LogTracker.Mode.INFO
-) : LogTracker {
+) : LogTracker, java.io.Serializable {
 
     /**
      * Logger function that check the current node to use the output method to display the results.

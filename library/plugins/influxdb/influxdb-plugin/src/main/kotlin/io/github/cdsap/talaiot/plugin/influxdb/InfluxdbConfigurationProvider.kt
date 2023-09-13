@@ -5,7 +5,6 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
 import org.gradle.api.Project
-import java.util.concurrent.Executors
 
 class InfluxdbConfigurationProvider(
     val project: Project
@@ -19,12 +18,10 @@ class InfluxdbConfigurationProvider(
                 publishers.add(
                     InfluxDbPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger),
-                        Executors.newSingleThreadExecutor()
+                        LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
             }
-            publishers.addAll(customPublishers)
         }
         return publishers
     }

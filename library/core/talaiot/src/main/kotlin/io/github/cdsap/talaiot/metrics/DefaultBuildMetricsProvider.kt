@@ -4,7 +4,7 @@ import io.github.cdsap.talaiot.entities.ExecutionReport
 
 class DefaultBuildMetricsProvider(
     private val report: ExecutionReport
-) : ValuesProvider {
+) : ValuesProvider, java.io.Serializable {
 
     override fun get(): Map<String, Any> {
         val map = mutableMapOf<String, Any>()
@@ -29,7 +29,6 @@ class DefaultBuildMetricsProvider(
                 javaXmsBytes?.let { map[BuildMetrics.JavaXmsBytes.toKey()] = it.toLong() }
                 javaXmxBytes?.let { map[BuildMetrics.JavaXmxBytes.toKey()] = it.toLong() }
                 javaMaxPermSize?.let { map[BuildMetrics.JavaMaxPermSize.toKey()] = it.toLong() }
-                totalRamAvailableBytes?.let { map[BuildMetrics.TotalRamAvailableBytes.toKey()] = it.toLong() }
                 cpuCount?.let { map[BuildMetrics.CpuCount.toKey()] = it.toInt() }
                 locale?.let { map[BuildMetrics.Locale.toKey()] = it }
                 username?.let { map[BuildMetrics.Username.toKey()] = it }
@@ -39,13 +38,7 @@ class DefaultBuildMetricsProvider(
                 gitBranch?.let { map[BuildMetrics.GitBranch.toKey()] = it }
                 gitUser?.let { map[BuildMetrics.GitUser.toKey()] = it }
                 hostname?.let { map[BuildMetrics.Hostname.toKey()] = it }
-                osManufacturer?.let { map[BuildMetrics.OsManufacturer.toKey()] = it }
-                publicIp?.let { map[BuildMetrics.PublicIp.toKey()] = it }
                 cacheUrl?.let { map[BuildMetrics.CacheUrl.toKey()] = it }
-                localCacheHit?.let { map[BuildMetrics.LocalCacheHit.toKey()] = it.toString() }
-                localCacheMiss?.let { map[BuildMetrics.LocalCacheMiss.toKey()] = it.toString() }
-                remoteCacheHit?.let { map[BuildMetrics.RemoteCacheHit.toKey()] = it.toString() }
-                remoteCacheMiss?.let { map[BuildMetrics.RemoteCacheMiss.toKey()] = it.toString() }
                 cacheStore?.let { map[BuildMetrics.CacheStore.toKey()] = it }
                 switches.buildCache?.let { map[BuildMetrics.SwitchCache.toKey()] = it }
                 switches.buildScan?.let { map[BuildMetrics.SwitchScan.toKey()] = it }

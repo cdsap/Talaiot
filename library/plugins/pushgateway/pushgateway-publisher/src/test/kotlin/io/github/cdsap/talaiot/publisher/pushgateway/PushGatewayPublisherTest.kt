@@ -7,7 +7,6 @@ import io.github.cdsap.talaiot.entities.Switches
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.logger.TestLogTrackerRecorder
-import io.github.cdsap.talaiot.utils.TestExecutor
 import io.github.rybalkinsd.kohttp.dsl.httpGet
 import io.github.rybalkinsd.kohttp.ext.url
 import io.kotlintest.Spec
@@ -42,7 +41,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, TestExecutor()
+                    pushGatewayConfiguration, logger
                 )
 
                 pushGateway.publish(
@@ -51,6 +50,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
 
                 then("Pushgateway contains metrics for build and tasks") {
 
+                    Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
                     val a = httpGet {
@@ -64,11 +64,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     }
                     val content = a.body()?.string()
                     assert(
-                        content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 100")
+                        content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 100")
                             ?: false
                     )
                     assert(
-                        content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 1")
+                        content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task\",metric1=\"value1\",metric2=\"value2\"} 1")
                             ?: false
                     )
                     assert(
@@ -87,7 +87,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, TestExecutor()
+                    pushGatewayConfiguration, logger
                 )
 
                 pushGateway.publish(
@@ -95,7 +95,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 )
 
                 then("Pushgateway contains metrics for tasks but not for build") {
-
+                    Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
                     val a = httpGet {
@@ -110,11 +110,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     val content = a.body()?.string()
 
                     assert(
-                        content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 1")
+                        content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 1")
                             ?: false
                     )
                     assert(
-                        content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 100")
+                        content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task2\",metric1=\"value1\",metric2=\"value2\"} 100")
                             ?: false
                     )
 
@@ -130,7 +130,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, TestExecutor()
+                    pushGatewayConfiguration, logger
                 )
 
                 pushGateway.publish(
@@ -138,7 +138,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 )
 
                 then("Pushgateway contains metrics for build but not for task") {
-
+                    Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
                     val a = httpGet {
@@ -154,13 +154,14 @@ class PushGatewayPublisherTest : BehaviorSpec() {
 
                     assert(
                         !(
-                            content?.contains("gradle_task_assemble{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 100")
+                            content?.contains("gradle_task_assemble{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 100")
                                 ?: true
                             )
                     )
                     assert(
                         !(
-                            content?.contains("gradle_task_clean{Critical=\"false\",LocalCacheHit=\"false\",Module=\"app\",RemoteCacheHit=\"false\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 1")
+                            content?.contains("gradle_task_clean{Module=\"app\",State=\"EXECUTED\",instance=\"\",job=\"task3\",metric1=\"value1\",metric2=\"value2\"} 1")
+
                                 ?: true
                             )
                     )
@@ -179,7 +180,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger, TestExecutor()
+                    pushGatewayConfiguration, logger
                 )
 
                 pushGateway.publish(
@@ -203,7 +204,7 @@ class PushGatewayPublisherTest : BehaviorSpec() {
 
                     content?.contains("metric1=\"value1\",metric2=\"value2\",module=\":test-module\",rootNode=\"false\",state=\"EXECUTED\",task=\":test-module:clean\",value=\"1\",workerId=\"\"} 100")
 
-                    content?.contains(":test_module:app:assemble{critical=\"false\",instance=\"\",job=\"task4\",metric1=\"value1\",metric2=\"value2\",module=\":test-module\",rootNode=\"false\",state=\"EXECUTED\",task=\":test-module:app:assemble\",value=\"100\",workerId=\"\"} 1")
+                    content?.contains(":test_module:app:assemble{instance=\"\",job=\"task4\",metric1=\"value1\",metric2=\"value2\",module=\":test-module\",rootNode=\"false\",state=\"EXECUTED\",task=\":test-module:app:assemble\",value=\"100\",workerId=\"\"} 1")
 
                     content?.contains("build4{configuration=\"0\",cpuCount=\"12\",duration=\"100\",instance=\"\",job=\"build4\",maxWorkers=\"4\",metric1=\"value1\",metric2=\"value2\",requestedTasks=\"assemble\",success=\"false\",switch_configurationOnDemand=\"true\",switch_dryRun=\"true\"} 100")
                 }
@@ -232,11 +233,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "clean", ":clean", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 ),
                 TaskLength(
                     100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )
@@ -266,11 +267,11 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "clean", ":test-module:clean", TaskMessageState.EXECUTED, false,
-                    ":test-module", emptyList()
+                    ":test-module"
                 ),
                 TaskLength(
                     100, "assemble", ":test-module:app:assemble", TaskMessageState.EXECUTED, false,
-                    ":test-module", emptyList()
+                    ":test-module"
                 )
             )
         )

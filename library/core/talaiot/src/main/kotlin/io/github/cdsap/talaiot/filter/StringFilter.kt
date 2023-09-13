@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.filter
 
-class StringFilter {
+class StringFilter : java.io.Serializable {
     var includes: Array<String>? = null
     var excludes: Array<String>? = null
 }

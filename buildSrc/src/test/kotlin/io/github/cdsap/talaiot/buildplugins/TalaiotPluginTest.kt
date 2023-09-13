@@ -107,7 +107,6 @@ class TalaiotPluginTest {
     @Test
     fun pluginAppliesGenericGroup() {
         val rootFolder = createTempFolder()
-        println(rootFolder.absolutePath)
         File(rootFolder, "build.gradle").appendText(
             buildGradleWithTalaiotAndCustomRepositoryNoGroup(rootFolder.absolutePath).trimIndent()
         )

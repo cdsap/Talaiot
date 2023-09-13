@@ -128,7 +128,7 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
             tasks = listOf(
                 TaskLength(
                     1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
-                    "app", emptyList()
+                    "app"
                 )
             )
         )

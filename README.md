@@ -425,20 +425,6 @@ Talaiot will Publish the results of the build with a json format .
 
 Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
 
-#### TimelinePublisher
-Talaiot will create a PNG file with the detailed information in chronological order by task of the execution
-in the different workers.
-
-![](resources/timeline.png)
-
-```
-    publishers {
-        timelinePublisher = true
-
-    }
-```
-Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.base` plugins.
-
 #### ElasticSearchPublisher
 Talaiot will send to the ElasticSearch server defined in the configuration the values collected for tasks and build metrics during the execution
 in the different workers.
@@ -541,7 +527,7 @@ The project includes examples creating custom publishers, defining metrics using
 ## Example: Analyzing Data provided by Talaiot <a name="example"></a>
 
 ### Docker, InfluxDb and Grafana
-To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).  
+To have a quick setup to see the possibilities of `Talaiot` we are providing a Docker image to setup a Grafana + InfluxDb instances(based on [this](https://github.com/philhawthorne/docker-influxdb-grafana) great repo).
 
 Additionally, the Docker image is creating a default database, a provisioned dashboard and the default datasource for InfluxDb.
 The source is [here](docker/Dockerfile):
