@@ -25,14 +25,12 @@ jobs:
           name: test
           command: |
             java --version
-            ./gradlew collectUnitTest jacocoTestReport --stacktrace --info
+            ./gradlew collectUnitTest  --stacktrace --info
       - run:
           name: build sample
           command: |
             cd sample
             ./gradlew assemble
-      - codecov/upload:
-          file: build/reports/jacoco/test/*.xml
       - store_test_results:
           path: build/reports/tests/
       - store_artifacts:
