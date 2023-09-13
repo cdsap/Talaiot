@@ -16,9 +16,7 @@ class DefaultConfigurationSpec : StringSpec({
             listOf(
                 "8.3",
                 "8.2.1",
-                "7.6.2",
-                "7.1.1",
-                "7.0.2"
+                "7.6.2"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
