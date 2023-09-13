@@ -14,7 +14,10 @@ fun Project.setUpGradlePublishing() {
         plugins {
             register(project.name) {
                 id = extension.idPlugin
+                displayName = extension.displayName
                 implementationClass = extension.mainClass
+                description =
+                    "${extension.displayName}, simple and extensible plugin to track task and build times in your Gradle Project."
             }
         }
     }
@@ -22,9 +25,7 @@ fun Project.setUpGradlePublishing() {
     configure<PluginBundleExtension> {
         website = "https://github.com/cdsap/Talaiot"
         vcsUrl = "https://github.com/cdsap/Talaiot"
-        description =
-            "${extension.displayName}, simple and extensible plugin to track task and build times in your Gradle Project."
-        tags = listOf("tracking", "kotlin", "gradle")
+         tags = listOf("tracking", "kotlin")
     }
 
 
