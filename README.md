@@ -15,7 +15,6 @@ Current available plugins:
 | standard      | Contains all the available publishers listed below                   |
 | base          | Talaiot core functionality with Json, Output and Timeline publishers |
 | elasticsearch | Talaiot core functionality with Elasticsearch publisher              |
-| graph         | Talaiot core functionality with Graph publisher                      |
 | influxdb      | Talaiot core functionality with Influxdb publisher                   |
 | influxdb2     | Talaiot core functionality with Influxdb2 (Flux) publisher           |
 | pushgateway   | Talaiot core functionality with Pushgateway publisher                |
@@ -103,7 +102,6 @@ Each plugin is deployed to the Gradle Plugin Portal using thee following convent
 |----------------|-----------------------------------------|
 | base           | io.github.cdsap.talaiot.plugin.base           |
 | elasticsearch  | io.github.cdsap.talaiot.plugin.elasticsearch  |
-| graph          | io.github.cdsap.talaiot.plugin.graph          |
 | influxdb       | io.github.cdsap.talaiot.plugin.influxdb       |
 | pushgateway    | io.github.cdsap.talaiot.plugin.pushgateway    |
 | rethinkdb      | io.github.cdsap.talaiot.plugin.rehinkdb       |
@@ -214,7 +212,7 @@ talaiot {
 Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
 
 ### Filters
-For every measurement done, Talaiot can filter the tasks tracked to be published. These filters don't apply to GraphPublishers:
+For every measurement done, Talaiot can filter the tasks tracked to be published.
 
 
  | Property             |      Description                                                                             |
@@ -372,31 +370,6 @@ influxDbPublisher {
   }
 }
 ```
-
-#### TaskDependencyGraphPublisher
-Talaiot will generate the Task Dependency Graph in the specific format specified in the configuration
-
-
-| Property      |      Description                                                                                 |
-|---------------|--------------------------------------------------------------------------------------------------|
-| ignoreWhen    | Configuration to ignore the execution of the publisher                                           |
-| html          | Export the task dependency graph in Html format with support of [vis.js](http://visjs.org/)      |
-| gexf          | Export the task dependency graph in [gexf format](https://gephi.org/gexf/format/)                |
-| dot           | Export the task dependency graph in png format. See [Graphviz](https://graphviz.gitlab.io/) |
-
-This new category of publishers does not require constantly evaluating the builds, that's why there is an extra
-parameter configuration in the Publisher to ignore the execution unless there is some property enabled. Typical use case is
-use this publisher and collect the files on CI.
-
-The output will be found `"${project.rootDir}/talaiot`:
-
-![](resources/output_graph_publisher.png)
-
-Example:
-
-![](resources/graph_example_plaid.png)
-
-Included in: `io.github.cdsap.talaiot` and `io.github.cdsap.talaiot.plugin.graph` plugins.
 
 #### PushGatewayPublisher
 Talaiot will send to the PushGateway server defined in the configuration the values collected during the execution.
