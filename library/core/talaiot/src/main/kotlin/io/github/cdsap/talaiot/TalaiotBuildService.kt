@@ -9,7 +9,6 @@ import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
-import java.util.concurrent.Executors
 
 /**
  * Tracks information of the tasks executed duting the build.
@@ -49,19 +48,16 @@ abstract class TalaiotBuildService :
 
     override fun close() {
 
-        val executor = Executors.newSingleThreadExecutor()
         val end = System.currentTimeMillis()
 
-        executor.execute {
-            parameters.publisher.get().publish(
-                taskLengthList = taskLengthList,
-                start = start,
-                configuraionMs = configurationTime,
-                end = end,
-                duration = end - start,
-                success = taskLengthList.none { it.state == TaskMessageState.FAILED }
-            )
-        }
+        parameters.publisher.get().publish(
+            taskLengthList = taskLengthList,
+            start = start,
+            configuraionMs = configurationTime,
+            end = end,
+            duration = end - start,
+            success = taskLengthList.none { it.state == TaskMessageState.FAILED }
+        )
     }
 
     override fun onFinish(event: FinishEvent?) {
