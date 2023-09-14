@@ -41,7 +41,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             val extension = extensions.getByType<BaseConfiguration>()
             setProjectVersion(extension.version)
             setProjectGroup(extension.group, Type.LIBRARY)
-            collectUnitTest()
+            collectUnitTestLibs()
             setUpPublishing(Type.LIBRARY)
             setUpSigning("TalaiotLib")
         }
