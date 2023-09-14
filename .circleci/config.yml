@@ -22,10 +22,15 @@ jobs:
           name: assemble
           command: ./gradlew assemble
       - run:
-          name: test
+           name: test plugins
+           command: |
+             java --version
+             ./gradlew collectUnitTest  --stacktrace --info
+      - run:
+          name: test libs
           command: |
             java --version
-            ./gradlew collectUnitTest  --stacktrace --info
+            ./gradlew collectUnitTestLibs  --stacktrace --info
       - run:
           name: build sample
           command: |
