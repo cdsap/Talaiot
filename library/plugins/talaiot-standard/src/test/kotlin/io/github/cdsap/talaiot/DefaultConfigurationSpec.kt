@@ -34,7 +34,16 @@ class DefaultConfigurationSpec : StringSpec({
                 talaiot {
                     logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
                     publishers {
-                        jsonPublisher = true
+                         jsonPublisher = true
+                         customPublishers.add(CustomPublisher())
+                    }
+
+                }
+                class CustomPublisher : io.github.cdsap.talaiot.publisher.Publisher {
+
+                    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
+                        println("[CustomPublisher] : Number of tasks = ")
+
                     }
                 }
 

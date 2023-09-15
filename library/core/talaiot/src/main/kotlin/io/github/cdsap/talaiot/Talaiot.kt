@@ -9,7 +9,6 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.logger.LogTrackerImpl
 import io.github.cdsap.talaiot.provider.MetricsProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
-import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import org.gradle.api.Project
@@ -50,9 +49,9 @@ class Talaiot<T : TalaiotExtension>(
                     listOf(task.toString())
                 }
             }
-            populateMetrics(executionReport, target)
-            val talaiotPublisher =
-                createTalaiotPublisher(extension, executionReport, publisherConfigurationProvider.get())
+            populateMetrics(executionReport, target, extension.metrics)
+            executionReport.customProperties.buildProperties
+            val talaiotPublisher = createTalaiotPublisher(extension, executionReport)
 
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
@@ -60,23 +59,24 @@ class Talaiot<T : TalaiotExtension>(
                 ) { spec ->
                     spec.parameters.publisher.set(talaiotPublisher)
                     spec.parameters.startParameters.set(parameters)
+                    spec.parameters.customPublishers.set(publisherConfigurationProvider.get())
+                    spec.parameters.publishOnNewThread.set(extension.publishOnNewThread)
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }
     }
 
-    private fun populateMetrics(executionReport: ExecutionReport, target: Project) {
-        MetricsProvider(MetricsConfiguration().build(target), executionReport, target).get()
+    private fun populateMetrics(executionReport: ExecutionReport, target: Project, metrics: MetricsConfiguration) {
+        MetricsProvider(metrics.build(target), executionReport, target).get()
     }
 
     private fun createTalaiotPublisher(
         extension: T,
-        executionReport: ExecutionReport,
-        publishers: List<Publisher>
+        executionReport: ExecutionReport
     ): TalaiotPublisher {
         val logger = LogTrackerImpl(LogTracker.Mode.INFO)
         val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)
         val buildFilterProcessor = BuildFilterProcessor(logger, extension.filter?.build ?: BuildFilterConfiguration())
-        return TalaiotPublisherImpl(executionReport, publishers, taskFilterProcessor, buildFilterProcessor)
+        return TalaiotPublisherImpl(executionReport, taskFilterProcessor, buildFilterProcessor)
     }
 }

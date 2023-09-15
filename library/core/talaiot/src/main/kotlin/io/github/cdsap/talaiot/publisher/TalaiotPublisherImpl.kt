@@ -16,7 +16,6 @@ import io.github.cdsap.talaiot.filter.TaskFilterProcessor
  */
 class TalaiotPublisherImpl(
     private val executionReport: ExecutionReport,
-    private val publisherProvider: List<Publisher>,
     private val taskFilterProcessor: TaskFilterProcessor,
     private val buildFilterProcessor: BuildFilterProcessor
 ) : TalaiotPublisher, java.io.Serializable {
@@ -27,7 +26,8 @@ class TalaiotPublisherImpl(
         configuraionMs: Long?,
         end: Long,
         success: Boolean,
-        duration: Long
+        duration: Long,
+        publisherProvider: List<Publisher>
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList

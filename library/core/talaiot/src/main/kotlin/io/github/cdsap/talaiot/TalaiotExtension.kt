@@ -32,6 +32,12 @@ open class TalaiotExtension(val project: Project) {
      */
     var filter: FilterConfiguration? = null
 
+    /**
+     * Execute the action of the publishers in a different thread
+     *
+     */
+    var publishOnNewThread: Boolean = false
+
     fun ignoreWhen(block: IgnoreWhenConfiguration.() -> Unit) {
         ignoreWhen = IgnoreWhenConfiguration(project).also(block)
     }

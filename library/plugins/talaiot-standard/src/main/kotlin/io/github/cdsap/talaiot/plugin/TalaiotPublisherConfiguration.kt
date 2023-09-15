@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot.plugin
 
 import groovy.lang.Closure
 import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
+import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
@@ -10,8 +11,8 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfigurati
 import org.gradle.api.Project
 
 class TalaiotPublisherConfiguration(
-    val project: Project
-) {
+    project: Project
+) : PublishersConfiguration(project) {
     internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
     internal var hybridPublisher: HybridPublisherConfiguration? = null
     internal var influxDbPublisher: InfluxDbPublisherConfiguration? = null

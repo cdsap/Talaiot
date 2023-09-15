@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot
 
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
+import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -9,6 +10,7 @@ import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
+import java.util.concurrent.Executors
 
 /**
  * Tracks information of the tasks executed duting the build.
@@ -38,6 +40,9 @@ abstract class TalaiotBuildService :
          *    ./gradlew clean assemble --> clean assemble
          */
         val startParameters: ListProperty<String>
+        val customPublishers: ListProperty<Publisher>
+
+        val publishOnNewThread: Property<Boolean>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -50,13 +55,27 @@ abstract class TalaiotBuildService :
 
         val end = System.currentTimeMillis()
 
+        if (parameters.publishOnNewThread.get()) {
+            val executor = Executors.newSingleThreadExecutor()
+            executor.execute {
+                publish(end)
+            }
+        } else {
+            publish(end)
+        }
+    }
+
+    private fun publish(end: Long) {
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
             start = start,
             configuraionMs = configurationTime,
             end = end,
             duration = end - start,
-            success = taskLengthList.none { it.state == TaskMessageState.FAILED }
+            success = taskLengthList.none {
+                it.state == TaskMessageState.FAILED
+            },
+            publishers = parameters.customPublishers.get()
         )
     }
 
