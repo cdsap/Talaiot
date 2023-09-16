@@ -4,7 +4,7 @@ buildscript {
         maven(url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
     }
     dependencies {
-        classpath("io.github.cdsap:talaiot:2.0.1-SNAPSHOT")
+        classpath("io.github.cdsap:talaiot:2.0.0")
     }
 }
 apply(plugin = "io.github.cdsap.talaiot")
@@ -24,8 +24,6 @@ configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
             taskMetricName = "task"
             buildMetricName = "build"
         }
-
-        customPublishers(CustomPublisher())
 
     }
 
@@ -58,13 +56,3 @@ class HelloMetric : io.github.cdsap.talaiot.metrics.SimpleMetric<String>(
     provider = { "Hello!" },
     assigner = { report, value -> report.customProperties.buildProperties["hello"] = value }
 )
-
-class CustomPublisher : io.github.cdsap.talaiot.publisher.Publisher {
-
-    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
-        println("[CustomPublisher] : Number of tasks = ${report.tasks?.size}")
-        println("[CustomPublisher] : Kotlin = ${report.customProperties.buildProperties["kotlin"]}")
-        println("[CustomPublisher] : Java = ${report.customProperties.buildProperties["java"]}")
-        println("[CustomPublisher] : PID = ${report.customProperties.taskProperties["pid"]}")
-    }
-}
