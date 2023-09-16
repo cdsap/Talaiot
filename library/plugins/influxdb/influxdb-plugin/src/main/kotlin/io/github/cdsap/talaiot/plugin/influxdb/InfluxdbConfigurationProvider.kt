@@ -21,7 +21,9 @@ class InfluxdbConfigurationProvider(
                         LogTrackerImpl(talaiotExtension.logger)
                     )
                 )
+                publishers.addAll(customPublishers)
             }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }
