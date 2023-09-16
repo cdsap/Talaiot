@@ -22,6 +22,7 @@ class RethinkdbConfigurationProvider(
                     )
                 )
             }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }

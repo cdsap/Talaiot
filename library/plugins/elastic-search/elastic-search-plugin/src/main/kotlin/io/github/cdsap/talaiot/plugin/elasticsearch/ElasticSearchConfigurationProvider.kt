@@ -22,6 +22,7 @@ class ElasticSearchConfigurationProvider(
                     )
                 )
             }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }

@@ -23,6 +23,7 @@ class PushgatewayConfigurationProvider(
                     )
                 )
             }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }
