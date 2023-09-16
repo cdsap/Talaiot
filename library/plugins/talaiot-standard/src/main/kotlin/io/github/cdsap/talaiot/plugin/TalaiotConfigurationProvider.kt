@@ -67,6 +67,7 @@ class TalaiotConfigurationProvider(
                     )
                 )
             }
+            publishers.addAll(customPublishers)
         }
         return publishers
     }

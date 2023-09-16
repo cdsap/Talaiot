@@ -13,6 +13,7 @@ interface TalaiotPublisher : java.io.Serializable {
         configuraionMs: Long?,
         end: Long,
         success: Boolean,
-        duration: Long
+        duration: Long,
+        publishers: List<Publisher>
     )
 }

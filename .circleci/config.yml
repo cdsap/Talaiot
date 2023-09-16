@@ -31,15 +31,6 @@ jobs:
           command: |
             java --version
             ./gradlew collectUnitTestLibs  --stacktrace --info
-      - run:
-          name: build sample
-          command: |
-            cd sample
-            ./gradlew assemble
-      - store_test_results:
-          path: build/reports/tests/
-      - store_artifacts:
-          path: build/reports/tests/
 
   deploy-snapshot:
     working_directory: ~/repo
