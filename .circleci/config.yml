@@ -3,16 +3,13 @@ orbs:
   codecov: codecov/codecov@1.0.5
 executor: machine
 jobs:
-  build:
+  ktlint:
     machine:
-      image: ubuntu-2004:2023.02.1
-
+      image: 'ubuntu-2004:2023.02.1'
     working_directory: ~/repo
-
     environment:
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false'
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
       TERM: dumb
-
     steps:
       - checkout
       - run:
@@ -21,35 +18,86 @@ jobs:
       - run:
           name: assemble
           command: ./gradlew assemble
-      - run:
-           name: test plugins
-           command: |
-             java --version
-             ./gradlew collectUnitTest  --stacktrace --info
-      - run:
-          name: test libs
-          command: |
-            java --version
-            ./gradlew collectUnitTestLibs  --stacktrace --info
-
-  deploy-snapshot:
-    working_directory: ~/repo
+  assemble:
     machine:
-      image: ubuntu-2004:2023.02.1
+      image: 'ubuntu-2004:2023.02.1'
+    working_directory: ~/repo
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
+      TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: assemble
+          command: ./gradlew assemble
+  pluginTest:
+    machine:
+      image: 'ubuntu-2004:2023.02.1'
+    working_directory: ~/repo
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
+      TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: style
+          command: ./gradlew collectUnitTest
+  publisherTest:
+    machine:
+      image: 'ubuntu-2004:2023.02.1'
+    working_directory: ~/repo
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
+      TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: style
+          command: ./gradlew collectUnitTestLibs
+  sample:
+    machine:
+      image: 'ubuntu-2004:2023.02.1'
+    working_directory: ~/repo
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
+      TERM: dumb
+    steps:
+      - checkout
+      - run:
+          name: build sample
+          command: |
+            cd sample
+            ./gradlew assemble
+  deploy-snapshot:
+    machine:
+      image: 'ubuntu-2004:2023.02.1'
     steps:
       - checkout
       - run:
           name: snapshot
           command: ./gradlew publishTalaiotLibPublicationToSnapshotsRepository
-
 workflows:
   version: 2.1
   build-snap:
     jobs:
-      - build
+      - ktlint
+      - assemble
+      - pluginTest
+      - publisherTest
       - deploy-snapshot:
           requires:
-            - build
+            - assemble
+            - ktlint
+            - assemble
+            - pluginTest
+            - publisherTest
           filters:
             branches:
               only: master
+      - sample:
+          requires:
+            - assemble
+            - ktlint
+            - assemble
+            - pluginTest
+            - publisherTest
