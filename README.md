@@ -561,9 +561,6 @@ http://localhost:3003/d/WlpZEBRMz/task-cache-info?orgId=1
 ## Other Existing Libraries  <a name="other_libraries"></a>
 Talaiot is not a new idea. There are multiple awesome plugins to use to achieve same results:
 
-* [Gradle Enterprise](https://gradle.com/#): If you are using Gradle Enterprise Talaiot is useless because the aggregation
-is great and you have the support from Gradle :)
-
 * [Build Time Tracker](https://github.com/passy/build-time-tracker-plugin) by Pascal Hartig(@passy).
 
 * [Kuronometer](https://github.com/pedrovgs/Kuronometer) Plugin developed with Scala and FP concepts by Pedro Vicente Gómez Sánchez(@pedrovgs)
