@@ -35,29 +35,6 @@ class TalaiotPluginTest {
     }
 
     @Test
-    fun pluginWithoutExtensionFails() {
-        val rootFolder = createTempFolder()
-        File(rootFolder, "build.gradle").appendText(
-            """
-             plugins{
-                  id 'java'
-                  id 'talaiotPlugin'
-              }
-
-         """.trimIndent()
-        )
-
-        val result = GradleRunner.create()
-            .withProjectDir(rootFolder)
-            .withArguments("assemble")
-            .withPluginClasspath()
-            .buildAndFail()
-        assert(result.task(":pluginDescriptors")?.outcome == TaskOutcome.FAILED)
-
-        rootFolder.deleteRecursively()
-    }
-
-    @Test
     fun pluginIncludesGradlePluginPublisherTasks() {
         val rootFolder = createTempFolder()
         File(rootFolder, "build.gradle").appendText(
@@ -80,66 +57,6 @@ class TalaiotPluginTest {
         val result = buildResult(rootFolder, "tasks")
         assert(result.output.contains("publishToMavenLocal"))
 
-        rootFolder.deleteRecursively()
-    }
-
-    @Test
-    fun pluginAppliesGenericVersion() {
-        val rootFolder = createTempFolder()
-        File(rootFolder, "build.gradle").appendText(
-            buildGradleWithTalaiotAndCustomRepositoryNoVersion(rootFolder.absolutePath).trimIndent()
-        )
-        GradleRunner.create()
-            .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo")
-            .withPluginClasspath()
-            .build()
-
-        assert(
-            File("${rootFolder.absoluteFile}/repo/io/github/cdsap/talaiot//${Constants.TALAIOT_VERSION}")
-                .walkTopDown().filter {
-                    it.name.contains("talaiot-")
-                }.count() > 0
-        )
-        rootFolder.deleteRecursively()
-    }
-
-    @Test
-    fun pluginAppliesGenericGroup() {
-        val rootFolder = createTempFolder()
-        File(rootFolder, "build.gradle").appendText(
-            buildGradleWithTalaiotAndCustomRepositoryNoGroup(rootFolder.absolutePath).trimIndent()
-        )
-
-        GradleRunner.create()
-            .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo")
-            .withPluginClasspath()
-            .build()
-
-        assert(
-            File("${rootFolder.absoluteFile}/repo/io/github/cdsap/talaiot/plugin/talaiot/${Constants.TALAIOT_VERSION}")
-                .walkTopDown().filter {
-                    it.name.contains("talaiot-")
-                }.count() > 0
-        )
-        rootFolder.deleteRecursively()
-    }
-
-    @Test
-    fun pluginOverrideVersionAndGroup() {
-        val rootFolder = createTempFolder()
-        File(rootFolder, "build.gradle").appendText(
-            buildGradleWithTalaiotAndCustomRepositoryAndVerionGroup(rootFolder.absolutePath).trimIndent()
-        )
-
-        GradleRunner.create()
-            .withProjectDir(rootFolder)
-            .withArguments("publishTalaiotLibPublicationToTestRepo")
-            .withPluginClasspath()
-            .build()
-
-        assert(File("${rootFolder.absoluteFile}/repo/io/github/cdsap/overridegroup/talaiot/1.3.6/talaiot-1.3.6.jar").exists())
         rootFolder.deleteRecursively()
     }
 

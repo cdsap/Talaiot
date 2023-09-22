@@ -1,16 +1,18 @@
+import io.github.cdsap.talaiot.buildplugins.Constants
+import org.gradle.kotlin.dsl.gradlePlugin
+import org.gradle.kotlin.dsl.pluginBundle
+
 plugins {
     `kotlin-dsl`
     id("talaiotPlugin")
 }
 
 talaiotPlugin {
-    idPlugin = "io.github.cdsap.talaiot"
     artifact = "talaiot"
-    group = "io.github.cdsap"
-    mainClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
-    version = io.github.cdsap.talaiot.buildplugins.Constants.TALAIOT_VERSION
-    displayName = "Talaiot"
 }
+
+version = Constants.TALAIOT_VERSION
+group = "io.github.cdsap"
 
 dependencies {
     implementation(project(":library:core:talaiot"))
@@ -27,4 +29,22 @@ dependencies {
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
     testImplementation("org.influxdb:influxdb-java:2.19")
     testImplementation(project(":library:core:talaiot-test-utils"))
+}
+
+gradlePlugin {
+    plugins {
+        register(project.name) {
+            id = "io.github.cdsap.talaiot"
+            displayName = "Talaiot"
+            implementationClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
+            description =
+                "Talaiot, simple and extensible plugin to track task and build times in your Gradle Project."
+        }
+    }
+}
+
+pluginBundle {
+    website = "https://github.com/cdsap/Talaiot"
+    vcsUrl = "https://github.com/cdsap/Talaiot"
+    tags = listOf("tracking", "kotlin")
 }

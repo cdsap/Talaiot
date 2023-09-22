@@ -48,7 +48,7 @@ fun Project.setUpPublishing(
 
         publications {
 
-            register("TalaiotLib", MavenPublication::class) {
+            create<MavenPublication>("libPublication") {
                 from(components.findByName("java"))
                 artifactId = artifact
                 versionMapping {
@@ -99,10 +99,6 @@ fun Project.setUpPublishing(
         }
     }
 }
-
-fun Project.publication(value: String): Publication =
-    (extensions.getByName("publishing")
-            as PublishingExtension).publications[value]
 
 fun Project.setProjectGroup(
     configurationGroup: String?,
