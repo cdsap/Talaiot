@@ -75,7 +75,7 @@ jobs:
       - checkout
       - run:
           name: snapshot
-          command: ./gradlew publishTalaiotLibPublicationToSnapshotsRepository
+          command: ./gradlew publishAllPublicationsToSnapshotsRepository
 workflows:
   version: 2.1
   build-snap:

@@ -31,14 +31,9 @@ class TalaiotPlugin : Plugin<Project> {
         }
 
         target.setUpJunitPlatform()
-
+        target.setUpPublishing(Type.PLUGIN)
 
         target.afterEvaluate {
-            val extension = target.extensions.getByType<TalaiotPluginConfiguration>()
-            target.setUpGradlePublishing()
-            setProjectVersion(extension.version)
-            setProjectGroup(extension.group, Type.PLUGIN)
-            setUpPublishing(Type.PLUGIN)
             collectUnitTest()
             setUpSigning("TalaiotLib", "pluginMaven")
         }

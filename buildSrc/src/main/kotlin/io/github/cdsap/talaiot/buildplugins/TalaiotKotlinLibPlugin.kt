@@ -37,12 +37,13 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
                 jvmTarget = "11"
             }
         }
+        target.setUpPublishing(Type.LIBRARY)
+
         target.afterEvaluate {
             val extension = extensions.getByType<BaseConfiguration>()
             setProjectVersion(extension.version)
             setProjectGroup(extension.group, Type.LIBRARY)
             collectUnitTestLibs()
-            setUpPublishing(Type.LIBRARY)
             setUpSigning("TalaiotLib")
         }
 
