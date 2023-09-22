@@ -11,6 +11,7 @@ import io.github.cdsap.talaiot.provider.MetricsProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
@@ -43,6 +44,7 @@ class Talaiot<T : TalaiotExtension>(
 
         val extension = target.extensions.create("talaiot", classExtension, target)
         val executionReport = ExecutionReport()
+        val startTime = System.currentTimeMillis()
         target.gradle.taskGraph.whenReady {
             val parameters = target.gradle.startParameter.taskRequests.flatMap {
                 it.args.flatMap { task ->
@@ -53,14 +55,19 @@ class Talaiot<T : TalaiotExtension>(
             executionReport.customProperties.buildProperties
             val talaiotPublisher = createTalaiotPublisher(extension, executionReport)
 
+            val configurationProvider = target.providers.of(ConfigurationPhaseObserver::class.java) { }
+            ConfigurationPhaseObserver.init()
+
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
                     "talaiotService", TalaiotBuildService::class.java
                 ) { spec ->
                     spec.parameters.publisher.set(talaiotPublisher)
+                    spec.parameters.initTime.set(startTime)
                     spec.parameters.startParameters.set(parameters)
                     spec.parameters.customPublishers.set(publisherConfigurationProvider.get())
                     spec.parameters.publishOnNewThread.set(extension.publishOnNewThread)
+                    spec.parameters.configurationPhaseExecuted.set(configurationProvider)
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

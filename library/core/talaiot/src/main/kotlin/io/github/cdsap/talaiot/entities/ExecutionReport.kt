@@ -37,7 +37,8 @@ data class ExecutionReport(
     var requestedTasks: String? = null,
     var success: Boolean = false,
     var scanLink: String? = null,
-    var buildInvocationId: String? = null
+    var buildInvocationId: String? = null,
+    var configurationCacheHit: Boolean = false
 ) : java.io.Serializable {
 
     /**

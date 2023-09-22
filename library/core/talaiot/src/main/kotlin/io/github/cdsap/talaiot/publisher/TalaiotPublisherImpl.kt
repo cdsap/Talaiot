@@ -27,7 +27,8 @@ class TalaiotPublisherImpl(
         end: Long,
         success: Boolean,
         duration: Long,
-        publisherProvider: List<Publisher>
+        publisherProvider: List<Publisher>,
+        configurationCacheHit: Boolean
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
@@ -36,6 +37,7 @@ class TalaiotPublisherImpl(
         executionReport.success = success
         executionReport.durationMs = duration.toString()
         executionReport.configurationDurationMs = configuraionMs.toString()
+        executionReport.configurationCacheHit = configurationCacheHit
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             publisherProvider.forEach {

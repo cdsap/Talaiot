@@ -14,6 +14,7 @@ interface TalaiotPublisher : java.io.Serializable {
         end: Long,
         success: Boolean,
         duration: Long,
-        publishers: List<Publisher>
+        publishers: List<Publisher>,
+        configurationCacheHit: Boolean
     )
 }
