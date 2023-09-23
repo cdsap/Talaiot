@@ -6,6 +6,7 @@ import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisherConfiguration
+import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2PublisherConfiguration
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import org.gradle.api.Project
@@ -16,6 +17,7 @@ class TalaiotPublisherConfiguration(
     internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
     internal var hybridPublisher: HybridPublisherConfiguration? = null
     internal var influxDbPublisher: InfluxDbPublisherConfiguration? = null
+    internal var influxDb2Publisher: InfluxDb2PublisherConfiguration? = null
     internal var outputPublisher: OutputPublisherConfiguration? = null
     internal var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
     internal var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
@@ -82,6 +84,26 @@ class TalaiotPublisherConfiguration(
     fun influxDbPublisher(closure: Closure<*>) {
         influxDbPublisher = InfluxDbPublisherConfiguration()
         closure.delegate = influxDbPublisher
+        closure.call()
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [InfluxDb2Publisher]
+     *
+     * @param configuration Configuration block for the [InfluxDb2PublisherConfiguration]
+     */
+    fun influxDb2Publisher(configuration: InfluxDb2PublisherConfiguration.() -> Unit) {
+        influxDb2Publisher = InfluxDb2PublisherConfiguration().also(configuration)
+    }
+
+    /**
+     * Configuration accessor within the [PublishersConfiguration] for the [InfluxDb2Publisher]
+     *
+     * @param closure closure for the [InfluxDb2PublisherConfiguration]
+     */
+    fun influxDb2Publisher(closure: Closure<*>) {
+        influxDb2Publisher = InfluxDb2PublisherConfiguration()
+        closure.delegate = influxDb2Publisher
         closure.call()
     }
 
