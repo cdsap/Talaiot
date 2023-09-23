@@ -39,6 +39,7 @@ enum class BuildMetrics : Metrics {
     SwitchParallel,
     SwitchRefreshDependencies,
     SwitchRerunTasks,
+    ConfigurationCacheHit,
     Custom {
         override val isCustom: Boolean = true
     };

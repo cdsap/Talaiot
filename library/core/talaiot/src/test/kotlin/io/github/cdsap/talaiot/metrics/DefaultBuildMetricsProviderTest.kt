@@ -43,6 +43,7 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
                     "start" to "1.590661991331E12".toDouble(),
                     "duration" to 10L,
                     "configuration" to 32L,
+                    "configurationCacheHit" to false,
                     "success" to true,
                     "buildId" to "12",
                     "rootProject" to "app",

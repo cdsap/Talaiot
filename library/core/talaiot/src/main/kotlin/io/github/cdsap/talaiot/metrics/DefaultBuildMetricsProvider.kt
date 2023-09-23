@@ -11,7 +11,7 @@ class DefaultBuildMetricsProvider(
 
         map[BuildMetrics.Duration.toKey()] = report.durationMs?.toLong() ?: 0L
         map[BuildMetrics.Configuration.toKey()] = report.configurationDurationMs?.toLong() ?: 0L
-
+        map[BuildMetrics.ConfigurationCacheHit.toKey()] = report.configurationCacheHit
         with(report) {
             success.let { map[BuildMetrics.Success.toKey()] = it }
             buildId?.let { map[BuildMetrics.BuildId.toKey()] = it }
