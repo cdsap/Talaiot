@@ -1,19 +1,10 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven(url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-    }
-    dependencies {
-        classpath("io.github.cdsap:talaiot:2.0.3-SNAPSHOT")
-    }
-}
-apply(plugin = "io.github.cdsap.talaiot")
 plugins {
     `java`
+    id("io.github.cdsap.talaiot") version "2.0.3-SNAPSHOT"
 }
 
 
-configure<io.github.cdsap.talaiot.plugin.TalaiotPluginExtension> {
+talaiot {
     logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
     publishers {
 
