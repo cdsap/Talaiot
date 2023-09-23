@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":library:plugins:elastic-search:elastic-search-publisher"))
     implementation(project(":library:plugins:hybrid:hybrid-publisher"))
     implementation(project(":library:plugins:influxdb:influxdb-publisher"))
+    implementation(project(":library:plugins:influxdb:influxdb2-publisher"))
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation("com.google.code.gson:gson:2.8.5")

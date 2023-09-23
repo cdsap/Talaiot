@@ -8,6 +8,7 @@ import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import io.github.cdsap.talaiot.publisher.hybrid.HybridPublisher
 import io.github.cdsap.talaiot.publisher.influxdb.InfluxDbPublisher
+import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2Publisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import org.gradle.api.Project
@@ -28,6 +29,14 @@ class TalaiotConfigurationProvider(
             influxDbPublisher?.apply {
                 publishers.add(
                     InfluxDbPublisher(
+                        this, logger
+                    )
+                )
+            }
+
+            influxDb2Publisher?.apply {
+                publishers.add(
+                    InfluxDb2Publisher(
                         this, logger
                     )
                 )
