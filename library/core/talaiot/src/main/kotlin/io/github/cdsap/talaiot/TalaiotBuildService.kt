@@ -6,6 +6,7 @@ import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
 import org.gradle.tooling.events.FinishEvent
@@ -41,8 +42,9 @@ abstract class TalaiotBuildService :
          */
         val startParameters: ListProperty<String>
         val customPublishers: ListProperty<Publisher>
-
         val publishOnNewThread: Property<Boolean>
+        val initTime: Property<Long>
+        val configurationPhaseExecuted: Property<Provider<Boolean>>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -54,7 +56,6 @@ abstract class TalaiotBuildService :
     override fun close() {
 
         val end = System.currentTimeMillis()
-
         if (parameters.publishOnNewThread.get()) {
             val executor = Executors.newSingleThreadExecutor()
             executor.execute {
@@ -66,6 +67,13 @@ abstract class TalaiotBuildService :
     }
 
     private fun publish(end: Long) {
+        val configurationPhaseExecuted = parameters.configurationPhaseExecuted.get().get()
+        val configurationTime = if (configurationPhaseExecuted) {
+            start - parameters.initTime.get()
+        } else {
+            0
+        }
+
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
             start = start,
@@ -75,7 +83,8 @@ abstract class TalaiotBuildService :
             success = taskLengthList.none {
                 it.state == TaskMessageState.FAILED
             },
-            publishers = parameters.customPublishers.get()
+            publishers = parameters.customPublishers.get(),
+            configurationCacheHit = !configurationPhaseExecuted
         )
     }
 

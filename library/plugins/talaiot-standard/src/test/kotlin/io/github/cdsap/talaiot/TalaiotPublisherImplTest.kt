@@ -49,7 +49,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, project, executionReport
             ).publish(
                 mutableListOf(getSingleTask()), 0, 100, 200, true, 200,
-                publishers.get()
+                publishers.get(), true
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
@@ -79,7 +79,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, true, 200, publishers.get()
+                getTasks(), 0, 100, 200, true, 200, publishers.get(), true
             )
 
             then("two publishers are processed ") {
@@ -121,7 +121,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, true, 200, publishers.get()
+                getTasks(), 0, 100, 200, true, 200, publishers.get(), true
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -165,7 +165,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, true, 200, publishers.get()
+                getTasks(), 0, 100, 200, true, 200, publishers.get(), true
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -199,7 +199,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, true, 200, publishers.get()
+                getTasks(), 0, 100, 200, true, 200, publishers.get(), true
             )
 
             then("successful build is published") {
@@ -228,7 +228,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, false, 200, publishers.get()
+                getTasks(), 0, 100, 200, false, 200, publishers.get(), true
             )
 
             then("failed build is not published") {
@@ -257,7 +257,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, executionReport
             ).publish(
-                getTasks(), 0, 100, 200, false, 200, publishers.get()
+                getTasks(), 0, 100, 200, false, 200, publishers.get(), true
             )
 
             then("build with a different task is published") {
@@ -285,7 +285,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, project, report
             ).publish(
                 taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
-                publishers.get()
+                publishers.get(), true
             )
             then("no information is published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -312,8 +312,14 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, report
             ).publish(
-                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = false, duration = 200,
-                publishers.get()
+                taskLengthList = getTasks(),
+                start = 0,
+                configuraionMs = 100,
+                end = 200,
+                success = false,
+                duration = 200,
+                publishers.get(),
+                true
             )
             then("build with a different task is not published") {
 
@@ -341,7 +347,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, project, report
             ).publish(
                 taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
-                publishers.get()
+                publishers.get(), true
             )
             then("build with the same task is published") {
                 verify(publishers.get()[0]).publish(any())
@@ -371,7 +377,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, project, report
             ).publish(
                 taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
-                publishers.get()
+                publishers.get(), true
             )
 
             then("build with at least one task included is published") {
@@ -402,7 +408,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 extension, logger, project, report
             ).publish(
                 taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
-                publishers.get()
+                publishers.get(), true
             )
 
             then("build with all tasks filtered out is not published") {
@@ -436,7 +442,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             publisher.publish(
                 mutableListOf(getSingleTask("a"), getSingleTask("b"), getSingleTask("c")), 0, 100, 200, true, 200,
-                publishers.get()
+                publishers.get(), true
             )
             then("should publish cache information for each task") {
                 val reportCaptor = argumentCaptor<ExecutionReport>()
