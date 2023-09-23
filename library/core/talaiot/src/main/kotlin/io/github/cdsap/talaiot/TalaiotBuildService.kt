@@ -134,7 +134,7 @@ private fun taskLength(
     taskPath = path,
     state = state,
     rootNode = rootNode,
-    module = getModule(task),
+    module = getModule(path),
     startMs = startMs,
     stopMs = stopMs
 )
