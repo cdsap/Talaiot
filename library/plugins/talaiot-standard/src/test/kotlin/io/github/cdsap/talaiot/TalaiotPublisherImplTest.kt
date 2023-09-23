@@ -284,7 +284,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, report
             ).publish(
-                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
+                taskLengthList = getTasks(), start = 0, configuration = 100, end = 200, success = true, duration = 200,
                 publishers.get(), true
             )
             then("no information is published") {
@@ -314,7 +314,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             ).publish(
                 taskLengthList = getTasks(),
                 start = 0,
-                configuraionMs = 100,
+                configuration = 100,
                 end = 200,
                 success = false,
                 duration = 200,
@@ -346,7 +346,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, report
             ).publish(
-                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
+                taskLengthList = getTasks(), start = 0, configuration = 100, end = 200, success = true, duration = 200,
                 publishers.get(), true
             )
             then("build with the same task is published") {
@@ -376,7 +376,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, report
             ).publish(
-                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
+                taskLengthList = getTasks(), start = 0, configuration = 100, end = 200, success = true, duration = 200,
                 publishers.get(), true
             )
 
@@ -407,7 +407,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             talaiotPublisherImpl(
                 extension, logger, project, report
             ).publish(
-                taskLengthList = getTasks(), start = 0, configuraionMs = 100, end = 200, success = true, duration = 200,
+                taskLengthList = getTasks(), start = 0, configuration = 100, end = 200, success = true, duration = 200,
                 publishers.get(), true
             )
 
@@ -469,6 +469,37 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     )
                 )
                 reportCaptor.firstValue.tasks.shouldBe(expectedTasks)
+            }
+        }
+        `when`("execution duration is different from build duration") {
+            val project: Project = mock()
+            val extension = TalaiotPluginExtension(project).apply {
+                filter {
+                    build {
+                        success = true
+                    }
+                }
+                publishers {
+                    jsonPublisher = true
+                }
+            }
+            setUpMockExtension(project, extension)
+
+            val executionReport = ExecutionReport()
+            val publishers: PublisherConfigurationProvider = mock()
+            val jsonPublisher: Publisher = mock()
+            whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
+            talaiotPublisherImpl(
+                extension, logger, project, executionReport
+            ).publish(
+                getTasks(), 0, 100, 200, true, 200, publishers.get(), true
+            )
+
+            then("duration is the sum of execution and configuration") {
+                val reportCaptor = argumentCaptor<ExecutionReport>()
+                verify(publishers.get()[0]).publish(reportCaptor.capture())
+                reportCaptor.firstValue.executionDurationMs.shouldBe("200")
+                reportCaptor.firstValue.durationMs.shouldBe("300")
             }
         }
     }

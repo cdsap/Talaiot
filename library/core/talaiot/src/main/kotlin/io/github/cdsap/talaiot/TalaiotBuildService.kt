@@ -77,7 +77,7 @@ abstract class TalaiotBuildService :
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
             start = start,
-            configuraionMs = configurationTime,
+            configuration = configurationTime,
             end = end,
             duration = end - start,
             success = taskLengthList.none {
