@@ -10,7 +10,7 @@ interface TalaiotPublisher : java.io.Serializable {
     fun publish(
         taskLengthList: MutableList<TaskLength>,
         start: Long,
-        configuraionMs: Long?,
+        configuration: Long,
         end: Long,
         success: Boolean,
         duration: Long,

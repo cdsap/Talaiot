@@ -30,6 +30,7 @@ data class ExecutionReport(
     var endMs: String? = null,
     var durationMs: String? = null,
     var configurationDurationMs: String? = null,
+    var executionDurationMs: String? = null,
     var tasks: List<TaskLength>? = null,
     var unfilteredTasks: List<TaskLength>? = null,
     var buildId: String? = null,

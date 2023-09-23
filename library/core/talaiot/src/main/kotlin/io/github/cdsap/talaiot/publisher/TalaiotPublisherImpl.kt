@@ -23,7 +23,7 @@ class TalaiotPublisherImpl(
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
         start: Long,
-        configuraionMs: Long?,
+        configuration: Long,
         end: Long,
         success: Boolean,
         duration: Long,
@@ -35,8 +35,9 @@ class TalaiotPublisherImpl(
         executionReport.beginMs = start.toString()
         executionReport.endMs = end.toString()
         executionReport.success = success
-        executionReport.durationMs = duration.toString()
-        executionReport.configurationDurationMs = configuraionMs.toString()
+        executionReport.executionDurationMs = duration.toString()
+        executionReport.durationMs = (duration + configuration).toString()
+        executionReport.configurationDurationMs = configuration.toString()
         executionReport.configurationCacheHit = configurationCacheHit
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
