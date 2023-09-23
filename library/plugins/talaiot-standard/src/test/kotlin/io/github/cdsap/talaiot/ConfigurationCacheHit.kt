@@ -7,7 +7,6 @@ import io.kotlintest.forAll
 import io.kotlintest.matchers.string.shouldNotStartWith
 import io.kotlintest.matchers.string.shouldStartWith
 import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.StringSpec
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
@@ -53,7 +52,6 @@ class ConfigurationCacheHit : StringSpec({
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
 
-
             report.configurationCacheHit shouldBe false
             report.configurationDurationMs shouldNotStartWith "0"
 
@@ -70,7 +68,6 @@ class ConfigurationCacheHit : StringSpec({
             testProjectDir.delete()
             reportHit.configurationCacheHit shouldBe true
             reportHit.configurationDurationMs shouldStartWith "0"
-
         }
     }
 })
