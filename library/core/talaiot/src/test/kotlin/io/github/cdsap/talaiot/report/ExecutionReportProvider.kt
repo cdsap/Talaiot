@@ -42,6 +42,7 @@ object ExecutionReportProvider {
         requestedTasks = "app:assembleDebug",
         buildInvocationId = "123",
         configurationDurationMs = "32",
+        configurationCacheHit = false,
         environment = Environment(
             cpuCount = "4",
             osVersion = "Linux 1.4",
