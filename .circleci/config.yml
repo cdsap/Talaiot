@@ -3,7 +3,7 @@ orbs:
   codecov: codecov/codecov@1.0.5
 executor: machine
 jobs:
-  ktlint:
+  assemble:
     machine:
       image: 'ubuntu-2004:2023.02.1'
     working_directory: ~/repo
@@ -18,18 +18,7 @@ jobs:
       - run:
           name: assemble
           command: ./gradlew assemble
-  assemble:
-    machine:
-      image: 'ubuntu-2004:2023.02.1'
-    working_directory: ~/repo
-    environment:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=true -Dorg.gradle.daemon=false
-      TERM: dumb
-    steps:
-      - checkout
-      - run:
-          name: assemble
-          command: ./gradlew assemble
+
   pluginTest:
     machine:
       image: 'ubuntu-2004:2023.02.1'
@@ -87,8 +76,6 @@ workflows:
       - deploy-snapshot:
           requires:
             - assemble
-            - ktlint
-            - assemble
             - pluginTest
             - publisherTest
           filters:
@@ -96,8 +83,6 @@ workflows:
               only: master
       - sample:
           requires:
-            - assemble
-            - ktlint
             - assemble
             - pluginTest
             - publisherTest
