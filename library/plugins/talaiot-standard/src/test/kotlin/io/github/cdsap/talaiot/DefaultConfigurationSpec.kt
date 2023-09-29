@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot
 
 import com.google.gson.Gson
 import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.utils.TemporaryFolder
 import io.kotlintest.forAll
 import io.kotlintest.shouldBe
