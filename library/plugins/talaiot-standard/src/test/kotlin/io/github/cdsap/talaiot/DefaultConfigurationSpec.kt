@@ -70,7 +70,7 @@ class DefaultConfigurationSpec : StringSpec({
             val tasks = report.tasks!!
             tasks.size shouldBe 5
             tasks.count { it.rootNode } shouldBe 1
-
+            tasks.first { it.taskName.contains("processResources") }.state shouldBe TaskMessageState.SKIPPED
             tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
 
             report.requestedTasks shouldBe "assemble"
