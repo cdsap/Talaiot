@@ -10,5 +10,6 @@ enum class TaskMessageState {
     NO_SOURCE,
     UP_TO_DATE,
     EXECUTED,
-    FAILED
+    FAILED,
+    SKIPPED
 }

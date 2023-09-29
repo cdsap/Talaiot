@@ -109,6 +109,7 @@ abstract class TalaiotBuildService :
                     "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
                     "FROM-CACHE" -> TaskMessageState.FROM_CACHE
                     "NO-SOURCE" -> TaskMessageState.NO_SOURCE
+                    "skipped" -> TaskMessageState.SKIPPED
                     "failed" -> TaskMessageState.FAILED
                     else -> TaskMessageState.EXECUTED
                 },
