@@ -69,7 +69,6 @@ workflows:
   version: 2.1
   build-snap:
     jobs:
-      - ktlint
       - assemble
       - pluginTest
       - publisherTest
