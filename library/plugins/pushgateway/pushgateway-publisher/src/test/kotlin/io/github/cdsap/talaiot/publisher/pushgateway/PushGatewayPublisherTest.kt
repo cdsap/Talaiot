@@ -41,7 +41,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger
+                    pushGatewayConfiguration,
+                    logger
                 )
 
                 pushGateway.publish(
@@ -87,7 +88,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger
+                    pushGatewayConfiguration,
+                    logger
                 )
 
                 pushGateway.publish(
@@ -130,7 +132,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger
+                    pushGatewayConfiguration,
+                    logger
                 )
 
                 pushGateway.publish(
@@ -180,7 +183,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                 }
 
                 val pushGateway = PushGatewayPublisher(
-                    pushGatewayConfiguration, logger
+                    pushGatewayConfiguration,
+                    logger
                 )
 
                 pushGateway.publish(
@@ -218,7 +222,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             configurationDurationMs = "10",
             requestedTasks = "assemble",
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -232,11 +237,19 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             ),
             tasks = listOf(
                 TaskLength(
-                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                    1,
+                    "clean",
+                    ":clean",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 ),
                 TaskLength(
-                    100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
+                    100,
+                    "assemble",
+                    ":app:assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )
@@ -252,7 +265,8 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     configurationOnDemand = "true",
                     dryRun = "true"
                 ),
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -266,11 +280,19 @@ class PushGatewayPublisherTest : BehaviorSpec() {
             ),
             tasks = listOf(
                 TaskLength(
-                    1, "clean", ":test-module:clean", TaskMessageState.EXECUTED, false,
+                    1,
+                    "clean",
+                    ":test-module:clean",
+                    TaskMessageState.EXECUTED,
+                    false,
                     ":test-module"
                 ),
                 TaskLength(
-                    100, "assemble", ":test-module:app:assemble", TaskMessageState.EXECUTED, false,
+                    100,
+                    "assemble",
+                    ":test-module:app:assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     ":test-module"
                 )
             )

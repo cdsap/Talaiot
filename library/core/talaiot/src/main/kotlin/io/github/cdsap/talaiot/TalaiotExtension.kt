@@ -16,6 +16,7 @@ open class TalaiotExtension(val project: Project) {
      * General Logger for the whole plugin
      */
     var logger = LogTracker.Mode.SILENT
+
     /**
      * Configuration for ignoring the execution of the plugin in the build
      */

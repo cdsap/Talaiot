@@ -9,10 +9,12 @@ class OutputPublisherConfiguration : PublisherConfiguration, java.io.Serializabl
     override var name: String = "output"
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
+
     /**
      * Represents the displayed orientation in the results
      */
     var order = Order.ASC
+
     /**
      * Number of tasks we want to display in the results
      */

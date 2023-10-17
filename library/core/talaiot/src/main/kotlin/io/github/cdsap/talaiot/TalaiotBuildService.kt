@@ -54,7 +54,6 @@ abstract class TalaiotBuildService :
     }
 
     override fun close() {
-
         val end = System.currentTimeMillis()
         if (parameters.publishOnNewThread.get()) {
             val executor = Executors.newSingleThreadExecutor()
@@ -142,6 +141,9 @@ private fun taskLength(
 
 private fun getModule(path: String): String {
     val module = path.split(":")
-    return if (module.size > 2) module.toList().dropLast(1).joinToString(separator = ":")
-    else "no_module"
+    return if (module.size > 2) {
+        module.toList().dropLast(1).joinToString(separator = ":")
+    } else {
+        "no_module"
+    }
 }

@@ -39,7 +39,8 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDb2Publisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 val influxDBClient = InfluxDBClientFactory.create(container.url, "test-token".toCharArray(), "test-org")
                 influxDbPublisher.publish(executionReport())
@@ -87,7 +88,8 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDb2Publisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
 
@@ -112,7 +114,8 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
             durationMs = "10",
             success = true,
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -127,7 +130,11 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
 
             tasks = listOf(
                 TaskLength(
-                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
+                    1,
+                    "assemble",
+                    ":assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )

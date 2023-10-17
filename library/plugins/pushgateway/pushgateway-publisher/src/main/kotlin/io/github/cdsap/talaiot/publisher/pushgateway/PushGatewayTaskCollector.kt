@@ -20,7 +20,7 @@ class PushGatewayTaskCollector(
                 (it.ms).toDouble(),
                 registry,
                 labelNamesTask,
-                labelValuesTask,
+                labelValuesTask
             )
         }
     }

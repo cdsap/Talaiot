@@ -109,7 +109,7 @@ class OutputPublisherTest : BehaviorSpec({
                             ":slowTask",
                             TaskMessageState.EXECUTED,
                             true,
-                            "app",
+                            "app"
                         ),
                         TaskLength(
                             10L,

@@ -26,7 +26,11 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             `when`("task label values are retrieved") {
                 val taskLabelNames = labelProvider.taskLabelValues(
                     TaskLength(
-                        1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                        1,
+                        "clean",
+                        ":clean",
+                        TaskMessageState.EXECUTED,
+                        false,
                         "app"
                     )
                 )
@@ -45,7 +49,11 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             `when`("report includes custom task metrics and task values are retrieved") {
                 val taskLabelNames = labelProvider.taskLabelValues(
                     TaskLength(
-                        1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                        1,
+                        "clean",
+                        ":clean",
+                        TaskMessageState.EXECUTED,
+                        false,
                         "app"
                     )
                 )
@@ -92,7 +100,8 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             configurationDurationMs = "10",
             requestedTasks = "assemble",
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -106,11 +115,19 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
             ),
             tasks = listOf(
                 TaskLength(
-                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                    1,
+                    "clean",
+                    ":clean",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 ),
                 TaskLength(
-                    100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
+                    100,
+                    "assemble",
+                    ":app:assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )

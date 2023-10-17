@@ -18,6 +18,7 @@ class IgnoreWhenConfiguration(private val project: Project) {
      * name of the environment variable or property project
      */
     var envName: String = ""
+
     /**
      * value of the environment variable or property project
      */

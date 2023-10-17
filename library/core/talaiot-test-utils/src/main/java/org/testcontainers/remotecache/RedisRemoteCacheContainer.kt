@@ -47,6 +47,7 @@ open class RedisRemoteCacheContainer :
          */
         private val REDIS_IMAGE = "redis"
         private val REDIS_DEFAULT_TCP_PORT = 6379
+
         /**
          * Redis Default version
          */
