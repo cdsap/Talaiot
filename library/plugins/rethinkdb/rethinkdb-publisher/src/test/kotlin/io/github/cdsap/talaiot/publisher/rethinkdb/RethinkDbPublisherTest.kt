@@ -40,7 +40,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             `when`("Publisher is sent ") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger
+                    rethinkDbConfiguration,
+                    logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -64,7 +65,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 }
 
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger
+                    rethinkDbConfiguration,
+                    logger
                 )
                 then("Error is thrown pointing the correct configuration") {
                     val exception = shouldThrow<IllegalStateException> {
@@ -80,7 +82,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger
+                    rethinkDbConfiguration,
+                    logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -108,7 +111,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger
+                    rethinkDbConfiguration,
+                    logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -134,7 +138,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
                 val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration, logger
+                    rethinkDbConfiguration,
+                    logger
                 )
                 rethinkDb.publish(
                     executionReportData()
@@ -161,7 +166,8 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             durationMs = "100",
             requestedTasks = "assemble",
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -175,11 +181,19 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             ),
             tasks = listOf(
                 TaskLength(
-                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                    1,
+                    "clean",
+                    ":clean",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 ),
                 TaskLength(
-                    100, "assemble", ":app:assemble", TaskMessageState.EXECUTED, false,
+                    100,
+                    "assemble",
+                    ":app:assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )

@@ -41,7 +41,6 @@ class Talaiot<T : TalaiotExtension>(
      */
 
     fun setUpPlugin(target: Project) {
-
         val extension = target.extensions.create("talaiot", classExtension, target)
         val executionReport = ExecutionReport()
         val startTime = System.currentTimeMillis()
@@ -60,7 +59,8 @@ class Talaiot<T : TalaiotExtension>(
 
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
-                    "talaiotService", TalaiotBuildService::class.java
+                    "talaiotService",
+                    TalaiotBuildService::class.java
                 ) { spec ->
                     spec.parameters.publisher.set(talaiotPublisher)
                     spec.parameters.initTime.set(startTime)

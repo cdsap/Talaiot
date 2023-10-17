@@ -30,7 +30,6 @@ class OutputPublisher(
 
         if (outputPublisherConfiguration.publishTaskMetrics) {
             report.tasks?.apply {
-
                 val orderedTiming = sort(this, outputPublisherConfiguration.order)
                 if (!orderedTiming.isEmpty()) {
                     val max = when (outputPublisherConfiguration.order) {

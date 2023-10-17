@@ -11,23 +11,34 @@ object ExecutionReportProvider {
 
     fun simpleExecutionReport(): ExecutionReport {
         return ExecutionReport(
-            success = true, configurationDurationMs = "20", durationMs = "10"
+            success = true,
+            configurationDurationMs = "20",
+            durationMs = "10"
         )
     }
 
     fun executionReport(): ExecutionReport {
         return ExecutionReport(
-            requestedTasks = "assemble", durationMs = "10", success = true,
+            requestedTasks = "assemble",
+            durationMs = "10",
+            success = true,
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
-                taskProperties = getMetricsTasks(), buildProperties = getMetricsBuild()
+                taskProperties = getMetricsTasks(),
+                buildProperties = getMetricsBuild()
             ),
 
             tasks = listOf(
                 TaskLength(
-                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false, "app"
+                    1,
+                    "assemble",
+                    ":assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
+                    "app"
                 )
             )
         )
@@ -58,30 +69,39 @@ object ExecutionReportProvider {
             gitBranch = "git_branch",
             gitUser = "git_user",
             switches = Switches(
-                daemon = "true", offline = "true"
+                daemon = "true",
+                offline = "true"
             ),
             hostname = "localMachine"
         ),
         success = true,
         customProperties = CustomProperties(
-            taskProperties = getMetricsTasks(), buildProperties = getMetricsBuild()
+            taskProperties = getMetricsTasks(),
+            buildProperties = getMetricsBuild()
         ),
         tasks = listOf(
             TaskLength(
-                1, "clean", ":clean", TaskMessageState.EXECUTED, false, "app"
+                1,
+                "clean",
+                ":clean",
+                TaskMessageState.EXECUTED,
+                false,
+                "app"
             )
         )
     )
 
     fun getMetricsTasks(): MutableMap<String, String> {
         return mutableMapOf(
-            "metric1" to "value1", "metric2" to "value2"
+            "metric1" to "value1",
+            "metric2" to "value2"
         )
     }
 
     fun getMetricsBuild(): MutableMap<String, String> {
         return mutableMapOf(
-            "metric3" to "value3", "metric4" to "value4"
+            "metric3" to "value3",
+            "metric4" to "value4"
         )
     }
 }

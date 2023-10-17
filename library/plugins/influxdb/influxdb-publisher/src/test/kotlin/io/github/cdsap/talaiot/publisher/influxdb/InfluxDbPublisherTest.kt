@@ -43,7 +43,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
 
@@ -69,7 +70,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishTaskMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains only build information") {
@@ -93,7 +95,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishBuildMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains only task information") {
@@ -116,7 +119,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the task execution") {
@@ -142,7 +146,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildMetricName = "build"
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
                 influxDbPublisher.publish(executionReport())
                 then("database contains custom metrics linked to the build execution") {
@@ -171,7 +176,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     publishTaskMetrics = false
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
 
                 then("build metrics are sent and task metrics doesn't") {
@@ -205,7 +211,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
                     buildTags = listOf(BuildMetrics.Custom, BuildMetrics.MaxWorkers)
                 }
                 val influxDbPublisher = InfluxDbPublisher(
-                    influxDbConfiguration, logger
+                    influxDbConfiguration,
+                    logger
                 )
 
                 then("build metrics are sent and task metrics doesn't") {
@@ -231,7 +238,8 @@ class InfluxDbPublisherTest : BehaviorSpec() {
             durationMs = "10",
             success = true,
             environment = Environment(
-                cpuCount = "12", maxWorkers = "4"
+                cpuCount = "12",
+                maxWorkers = "4"
             ),
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
@@ -246,7 +254,11 @@ class InfluxDbPublisherTest : BehaviorSpec() {
 
             tasks = listOf(
                 TaskLength(
-                    1, "assemble", ":assemble", TaskMessageState.EXECUTED, false,
+                    1,
+                    "assemble",
+                    ":assemble",
+                    TaskMessageState.EXECUTED,
+                    false,
                     "app"
                 )
             )

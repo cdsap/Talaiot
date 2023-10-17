@@ -70,7 +70,8 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = pushGatewayPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger
+                    hybridPublisherConfiguration,
+                    logger
                 )
 
                 then("InfluxDbPublisher only reports builds") {
@@ -83,7 +84,11 @@ class HybridPublisherTest : BehaviorSpec() {
                             ),
                             tasks = listOf(
                                 TaskLength(
-                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    1,
+                                    "clean",
+                                    ":clean",
+                                    TaskMessageState.EXECUTED,
+                                    false,
                                     "app"
                                 )
                             )
@@ -123,7 +128,8 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = pushGatewayPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger
+                    hybridPublisherConfiguration,
+                    logger
                 )
 
                 then("Error is notified") {
@@ -132,7 +138,11 @@ class HybridPublisherTest : BehaviorSpec() {
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
-                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    1,
+                                    "clean",
+                                    ":clean",
+                                    TaskMessageState.EXECUTED,
+                                    false,
                                     "app"
                                 )
                             )
@@ -149,7 +159,8 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = null
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger
+                    hybridPublisherConfiguration,
+                    logger
                 )
 
                 then("Validation inform the error of null publishers") {
@@ -158,7 +169,11 @@ class HybridPublisherTest : BehaviorSpec() {
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
-                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    1,
+                                    "clean",
+                                    ":clean",
+                                    TaskMessageState.EXECUTED,
+                                    false,
                                     "app"
                                 )
                             )
@@ -187,7 +202,8 @@ class HybridPublisherTest : BehaviorSpec() {
                     taskPublisher = rethinkDbPublisherConfiguration
                 }
                 val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration, logger
+                    hybridPublisherConfiguration,
+                    logger
                 )
 
                 then("RethinkDbPublisher only reports builds") {
@@ -196,7 +212,11 @@ class HybridPublisherTest : BehaviorSpec() {
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
                             tasks = listOf(
                                 TaskLength(
-                                    1, "clean", ":clean", TaskMessageState.EXECUTED, false,
+                                    1,
+                                    "clean",
+                                    ":clean",
+                                    TaskMessageState.EXECUTED,
+                                    false,
                                     "app"
                                 )
                             )

@@ -21,6 +21,7 @@ class ElasticSearchPublisherConfiguration : PublisherConfiguration, java.io.Seri
 
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
+
     /**
      * url from the Elasticsearch instance required to send the measurements. For instance http://localhost:9200
      */
@@ -30,6 +31,7 @@ class ElasticSearchPublisherConfiguration : PublisherConfiguration, java.io.Seri
      * name to identify the task index measurement in Elasticsearch
      */
     var taskIndexName: String = "task"
+
     /**
      * name to identify the build index measurement in Elasticsearch
      */

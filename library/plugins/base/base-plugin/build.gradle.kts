@@ -1,7 +1,5 @@
-
 import io.github.cdsap.talaiot.buildplugins.Constants
 import org.gradle.kotlin.dsl.gradlePlugin
-import org.gradle.kotlin.dsl.pluginBundle
 
 plugins {
     id("talaiotPlugin")
@@ -21,6 +19,9 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set("https://github.com/cdsap/Talaiot")
+    vcsUrl.set("https://github.com/cdsap/Talaiot")
+
     plugins {
         register(project.name) {
             id = "io.github.cdsap.talaiot.plugin.base"
@@ -28,12 +29,7 @@ gradlePlugin {
             implementationClass = "io.github.cdsap.talaiot.plugin.base.TalaiotBasePlugin"
             description =
                 "Talaiot, Base Plugin, simple and extensible plugin to track task and build times in your Gradle Project."
+            tags.addAll("tracking", "kotlin")
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/cdsap/Talaiot"
-    vcsUrl = "https://github.com/cdsap/Talaiot"
-    tags = listOf("tracking", "kotlin")
 }

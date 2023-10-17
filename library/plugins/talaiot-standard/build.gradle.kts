@@ -1,6 +1,5 @@
 import io.github.cdsap.talaiot.buildplugins.Constants
 import org.gradle.kotlin.dsl.gradlePlugin
-import org.gradle.kotlin.dsl.pluginBundle
 
 plugins {
     `kotlin-dsl`
@@ -23,7 +22,7 @@ dependencies {
     implementation(project(":library:plugins:influxdb:influxdb2-publisher"))
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
-    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.google.code.gson:gson:2.8.9")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
     implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
     testImplementation(gradleTestKit())
@@ -33,6 +32,8 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set("https://github.com/cdsap/Talaiot")
+    vcsUrl.set("https://github.com/cdsap/Talaiot")
     plugins {
         register(project.name) {
             id = "io.github.cdsap.talaiot"
@@ -40,12 +41,7 @@ gradlePlugin {
             implementationClass = "io.github.cdsap.talaiot.plugin.TalaiotPlugin"
             description =
                 "Talaiot, simple and extensible plugin to track task and build times in your Gradle Project."
+            tags.addAll("tracking", "kotlin")
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/cdsap/Talaiot"
-    vcsUrl = "https://github.com/cdsap/Talaiot"
-    tags = listOf("tracking", "kotlin")
 }

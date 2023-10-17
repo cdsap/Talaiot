@@ -47,6 +47,7 @@ open class RethinkDbContainer :
          */
         private val RETHINKDB_DEFAULT_IMAGE = "rethinkdb"
         private val RETHINKDB_DEFAULT_TCP_PORT = 28015
+
         /**
          * RethinkDb Default version
          */

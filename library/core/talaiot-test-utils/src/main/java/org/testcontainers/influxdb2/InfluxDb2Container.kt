@@ -49,6 +49,7 @@ open class InfluxDb2Container :
          */
         private val INFLUXDB2_DEFAULT_IMAGE = "influxdb"
         private val INFLUXDB2_DEFAULT_TCP_PORT = 8086
+
         /**
          * Pushgateway Default version
          */

@@ -116,7 +116,7 @@ class RethinkDbPublisher(
         db: String,
         table: String,
         entries: Map<String, Any>?,
-        r: RethinkDB,
+        r: RethinkDB
     ) {
         r.db(db).table(table).insert(entries).run<Any>(conn)
     }

@@ -20,13 +20,12 @@ class ElasticSearchPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker,
+    private val logTracker: LogTracker
 ) : Publisher, java.io.Serializable {
 
     private val TAG = "ElasticSearchPublisher"
 
     override fun publish(report: ExecutionReport) {
-
         if (validate()) {
             val client = getClient()
             logTracker.log(TAG, "================")

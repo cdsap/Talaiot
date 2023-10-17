@@ -13,7 +13,7 @@ class DefaultTaskDataProvider(
             TaskMetrics.Module.toKey() to task.module,
             TaskMetrics.RootNode.toKey() to task.rootNode.toString(),
             TaskMetrics.Task.toKey() to task.taskPath,
-            TaskMetrics.Value.toKey() to task.ms,
+            TaskMetrics.Value.toKey() to task.ms
         ) + report.customProperties.taskProperties
     }
 }

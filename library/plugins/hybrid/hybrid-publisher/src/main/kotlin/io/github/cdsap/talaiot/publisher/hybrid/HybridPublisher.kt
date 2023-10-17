@@ -15,7 +15,7 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfigurati
 
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,
-    private val logTracker: LogTracker,
+    private val logTracker: LogTracker
 ) : Publisher, java.io.Serializable {
 
     private val TAG = "HybridPublisher"

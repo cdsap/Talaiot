@@ -110,7 +110,8 @@ class InfluxDb2Publisher(
                 .firstOrNull { it.name == influxDbPublisherConfiguration.org }
             if (orgId != null) {
                 val newBucket = influxDBClient.bucketsApi.createBucket(
-                    influxDbPublisherConfiguration.bucket, orgId.id
+                    influxDbPublisherConfiguration.bucket,
+                    orgId.id
                 )
             } else {
                 logTracker.log(

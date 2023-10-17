@@ -47,6 +47,7 @@ open class PushGatewayContainer :
          */
         private val PUSHGATEWAY_DEFAULT_IMAGE = "prom/pushgateway"
         private val PUSHGATEWAY_DEFAULT_TCP_PORT = 9091
+
         /**
          * Pushgateway Default version
          */

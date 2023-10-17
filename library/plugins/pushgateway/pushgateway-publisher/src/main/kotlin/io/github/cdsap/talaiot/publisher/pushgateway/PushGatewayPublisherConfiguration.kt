@@ -19,10 +19,12 @@ class PushGatewayPublisherConfiguration : PublisherConfiguration, java.io.Serial
     override var name: String = "pushGateway"
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
+
     /**
      * url from the PushGateway instance required to send the measurements. For instance http://localhost:8086
      */
     var url: String = ""
+
     /**
      * value to identify the job in PushGateway
      */

@@ -2,6 +2,9 @@ package io.github.cdsap.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.tasks.bundling.Tar
+import org.gradle.api.tasks.bundling.Zip
 import org.gradle.kotlin.dsl.*
 import java.net.URI
 
@@ -37,7 +40,12 @@ class TalaiotPlugin : Plugin<Project> {
             collectUnitTest()
             setUpSigning("TalaiotLib", "pluginMaven")
         }
-
+        target.tasks.withType<Tar> {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
+        target.tasks.withType<Zip> {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
         target.dependencies {
             add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
             add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")

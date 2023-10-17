@@ -13,7 +13,7 @@ class ModularizedProjectTest : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "8.3",
+                "8.3"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
