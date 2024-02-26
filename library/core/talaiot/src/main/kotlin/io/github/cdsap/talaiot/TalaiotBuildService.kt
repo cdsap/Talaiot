@@ -26,8 +26,6 @@ abstract class TalaiotBuildService :
     OperationCompletionListener {
 
     var start = 0L
-    private var configurationTime = 0L
-    private var configurationIsSet = false
 
     interface Params : BuildServiceParameters {
         /**
@@ -88,10 +86,6 @@ abstract class TalaiotBuildService :
     }
 
     override fun onFinish(event: FinishEvent?) {
-        if (!configurationIsSet) {
-            configurationTime = System.currentTimeMillis() - start
-            configurationIsSet = true
-        }
         val duration = event?.result?.endTime!! - event.result?.startTime!!
         val end = event.result?.endTime!!
         val start = event.result?.startTime!!
