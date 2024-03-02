@@ -42,14 +42,12 @@ class ConfigurationCacheHit : StringSpec({
 
                 """.trimIndent()
             )
-            val B = GradleRunner.create()
+            GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "--info", "--configuration-cache")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
-            println(version)
-            println(B.output)
 
             Thread.sleep(5000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
@@ -58,15 +56,13 @@ class ConfigurationCacheHit : StringSpec({
             report.configurationCacheHit shouldBe false
             report.configurationDurationMs shouldNotStartWith "0"
 
-            val a = GradleRunner.create()
+            GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "--info", "--configuration-cache")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
             Thread.sleep(5000)
-            println(version)
-            println(a.output)
             val reportFileHit = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val reportHit = Gson().fromJson(reportFileHit.readText(), ExecutionReport::class.java)
 
