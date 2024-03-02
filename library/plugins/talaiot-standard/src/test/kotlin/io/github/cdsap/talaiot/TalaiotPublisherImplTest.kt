@@ -637,7 +637,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     rootNode = false,
                     module = "app",
                     startMs = 0,
-                    stopMs = 0,
+                    stopMs = 1,
                     "awesomeTask"
                 )
 
