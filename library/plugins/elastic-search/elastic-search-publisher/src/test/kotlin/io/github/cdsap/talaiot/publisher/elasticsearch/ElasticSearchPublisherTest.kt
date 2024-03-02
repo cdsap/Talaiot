@@ -228,7 +228,10 @@ class ElasticSearchPublisherTest : BehaviorSpec() {
                     ":assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )

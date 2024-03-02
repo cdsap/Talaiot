@@ -58,7 +58,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
@@ -98,7 +103,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("two publishers are processed ") {
@@ -150,7 +160,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -204,7 +219,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -248,7 +268,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("successful build is published") {
@@ -287,7 +312,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 false,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("failed build is not published") {
@@ -326,7 +356,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 false,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("build with a different task is published") {
@@ -363,7 +398,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 success = true,
                 duration = 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
             then("no information is published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -400,7 +440,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 success = false,
                 duration = 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
             then("build with a different task is not published") {
 
@@ -437,7 +482,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 success = true,
                 duration = 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
             then("build with the same task is published") {
                 verify(publishers.get()[0]).publish(any())
@@ -476,7 +526,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 success = true,
                 duration = 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("build with at least one task included is published") {
@@ -516,7 +571,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 success = true,
                 duration = 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("build with all tasks filtered out is not published") {
@@ -558,7 +618,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
             then("should publish cache information for each task") {
                 val reportCaptor = argumentCaptor<ExecutionReport>()
@@ -572,7 +637,8 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                     rootNode = false,
                     module = "app",
                     startMs = 0,
-                    stopMs = 0
+                    stopMs = 1,
+                    "awesomeTask"
                 )
 
                 val expectedTasks = listOf(
@@ -620,7 +686,12 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 true,
                 200,
                 publishers.get(),
-                true
+                true,
+                "",
+                "",
+                "",
+                "",
+                false
             )
 
             then("duration is the sum of execution and configuration") {
@@ -667,7 +738,10 @@ private fun getTasks() = mutableListOf(
         taskPath = ":app:clean",
         state = TaskMessageState.EXECUTED,
         rootNode = false,
-        module = "app"
+        module = "app",
+        startMs = 0L,
+        stopMs = 1L,
+        type = "awesomeTask"
     )
 )
 
@@ -677,5 +751,8 @@ private fun getSingleTask(name: String = "a") = TaskLength(
     taskPath = ":app:$name",
     state = TaskMessageState.EXECUTED,
     rootNode = false,
-    module = "app"
+    module = "app",
+    startMs = 0L,
+    stopMs = 1L,
+    type = "awesomeTask"
 )

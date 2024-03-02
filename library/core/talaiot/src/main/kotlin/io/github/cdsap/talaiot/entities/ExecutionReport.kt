@@ -71,7 +71,16 @@ data class Environment(
     var gitBranch: String? = null,
     var gitUser: String? = null,
     var switches: Switches = Switches(),
-    var hostname: String? = null
+    var hostname: String? = null,
+    var gradleJvmArgs: Map<String, String>? = null,
+    var gradleProcessesAvailable: Int? = null,
+    var multipleGradleProcesses: Boolean? = null,
+    var multipleGradleJvmArgs: Map<String, Map<String, String>>? = null,
+    var kotlinJvmArgs: Map<String, String>? = null,
+    var kotlinProcessesAvailable: Int? = null,
+    var multipleKotlinProcesses: Boolean? = null,
+    var multipleKotlinJvmArgs: Map<String, Map<String, String>>? = null,
+    var processesStats: Processes = Processes()
 ) : java.io.Serializable
 
 data class Switches(

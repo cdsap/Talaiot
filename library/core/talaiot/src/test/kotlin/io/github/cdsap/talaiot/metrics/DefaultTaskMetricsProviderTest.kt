@@ -16,7 +16,9 @@ class DefaultTaskMetricsProviderTest : BehaviorSpec({
                     taskPath = "module:task1",
                     state = TaskMessageState.EXECUTED,
                     module = "module",
-                    rootNode = false
+                    startMs = 0L,
+                    stopMs = 1L,
+                    type = "awesomeTask"
                 ),
                 ExecutionReportProvider.executionReport()
             ).get()

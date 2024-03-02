@@ -7,9 +7,7 @@ import io.github.cdsap.talaiot.util.TaskAbbreviationMatcher
 import io.github.cdsap.talaiot.util.TaskName
 import org.gradle.api.Project
 import org.gradle.api.internal.StartParameterInternal
-import org.gradle.api.internal.project.DefaultProject
 import org.gradle.api.invocation.Gradle
-import org.gradle.launcher.daemon.server.scaninfo.DaemonScanInfo
 
 class RootProjectNameMetric : GradleMetric<String>(
     provider = { it.gradle.rootProject.name },
@@ -59,15 +57,6 @@ class GradleSwitchOfflineMetric : GradleMetric<String>(
 class GradleSwitchRefreshDependenciesMetric : GradleMetric<String>(
     provider = { it.gradle.startParameter.isRefreshDependencies.toString() },
     assigner = { report, value -> report.environment.switches.refreshDependencies = value }
-)
-
-class GradleSwitchDaemonMetric : GradleMetric<String?>(
-    provider = {
-        val daemonScanInfo: DaemonScanInfo? =
-            (it.rootProject as DefaultProject).services.get(DaemonScanInfo::class.java)
-        daemonScanInfo?.isSingleUse?.toString()
-    },
-    assigner = { report, value -> report.environment.switches.daemon = value }
 )
 
 class GradleSwitchConfigurationCacheMetric : GradleMetric<String?>(

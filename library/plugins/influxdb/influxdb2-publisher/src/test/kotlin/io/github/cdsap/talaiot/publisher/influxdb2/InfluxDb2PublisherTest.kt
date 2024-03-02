@@ -135,7 +135,10 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     ":assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )

@@ -1,6 +1,5 @@
 package io.github.cdsap.talaiot.metrics
 
-import com.nhaarman.mockitokotlin2.mock
 import io.github.cdsap.talaiot.assertions.shouldContainExactlyTypesOfInAnyOrder
 import io.github.cdsap.talaiot.configuration.MetricsConfiguration
 import io.github.cdsap.talaiot.entities.CustomProperties
@@ -9,11 +8,12 @@ import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
 
 class MetricsConfigurationTest : BehaviorSpec({
     given("metrics configuration") {
-        val target = mock<Project>()
+        val target = ProjectBuilder.builder().build()
+
         `when`("configuration is not changed") {
             val metricsConfiguration = MetricsConfiguration()
             val metrics = metricsConfiguration.build(target)
@@ -22,7 +22,8 @@ class MetricsConfigurationTest : BehaviorSpec({
                     environmentMetricsTypes +
                     performanceMetricsTypes +
                     gradleSwitchesMetricsTypes +
-                    gitMetricsTypes
+                    gitMetricsTypes +
+                    processMetrics
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
@@ -34,6 +35,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("only default metrics are included") {
@@ -48,6 +50,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = true
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("only environment metrics are included") {
@@ -61,6 +64,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = true
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("only performance metrics are included") {
@@ -74,6 +78,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("only git metrics are included") {
@@ -88,6 +93,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = true
                 environmentMetrics = false
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("only gradle switches metrics is included") {
@@ -102,6 +108,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = true
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("BuildIdMetric is not included") {
@@ -117,10 +124,26 @@ class MetricsConfigurationTest : BehaviorSpec({
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
                 generateBuildId = true
+                processMetrics = false
             }
             val metrics = metricsConfiguration.build(target)
             then("BuildIdMetric is included") {
                 val expectedMetricsTypes = performanceMetricsTypes + BuildIdMetric::class
+                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
+            }
+        }
+        `when`("process metrics are the only ones enabled") {
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+                processMetrics = true
+            }
+            val metrics = metricsConfiguration.build(target)
+            then("Process metrics are included") {
+                val expectedMetricsTypes = processMetrics
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
@@ -132,6 +155,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
 
                 customMetrics(AdbVersionMetric())
             }
@@ -147,6 +171,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
 
                 customMetrics(
                     AdbVersionMetric(),
@@ -166,6 +191,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
 
                 customMetrics(
                     KotlinVersionMetric()
@@ -188,6 +214,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
 
                 customBuildMetrics(expectedBuildProperties)
             }
@@ -220,6 +247,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                 performanceMetrics = false
                 gradleSwitchesMetrics = false
                 environmentMetrics = false
+                processMetrics = false
 
                 customTaskMetrics(expectedTaskProperties)
             }
@@ -248,6 +276,7 @@ private val defaultMetricsTypes = listOf(
     GradleRequestedTasksMetric::class,
     GradleVersionMetric::class
 )
+
 private val performanceMetricsTypes = listOf(
     ProcessorCountMetric::class,
     UserMetric::class,
@@ -263,7 +292,6 @@ private val performanceMetricsTypes = listOf(
 private val environmentMetricsTypes = listOf(
     HostnameMetric::class,
     DefaultCharsetMetric::class
-
 )
 
 private val gitMetricsTypes = listOf(
@@ -279,6 +307,10 @@ private val gradleSwitchesMetricsTypes = listOf(
     GradleSwitchDryRunMetric::class,
     GradleSwitchRefreshDependenciesMetric::class,
     GradleSwitchRerunTasksMetric::class,
-    GradleSwitchDaemonMetric::class,
     GradleSwitchConfigurationCacheMetric::class
+)
+
+private val processMetrics = listOf(
+    GradleProcessMetrics::class,
+    KotlinProcessMetrics::class
 )

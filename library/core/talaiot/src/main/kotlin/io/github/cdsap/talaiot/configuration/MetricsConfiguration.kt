@@ -6,12 +6,12 @@ import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
+import io.github.cdsap.talaiot.metrics.GradleProcessMetrics
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigurationCacheMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchConfigureOnDemandMetric
-import io.github.cdsap.talaiot.metrics.GradleSwitchDaemonMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchDryRunMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchParallelMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchRefreshDependenciesMetric
@@ -22,6 +22,7 @@ import io.github.cdsap.talaiot.metrics.JavaVmNameMetric
 import io.github.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
 import io.github.cdsap.talaiot.metrics.JvmXmsMetric
 import io.github.cdsap.talaiot.metrics.JvmXmxMetric
+import io.github.cdsap.talaiot.metrics.KotlinProcessMetrics
 import io.github.cdsap.talaiot.metrics.LocaleMetric
 import io.github.cdsap.talaiot.metrics.OsMetric
 import io.github.cdsap.talaiot.metrics.ProcessorCountMetric
@@ -29,6 +30,7 @@ import io.github.cdsap.talaiot.metrics.RootProjectNameMetric
 import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.UserMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
+import io.github.cdsap.valuesourceprocess.jInfo
 import org.gradle.api.Project
 
 /**
@@ -51,7 +53,6 @@ import org.gradle.api.Project
  *  [RootProjectNameMetric]
  *  [GradleRequestedTasksMetric]
  *  [GradleVersionMetric]
- *  [GradleScanLinkMetric]
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
@@ -76,12 +77,16 @@ import org.gradle.api.Project
  *  [GradleSwitchDryRunMetric]
  *  [GradleSwitchRefreshDependenciesMetric]
  *  [GradleSwitchRerunTasksMetric]
- *  [GradleSwitchDaemonMetric]
  *  [GradleSwitchConfigurationCacheMetric]
  *
  * [environmentMetrics] includes:
  *  [HostnameMetric]
  *  [DefaultCharsetMetric]
+ *
+ * [processMetrics] includes:
+ *  [GradleProcessMetrics]
+ *  [KotlinProcessMetrics]
+
  *
  *  If you want to define custom metrics:
  *
@@ -113,6 +118,7 @@ class MetricsConfiguration {
     var performanceMetrics = true
     var gradleSwitchesMetrics = true
     var environmentMetrics = true
+    var processMetrics = true
 
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
 
@@ -161,7 +167,6 @@ class MetricsConfiguration {
             add(GradleSwitchDryRunMetric())
             add(GradleSwitchRefreshDependenciesMetric())
             add(GradleSwitchRerunTasksMetric())
-            add(GradleSwitchDaemonMetric())
             add(GradleSwitchConfigurationCacheMetric())
         }
     }
@@ -264,8 +269,15 @@ class MetricsConfiguration {
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
-
+        if (processMetrics) {
+            addProcessMetrics(target)
+        }
         return metrics.toList()
+    }
+
+    private fun addProcessMetrics(target: Project) {
+        metrics.add(GradleProcessMetrics(target.jInfo("GradleDaemon")))
+        metrics.add(KotlinProcessMetrics(target.jInfo("KotlinCompileDaemon")))
     }
 
     private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {

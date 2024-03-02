@@ -39,8 +39,10 @@ data class TaskLength(
      * Timestamp of finish in millis
      */
     val stopMs: Long = 0L,
+
     /**
-     * task is on the critical path of execution
+     * task type
      */
-    // var critical: Boolean = false
+    val type: String
+
 ) : java.io.Serializable
