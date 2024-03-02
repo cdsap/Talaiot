@@ -1,6 +1,9 @@
 package io.github.cdsap.talaiot.publisher
 
+import io.github.cdsap.jdk.tools.parser.ConsolidateProcesses
+import io.github.cdsap.jdk.tools.parser.model.TypeProcess
 import io.github.cdsap.talaiot.entities.ExecutionReport
+import io.github.cdsap.talaiot.entities.Processes
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
@@ -28,7 +31,12 @@ class TalaiotPublisherImpl(
         success: Boolean,
         duration: Long,
         publisherProvider: List<Publisher>,
-        configurationCacheHit: Boolean
+        configurationCacheHit: Boolean,
+        gradleStat: String,
+        kotlinStat: String,
+        gradleInfo: String,
+        kotlinInfo: String,
+        processProcessMetrics: Boolean
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
@@ -41,6 +49,14 @@ class TalaiotPublisherImpl(
         executionReport.configurationCacheHit = configurationCacheHit
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
+            if (processProcessMetrics) {
+                val processesKotlin = ConsolidateProcesses().consolidate(kotlinStat, kotlinInfo, TypeProcess.Kotlin)
+                val processesGradle = ConsolidateProcesses().consolidate(gradleStat, gradleInfo, TypeProcess.Gradle)
+                executionReport.environment.processesStats = Processes(
+                    listKotlinProcesses = processesKotlin,
+                    listGradleProcesses = processesGradle
+                )
+            }
             publisherProvider.forEach {
                 it.publish(executionReport)
             }

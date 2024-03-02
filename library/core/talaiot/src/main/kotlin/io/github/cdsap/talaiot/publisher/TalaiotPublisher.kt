@@ -15,6 +15,11 @@ interface TalaiotPublisher : java.io.Serializable {
         success: Boolean,
         duration: Long,
         publishers: List<Publisher>,
-        configurationCacheHit: Boolean
+        configurationCacheHit: Boolean,
+        gradleStat: String,
+        kotlinStat: String,
+        gradleInfo: String,
+        kotlinInfo: String,
+        processProcessMetrics: Boolean
     )
 }

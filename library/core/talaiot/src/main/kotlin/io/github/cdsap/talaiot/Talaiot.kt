@@ -12,6 +12,8 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
+import io.github.cdsap.valuesourceprocess.jInfo
+import io.github.cdsap.valuesourceprocess.jStat
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
@@ -45,16 +47,17 @@ class Talaiot<T : TalaiotExtension>(
         val executionReport = ExecutionReport()
         val startTime = System.currentTimeMillis()
         target.gradle.taskGraph.whenReady {
+            val dictionary = it.allTasks.associate { it.path to it.javaClass.toString().replace("class ", "").replace("_Decorated", "") }
+
             val parameters = target.gradle.startParameter.taskRequests.flatMap {
                 it.args.flatMap { task ->
                     listOf(task.toString())
                 }
             }
             populateMetrics(executionReport, target, extension.metrics)
-            executionReport.customProperties.buildProperties
             val talaiotPublisher = createTalaiotPublisher(extension, executionReport)
-
             val configurationProvider = target.providers.of(ConfigurationPhaseObserver::class.java) { }
+
             ConfigurationPhaseObserver.init()
 
             val serviceProvider: Provider<TalaiotBuildService> =
@@ -68,6 +71,12 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.customPublishers.set(publisherConfigurationProvider.get())
                     spec.parameters.publishOnNewThread.set(extension.publishOnNewThread)
                     spec.parameters.configurationPhaseExecuted.set(configurationProvider)
+                    spec.parameters.jstatGradle = target.jStat("GradleDaemon")
+                    spec.parameters.jstatKotlin = target.jStat("KotlinCompileDaemon")
+                    spec.parameters.jInfoGradle = target.jInfo("GradleDaemon")
+                    spec.parameters.jInfoKotlin = target.jInfo("KotlinCompileDaemon")
+                    spec.parameters.dictionary.set(dictionary)
+                    spec.parameters.processes.set(extension.metrics.processMetrics)
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

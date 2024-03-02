@@ -5,6 +5,7 @@ import io.github.cdsap.talaiot.entities.TaskMessageState
 import io.github.cdsap.talaiot.publisher.Publisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.services.BuildService
@@ -30,6 +31,7 @@ abstract class TalaiotBuildService :
     private var configurationIsSet = false
 
     interface Params : BuildServiceParameters {
+
         /**
          * Publishes the data stored in the [TalaiotBuildService]
          */
@@ -45,6 +47,12 @@ abstract class TalaiotBuildService :
         val publishOnNewThread: Property<Boolean>
         val initTime: Property<Long>
         val configurationPhaseExecuted: Property<Provider<Boolean>>
+        var jstatGradle: Provider<String>
+        var jstatKotlin: Provider<String>
+        var jInfoGradle: Provider<String>
+        var jInfoKotlin: Provider<String>
+        val dictionary: MapProperty<String, String>
+        val processes: Property<Boolean>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -73,6 +81,8 @@ abstract class TalaiotBuildService :
             0
         }
 
+        val processProcessMetrics = parameters.processes.get()
+
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
             start = start,
@@ -83,7 +93,12 @@ abstract class TalaiotBuildService :
                 it.state == TaskMessageState.FAILED
             },
             publishers = parameters.customPublishers.get(),
-            configurationCacheHit = !configurationPhaseExecuted
+            configurationCacheHit = !configurationPhaseExecuted,
+            kotlinInfo = if (processProcessMetrics) parameters.jInfoKotlin.get() else "",
+            kotlinStat = if (processProcessMetrics) parameters.jstatKotlin.get() else "",
+            gradleInfo = if (processProcessMetrics) parameters.jInfoGradle.get() else "",
+            gradleStat = if (processProcessMetrics) parameters.jstatGradle.get() else "",
+            processProcessMetrics = processProcessMetrics
         )
     }
 
@@ -114,7 +129,8 @@ abstract class TalaiotBuildService :
                 },
                 rootNode = parameters.startParameters.get().contains(task.split(":").last()),
                 startMs = start,
-                stopMs = end
+                stopMs = end,
+                type = parameters.dictionary.get().get(taskPath).orEmpty()
             )
         )
     }
@@ -127,7 +143,8 @@ private fun taskLength(
     state: TaskMessageState,
     rootNode: Boolean,
     startMs: Long,
-    stopMs: Long
+    stopMs: Long,
+    type: String
 ): TaskLength = TaskLength(
     ms = ms,
     taskName = task,
@@ -136,7 +153,8 @@ private fun taskLength(
     rootNode = rootNode,
     module = getModule(path),
     startMs = startMs,
-    stopMs = stopMs
+    stopMs = stopMs,
+    type = type
 )
 
 private fun getModule(path: String): String {

@@ -38,7 +38,10 @@ object ExecutionReportProvider {
                     ":assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    startMs = 0L,
+                    stopMs = 1L,
+                    type = "awesomeTask"
                 )
             )
         )
@@ -86,7 +89,10 @@ object ExecutionReportProvider {
                 ":clean",
                 TaskMessageState.EXECUTED,
                 false,
-                "app"
+                "app",
+                startMs = 0L,
+                stopMs = 1L,
+                type = "awesomeTask"
             )
         )
     )
