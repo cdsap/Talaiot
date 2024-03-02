@@ -31,7 +31,10 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                         ":clean",
                         TaskMessageState.EXECUTED,
                         false,
-                        "app"
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask"
                     )
                 )
                 then(" Task metric values are present") {
@@ -54,7 +57,10 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                         ":clean",
                         TaskMessageState.EXECUTED,
                         false,
-                        "app"
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask"
                     )
                 )
                 then("custom task label values metrics are present") {
@@ -120,7 +126,10 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                     ":clean",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 ),
                 TaskLength(
                     100,
@@ -128,7 +137,10 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                     ":app:assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )
