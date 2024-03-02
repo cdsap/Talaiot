@@ -186,7 +186,10 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                     ":clean",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 ),
                 TaskLength(
                     100,
@@ -194,7 +197,10 @@ class RethinkDbPublisherTest : BehaviorSpec() {
                     ":app:assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )

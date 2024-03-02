@@ -242,7 +242,10 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     ":clean",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 ),
                 TaskLength(
                     100,
@@ -250,7 +253,10 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     ":app:assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    "app"
+                    "app",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )
@@ -285,7 +291,10 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     ":test-module:clean",
                     TaskMessageState.EXECUTED,
                     false,
-                    ":test-module"
+                    ":test-module",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 ),
                 TaskLength(
                     100,
@@ -293,7 +302,10 @@ class PushGatewayPublisherTest : BehaviorSpec() {
                     ":test-module:app:assemble",
                     TaskMessageState.EXECUTED,
                     false,
-                    ":test-module"
+                    ":test-module",
+                    0L,
+                    1L,
+                    "awesomeTask"
                 )
             )
         )

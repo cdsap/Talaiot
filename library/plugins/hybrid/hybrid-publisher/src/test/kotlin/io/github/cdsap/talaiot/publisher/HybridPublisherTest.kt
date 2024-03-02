@@ -89,7 +89,10 @@ class HybridPublisherTest : BehaviorSpec() {
                                     ":clean",
                                     TaskMessageState.EXECUTED,
                                     false,
-                                    "app"
+                                    "app",
+                                    0L,
+                                    1L,
+                                    "awesomeCleanTask"
                                 )
                             )
                         )
@@ -143,7 +146,10 @@ class HybridPublisherTest : BehaviorSpec() {
                                     ":clean",
                                     TaskMessageState.EXECUTED,
                                     false,
-                                    "app"
+                                    "app",
+                                    0L,
+                                    1L,
+                                    "awesomeCleanTask"
                                 )
                             )
                         )
@@ -174,7 +180,10 @@ class HybridPublisherTest : BehaviorSpec() {
                                     ":clean",
                                     TaskMessageState.EXECUTED,
                                     false,
-                                    "app"
+                                    "app",
+                                    0L,
+                                    1L,
+                                    "awesomeCleanTask"
                                 )
                             )
                         )
@@ -217,7 +226,10 @@ class HybridPublisherTest : BehaviorSpec() {
                                     ":clean",
                                     TaskMessageState.EXECUTED,
                                     false,
-                                    "app"
+                                    "app",
+                                    0L,
+                                    1L,
+                                    "awesomeCleanTask"
                                 )
                             )
                         )
