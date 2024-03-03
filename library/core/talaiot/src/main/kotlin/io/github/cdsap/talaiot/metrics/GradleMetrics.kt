@@ -112,13 +112,13 @@ class GradleRequestedTasksMetric : GradleMetric<String>(
 )
 
 class UserMetric : GradleMetric<String>(
-    provider = { project: Project -> project.providers.systemProperty("user.name").forUseAtConfigurationTime().get() },
+    provider = { project: Project -> project.providers.systemProperty("user.name").get() },
     assigner = { report, value -> report.environment.username = value }
 )
 
 class LocaleMetric : GradleMetric<String>(
     provider = { project: Project ->
-        project.providers.systemProperty("user.language").forUseAtConfigurationTime().get()
+        project.providers.systemProperty("user.language").get()
     },
     assigner = { report, value -> report.environment.locale = value }
 )
