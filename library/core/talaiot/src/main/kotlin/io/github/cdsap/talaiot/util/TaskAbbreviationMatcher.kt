@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.util
 
-import org.gradle.util.NameMatcher
+import org.gradle.util.internal.NameMatcher
 
 /**
  * Match task abbreviation to a full task name using list of executed tasks.
