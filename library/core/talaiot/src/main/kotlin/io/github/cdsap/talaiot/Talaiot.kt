@@ -17,7 +17,7 @@ import io.github.cdsap.valuesourceprocess.jStat
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
-import org.gradle.configurationcache.extensions.serviceOf
+import org.gradle.internal.extensions.core.serviceOf
 
 /**
  * Talaiot main [Plugin].
