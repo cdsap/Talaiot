@@ -19,7 +19,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.internal.extensions.core.serviceOf
 
-
 /**
  * Talaiot main [Plugin].
  *
