@@ -1,6 +1,6 @@
 plugins {
     `java`
-    id("io.github.cdsap.talaiot") version "2.0.4-SNAPSHOT"
+    id("io.github.cdsap.talaiot") version "2.0.5-SNAPSHOT"
 }
 
 
