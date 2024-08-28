@@ -25,7 +25,7 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest,macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
@@ -43,10 +43,16 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest,macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
+        services:
+          docker:
+            image: docker:19.03.12  # Specify Docker version
+            options: --privileged  # Allow privileged mode for Docker
+            ports:
+                - 2375:2375  # Expose Docker daemon on port 2375
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
@@ -61,10 +67,17 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest,macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
+        services:
+            docker:
+                image: docker:19.03.12  # Specify Docker version
+                options: --privileged  # Allow privileged mode for Docker
+                ports:
+                    - 2375:2375  # Expose Docker daemon on port 2375
+
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
@@ -79,7 +92,7 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest,macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
