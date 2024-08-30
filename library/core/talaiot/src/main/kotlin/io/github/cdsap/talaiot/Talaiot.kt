@@ -15,6 +15,7 @@ import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
 import io.github.cdsap.valuesourceprocess.jInfo
 import io.github.cdsap.valuesourceprocess.jStat
 import org.gradle.api.Project
+import org.gradle.api.configuration.BuildFeatures
 import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.internal.extensions.core.serviceOf
@@ -47,7 +48,8 @@ class Talaiot<T : TalaiotExtension>(
         val executionReport = ExecutionReport()
         val startTime = System.currentTimeMillis()
         target.gradle.taskGraph.whenReady {
-            val dictionary = it.allTasks.associate { it.path to it.javaClass.toString().replace("class ", "").replace("_Decorated", "") }
+            val isolatedProjects = target.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)
+            val dictionary = if (isolatedProjects) emptyMap<String, String>() else it.allTasks.associate { it.path to it.javaClass.toString().replace("class ", "").replace("_Decorated", "") }
 
             val parameters = target.gradle.startParameter.taskRequests.flatMap {
                 it.args.flatMap { task ->
