@@ -42,12 +42,14 @@ class IsolatedProjectsHit : StringSpec({
 
                 """.trimIndent()
             )
-            GradleRunner.create()
+            val first = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "-Dorg.gradle.unsafe.isolated-projects=true")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
+            println(version)
+            println(first.output)
 
             Thread.sleep(5000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
@@ -56,12 +58,14 @@ class IsolatedProjectsHit : StringSpec({
             report.configurationCacheHit shouldBe false
             report.configurationDurationMs shouldNotStartWith "0"
 
-            GradleRunner.create()
+            val second = GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "-Dorg.gradle.unsafe.isolated-projects=true")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
+            println(version)
+            println(second.output)
 
             Thread.sleep(5000)
             val reportFileHit = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
