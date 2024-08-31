@@ -37,7 +37,9 @@ class IsolatedProjectsHit : StringSpec({
                     publishers {
                          jsonPublisher = true
                     }
-
+                   metrics {
+                      gitMetrics = false
+                   }
                 }
 
                 """.trimIndent()
