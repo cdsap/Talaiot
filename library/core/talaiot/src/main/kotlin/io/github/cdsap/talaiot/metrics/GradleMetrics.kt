@@ -1,5 +1,6 @@
 package io.github.cdsap.talaiot.metrics
 
+import io.github.cdsap.talaiot.extensions.gradleVersionCompatibleWithIsolatedProjects
 import io.github.cdsap.talaiot.extensions.toBytes
 import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.JvmArgsMetric
@@ -10,6 +11,7 @@ import org.gradle.api.configuration.BuildFeatures
 import org.gradle.api.internal.StartParameterInternal
 import org.gradle.api.invocation.Gradle
 import org.gradle.internal.extensions.core.serviceOf
+import org.gradle.util.GradleVersion
 
 class RootProjectNameMetric : GradleMetric<String>(
     provider = { it.gradle.rootProject.name },
@@ -127,15 +129,12 @@ class LocaleMetric : GradleMetric<String>(
 
 private fun Gradle.findRequestedTasks(): List<String> {
     val taskNames = startParameter.taskNames
-    val isolatedProjects = rootProject.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)
-    val requested = rootProject.serviceOf<BuildFeatures>().isolatedProjects.requested.getOrElse(false)
-
-    if (isolatedProjects) {
-        return taskNames
+    return if (GradleVersion.current().version.gradleVersionCompatibleWithIsolatedProjects() && rootProject.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)) {
+        taskNames
     } else {
         val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
         val taskAbbreviationHandler = TaskAbbreviationMatcher(executedTasks)
-        return taskNames.map {
+        taskNames.map {
             taskAbbreviationHandler.findRequestedTask(it)
         }
     }

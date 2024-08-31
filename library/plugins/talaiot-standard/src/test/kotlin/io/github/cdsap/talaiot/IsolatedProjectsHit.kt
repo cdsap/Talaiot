@@ -15,7 +15,9 @@ class IsolatedProjectsHit : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "8.10"
+                "8.10",
+                "8.5",
+                "7.6.2"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
@@ -40,13 +42,13 @@ class IsolatedProjectsHit : StringSpec({
 
                 """.trimIndent()
             )
-            val a = GradleRunner.create()
+            GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "-Dorg.gradle.unsafe.isolated-projects=true")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
-            println(a.output)
+
             Thread.sleep(5000)
             val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
             val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
@@ -54,13 +56,12 @@ class IsolatedProjectsHit : StringSpec({
             report.configurationCacheHit shouldBe false
             report.configurationDurationMs shouldNotStartWith "0"
 
-            val b = GradleRunner.create()
+            GradleRunner.create()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("assemble", "-Dorg.gradle.unsafe.isolated-projects=true")
                 .withPluginClasspath()
                 .withGradleVersion(version)
                 .build()
-            println(b.output)
 
             Thread.sleep(5000)
             val reportFileHit = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
