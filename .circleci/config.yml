@@ -30,7 +30,7 @@ jobs:
       - checkout
       - run:
           name: style
-          command: ./gradlew collectUnitTest
+          command: ./gradlew collectUnitTest --info
   publisherTest:
     machine:
       image: 'ubuntu-2004:2023.02.1'
