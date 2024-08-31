@@ -22,3 +22,25 @@ fun String.toBytes(): String? {
     }
     return null
 }
+
+fun String.gradleVersionCompatibleWithIsolatedProjects(): Boolean {
+    fun parseVersion(version: String): List<Int> {
+        return version.split(Regex("[^\\d]+")).filter { it.isNotEmpty() }.map { it.toInt() }
+    }
+
+    val versionParts = parseVersion(this)
+    val targetVersionParts = parseVersion("8.5")
+    val maxLength = maxOf(versionParts.size, targetVersionParts.size)
+    for (i in 0 until maxLength) {
+        val vPart = versionParts.getOrElse(i) { 0 }
+
+        val tPart = targetVersionParts.getOrElse(i) { 0 }
+        if (vPart > tPart) {
+            return true
+        }
+        if (vPart < tPart) {
+            return false
+        }
+    }
+    return true
+}

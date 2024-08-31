@@ -24,13 +24,13 @@ jobs:
       image: 'ubuntu-2004:2023.02.1'
     working_directory: ~/repo
     environment:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx8G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=false -Dorg.gradle.daemon=false
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx7G -XX:+UnlockExperimentalVMOptions -XX:+UseContainerSupport" -Dorg.gradle.parallel=false -Dorg.gradle.daemon=false
       TERM: dumb
     steps:
       - checkout
       - run:
           name: style
-          command: ./gradlew collectUnitTest
+          command: ./gradlew collectUnitTest --info
   publisherTest:
     machine:
       image: 'ubuntu-2004:2023.02.1'
