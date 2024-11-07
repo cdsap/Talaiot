@@ -59,6 +59,8 @@ jobs:
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
+            -   name: Set up Docker
+                uses: docker/setup-docker@v2
 
             - name: Execute Gradle build
               run:  ./gradlew collectUnitTest
@@ -77,13 +79,15 @@ jobs:
                 options: --privileged
                 ports:
                     - 2375:2375
-
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
+            -   name: Set up Docker
+                uses: docker/setup-docker@v2
+
 
             - name: Execute Gradle build
               run: ./gradlew collectUnitTestLibs
