@@ -67,7 +67,7 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest, macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
