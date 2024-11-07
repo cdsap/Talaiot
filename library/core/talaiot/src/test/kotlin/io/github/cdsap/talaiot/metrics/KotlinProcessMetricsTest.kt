@@ -19,7 +19,7 @@ class KotlinProcessMetricsTest : BehaviorSpec({
             )
 
             val executionReport = ExecutionReport()
-            KotlinProcessMetrics(provider).get(Unit, executionReport)
+            KotlinProcessMetrics(provider.get()).get(Unit, executionReport)
             then("Execution Report sets multipleKotlinProcesses and parse correctly 2 different processes") {
                 val env = executionReport.environment
                 assert(env.multipleKotlinProcesses == true)
@@ -41,7 +41,7 @@ class KotlinProcessMetricsTest : BehaviorSpec({
             )
 
             val executionReport = ExecutionReport()
-            KotlinProcessMetrics(provider).get(Unit, executionReport)
+            KotlinProcessMetrics(provider.get()).get(Unit, executionReport)
             then("Execution Report sets multipleKotlinProcesses and parse correctly 2 different processes") {
                 assert(executionReport.environment.multipleKotlinProcesses == false)
                 assert(executionReport.environment.kotlinProcessesAvailable == 1)
@@ -57,7 +57,7 @@ class KotlinProcessMetricsTest : BehaviorSpec({
             )
 
             val executionReport = ExecutionReport()
-            KotlinProcessMetrics(provider).get(Unit, executionReport)
+            KotlinProcessMetrics(provider.get()).get(Unit, executionReport)
             then("Values are not set in Execution Report") {
                 assert(executionReport.environment.multipleKotlinProcesses == null)
                 assert(executionReport.environment.kotlinProcessesAvailable == null)

@@ -6,7 +6,6 @@ import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
-import io.github.cdsap.talaiot.metrics.GradleProcessMetrics
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchBuildScanMetric
 import io.github.cdsap.talaiot.metrics.GradleSwitchCachingMetric
@@ -22,7 +21,6 @@ import io.github.cdsap.talaiot.metrics.JavaVmNameMetric
 import io.github.cdsap.talaiot.metrics.JvmMaxPermSizeMetric
 import io.github.cdsap.talaiot.metrics.JvmXmsMetric
 import io.github.cdsap.talaiot.metrics.JvmXmxMetric
-import io.github.cdsap.talaiot.metrics.KotlinProcessMetrics
 import io.github.cdsap.talaiot.metrics.LocaleMetric
 import io.github.cdsap.talaiot.metrics.OsMetric
 import io.github.cdsap.talaiot.metrics.ProcessorCountMetric
@@ -30,7 +28,6 @@ import io.github.cdsap.talaiot.metrics.RootProjectNameMetric
 import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.UserMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
-import io.github.cdsap.valuesourceprocess.jInfo
 import org.gradle.api.Project
 
 /**
@@ -269,15 +266,7 @@ class MetricsConfiguration {
         if (generateBuildId) {
             metrics.add(BuildIdMetric())
         }
-        if (processMetrics) {
-            addProcessMetrics(target)
-        }
         return metrics.toList()
-    }
-
-    private fun addProcessMetrics(target: Project) {
-        metrics.add(GradleProcessMetrics(target.jInfo("GradleDaemon")))
-        metrics.add(KotlinProcessMetrics(target.jInfo("KotlinCompileDaemon")))
     }
 
     private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {
