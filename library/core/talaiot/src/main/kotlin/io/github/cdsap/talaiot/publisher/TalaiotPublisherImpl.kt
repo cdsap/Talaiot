@@ -7,6 +7,8 @@ import io.github.cdsap.talaiot.entities.Processes
 import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.filter.BuildFilterProcessor
 import io.github.cdsap.talaiot.filter.TaskFilterProcessor
+import io.github.cdsap.talaiot.metrics.GradleProcessMetrics
+import io.github.cdsap.talaiot.metrics.KotlinProcessMetrics
 
 /**
  * Implementation of [TalaiotPublisher].
@@ -56,6 +58,8 @@ class TalaiotPublisherImpl(
                     listKotlinProcesses = processesKotlin,
                     listGradleProcesses = processesGradle
                 )
+                GradleProcessMetrics(gradleInfo).get(Unit, executionReport)
+                KotlinProcessMetrics(kotlinInfo).get(Unit, executionReport)
             }
             publisherProvider.forEach {
                 it.publish(executionReport)
