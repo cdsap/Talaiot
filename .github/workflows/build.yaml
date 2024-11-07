@@ -107,3 +107,4 @@ jobs:
                   cd sample
                   ./gradlew assemble
                   ./gradlew assemble --configuration-cache
+                  ./gradlew assemble --configuration-cache
