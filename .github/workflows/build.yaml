@@ -2,7 +2,8 @@ name: Run Gradle on PRs
 on:
     pull_request:
     push:
-        branches: [gha]
+        branches:
+            - master
 jobs:
     ktlint:
         timeout-minutes: 300
