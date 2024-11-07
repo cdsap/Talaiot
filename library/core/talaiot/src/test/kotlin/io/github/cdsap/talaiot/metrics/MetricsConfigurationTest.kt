@@ -279,7 +279,6 @@ private val environmentMetricsTypes = listOf(
 )
 
 private val gitMetricsTypes = listOf(
-    GitBranchMetric::class,
     GitUserMetric::class
 )
 
