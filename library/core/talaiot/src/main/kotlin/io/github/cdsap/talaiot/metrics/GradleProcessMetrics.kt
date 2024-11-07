@@ -1,12 +1,11 @@
 package io.github.cdsap.talaiot.metrics
 
 import io.github.cdsap.talaiot.metrics.process.JInfoProcess
-import org.gradle.api.provider.Provider
 
-class GradleProcessMetrics(val value: Provider<String>) : SimpleMetric<Provider<String>>(provider = {
+class GradleProcessMetrics(val value: String) : SimpleMetric<String>(provider = {
     value
 }, assigner = { report, value ->
-        val jInfoByProcess = JInfoProcess().parseJInfoData(value.get())
+        val jInfoByProcess = JInfoProcess().parseJInfoData(value)
         if (jInfoByProcess.isNotEmpty()) {
             report.environment.gradleProcessesAvailable = jInfoByProcess.size
             report.environment.multipleGradleProcesses = jInfoByProcess.size > 1

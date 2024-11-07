@@ -17,7 +17,7 @@ class GradleProcessMetricsTest : BehaviorSpec({
             )
 
             val executionReport = ExecutionReport()
-            GradleProcessMetrics(provider).get(Unit, executionReport)
+            GradleProcessMetrics(provider.get()).get(Unit, executionReport)
             then("Execution Report sets multipleGradleProcesses and parse correctly 2 different processes") {
                 assert(executionReport.environment.multipleGradleProcesses == true)
                 assert(executionReport.environment.gradleProcessesAvailable == 2)
@@ -47,7 +47,7 @@ class GradleProcessMetricsTest : BehaviorSpec({
             )
 
             val executionReport = ExecutionReport()
-            GradleProcessMetrics(provider).get(Unit, executionReport)
+            GradleProcessMetrics(provider.get()).get(Unit, executionReport)
             then("Execution Report sets multipleGradleProcesses and parse correctly 2 different processes") {
                 assert(executionReport.environment.multipleGradleProcesses == false)
                 assert(executionReport.environment.gradleProcessesAvailable == 1)

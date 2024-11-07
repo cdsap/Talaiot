@@ -22,8 +22,7 @@ class MetricsConfigurationTest : BehaviorSpec({
                     environmentMetricsTypes +
                     performanceMetricsTypes +
                     gradleSwitchesMetricsTypes +
-                    gitMetricsTypes +
-                    processMetrics
+                    gitMetricsTypes
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
@@ -129,21 +128,6 @@ class MetricsConfigurationTest : BehaviorSpec({
             val metrics = metricsConfiguration.build(target)
             then("BuildIdMetric is included") {
                 val expectedMetricsTypes = performanceMetricsTypes + BuildIdMetric::class
-                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
-            }
-        }
-        `when`("process metrics are the only ones enabled") {
-            val metricsConfiguration = MetricsConfiguration().apply {
-                defaultMetrics = false
-                gitMetrics = false
-                performanceMetrics = false
-                gradleSwitchesMetrics = false
-                environmentMetrics = false
-                processMetrics = true
-            }
-            val metrics = metricsConfiguration.build(target)
-            then("Process metrics are included") {
-                val expectedMetricsTypes = processMetrics
                 metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
             }
         }
@@ -308,9 +292,4 @@ private val gradleSwitchesMetricsTypes = listOf(
     GradleSwitchRefreshDependenciesMetric::class,
     GradleSwitchRerunTasksMetric::class,
     GradleSwitchConfigurationCacheMetric::class
-)
-
-private val processMetrics = listOf(
-    GradleProcessMetrics::class,
-    KotlinProcessMetrics::class
 )
