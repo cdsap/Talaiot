@@ -3,7 +3,6 @@ package io.github.cdsap.talaiot.configuration
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.BuildIdMetric
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
-import io.github.cdsap.talaiot.metrics.GitBranchMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
@@ -53,7 +52,6 @@ import org.gradle.api.Project
  *
  * [gitMetrics] includes:
  *  [GitUserMetric]
- *  [GitBranchMetric]
  *
  * [performanceMetrics] includes:
  *  [UserMetric]
@@ -130,7 +128,6 @@ class MetricsConfiguration {
     private fun addGitMetrics(target: Project) {
         with(metrics) {
             add(GitUserMetric(target))
-            add(GitBranchMetric(target))
         }
     }
 

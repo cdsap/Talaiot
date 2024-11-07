@@ -63,7 +63,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
@@ -108,7 +110,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("two publishers are processed ") {
@@ -165,7 +169,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -224,7 +230,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("two publishers are processed and one task has been filtered ") {
@@ -273,7 +281,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("successful build is published") {
@@ -317,7 +327,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("failed build is not published") {
@@ -361,7 +373,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("build with a different task is published") {
@@ -403,7 +417,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
             then("no information is published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -445,7 +461,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
             then("build with a different task is not published") {
 
@@ -487,7 +505,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
             then("build with the same task is published") {
                 verify(publishers.get()[0]).publish(any())
@@ -531,7 +551,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("build with at least one task included is published") {
@@ -576,7 +598,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("build with all tasks filtered out is not published") {
@@ -623,7 +647,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
             then("should publish cache information for each task") {
                 val reportCaptor = argumentCaptor<ExecutionReport>()
@@ -691,7 +717,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 "",
                 "",
-                false
+                false,
+                false,
+                ""
             )
 
             then("duration is the sum of execution and configuration") {
