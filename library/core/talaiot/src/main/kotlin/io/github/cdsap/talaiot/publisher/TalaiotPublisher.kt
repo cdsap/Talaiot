@@ -20,6 +20,8 @@ interface TalaiotPublisher : java.io.Serializable {
         kotlinStat: String,
         gradleInfo: String,
         kotlinInfo: String,
-        processProcessMetrics: Boolean
+        processProcessMetrics: Boolean,
+        processGitBranchMetric: Boolean,
+        gitBranchMetric: String
     )
 }

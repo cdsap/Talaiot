@@ -13,6 +13,7 @@ import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
 import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
+import io.github.cdsap.valuesourceprocess.CommandLineWithOutputValue
 import io.github.cdsap.valuesourceprocess.jInfo
 import io.github.cdsap.valuesourceprocess.jStat
 import org.gradle.api.Project
@@ -63,6 +64,14 @@ class Talaiot<T : TalaiotExtension>(
 
             ConfigurationPhaseObserver.init()
 
+            // ValueSources invoked as metrics invalidate the configuration cache when the value changes.
+            // https://github.com/cdsap/Talaiot/issues/408
+            // To avoid this issue we need to create the provider that wouldn't be retrieved
+            // until the publishing phase and if the metric is enabled
+            val gitBranch = target.providers.of(CommandLineWithOutputValue::class.java) {
+                it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
+            }
+
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
                     "talaiotService",
@@ -80,6 +89,8 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.jInfoKotlin = target.jInfo("KotlinCompileDaemon")
                     spec.parameters.dictionary.set(dictionary)
                     spec.parameters.processes.set(extension.metrics.processMetrics)
+                    spec.parameters.gitBranchMetric = gitBranch
+                    spec.parameters.processGitBranchMetric.set(extension.metrics.gitMetrics)
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }
