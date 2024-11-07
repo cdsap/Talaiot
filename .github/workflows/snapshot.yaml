@@ -1,0 +1,36 @@
+name: Publish Snapshots
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    publishing_snapshots:
+        timeout-minutes: 300
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                version: [11]
+                vendor: [zulu]
+        runs-on: ${{ matrix.os }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up JDK
+              uses: actions/setup-java@v4
+              with:
+                  java-version: ${{ matrix.version }}
+                  distribution: ${{ matrix.vendor }}
+
+            - name: Publish snapshots
+              run: ./gradlew publishAllPublicationsToSnapshotsRepository
+              env:
+                  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+                  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+                  USERNAME_SNAPSHOT: ${{ secrets.USERNAME_SNAPSHOT }}
+                  PASSWORD_SNAPSHOT: ${{ secrets.PASSWORD_SNAPSHOT }}
+
+
