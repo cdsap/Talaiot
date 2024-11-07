@@ -43,24 +43,22 @@ jobs:
         timeout-minutes: 300
         strategy:
             matrix:
-                os: [ubuntu-latest, macos-latest]
+                os: [ubuntu-latest]
                 version: [11]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         services:
           docker:
-            image: docker:19.03.12
+            image: docker:20.10.7
             options: --privileged
             ports:
-                - 2375:2375
+                - 5432:5432
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
-            -   name: Set up Docker
-                uses: docker/setup-docker@v2
 
             - name: Execute Gradle build
               run:  ./gradlew collectUnitTest
@@ -75,19 +73,16 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
             docker:
-                image: docker:19.03.12
+                image: docker:20.10.7
                 options: --privileged
                 ports:
-                    - 2375:2375
+                    - 5432:5432
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
-            -   name: Set up Docker
-                uses: docker/setup-docker@v2
-
 
             - name: Execute Gradle build
               run: ./gradlew collectUnitTestLibs
