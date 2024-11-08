@@ -1,6 +1,6 @@
 package io.github.cdsap.talaiot.metrics
 
-import io.github.cdsap.talaiot.extensions.gradleVersionCompatibleWithIsolatedProjects
+import io.github.cdsap.talaiot.extensions.isCompatibleWithIsolatedProjects
 import io.github.cdsap.talaiot.extensions.toBytes
 import io.github.cdsap.talaiot.metrics.base.GradleMetric
 import io.github.cdsap.talaiot.metrics.base.JvmArgsMetric
@@ -129,7 +129,7 @@ class LocaleMetric : GradleMetric<String>(
 
 private fun Gradle.findRequestedTasks(): List<String> {
     val taskNames = startParameter.taskNames
-    return if (GradleVersion.current().version.gradleVersionCompatibleWithIsolatedProjects() && rootProject.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)) {
+    return if (GradleVersion.current().isCompatibleWithIsolatedProjects() && rootProject.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)) {
         taskNames
     } else {
         val executedTasks = taskGraph.allTasks.map { TaskName(name = it.name, path = it.path) }
