@@ -57,9 +57,7 @@ Using legacy plugin application:
 ```
 buildscript {
   repositories {
-    maven {
-      url = uri("https://plugins.gradle.org/m2/")
-    }
+    gradlePluginPortal()
   }
   dependencies {
     classpath("io.github.cdsap:talaiot:<latest version>")
@@ -82,9 +80,7 @@ Using legacy plugin application:
 ```
 buildscript {
   repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
+    gradlePluginPortal()
   }
   dependencies {
     classpath "io.github.cdsap:talaiot:<latest version>"
@@ -119,9 +115,7 @@ Using legacy plugin application:
 ```
 buildscript {
   repositories {
-    maven {
-      url = uri("https://plugins.gradle.org/m2/")
-    }
+    gradlePluginPortal()
   }
   dependencies {
     classpath("io.github.cdsap.talaiot.plugin:base:<latest version>")
@@ -144,9 +138,7 @@ Using legacy plugin application:
 ```
 buildscript {
   repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
+    gradlePluginPortal()
   }
   dependencies {
     classpath "io.github.cdsap.talaiot.plugin:base:<latest version>"

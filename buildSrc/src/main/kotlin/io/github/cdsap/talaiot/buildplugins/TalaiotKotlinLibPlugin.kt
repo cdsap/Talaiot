@@ -3,8 +3,6 @@ package io.github.cdsap.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
-import java.net.URI
-
 
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
@@ -26,7 +24,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.repositories {
             mavenCentral()
-            maven { url = URI("https://plugins.gradle.org/m2/") }
+            gradlePluginPortal()
         }
 
         target.setUpJunitPlatform()
