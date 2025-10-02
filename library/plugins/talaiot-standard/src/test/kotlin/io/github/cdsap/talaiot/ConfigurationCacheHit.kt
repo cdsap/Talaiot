@@ -17,7 +17,7 @@ class ConfigurationCacheHit : StringSpec({
             listOf(
                 "8.3",
                 "8.2.1",
-                "7.6.2"
+                "9.1.0"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()

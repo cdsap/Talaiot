@@ -3,6 +3,9 @@ package io.github.cdsap.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import java.net.URI
 
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
@@ -21,6 +24,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.plugins.apply("signing")
         target.plugins.apply("java-library")
         target.plugins.apply("org.jlleitschuh.gradle.ktlint")
+        target.plugins.apply("com.vanniktech.maven.publish")
 
         target.repositories {
             mavenCentral()
@@ -30,10 +34,8 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.setUpJunitPlatform()
         target.setUpKtlint()
 
-        target.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java).all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        target.extensions.getByType(KotlinJvmProjectExtension::class.java).apply {
+            jvmToolchain(17)
         }
         target.setUpPublishing(Type.LIBRARY)
 

@@ -25,9 +25,9 @@ fun Project.collectUnitTest() = this.run {
             group = "Verification"
             description = "Collect plugin tests"
 
-            val testTask = pr.tasks.find { it.name == "test" }
-            testTask?.let { reportOn(testTask) }
-            destinationDir = file("${rootProject.buildDir}/reports/tests")
+            val testTask = pr.tasks.withType<Test>()
+            testResults.from(testTask)
+            destinationDirectory.set(file("${rootProject.buildDir}/reports/tests"))
         })
 
 }
@@ -44,9 +44,9 @@ fun Project.collectUnitTestLibs() = this.run {
         group = "Verification"
         description = "Collect tests libs modules"
 
-        val testTask = pr.tasks.find { it.name == "test" }
-        testTask?.let { reportOn(testTask) }
-        destinationDir = file("${rootProject.buildDir}/reports/tests")
+        val testTask = pr.tasks.withType<Test>()
+        testResults.from(testTask)
+        destinationDirectory.set(file("${rootProject.buildDir}/reports/tests"))
     })
 
 }
