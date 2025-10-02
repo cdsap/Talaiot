@@ -57,6 +57,9 @@ abstract class TalaiotBuildService :
 
     private val taskLengthList = mutableListOf<TaskLength>()
 
+    private val startParameters by lazy { parameters.startParameters.get() }
+    private val dictionary by lazy { parameters.dictionary.get() }
+
     init {
         start = System.currentTimeMillis()
     }
@@ -127,10 +130,10 @@ abstract class TalaiotBuildService :
                     "failed" -> TaskMessageState.FAILED
                     else -> TaskMessageState.EXECUTED
                 },
-                rootNode = parameters.startParameters.get().contains(task.split(":").last()),
+                rootNode = startParameters.contains(task.split(":").last()),
                 startMs = start,
                 stopMs = end,
-                type = parameters.dictionary.get().get(taskPath).orEmpty()
+                type = dictionary[taskPath].orEmpty()
             )
         )
     }
