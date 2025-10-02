@@ -9,7 +9,7 @@ fun String.toBytes(): String? {
     if (matcher.find()) {
         val number = matcher.group(1)
 
-        val pow = when (matcher.group(2).toUpperCase()) {
+        val pow = when (matcher.group(2).uppercase()) {
             "G" -> 3
             "M" -> 2
             "K" -> 1

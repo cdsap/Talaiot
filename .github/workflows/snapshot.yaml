@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                version: [11]
+                version: [17]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
 
