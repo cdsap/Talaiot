@@ -11,7 +11,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest]
-                version: [11]
+                version: [17]
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
 
@@ -26,11 +26,11 @@ jobs:
                   distribution: ${{ matrix.vendor }}
 
             - name: Publish snapshots
-              run: ./gradlew publishAllPublicationsToSnapshotsRepository
+              run: ./gradlew publishAndReleaseToMavenCentral
               env:
                   SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
                   SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-                  USERNAME_SNAPSHOT: ${{ secrets.USERNAME_SNAPSHOT }}
-                  PASSWORD_SNAPSHOT: ${{ secrets.PASSWORD_SNAPSHOT }}
+                  ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+                  ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
 
 
