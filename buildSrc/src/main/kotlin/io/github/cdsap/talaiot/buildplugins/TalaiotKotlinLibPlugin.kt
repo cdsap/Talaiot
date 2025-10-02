@@ -25,6 +25,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.plugins.apply("signing")
         target.plugins.apply("java-library")
         target.plugins.apply("org.jlleitschuh.gradle.ktlint")
+        target.plugins.apply("com.vanniktech.maven.publish")
 
         target.repositories {
             mavenCentral()
