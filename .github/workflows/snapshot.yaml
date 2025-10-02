@@ -3,7 +3,7 @@ name: Publish Snapshots
 on:
     push:
         branches:
-            - update_gradle_9_1_0
+            - master
 
 jobs:
     publishing_snapshots:
