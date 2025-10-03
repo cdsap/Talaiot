@@ -6,7 +6,6 @@ import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.bundling.Tar
 import org.gradle.api.tasks.bundling.Zip
 import org.gradle.kotlin.dsl.*
-import java.net.URI
 
 /**
  * Talaiot Plugin abstracts the build logic for modules used as Gradle Plugin.
@@ -31,7 +30,7 @@ class TalaiotPlugin : Plugin<Project> {
 
         target.repositories {
             mavenCentral()
-            maven { url = URI("https://plugins.gradle.org/m2/") }
+            gradlePluginPortal()
         }
 
         target.setUpJunitPlatform()

@@ -7,7 +7,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import java.net.URI
 
-
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
  * of java-libraries]/kotlin modules.
@@ -29,7 +28,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
 
         target.repositories {
             mavenCentral()
-            maven { url = URI("https://plugins.gradle.org/m2/") }
+            gradlePluginPortal()
         }
 
         target.setUpJunitPlatform()
