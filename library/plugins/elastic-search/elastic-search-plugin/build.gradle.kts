@@ -17,7 +17,7 @@ dependencies {
     implementation(project(":library:core:talaiot"))
     testImplementation(project(":library:core:talaiot-test-utils"))
     testImplementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
-    testImplementation("com.google.code.gson:gson:2.8.5")
+    testImplementation("com.google.code.gson:gson:2.13.2")
 }
 
 gradlePlugin {
