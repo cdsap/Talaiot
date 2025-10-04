@@ -2,14 +2,7 @@ package io.github.cdsap.talaiot.buildplugins
 
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.api.publish.Publication
-import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.*
-import java.net.URI
-import kotlin.text.set
-import kotlin.toString
 
 fun Project.setUpPublishing(
     type: Type
@@ -29,7 +22,12 @@ fun Project.setUpPublishing(
             publishToMavenCentral()
         }
         signAllPublications()
-        coordinates("io.github.cdsap.talaiot", name, Constants.TALAIOT_VERSION)
+        val forcedGroup = if(type == Type.LIBRARY) {
+            "io.github.cdsap.talaiot"
+        } else {
+            "io.github.cdsap.talaiot.plugin"
+        }
+        coordinates(forcedGroup, name, Constants.TALAIOT_VERSION)
 
         pom {
             scm {
