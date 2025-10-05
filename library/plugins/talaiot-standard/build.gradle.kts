@@ -28,7 +28,7 @@ dependencies {
     testImplementation(gradleTestKit())
     testImplementation("io.github.cdsap:jdk-tools-parser:0.1.1")
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
-    testImplementation("org.influxdb:influxdb-java:2.19")
+    testImplementation("org.influxdb:influxdb-java:2.25")
     testImplementation(project(":library:core:talaiot-test-utils"))
 }
 
