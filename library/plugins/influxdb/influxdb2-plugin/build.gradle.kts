@@ -16,7 +16,7 @@ dependencies {
     implementation(project(":library:plugins:influxdb:influxdb2-publisher"))
     implementation(project(":library:core:talaiot"))
     testImplementation(project(":library:core:talaiot-test-utils"))
-    testImplementation("org.influxdb:influxdb-java:2.19")
+    testImplementation("org.influxdb:influxdb-java:2.25")
 }
 
 gradlePlugin {
