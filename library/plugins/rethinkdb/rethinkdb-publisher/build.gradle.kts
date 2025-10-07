@@ -10,6 +10,6 @@ talaiotLib {
 
 dependencies {
     implementation(project(":library:core:talaiot"))
-    implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+    implementation(libs.rethinkdbDriver)
     testImplementation(project(":library:core:talaiot-test-utils"))
 }

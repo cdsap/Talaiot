@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
@@ -31,6 +32,8 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
             gradlePluginPortal()
         }
 
+        val libs = target.extensions.getByType<VersionCatalogsExtension>().named("libs")
+
         target.setUpJunitPlatform()
         target.setUpKtlint()
 
@@ -48,8 +51,8 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         }
 
         target.dependencies {
-            add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
+            add("testImplementation", libs.findLibrary("mockitoKotlin").get())
+            add("testImplementation", libs.findLibrary("kotlintestRunner").get())
         }
     }
 }

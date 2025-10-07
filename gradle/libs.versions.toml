@@ -1,0 +1,41 @@
+[versions]
+gson = "2.13.2"
+commandlineValueSource = "0.1.0"
+jdkToolsParser = "0.1.1"
+kohttp = "0.10.0"
+testcontainers = "1.21.3"
+jna = "5.18.1"
+influxdbJava = "2.25"
+influxdbClientJava = "6.12.0"
+rethinkdbDriver = "2.3.3"
+prometheusPushgateway = "0.16.0"
+elasticsearchClient = "7.3.0"
+mockitoKotlin = "2.0.0-RC1"
+kotlintestRunner = "3.3.2"
+kotlinGradlePlugin = "2.2.20"
+vanniktechMavenPublish = "0.34.0"
+gradlePluginPublish = "1.3.1"
+ktlintGradle = "11.6.1"
+junit4 = "4.13.2"
+
+[libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+commandlineValueSource = { module = "io.github.cdsap:commandline-value-source", version.ref = "commandlineValueSource" }
+jdkToolsParser = { module = "io.github.cdsap:jdk-tools-parser", version.ref = "jdkToolsParser" }
+kohttp = { module = "io.github.rybalkinsd:kohttp", version.ref = "kohttp" }
+testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+testcontainersInfluxdb = { module = "org.testcontainers:influxdb", version.ref = "testcontainers" }
+testcontainersElasticsearch = { module = "org.testcontainers:elasticsearch", version.ref = "testcontainers" }
+jna = { module = "net.java.dev.jna:jna", version.ref = "jna" }
+influxdbJava = { module = "org.influxdb:influxdb-java", version.ref = "influxdbJava" }
+influxdbClientJava = { module = "com.influxdb:influxdb-client-java", version.ref = "influxdbClientJava" }
+rethinkdbDriver = { module = "com.rethinkdb:rethinkdb-driver", version.ref = "rethinkdbDriver" }
+prometheusPushgateway = { module = "io.prometheus:simpleclient_pushgateway", version.ref = "prometheusPushgateway" }
+elasticsearchClient = { module = "org.elasticsearch.client:elasticsearch-rest-high-level-client", version.ref = "elasticsearchClient" }
+mockitoKotlin = { module = "com.nhaarman.mockitokotlin2:mockito-kotlin", version.ref = "mockitoKotlin" }
+kotlintestRunner = { module = "io.kotlintest:kotlintest-runner-junit5", version.ref = "kotlintestRunner" }
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+vanniktechMavenPublish = { module = "com.vanniktech.maven.publish.base:com.vanniktech.maven.publish.base.gradle.plugin", version.ref = "vanniktechMavenPublish" }
+gradlePluginPublish = { module = "com.gradle.publish:plugin-publish-plugin", version.ref = "gradlePluginPublish" }
+ktlintGradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintGradle" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
