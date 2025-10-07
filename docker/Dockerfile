@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:24.04
 MAINTAINER Inaki
 
 ENV DEBIAN_FRONTEND noninteractive
