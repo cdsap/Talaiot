@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.bundling.Tar
 import org.gradle.api.tasks.bundling.Zip
@@ -33,6 +34,8 @@ class TalaiotPlugin : Plugin<Project> {
             gradlePluginPortal()
         }
 
+        val libs = target.extensions.getByType<VersionCatalogsExtension>().named("libs")
+
         target.setUpJunitPlatform()
         target.setUpPublishing(Type.PLUGIN)
 
@@ -47,8 +50,8 @@ class TalaiotPlugin : Plugin<Project> {
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
         target.dependencies {
-            add("testImplementation", "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1")
-            add("testImplementation", "io.kotlintest:kotlintest-runner-junit5:3.3.2")
+            add("testImplementation", libs.findLibrary("mockitoKotlin").get())
+            add("testImplementation", libs.findLibrary("kotlintestRunner").get())
         }
     }
 }

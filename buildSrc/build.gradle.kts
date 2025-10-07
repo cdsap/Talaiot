@@ -1,3 +1,6 @@
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.the
+
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
@@ -9,12 +12,14 @@ repositories {
     gradlePluginPortal()
 }
 
+val libs = the<VersionCatalogsExtension>().named("libs")
+
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.20")
-    implementation("com.vanniktech.maven.publish.base:com.vanniktech.maven.publish.base.gradle.plugin:0.34.0")
-    implementation("com.gradle.publish:plugin-publish-plugin:1.3.1")
-    implementation("org.jlleitschuh.gradle:ktlint-gradle:11.6.1")
-    testImplementation("junit:junit:4.13.2")
+    implementation(libs.findLibrary("kotlinGradlePlugin").get())
+    implementation(libs.findLibrary("vanniktechMavenPublish").get())
+    implementation(libs.findLibrary("gradlePluginPublish").get())
+    implementation(libs.findLibrary("ktlintGradle").get())
+    testImplementation(libs.findLibrary("junit4").get())
 }
 
 gradlePlugin {

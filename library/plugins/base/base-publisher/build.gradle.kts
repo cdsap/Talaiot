@@ -9,6 +9,6 @@ talaiotLib {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.13.2")
+    implementation(libs.gson)
     implementation(project(":library:core:talaiot"))
 }
