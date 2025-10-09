@@ -23,7 +23,7 @@ dependencies {
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation("com.google.code.gson:gson:2.13.2")
-    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
+    implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.29")
     implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
     testImplementation(gradleTestKit())
     testImplementation("io.github.cdsap:jdk-tools-parser:0.1.1")
