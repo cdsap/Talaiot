@@ -1,4 +1,4 @@
-name: Running Samples in Gradle 8 and 9
+name: Running Samples with given Talatiot version
 on:
     workflow_dispatch:
         inputs:
@@ -10,6 +10,7 @@ jobs:
     sample:
         timeout-minutes: 300
         strategy:
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest,macos-latest,windows-latest]
                 version: [17,21,25]
@@ -42,6 +43,7 @@ jobs:
     sample_gradle_8:
         timeout-minutes: 300
         strategy:
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest,macos-latest,windows-latest]
                 version: [11,15, 17,21]
