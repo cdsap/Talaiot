@@ -5,7 +5,7 @@ on:
             talaiot_version:
                 description: 'io.github.cdsap.talaiot plugin version'
                 required: true
-                default: '2.0.8-SNAPSHOT'
+                default: '2.0.9-SNAPSHOT'
 jobs:
     sample:
         timeout-minutes: 300
