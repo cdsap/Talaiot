@@ -6,8 +6,11 @@ import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Tar
 import org.gradle.api.tasks.bundling.Zip
+import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.kotlin.dsl.*
+
 
 /**
  * Talaiot Plugin abstracts the build logic for modules used as Gradle Plugin.
@@ -41,7 +44,11 @@ class TalaiotPlugin : Plugin<Project> {
             }
         }
 
-
+        target.tasks.withType<Test>().configureEach {
+            javaLauncher = target.extensions.getByType(JavaToolchainService::class.java).launcherFor {
+                languageVersion = JavaLanguageVersion.of(17)
+            }
+        }
         target.setUpJunitPlatform()
         target.setUpPublishing(Type.PLUGIN)
 
@@ -49,6 +56,7 @@ class TalaiotPlugin : Plugin<Project> {
             collectUnitTest()
             setUpSigning("TalaiotLib", "pluginMaven")
         }
+
         target.tasks.withType<Tar> {
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }

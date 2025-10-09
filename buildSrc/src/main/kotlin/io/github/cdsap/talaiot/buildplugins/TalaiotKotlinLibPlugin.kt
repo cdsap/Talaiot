@@ -2,10 +2,16 @@ package io.github.cdsap.talaiot.buildplugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import java.net.URI
+import kotlin.jvm.java
 
 /**
  * TalaiotKotlinLib Plugin represents a build configuration
@@ -37,6 +43,12 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.extensions.getByType(KotlinJvmProjectExtension::class.java).apply {
             jvmToolchain(11)
         }
+        target.tasks.withType<Test>().configureEach {
+            javaLauncher = target.extensions.getByType(JavaToolchainService::class.java).launcherFor {
+                languageVersion = JavaLanguageVersion.of(17)
+            }
+        }
+
         target.setUpPublishing(Type.LIBRARY)
 
         target.afterEvaluate {
