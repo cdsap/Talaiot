@@ -3,7 +3,7 @@ name: Publish Snapshots
 on:
     push:
         branches:
-            - adding-jdk-11-min
+            - master
 
 jobs:
     publishing_snapshots:
