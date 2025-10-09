@@ -38,6 +38,7 @@ jobs:
                   ./gradlew assemble
                   ./gradlew assemble --configuration-cache
                   ./gradlew assemble --configuration-cache
+              shell: bash
 
 
     sample_gradle_8:
@@ -72,3 +73,4 @@ jobs:
                   ./gradlew assemble
                   ./gradlew assemble --configuration-cache
                   ./gradlew assemble --configuration-cache
+              shell: bash
