@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.3.0")
-    implementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+    implementation("com.rethinkdb:rethinkdb-driver:2.4.4")
     testImplementation(gradleTestKit())
     testImplementation("io.github.cdsap:jdk-tools-parser:0.1.1")
     testImplementation("io.github.rybalkinsd:kohttp:0.10.0")
