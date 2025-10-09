@@ -35,7 +35,7 @@ class TalaiotKotlinLibPlugin : Plugin<Project> {
         target.setUpKtlint()
 
         target.extensions.getByType(KotlinJvmProjectExtension::class.java).apply {
-            jvmToolchain(17)
+            jvmToolchain(11)
         }
         target.setUpPublishing(Type.LIBRARY)
 

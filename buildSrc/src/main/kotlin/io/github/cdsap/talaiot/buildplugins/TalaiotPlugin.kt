@@ -3,8 +3,10 @@ package io.github.cdsap.talaiot.buildplugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.bundling.Tar
 import org.gradle.api.tasks.bundling.Zip
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.*
 
 /**
@@ -32,6 +34,13 @@ class TalaiotPlugin : Plugin<Project> {
             mavenCentral()
             gradlePluginPortal()
         }
+
+        target.extensions.getByType(JavaPluginExtension::class.java).apply {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(11))
+            }
+        }
+
 
         target.setUpJunitPlatform()
         target.setUpPublishing(Type.PLUGIN)
