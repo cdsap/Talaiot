@@ -1,4 +1,4 @@
-name: Run Gradle on PRs
+name: Running Samples in Gradle 8 and 9
 on:
     pull_request:
     push:
@@ -45,7 +45,7 @@ jobs:
 
             - name: Execute Gradle build
               run: |
-                  cd sample_gradle_8
+                  cd sample_gradle8
                   ./gradlew assemble
                   ./gradlew assemble --configuration-cache
                   ./gradlew assemble --configuration-cache
