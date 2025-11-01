@@ -47,7 +47,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             publish(extension, logger, project, executionReport, publishers, mutableListOf(getSingleTask()))
 
-
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat { this.tasks!!.size == 1 })
@@ -207,7 +206,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val jsonPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
             publish(extension, logger, project, executionReport, publishers, getTasks(), false)
-
 
             then("failed build is not published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -384,7 +382,6 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 taskFilterProcessor,
                 buildFilterProcessor
             )
-
 
             publisher.publish(
                 mutableListOf(getSingleTask("a"), getSingleTask("b"), getSingleTask("c")),
