@@ -45,28 +45,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val executionReport = ExecutionReport()
             setUpMockExtension(project, extension)
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                mutableListOf(getSingleTask()),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers, mutableListOf(getSingleTask()))
+
+
             then("outputPublisher is publishing one task result ") {
                 assert(publishers.get().size == 1)
                 verify(publishers.get()[0]).publish(argThat { this.tasks!!.size == 1 })
@@ -92,28 +73,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val executionReport = ExecutionReport()
             setUpMockExtension(project, extension)
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("two publishers are processed ") {
                 assert(publishers.get().size == 2)
@@ -151,28 +111,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
 
             val executionReport = ExecutionReport()
             setUpMockExtension(project, extension)
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
@@ -212,28 +151,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val executionReport = ExecutionReport()
             setUpMockExtension(project, extension)
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("two publishers are processed and one task has been filtered ") {
                 assert(publishers.get().size == 2)
@@ -263,28 +181,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val jsonPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("successful build is published") {
 
@@ -309,28 +206,8 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val jsonPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                false,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers, getTasks(), false)
+
 
             then("failed build is not published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -355,28 +232,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val executionReport = ExecutionReport()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                false,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("build with a different task is published") {
                 verify(publishers.get()[0]).publish(any())
@@ -399,28 +255,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
             val report = ExecutionReport(requestedTasks = ":module:taskA")
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                report
-            ).publish(
-                taskLengthList = getTasks(),
-                start = 0,
-                configuration = 100,
-                end = 200,
-                success = true,
-                duration = 200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, report, publishers)
             then("no information is published") {
                 verifyZeroInteractions(publishers.get()[0])
             }
@@ -443,28 +278,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                report
-            ).publish(
-                taskLengthList = getTasks(),
-                start = 0,
-                configuration = 100,
-                end = 200,
-                success = false,
-                duration = 200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, report, publishers)
             then("build with a different task is not published") {
 
                 verifyZeroInteractions(publishers.get()[0])
@@ -487,28 +301,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                report
-            ).publish(
-                taskLengthList = getTasks(),
-                start = 0,
-                configuration = 100,
-                end = 200,
-                success = true,
-                duration = 200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, report, publishers)
             then("build with the same task is published") {
                 verify(publishers.get()[0]).publish(any())
             }
@@ -533,28 +326,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val outputPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(outputPublisher))
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                report
-            ).publish(
-                taskLengthList = getTasks(),
-                start = 0,
-                configuration = 100,
-                end = 200,
-                success = true,
-                duration = 200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, report, publishers)
 
             then("build with at least one task included is published") {
 
@@ -580,28 +352,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             }
             setUpMockExtension(project, extension)
 
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                report
-            ).publish(
-                taskLengthList = getTasks(),
-                start = 0,
-                configuration = 100,
-                end = 200,
-                success = true,
-                duration = 200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, report, publishers)
 
             then("build with all tasks filtered out is not published") {
                 verifyZeroInteractions(publishers.get()[0])
@@ -633,6 +384,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 taskFilterProcessor,
                 buildFilterProcessor
             )
+
 
             publisher.publish(
                 mutableListOf(getSingleTask("a"), getSingleTask("b"), getSingleTask("c")),
@@ -699,28 +451,7 @@ class TalaiotPublisherImplTest : BehaviorSpec({
             val publishers: PublisherConfigurationProvider = mock()
             val jsonPublisher: Publisher = mock()
             whenever(publishers.get()).thenReturn(listOf(jsonPublisher))
-            talaiotPublisherImpl(
-                extension,
-                logger,
-                project,
-                executionReport
-            ).publish(
-                getTasks(),
-                0,
-                100,
-                200,
-                true,
-                200,
-                publishers.get(),
-                true,
-                "",
-                "",
-                "",
-                "",
-                false,
-                false,
-                ""
-            )
+            publish(extension, logger, project, executionReport, publishers)
 
             then("duration is the sum of execution and configuration") {
                 val reportCaptor = argumentCaptor<ExecutionReport>()
@@ -731,6 +462,39 @@ class TalaiotPublisherImplTest : BehaviorSpec({
         }
     }
 })
+
+private fun publish(
+    extension: TalaiotPluginExtension,
+    logger: LogTrackerImpl,
+    project: Project,
+    executionReport: ExecutionReport,
+    publishers: PublisherConfigurationProvider,
+    tasks: MutableList<TaskLength> = getTasks(),
+    success: Boolean = true
+) {
+    talaiotPublisherImpl(
+        extension,
+        logger,
+        project,
+        executionReport
+    ).publish(
+        tasks,
+        0,
+        100,
+        200,
+        success,
+        200,
+        publishers.get(),
+        true,
+        "",
+        "",
+        "",
+        "",
+        false,
+        false,
+        ""
+    )
+}
 
 private fun talaiotPublisherImpl(
     extension: TalaiotPluginExtension,
