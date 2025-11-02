@@ -38,7 +38,9 @@ class ConfigurationCacheHit : StringSpec({
                     publishers {
                          jsonPublisher = true
                     }
-
+                    metrics {
+                      generateBuildId = true
+                    }
                 }
 
                 """.trimIndent()
