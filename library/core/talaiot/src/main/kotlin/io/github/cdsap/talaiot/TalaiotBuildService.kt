@@ -55,7 +55,6 @@ abstract class TalaiotBuildService :
         var gitBranchMetric: Provider<String>
         var buildId: Provider<String>
         val processBuildId: Property<Boolean>
-
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
