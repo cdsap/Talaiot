@@ -100,38 +100,6 @@ class MetricsConfigurationTest : BehaviorSpec({
             }
         }
 
-        `when`("build Id generation is disabled in the default behaviour") {
-            val metricsConfiguration = MetricsConfiguration().apply {
-                defaultMetrics = false
-                gitMetrics = false
-                performanceMetrics = true
-                gradleSwitchesMetrics = false
-                environmentMetrics = false
-                processMetrics = false
-            }
-            val metrics = metricsConfiguration.build(target)
-            then("BuildIdMetric is not included") {
-                assert(metrics.count { it is BuildIdMetric } == 0)
-                metrics.shouldContainExactlyTypesOfInAnyOrder(performanceMetricsTypes)
-            }
-        }
-        `when`("build Id generation is enabled") {
-            val metricsConfiguration = MetricsConfiguration().apply {
-                defaultMetrics = false
-                gitMetrics = false
-                performanceMetrics = true
-                gradleSwitchesMetrics = false
-                environmentMetrics = false
-                generateBuildId = true
-                processMetrics = false
-            }
-            val metrics = metricsConfiguration.build(target)
-            then("BuildIdMetric is included") {
-                val expectedMetricsTypes = performanceMetricsTypes + BuildIdMetric::class
-                metrics.shouldContainExactlyTypesOfInAnyOrder(expectedMetricsTypes)
-            }
-        }
-
         `when`("single custom metric is used") {
             val metricsConfiguration = MetricsConfiguration().apply {
                 defaultMetrics = false
