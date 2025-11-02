@@ -71,6 +71,7 @@ class TalaiotPublisherImpl(
             if (processBuildId) {
                 executionReport.buildId = buildId
             }
+
             publisherProvider.forEach {
                 it.publish(executionReport)
             }

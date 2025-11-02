@@ -12,6 +12,7 @@ import io.github.cdsap.talaiot.provider.MetricsProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import io.github.cdsap.talaiot.util.BuildIdValueSource
 import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
 import io.github.cdsap.valuesourceprocess.CommandLineWithOutputValue
 import io.github.cdsap.valuesourceprocess.jInfo
@@ -22,7 +23,6 @@ import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.internal.extensions.core.serviceOf
 import org.gradle.util.GradleVersion
-import java.util.UUID
 
 /**
  * Talaiot main [Plugin].
@@ -73,9 +73,7 @@ class Talaiot<T : TalaiotExtension>(
                 it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
             }
 
-            val buildId = target.providers.provider {
-                UUID.randomUUID().toString()
-            }
+            val buildId = target.providers.of(BuildIdValueSource::class.java) {}
 
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
