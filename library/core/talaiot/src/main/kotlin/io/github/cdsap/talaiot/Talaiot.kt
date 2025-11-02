@@ -12,6 +12,7 @@ import io.github.cdsap.talaiot.provider.MetricsProvider
 import io.github.cdsap.talaiot.provider.PublisherConfigurationProvider
 import io.github.cdsap.talaiot.publisher.TalaiotPublisher
 import io.github.cdsap.talaiot.publisher.TalaiotPublisherImpl
+import io.github.cdsap.talaiot.util.BuildIdValueSource
 import io.github.cdsap.talaiot.util.ConfigurationPhaseObserver
 import io.github.cdsap.valuesourceprocess.CommandLineWithOutputValue
 import io.github.cdsap.valuesourceprocess.jInfo
@@ -72,6 +73,8 @@ class Talaiot<T : TalaiotExtension>(
                 it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
             }
 
+            val buildId = target.providers.of(BuildIdValueSource::class.java) {}
+
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
                     "talaiotService",
@@ -91,6 +94,8 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.processes.set(extension.metrics.processMetrics)
                     spec.parameters.gitBranchMetric = gitBranch
                     spec.parameters.processGitBranchMetric.set(extension.metrics.gitMetrics)
+                    spec.parameters.processBuildId.set(extension.metrics.generateBuildId)
+                    spec.parameters.buildId = buildId
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

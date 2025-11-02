@@ -1,7 +1,6 @@
 package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
-import io.github.cdsap.talaiot.metrics.BuildIdMetric
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
@@ -259,9 +258,6 @@ class MetricsConfiguration {
         }
         if (environmentMetrics) {
             addEnvironmentMetrics()
-        }
-        if (generateBuildId) {
-            metrics.add(BuildIdMetric())
         }
         return metrics.toList()
     }

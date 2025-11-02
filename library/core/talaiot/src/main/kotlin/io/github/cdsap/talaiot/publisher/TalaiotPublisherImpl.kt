@@ -40,7 +40,9 @@ class TalaiotPublisherImpl(
         kotlinInfo: String,
         processProcessMetrics: Boolean,
         processGitBranchMetric: Boolean,
-        gitBranchMetric: String
+        gitBranchMetric: String,
+        processBuildId: Boolean,
+        buildId: String
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
@@ -66,6 +68,10 @@ class TalaiotPublisherImpl(
             if (processGitBranchMetric) {
                 executionReport.environment.gitBranch = gitBranchMetric
             }
+            if (processBuildId) {
+                executionReport.buildId = buildId
+            }
+
             publisherProvider.forEach {
                 it.publish(executionReport)
             }
