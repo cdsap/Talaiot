@@ -1,7 +1,5 @@
 # Talaiot
 
-[![CircleCI](https://circleci.com/gh/cdsap/Talaiot/tree/master.svg?style=svg)](https://circleci.com/gh/cdsap/Talaiot/tree/master)
-
 Talaiot is an extensible library targeting teams using the Gradle Build System.
 It records build/task duration helping to understand problems of the build and detecting bottlenecks. For every record, it will add additional information defined by default or custom metrics.
 
