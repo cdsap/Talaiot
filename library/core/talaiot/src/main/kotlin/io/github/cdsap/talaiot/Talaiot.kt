@@ -22,6 +22,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.internal.extensions.core.serviceOf
 import org.gradle.util.GradleVersion
+import java.util.UUID
 
 /**
  * Talaiot main [Plugin].
@@ -72,6 +73,10 @@ class Talaiot<T : TalaiotExtension>(
                 it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
             }
 
+            val buildId = target.providers.provider {
+                UUID.randomUUID().toString()
+            }
+
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
                     "talaiotService",
@@ -91,6 +96,8 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.processes.set(extension.metrics.processMetrics)
                     spec.parameters.gitBranchMetric = gitBranch
                     spec.parameters.processGitBranchMetric.set(extension.metrics.gitMetrics)
+                    spec.parameters.processBuildId.set(extension.metrics.generateBuildId)
+                    spec.parameters.buildId = buildId
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

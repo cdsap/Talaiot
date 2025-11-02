@@ -15,9 +15,9 @@ class IsolatedProjectsHit : StringSpec({
     "given default config" {
         forAll(
             listOf(
+                "8.14.3",
                 "9.1.0",
-                "8.10",
-                "8.5"
+                "9.2.0"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()

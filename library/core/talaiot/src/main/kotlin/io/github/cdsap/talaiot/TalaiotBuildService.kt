@@ -53,6 +53,9 @@ abstract class TalaiotBuildService :
         val processes: Property<Boolean>
         val processGitBranchMetric: Property<Boolean>
         var gitBranchMetric: Provider<String>
+        var buildId: Provider<String>
+        val processBuildId: Property<Boolean>
+
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -86,7 +89,9 @@ abstract class TalaiotBuildService :
 
         val processProcessMetrics = parameters.processes.get()
         val processGitBranchMetric = parameters.processGitBranchMetric.get()
+        val processBuildId = parameters.processBuildId.get()
         val gitBranchMetric = if (processGitBranchMetric) parameters.gitBranchMetric.get().replace("\n", "") else ""
+        val buildId = if (processBuildId) parameters.buildId.get() else ""
 
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
@@ -105,7 +110,9 @@ abstract class TalaiotBuildService :
             gradleStat = if (processProcessMetrics) parameters.jstatGradle.get() else "",
             processProcessMetrics = processProcessMetrics,
             processGitBranchMetric = processGitBranchMetric,
-            gitBranchMetric = gitBranchMetric
+            gitBranchMetric = gitBranchMetric,
+            processBuildId = parameters.processBuildId.get(),
+            buildId = buildId
         )
     }
 

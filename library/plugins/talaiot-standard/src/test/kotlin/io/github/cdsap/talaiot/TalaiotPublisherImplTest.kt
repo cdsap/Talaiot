@@ -398,6 +398,8 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 "",
                 false,
                 false,
+                "",
+                false,
                 ""
             )
             then("should publish cache information for each task") {
@@ -488,6 +490,8 @@ private fun publish(
         "",
         "",
         false,
+        false,
+        "",
         false,
         ""
     )

@@ -260,9 +260,6 @@ class MetricsConfiguration {
         if (environmentMetrics) {
             addEnvironmentMetrics()
         }
-        if (generateBuildId) {
-            metrics.add(BuildIdMetric())
-        }
         return metrics.toList()
     }
 

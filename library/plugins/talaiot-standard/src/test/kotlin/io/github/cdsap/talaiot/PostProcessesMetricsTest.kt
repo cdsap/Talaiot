@@ -14,8 +14,9 @@ class PostProcessesMetricsTest : StringSpec({
     "given a build with process metrics enabled" {
         forAll(
             listOf(
-                "8.3",
-                "9.1.0"
+                "8.14.3",
+                "9.1.0",
+                "9.2.0"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()

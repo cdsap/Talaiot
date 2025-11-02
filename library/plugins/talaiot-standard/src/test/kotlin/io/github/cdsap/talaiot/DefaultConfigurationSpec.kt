@@ -15,11 +15,9 @@ class DefaultConfigurationSpec : StringSpec({
     "given default config" {
         forAll(
             listOf(
-                "9.1.0",
                 "8.14.3",
-                "8.6",
-                "8.3",
-                "8.2.1"
+                "9.1.0",
+                "9.2.0"
             )
         ) { version: String ->
             val testProjectDir = TemporaryFolder()
