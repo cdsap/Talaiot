@@ -74,6 +74,20 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                             }.size == 1
                         }.size == 1
                     )
+                    assert(
+                        tablesTask[0].records.filter {
+                            it.values.filter {
+                                it.key == "metric5" && it.value == 1
+                            }.size == 1
+                        }.size == 1
+                    )
+                    assert(
+                        tablesTask[0].records.filter {
+                            it.values.filter {
+                                it.key == "metric6" && it.value == 9L
+                            }.size == 1
+                        }.size == 1
+                    )
                     influxDBClient.close()
                 }
             }
@@ -120,11 +134,13 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
             customProperties = CustomProperties(
                 taskProperties = mutableMapOf(
                     "metric1" to "value1",
-                    "metric2" to "value2"
+                    "metric2" to "value2",
+                    "metric5" to 1
                 ),
                 buildProperties = mutableMapOf(
                     "metric3" to "value3",
-                    "metric4" to "value4"
+                    "metric4" to "value4",
+                    "metric6" to 9L
                 )
             ),
 

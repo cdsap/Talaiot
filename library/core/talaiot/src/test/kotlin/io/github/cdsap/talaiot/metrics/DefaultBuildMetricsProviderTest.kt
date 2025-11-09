@@ -65,8 +65,8 @@ class DefaultBuildMetricsProviderTest : BehaviorSpec({
                     "cacheStore" to "10",
                     "switch.daemon" to "true",
                     "switch.offline" to "true",
-                    "metric3" to "value3",
-                    "metric4" to "value4"
+                    "metric3" to 1,
+                    "metric4" to 9L
                 )
                 metrics.shouldBe(expectedMap)
             }

@@ -98,8 +98,8 @@ data class Switches(
 ) : java.io.Serializable
 
 data class CustomProperties(
-    var buildProperties: MutableMap<String, String> = mutableMapOf(),
-    var taskProperties: MutableMap<String, String> = mutableMapOf()
+    var buildProperties: MutableMap<String, Any> = mutableMapOf(),
+    var taskProperties: MutableMap<String, Any> = mutableMapOf()
 ) : java.io.Serializable
 
 /**
