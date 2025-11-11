@@ -50,7 +50,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
           docker:
-            image: docker:28.5.2
+            image: docker:29.0.0
             options: --privileged
             ports:
                 - 5432:5432
@@ -74,7 +74,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
             docker:
-                image: docker:28.5.2
+                image: docker:29.0.0
                 options: --privileged
                 ports:
                     - 5432:5432
