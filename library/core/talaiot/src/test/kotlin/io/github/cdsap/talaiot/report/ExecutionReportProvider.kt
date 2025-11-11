@@ -97,17 +97,21 @@ object ExecutionReportProvider {
         )
     )
 
-    fun getMetricsTasks(): MutableMap<String, String> {
+    fun getMetricsTasks(): MutableMap<String, Any> {
         return mutableMapOf(
             "metric1" to "value1",
-            "metric2" to "value2"
+            "metric2" to "value2",
+            "metric3" to 1,
+            "metric4" to 9L
         )
     }
 
-    fun getMetricsBuild(): MutableMap<String, String> {
+    fun getMetricsBuild(): MutableMap<String, Any> {
         return mutableMapOf(
             "metric3" to "value3",
-            "metric4" to "value4"
+            "metric4" to "value4",
+            "metric3" to 1,
+            "metric4" to 9L
         )
     }
 }

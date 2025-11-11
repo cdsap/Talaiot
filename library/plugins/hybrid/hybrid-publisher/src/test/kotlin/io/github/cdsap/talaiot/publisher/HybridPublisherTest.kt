@@ -254,7 +254,7 @@ class HybridPublisherTest : BehaviorSpec() {
         }
     }
 
-    fun getMetricsTasks(): MutableMap<String, String> {
+    fun getMetricsTasks(): MutableMap<String, Any> {
         return mutableMapOf(
             "metric1" to "value1",
             "metric2" to "value2"

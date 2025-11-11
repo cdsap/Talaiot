@@ -20,7 +20,7 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
             task.module,
             task.state.name
         )
-        labels.addAll(customTaskLabelValues)
+        labels.addAll(customTaskLabelValues.map { it.toString() })
         return labels
     }
 
@@ -60,7 +60,7 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
     fun buildLabelValues(metrics: Map<String, Any>): List<String> {
         val buildLabelNames = checkBuildMetric(metrics)
         val labelValues = buildLabelNames.flatMap { listOf(metrics[it.toKey()].toString()) }.toMutableList()
-        labelValues.addAll(customBuildLabelValues)
+        labelValues.addAll(customBuildLabelValues.map { it.toString() })
         return labelValues
     }
 }

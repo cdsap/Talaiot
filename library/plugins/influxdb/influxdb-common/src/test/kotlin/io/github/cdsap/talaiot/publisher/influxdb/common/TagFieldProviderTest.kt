@@ -14,7 +14,7 @@ class TagFieldProviderTest : BehaviorSpec() {
         given("TagFieldProvider Instance") {
 
             `when`("No tags included in the configuration") {
-                val metrics = mutableMapOf("Metrics1" to "value1", "Metrics2" to "value2")
+                val metrics = mutableMapOf<String, Any>("Metrics1" to "value1", "Metrics2" to "value2")
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 
@@ -39,7 +39,7 @@ class TagFieldProviderTest : BehaviorSpec() {
             }
 
             `when`("tag CpuCount included in the configuration") {
-                val metrics = mutableMapOf("Metrics1" to "value1", "Metrics2" to "value2")
+                val metrics = mutableMapOf<String, Any>("Metrics1" to "value1", "Metrics2" to "value2")
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 
@@ -63,7 +63,7 @@ class TagFieldProviderTest : BehaviorSpec() {
             }
 
             `when`("tags include Custom Metrics") {
-                val metrics = mutableMapOf("Metrics1" to "value1", "Metrics2" to "value2")
+                val metrics = mutableMapOf<String, Any>("Metrics1" to "value1", "Metrics2" to "value2")
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 

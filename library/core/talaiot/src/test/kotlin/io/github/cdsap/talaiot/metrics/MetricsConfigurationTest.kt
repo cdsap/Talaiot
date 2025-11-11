@@ -156,9 +156,10 @@ class MetricsConfigurationTest : BehaviorSpec({
         }
 
         `when`("custom build metrics are used") {
-            val expectedBuildProperties = mutableMapOf(
+            val expectedBuildProperties = mutableMapOf<String, Any>(
                 "metricA" to "valueA",
-                "metricB" to "valueB"
+                "metricB" to "valueB",
+                "metricC" to 3
             )
             val metricsConfiguration = MetricsConfiguration().apply {
                 defaultMetrics = false
@@ -172,7 +173,13 @@ class MetricsConfigurationTest : BehaviorSpec({
             }
             val metrics = metricsConfiguration.build(target)
             then("add custom build metrics to the report") {
-                metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
+                metrics.shouldContainExactlyTypesOfInAnyOrder(
+                    listOf(
+                        SimpleMetric::class,
+                        SimpleMetric::class,
+                        SimpleMetric::class
+                    )
+                )
                 val resultingReport = ExecutionReport()
                 metrics.forEach {
                     when (it) {
@@ -189,9 +196,10 @@ class MetricsConfigurationTest : BehaviorSpec({
         }
 
         `when`("custom task metrics are used") {
-            val expectedTaskProperties = mutableMapOf(
+            val expectedTaskProperties = mutableMapOf<String, Any>(
                 "metricA" to "valueA",
-                "metricB" to "valueB"
+                "metricB" to "valueB",
+                "metricC" to 12
             )
             val metricsConfiguration = MetricsConfiguration().apply {
                 defaultMetrics = false
@@ -205,7 +213,13 @@ class MetricsConfigurationTest : BehaviorSpec({
             }
             val metrics = metricsConfiguration.build(target)
             then("add custom build metrics to the report") {
-                metrics.shouldContainExactlyTypesOfInAnyOrder(listOf(SimpleMetric::class, SimpleMetric::class))
+                metrics.shouldContainExactlyTypesOfInAnyOrder(
+                    listOf(
+                        SimpleMetric::class,
+                        SimpleMetric::class,
+                        SimpleMetric::class
+                    )
+                )
                 val resultingReport = ExecutionReport()
                 metrics.forEach {
                     when (it) {

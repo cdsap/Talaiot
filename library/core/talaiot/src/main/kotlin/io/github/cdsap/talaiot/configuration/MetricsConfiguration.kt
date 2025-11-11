@@ -181,8 +181,9 @@ class MetricsConfiguration {
      * @param buildMetrics takes N [Pair]s to be added to the build metrics list.
      * You can find these metrics in the [ExecutionReport.customProperties].
      */
-    fun customBuildMetrics(vararg buildMetrics: Pair<String, String>) {
+    fun customBuildMetrics(vararg buildMetrics: Pair<String, Any>) {
         buildMetrics.mapTo(metrics) {
+            // process only object that are serializables
             createSimpleBuildMetric(it)
         }
     }
@@ -193,7 +194,7 @@ class MetricsConfiguration {
      * @param buildMetric takes a [Pair] to be added to the build metrics list.
      * You can find this metric in the [ExecutionReport.customProperties].
      */
-    fun customBuildMetrics(buildMetric: Pair<String, String>) {
+    fun customBuildMetrics(buildMetric: Pair<String, Any>) {
         metrics.add(createSimpleBuildMetric(buildMetric))
     }
 
@@ -203,7 +204,7 @@ class MetricsConfiguration {
      * @param buildMetrics takes a [Map]s with metrics to be added to the build metrics list.
      * You can find these metrics in the [ExecutionReport.customProperties].
      */
-    fun customBuildMetrics(buildMetrics: Map<String, String>) {
+    fun customBuildMetrics(buildMetrics: Map<String, Any>) {
         buildMetrics.mapTo(metrics) {
             createSimpleBuildMetric(it.toPair())
         }
@@ -215,7 +216,7 @@ class MetricsConfiguration {
      * @param taskMetrics takes N [Pair]s to be added to the task metrics list.
      * You can find these metrics in the [ExecutionReport.customProperties].
      */
-    fun customTaskMetrics(vararg taskMetrics: Pair<String, String>) {
+    fun customTaskMetrics(vararg taskMetrics: Pair<String, Any>) {
         taskMetrics.mapTo(metrics) {
             createSimpleTaskMetric(it)
         }
@@ -227,7 +228,7 @@ class MetricsConfiguration {
      * @param taskMetric takes a [Pair] to be added to the task metrics list.
      * You can find this metric in the [ExecutionReport.customProperties].
      */
-    fun customTaskMetrics(taskMetric: Pair<String, String>) {
+    fun customTaskMetrics(taskMetric: Pair<String, Any>) {
         metrics.add(createSimpleTaskMetric(taskMetric))
     }
 
@@ -237,7 +238,7 @@ class MetricsConfiguration {
      * @param taskMetrics takes a [Map]s with metrics to be added to the task metrics list.
      * You can find these metrics in the [ExecutionReport.customProperties].
      */
-    fun customTaskMetrics(taskMetrics: Map<String, String>) {
+    fun customTaskMetrics(taskMetrics: Map<String, Any>) {
         taskMetrics.mapTo(metrics) {
             createSimpleTaskMetric(it.toPair())
         }
@@ -262,14 +263,14 @@ class MetricsConfiguration {
         return metrics.toList()
     }
 
-    private fun createSimpleBuildMetric(pair: Pair<String, String>): SimpleMetric<String> {
+    private fun createSimpleBuildMetric(pair: Pair<String, Any>): SimpleMetric<Any> {
         return SimpleMetric(
             provider = { pair.second },
             assigner = { report, value -> report.customProperties.buildProperties[pair.first] = value }
         )
     }
 
-    private fun createSimpleTaskMetric(pair: Pair<String, String>): SimpleMetric<String> {
+    private fun createSimpleTaskMetric(pair: Pair<String, Any>): SimpleMetric<Any> {
         return SimpleMetric(
             provider = { pair.second },
             assigner = { report, value -> report.customProperties.taskProperties[pair.first] = value }
