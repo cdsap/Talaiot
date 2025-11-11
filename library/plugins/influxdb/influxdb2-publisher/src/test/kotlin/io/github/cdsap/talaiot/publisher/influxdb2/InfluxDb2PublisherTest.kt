@@ -53,13 +53,13 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
 
                     assert(tablesBuild.filter { it.records.filter { it.field == "cpuCount" && it.value.toString() == "12" }.size == 1 }.size == 1)
                     assert(tablesBuild.filter { it.records.filter { it.field == "metric3" && it.value == "value3" }.size == 1 }.size == 1)
+                    assert(tablesBuild.filter { it.records.filter { it.field == "metric6" && it.value == 9L }.size == 1 }.size == 1)
                     assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
 
                     val fluxTask =
                         "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"task\")"
 
                     val tablesTask = queryApi.query(fluxTask)
-
                     assert(
                         tablesTask[0].records.filter {
                             it.values.filter {
@@ -77,17 +77,11 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                     assert(
                         tablesTask[0].records.filter {
                             it.values.filter {
-                                it.key == "metric5" && it.value == 1
+                                it.key == "metric5" && it.value == "1"
                             }.size == 1
                         }.size == 1
                     )
-                    assert(
-                        tablesTask[0].records.filter {
-                            it.values.filter {
-                                it.key == "metric6" && it.value == 9L
-                            }.size == 1
-                        }.size == 1
-                    )
+
                     influxDBClient.close()
                 }
             }
