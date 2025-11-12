@@ -8,7 +8,6 @@ import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
-import org.gradle.api.provider.Provider
 import org.gradle.testfixtures.ProjectBuilder
 
 class MetricsConfigurationTest : BehaviorSpec({
@@ -236,9 +235,9 @@ class MetricsConfigurationTest : BehaviorSpec({
             }
         }
         `when`("custom build metrics with providers used") {
-            val expectedBuildProperties =(
+            val expectedBuildProperties = (
                 "metricA" to target.providers.provider { "valueA" }
-            )
+                )
             val metricsConfiguration = MetricsConfiguration().apply {
                 defaultMetrics = false
                 gitMetrics = false
