@@ -400,7 +400,9 @@ class TalaiotPublisherImplTest : BehaviorSpec({
                 false,
                 "",
                 false,
-                ""
+                "",
+                emptyMap(),
+                emptyMap()
             )
             then("should publish cache information for each task") {
                 val reportCaptor = argumentCaptor<ExecutionReport>()
@@ -493,7 +495,9 @@ private fun publish(
         false,
         "",
         false,
-        ""
+        "",
+        emptyMap(),
+        emptyMap()
     )
 }
 

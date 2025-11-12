@@ -27,6 +27,7 @@ import io.github.cdsap.talaiot.metrics.SimpleMetric
 import io.github.cdsap.talaiot.metrics.UserMetric
 import io.github.cdsap.talaiot.metrics.base.Metric
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
 
 /**
  * Configuration for the Metrics extensions
@@ -115,6 +116,8 @@ class MetricsConfiguration {
     var processMetrics = true
 
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
+    var buildProviderMetrics = mapOf<String, Provider<out Any>>()
+    var taskProviderMetrics = mapOf<String, Provider<out Any>>()
 
     private fun addDefaultMetrics() {
         with(metrics) {
@@ -196,6 +199,14 @@ class MetricsConfiguration {
      */
     fun customBuildMetrics(buildMetric: Pair<String, Any>) {
         metrics.add(createSimpleBuildMetric(buildMetric))
+    }
+
+    fun customBuildMetricsWithProviders(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
+        buildProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
+    }
+
+    fun customTaskMetricsWithProviders(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
+        taskProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
     }
 
     /**

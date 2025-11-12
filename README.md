@@ -195,6 +195,12 @@ talaiot {
         customTaskMetrics(
             "customProperty" to $value
         )
+
+        // custom metric with ValueSource providers
+        customBuildMetricsWithProviders(
+            "metric1" to providers.of(MyValueSource::class) {}
+        )
+
     }
 }
 ```

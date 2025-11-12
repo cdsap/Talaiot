@@ -55,6 +55,8 @@ abstract class TalaiotBuildService :
         var gitBranchMetric: Provider<String>
         var buildId: Provider<String>
         val processBuildId: Property<Boolean>
+        val buildProviderMetrics: MapProperty<String, Provider<out Any>>
+        val taskProviderMetrics: MapProperty<String, Provider<out Any>>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -111,7 +113,9 @@ abstract class TalaiotBuildService :
             processGitBranchMetric = processGitBranchMetric,
             gitBranchMetric = gitBranchMetric,
             processBuildId = parameters.processBuildId.get(),
-            buildId = buildId
+            buildId = buildId,
+            taskMetricsWithProviders = parameters.taskProviderMetrics.get().mapValues { it.value.get() },
+            buildMetricsWithProviders = parameters.buildProviderMetrics.get().mapValues { it.value.get() }
         )
     }
 

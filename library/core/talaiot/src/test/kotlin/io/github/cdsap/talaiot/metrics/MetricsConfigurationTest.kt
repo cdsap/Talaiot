@@ -8,6 +8,7 @@ import io.github.cdsap.talaiot.mock.AdbVersionMetric
 import io.github.cdsap.talaiot.mock.KotlinVersionMetric
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.BehaviorSpec
+import org.gradle.api.provider.Provider
 import org.gradle.testfixtures.ProjectBuilder
 
 class MetricsConfigurationTest : BehaviorSpec({
@@ -232,6 +233,25 @@ class MetricsConfigurationTest : BehaviorSpec({
                         expectedTaskProperties
                     )
                 )
+            }
+        }
+        `when`("custom build metrics with providers used") {
+            val expectedBuildProperties = mutableMapOf<String, Provider<out Any>>(
+                "metricA" to target.providers.provider { "valueA" }
+            )
+            val metricsConfiguration = MetricsConfiguration().apply {
+                defaultMetrics = false
+                gitMetrics = false
+                performanceMetrics = false
+                gradleSwitchesMetrics = false
+                environmentMetrics = false
+                processMetrics = false
+
+                customBuildMetricsWithProviders(expectedBuildProperties)
+            }
+            val metrics = metricsConfiguration.build(target)
+            then("metrics are not processed because are evaluated later") {
+                metrics.count().shouldBe(0)
             }
         }
     }
