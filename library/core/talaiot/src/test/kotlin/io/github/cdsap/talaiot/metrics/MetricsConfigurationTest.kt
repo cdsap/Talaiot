@@ -236,7 +236,7 @@ class MetricsConfigurationTest : BehaviorSpec({
             }
         }
         `when`("custom build metrics with providers used") {
-            val expectedBuildProperties = mutableMapOf<String, Provider<out Any>>(
+            val expectedBuildProperties =(
                 "metricA" to target.providers.provider { "valueA" }
             )
             val metricsConfiguration = MetricsConfiguration().apply {
