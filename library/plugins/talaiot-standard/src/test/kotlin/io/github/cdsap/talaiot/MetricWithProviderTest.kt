@@ -104,7 +104,7 @@ class MetricWithProviderTest : StringSpec({
             // if we want to keep a evaluation of the provider every time we need to use ValueSource
             // if we are using providers like in this test for metric2:
             // providers.provider { System.nanoTime().toString() }
-            // the expectation os that the value is not going to be evaluated.
+            // the expectation is that the value is not going to be evaluated.
             // that's why the previous assertion is used for value sources and the following one
             // only represents the providers.
             metric2Build4 shouldBe metric2Build3
