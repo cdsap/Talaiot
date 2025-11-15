@@ -8,4 +8,3 @@ package io.github.cdsap.talaiot.metrics
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY, AnnotationTarget.CLASS)
 annotation class ExperimentalMetricsApi
-

@@ -195,17 +195,34 @@ talaiot {
         customTaskMetrics(
             "customProperty" to $value
         )
-
-        // custom metric with ValueSource providers
-        customBuildMetricsWithProviders(
-            "metric1" to providers.of(MyValueSource::class) {}
-        )
-
     }
 }
 ```
 
 Read more about it in the [Metrics wiki page](https://github.com/cdsap/Talaiot/wiki/Metrics).
+
+#### Experimental Provider Metrics
+Since version 2.1.0, Talaiot includes an experimental mechanism to define metrics using a provider-based system compatible with Configuration Cache.
+This approach allows you to lazily evaluate metric values, ensuring that they are resolved only when needed during the build lifecycle.
+Two entry points are available for executing these providers:
+* Initialization phase – executed at the start of the execution phase.
+* Finalization phase – executed once the build has finished.
+
+These APIs (`initialProviderMetrics` and `finalProviderMetrics`) are marked as experimental and may change in future versions.
+You can suppress the compiler warning by explicitly opting in with `@OptIn(ExperimentalMetricsApi::class)`.
+
+Example:
+```
+metrics {
+    initialProviderMetrics(
+        "init_memory_metric" to providers.of(GetMemory::class) {}
+    )
+    finalProviderMetrics(
+        "end_memory_metric" to providers.of(GetMemory::class) {}
+    )
+}
+
+```
 
 ### Filters
 For every measurement done, Talaiot can filter the tasks tracked to be published.
