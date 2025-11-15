@@ -246,7 +246,8 @@ class MetricsConfigurationTest : BehaviorSpec({
                 environmentMetrics = false
                 processMetrics = false
 
-                customBuildMetricsWithProviders(expectedBuildProperties)
+                initialProviderMetrics(expectedBuildProperties)
+                finalProviderMetrics(expectedBuildProperties)
             }
             val metrics = metricsConfiguration.build(target)
             then("metrics are not processed because are evaluated later") {

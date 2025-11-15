@@ -96,8 +96,8 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.processGitBranchMetric.set(extension.metrics.gitMetrics)
                     spec.parameters.processBuildId.set(extension.metrics.generateBuildId)
                     spec.parameters.buildId = buildId
-                    spec.parameters.buildProviderMetrics.set(extension.metrics.buildProviderMetrics)
-                    spec.parameters.taskProviderMetrics.set(extension.metrics.taskProviderMetrics)
+                    spec.parameters.endProviderMetrics.set(extension.metrics.endProviderMetrics)
+                    spec.parameters.initProviderMetrics.set(extension.metrics.initProviderMetrics)
                 }
             target.serviceOf<BuildEventsListenerRegistry>().onTaskCompletion(serviceProvider)
         }

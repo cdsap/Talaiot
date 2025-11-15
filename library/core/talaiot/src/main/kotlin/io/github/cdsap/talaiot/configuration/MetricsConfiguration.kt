@@ -2,6 +2,7 @@ package io.github.cdsap.talaiot.configuration
 
 import io.github.cdsap.talaiot.entities.ExecutionReport
 import io.github.cdsap.talaiot.metrics.DefaultCharsetMetric
+import io.github.cdsap.talaiot.metrics.ExperimentalMetricsApi
 import io.github.cdsap.talaiot.metrics.GitUserMetric
 import io.github.cdsap.talaiot.metrics.GradleMaxWorkersMetric
 import io.github.cdsap.talaiot.metrics.GradleRequestedTasksMetric
@@ -116,8 +117,8 @@ class MetricsConfiguration {
     var processMetrics = true
 
     private var metrics: MutableSet<Metric<*, *>> = mutableSetOf()
-    var buildProviderMetrics = mapOf<String, Provider<out Any>>()
-    var taskProviderMetrics = mapOf<String, Provider<out Any>>()
+    var initProviderMetrics = mapOf<String, Provider<out Any>>()
+    var endProviderMetrics = mapOf<String, Provider<out Any>>()
 
     private fun addDefaultMetrics() {
         with(metrics) {
@@ -201,12 +202,14 @@ class MetricsConfiguration {
         metrics.add(createSimpleBuildMetric(buildMetric))
     }
 
-    fun customBuildMetricsWithProviders(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
-        buildProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
+    @ExperimentalMetricsApi
+    fun initialProviderMetrics(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
+        initProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
     }
 
-    fun customTaskMetricsWithProviders(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
-        taskProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
+    @ExperimentalMetricsApi
+    fun finalProviderMetrics(vararg metricsWithProvider: Pair<String, Provider<out Any>>) {
+        endProviderMetrics = metricsWithProvider.associate { it.first to it.second }.toMutableMap()
     }
 
     /**
