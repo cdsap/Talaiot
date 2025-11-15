@@ -12,7 +12,7 @@ import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
 class MetricWithProviderTest : StringSpec({
-    "given a build with provider metrics, ValueSources are corrected processed when configuration cache hits and regular provider not" {
+    "given a build with provider metrics, ValueSources are correctly processed when configuration cache hits and regular provider not" {
         forAll(
             listOf(
                 "9.2.0"
