@@ -24,6 +24,8 @@ interface TalaiotPublisher : java.io.Serializable {
         processGitBranchMetric: Boolean,
         gitBranchMetric: String,
         processBuildId: Boolean,
-        buildId: String
+        buildId: String,
+        initMetricsWithProviders: Map<String, Any>,
+        endMetricsWithProviders: Map<String, Any>
     )
 }

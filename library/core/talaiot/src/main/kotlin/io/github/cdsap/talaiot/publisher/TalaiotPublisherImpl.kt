@@ -42,7 +42,9 @@ class TalaiotPublisherImpl(
         processGitBranchMetric: Boolean,
         gitBranchMetric: String,
         processBuildId: Boolean,
-        buildId: String
+        buildId: String,
+        initMetricsWithProviders: Map<String, Any>,
+        endMetricsWithProviders: Map<String, Any>
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
@@ -53,6 +55,8 @@ class TalaiotPublisherImpl(
         executionReport.durationMs = (duration + configuration).toString()
         executionReport.configurationDurationMs = configuration.toString()
         executionReport.configurationCacheHit = configurationCacheHit
+        executionReport.customProperties.buildProperties.putAll(initMetricsWithProviders)
+        executionReport.customProperties.buildProperties.putAll(endMetricsWithProviders)
 
         if (buildFilterProcessor.shouldPublishBuild(executionReport)) {
             if (processProcessMetrics) {

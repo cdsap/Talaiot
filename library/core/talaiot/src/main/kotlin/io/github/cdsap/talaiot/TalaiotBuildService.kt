@@ -55,15 +55,23 @@ abstract class TalaiotBuildService :
         var gitBranchMetric: Provider<String>
         var buildId: Provider<String>
         val processBuildId: Property<Boolean>
+        val initProviderMetrics: MapProperty<String, Provider<out Any>>
+        val endProviderMetrics: MapProperty<String, Provider<out Any>>
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
 
     private val startParameters by lazy { parameters.startParameters.get() }
     private val dictionary by lazy { parameters.dictionary.get() }
+    private val initProviderMetrics = mutableMapOf<String, Any>()
 
     init {
         start = System.currentTimeMillis()
+        initProviderMetrics.putAll(
+            parameters.initProviderMetrics.get().map {
+                it.key to it.value.get()
+            }
+        )
     }
 
     override fun close() {
@@ -111,7 +119,9 @@ abstract class TalaiotBuildService :
             processGitBranchMetric = processGitBranchMetric,
             gitBranchMetric = gitBranchMetric,
             processBuildId = parameters.processBuildId.get(),
-            buildId = buildId
+            buildId = buildId,
+            initMetricsWithProviders = initProviderMetrics,
+            endMetricsWithProviders = parameters.endProviderMetrics.get().mapValues { it.value.get() }
         )
     }
 
