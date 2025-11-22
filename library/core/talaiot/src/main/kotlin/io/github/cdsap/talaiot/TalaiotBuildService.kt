@@ -10,6 +10,8 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.services.BuildService
 import org.gradle.api.services.BuildServiceParameters
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Nested
 import org.gradle.tooling.events.FinishEvent
 import org.gradle.tooling.events.OperationCompletionListener
 import java.util.concurrent.Executors
@@ -28,6 +30,37 @@ abstract class TalaiotBuildService :
 
     var start = 0L
 
+    interface EnvironmentParams {
+        @get:Input
+        val jstatGradle: Property<String>
+
+        @get:Input
+        val jstatKotlin: Property<String>
+
+        @get:Input
+        val jInfoGradle: Property<String>
+
+        @get:Input
+        val jInfoKotlin: Property<String>
+
+        @get:Input
+        val gitBranchMetric: Property<String>
+
+        @get:Input
+        val buildId: Property<String>
+    }
+
+    interface SwitchParams {
+        @get:Input
+        val processMetrics: Property<Boolean>
+
+        @get:Input
+        val processGitBranchMetric: Property<Boolean>
+
+        @get:Input
+        val processBuildId: Property<Boolean>
+    }
+
     interface Params : BuildServiceParameters {
 
         /**
@@ -45,18 +78,15 @@ abstract class TalaiotBuildService :
         val publishOnNewThread: Property<Boolean>
         val initTime: Property<Long>
         val configurationPhaseExecuted: Property<Provider<Boolean>>
-        var jstatGradle: Provider<String>
-        var jstatKotlin: Provider<String>
-        var jInfoGradle: Provider<String>
-        var jInfoKotlin: Provider<String>
         val dictionary: MapProperty<String, String>
-        val processes: Property<Boolean>
-        val processGitBranchMetric: Property<Boolean>
-        var gitBranchMetric: Provider<String>
-        var buildId: Provider<String>
-        val processBuildId: Property<Boolean>
         val initProviderMetrics: MapProperty<String, Provider<out Any>>
         val endProviderMetrics: MapProperty<String, Provider<out Any>>
+
+        @get:Nested
+        val switchMetrics: SwitchParams
+
+        @get:Nested
+        val environment: EnvironmentParams
     }
 
     private val taskLengthList = mutableListOf<TaskLength>()
@@ -94,11 +124,11 @@ abstract class TalaiotBuildService :
             0
         }
 
-        val processProcessMetrics = parameters.processes.get()
-        val processGitBranchMetric = parameters.processGitBranchMetric.get()
-        val processBuildId = parameters.processBuildId.get()
-        val gitBranchMetric = if (processGitBranchMetric) parameters.gitBranchMetric.get().replace("\n", "") else ""
-        val buildId = if (processBuildId) parameters.buildId.get() else ""
+        val processProcessMetrics = parameters.switchMetrics.processMetrics.get()
+        val processGitBranchMetric = parameters.switchMetrics.processGitBranchMetric.get()
+        val processBuildId = parameters.switchMetrics.processBuildId.get()
+        val gitBranchMetric = if (processGitBranchMetric) parameters.environment.gitBranchMetric.get().replace("\n", "") else ""
+        val buildId = if (processBuildId) parameters.environment.buildId.get() else ""
 
         parameters.publisher.get().publish(
             taskLengthList = taskLengthList,
@@ -111,14 +141,14 @@ abstract class TalaiotBuildService :
             },
             publishers = parameters.customPublishers.get(),
             configurationCacheHit = !configurationPhaseExecuted,
-            kotlinInfo = if (processProcessMetrics) parameters.jInfoKotlin.get() else "",
-            kotlinStat = if (processProcessMetrics) parameters.jstatKotlin.get() else "",
-            gradleInfo = if (processProcessMetrics) parameters.jInfoGradle.get() else "",
-            gradleStat = if (processProcessMetrics) parameters.jstatGradle.get() else "",
+            kotlinInfo = if (processProcessMetrics) parameters.environment.jInfoKotlin.get() else "",
+            kotlinStat = if (processProcessMetrics) parameters.environment.jstatKotlin.get() else "",
+            gradleInfo = if (processProcessMetrics) parameters.environment.jInfoGradle.get() else "",
+            gradleStat = if (processProcessMetrics) parameters.environment.jstatGradle.get() else "",
             processProcessMetrics = processProcessMetrics,
             processGitBranchMetric = processGitBranchMetric,
             gitBranchMetric = gitBranchMetric,
-            processBuildId = parameters.processBuildId.get(),
+            processBuildId = processBuildId,
             buildId = buildId,
             initMetricsWithProviders = initProviderMetrics,
             endMetricsWithProviders = parameters.endProviderMetrics.get().mapValues { it.value.get() }

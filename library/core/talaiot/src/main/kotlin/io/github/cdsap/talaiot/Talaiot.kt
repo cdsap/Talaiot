@@ -86,16 +86,17 @@ class Talaiot<T : TalaiotExtension>(
                     spec.parameters.customPublishers.set(publisherConfigurationProvider.get())
                     spec.parameters.publishOnNewThread.set(extension.publishOnNewThread)
                     spec.parameters.configurationPhaseExecuted.set(configurationProvider)
-                    spec.parameters.jstatGradle = target.jStat("GradleDaemon")
-                    spec.parameters.jstatKotlin = target.jStat("KotlinCompileDaemon")
-                    spec.parameters.jInfoGradle = target.jInfo("GradleDaemon")
-                    spec.parameters.jInfoKotlin = target.jInfo("KotlinCompileDaemon")
                     spec.parameters.dictionary.set(dictionary)
-                    spec.parameters.processes.set(extension.metrics.processMetrics)
-                    spec.parameters.gitBranchMetric = gitBranch
-                    spec.parameters.processGitBranchMetric.set(extension.metrics.gitMetrics)
-                    spec.parameters.processBuildId.set(extension.metrics.generateBuildId)
-                    spec.parameters.buildId = buildId
+                    spec.parameters.switchMetrics.processMetrics.set(extension.metrics.processMetrics)
+                    spec.parameters.switchMetrics.processGitBranchMetric.set(extension.metrics.gitMetrics)
+                    spec.parameters.switchMetrics.processBuildId.set(extension.metrics.generateBuildId)
+                    spec.parameters.environment.jstatGradle.set(target.jStat("GradleDaemon"))
+                    spec.parameters.environment.jstatKotlin.set(target.jStat("KotlinCompileDaemon"))
+                    spec.parameters.environment.jInfoGradle.set(target.jInfo("GradleDaemon"))
+                    spec.parameters.environment.jInfoKotlin.set(target.jInfo("KotlinCompileDaemon"))
+                    spec.parameters.environment.gitBranchMetric.set(gitBranch)
+                    spec.parameters.environment.buildId.set(buildId)
+
                     spec.parameters.endProviderMetrics.set(extension.metrics.endProviderMetrics)
                     spec.parameters.initProviderMetrics.set(extension.metrics.initProviderMetrics)
                 }
