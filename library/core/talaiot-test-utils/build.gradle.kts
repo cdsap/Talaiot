@@ -10,8 +10,8 @@ talaiotLib {
 
 dependencies {
     implementation(project(":library:core:talaiot-logger"))
-    implementation("org.testcontainers:testcontainers:1.21.3")
-    api("org.testcontainers:influxdb:1.21.3")
-    api("org.testcontainers:elasticsearch:1.21.3")
+    implementation("org.testcontainers:testcontainers:1.21.4")
+    api("org.testcontainers:influxdb:1.21.4")
+    api("org.testcontainers:elasticsearch:1.21.4")
     implementation("net.java.dev.jna:jna:5.18.1")
 }
