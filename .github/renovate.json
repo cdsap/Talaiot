@@ -2,5 +2,18 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:base"
+    ],
+    "packageRules": [
+        {
+            "matchDatasources": ["maven"],
+            "registryUrls": [
+                "https://dl.google.com/dl/android/maven2/",
+                "https://plugins.gradle.org/m2/",
+                "https://repo1.maven.org/maven2/"
+            ],
+            "automerge": true,
+            "automergeType": "pr",
+            "automergeStrategy": "merge-commit"
+        }
     ]
 }
