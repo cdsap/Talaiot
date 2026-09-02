@@ -29,6 +29,10 @@ jobs:
                   java-version: "17"
                   distribution: "zulu"
 
+            - uses: cdsap/build-process-watcher@v0.6.2
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Publish snapshots
               run: ./gradlew publishAndReleaseToMavenCentral
               env:
@@ -36,5 +40,3 @@ jobs:
                   SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
                   ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
                   ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-
-
