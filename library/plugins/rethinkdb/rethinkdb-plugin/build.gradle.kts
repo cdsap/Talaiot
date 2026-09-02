@@ -16,7 +16,7 @@ dependencies {
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
     implementation(project(":library:core:talaiot"))
     testImplementation(project(":library:core:talaiot-test-utils"))
-    testImplementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+    testImplementation("com.rethinkdb:rethinkdb-driver:2.4.4")
 }
 
 gradlePlugin {
