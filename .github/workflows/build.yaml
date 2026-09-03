@@ -14,8 +14,8 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-java@v5
+            - uses: actions/checkout@v7
+            - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
@@ -35,8 +35,8 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-java@v5
+            - uses: actions/checkout@v7
+            - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
@@ -58,13 +58,13 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
           docker:
-            image: docker:29.1.2
+            image: docker:29.7.2
             options: --privileged
             ports:
                 - 5432:5432
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-java@v5
+            - uses: actions/checkout@v7
+            - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
@@ -86,13 +86,13 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
             docker:
-                image: docker:29.1.2
+                image: docker:29.7.2
                 options: --privileged
                 ports:
                     - 5432:5432
         steps:
-            - uses: actions/checkout@v5
-            - uses: actions/setup-java@v5
+            - uses: actions/checkout@v7
+            - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}

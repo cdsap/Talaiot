@@ -10,9 +10,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.10")
     implementation("com.vanniktech.maven.publish.base:com.vanniktech.maven.publish.base.gradle.plugin:0.37.0")
-    implementation("com.gradle.publish:plugin-publish-plugin:1.3.1")
+    implementation("com.gradle.publish:plugin-publish-plugin:2.1.1")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:11.6.1")
     testImplementation("junit:junit:4.13.2")
 }
