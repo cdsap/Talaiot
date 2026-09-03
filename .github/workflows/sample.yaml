@@ -20,6 +20,10 @@ jobs:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run: |
                   cd sample
@@ -43,6 +47,10 @@ jobs:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run: |
                   cd sample_gradle8
