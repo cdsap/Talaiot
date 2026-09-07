@@ -15,7 +15,7 @@ dependencies {
     implementation(project(":library:plugins:influxdb:influxdb2-publisher"))
     implementation(project(":library:plugins:pushgateway:pushgateway-publisher"))
     implementation(project(":library:plugins:rethinkdb:rethinkdb-publisher"))
-    testImplementation("com.rethinkdb:rethinkdb-driver:2.3.3")
+    testImplementation("com.rethinkdb:rethinkdb-driver:2.4.4")
     testImplementation("org.influxdb:influxdb-java:2.25")
     testImplementation(project(":library:core:talaiot-test-utils"))
 }
