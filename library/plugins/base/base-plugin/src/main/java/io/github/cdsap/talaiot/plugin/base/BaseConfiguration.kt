@@ -5,7 +5,9 @@ import io.github.cdsap.talaiot.publisher.OutputPublisherConfiguration
 import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import org.gradle.api.Project
 
-class BaseConfiguration(project: Project) : PublishersConfiguration(project) {
+class BaseConfiguration(
+    project: Project,
+) : PublishersConfiguration(project) {
     internal var outputPublisher: OutputPublisherConfiguration? = null
 
     /**

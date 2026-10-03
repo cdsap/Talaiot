@@ -8,7 +8,7 @@ import io.github.cdsap.talaiot.publisher.Publisher
 import org.gradle.api.Project
 
 class BaseConfigurationProvider(
-    val project: Project
+    val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()

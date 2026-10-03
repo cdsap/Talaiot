@@ -7,7 +7,6 @@ import org.gradle.testkit.runner.TaskOutcome
 import java.io.File
 
 class BasePluginTest : BehaviorSpec() {
-
     init {
         given("Base Talaiot Plugin") {
             val testProjectDir = TemporaryFolder()
@@ -26,20 +25,24 @@ class BasePluginTest : BehaviorSpec() {
                       jsonPublisher = true
                       }
                   }
-            """
+            """,
                 )
 
-                val result = GradleRunner.create()
-                    .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble", "--configuration-cache", "--info")
-                    .withPluginClasspath()
-                    .build()
+                val result =
+                    GradleRunner
+                        .create()
+                        .withProjectDir(testProjectDir.getRoot())
+                        .withArguments("assemble", "--configuration-cache", "--info")
+                        .withPluginClasspath()
+                        .build()
 
-                val result2 = GradleRunner.create()
-                    .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
-                    .withPluginClasspath()
-                    .build()
+                val result2 =
+                    GradleRunner
+                        .create()
+                        .withProjectDir(testProjectDir.getRoot())
+                        .withArguments("assemble")
+                        .withPluginClasspath()
+                        .build()
 
                 then("json build info exists") {
                     assert(File("${testProjectDir.getRoot()}/build/reports/talaiot/json/data.json").exists())
