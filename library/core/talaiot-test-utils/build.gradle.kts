@@ -13,5 +13,5 @@ dependencies {
     implementation("org.testcontainers:testcontainers:1.21.4")
     api("org.testcontainers:influxdb:1.21.4")
     api("org.testcontainers:elasticsearch:1.21.4")
-    implementation("net.java.dev.jna:jna:5.18.1")
+    implementation("net.java.dev.jna:jna:5.19.1")
 }

@@ -14,12 +14,16 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle ktlint
               run:  ./gradlew ktlintCheck
     build:
@@ -31,12 +35,16 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run:  ./gradlew assemble
 
@@ -50,17 +58,21 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
           docker:
-            image: docker:29.1.2
+            image: docker:29.8.2
             options: --privileged
             ports:
                 - 5432:5432
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run:  ./gradlew collectUnitTest
 
@@ -74,16 +86,20 @@ jobs:
         runs-on: ${{ matrix.os }}
         services:
             docker:
-                image: docker:29.1.2
+                image: docker:29.8.2
                 options: --privileged
                 ports:
                     - 5432:5432
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run: ./gradlew collectUnitTestLibs

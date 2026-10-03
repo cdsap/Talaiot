@@ -17,12 +17,16 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run: |
                   cd sample
@@ -51,12 +55,16 @@ jobs:
                 vendor: [zulu]
         runs-on: ${{ matrix.os }}
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v7
             - uses: actions/setup-java@v6
               with:
                   distribution:  ${{ matrix.vendor }}
                   java-version:  ${{ matrix.version }}
 
+            - uses: cdsap/build-process-watcher@main
+              with:
+                  remote_monitoring: 'true'
+                  export_to_bigquery: 'true'
             - name: Execute Gradle build
               run: |
                   cd sample_gradle8
