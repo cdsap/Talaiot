@@ -5,7 +5,7 @@ import io.github.cdsap.talaiot.logger.LogTracker
 import io.github.cdsap.talaiot.metrics.DefaultBuildMetricsProvider
 import io.github.cdsap.talaiot.metrics.DefaultTaskDataProvider
 import io.github.cdsap.talaiot.publisher.Publisher
-import io.github.cdsap.talaiot.publisher.inflluxdb.common.tagFieldProvider
+import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
 import okhttp3.OkHttpClient
 import org.influxdb.InfluxDB
 import org.influxdb.InfluxDBException
@@ -111,8 +111,8 @@ class InfluxDbPublisher(
     private fun createTaskPoints(report: ExecutionReport): List<Point>? =
         report.tasks?.map { task ->
             val tagFieldProvider =
-                tagFieldProvider(
-                    influxDbPublisherConfiguration.tasktags,
+                TagFieldProvider(
+                    influxDbPublisherConfiguration.taskTags,
                     DefaultTaskDataProvider(task, report),
                     report.customProperties.taskProperties,
                 )
@@ -126,8 +126,8 @@ class InfluxDbPublisher(
 
     private fun createBuildPoint(report: ExecutionReport): Point {
         val tagFieldProvider =
-            tagFieldProvider(
-                influxDbPublisherConfiguration.buildtags,
+            TagFieldProvider(
+                influxDbPublisherConfiguration.buildTags,
                 DefaultBuildMetricsProvider(report),
                 report.customProperties.buildProperties,
             )
