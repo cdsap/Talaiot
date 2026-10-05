@@ -14,7 +14,7 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import org.gradle.api.Project
 
 class TalaiotConfigurationProvider(
-    val project: Project
+    val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
@@ -30,8 +30,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     InfluxDbPublisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
 
@@ -39,8 +39,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     InfluxDb2Publisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
 
@@ -48,8 +48,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     PushGatewayPublisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
             if (jsonPublisher) {
@@ -60,8 +60,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     ElasticSearchPublisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
 
@@ -69,8 +69,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     HybridPublisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
 
@@ -78,8 +78,8 @@ class TalaiotConfigurationProvider(
                 publishers.add(
                     RethinkDbPublisher(
                         this,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
             publishers.addAll(customPublishers)

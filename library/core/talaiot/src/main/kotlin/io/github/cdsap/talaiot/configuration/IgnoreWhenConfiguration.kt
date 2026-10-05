@@ -13,7 +13,9 @@ import org.gradle.api.Project
  *    envValue = "true"
  * }
  */
-class IgnoreWhenConfiguration(private val project: Project) {
+class IgnoreWhenConfiguration(
+    private val project: Project,
+) {
     /**
      * name of the environment variable or property project
      */
@@ -32,8 +34,8 @@ class IgnoreWhenConfiguration(private val project: Project) {
      *
      * @returns Boolean in case the condition is meet
      */
-    fun shouldIgnore(): Boolean {
-        return if (!envName.isEmpty()) {
+    fun shouldIgnore(): Boolean =
+        if (!envName.isEmpty()) {
             if (System.getenv(envName) != null) {
                 System.getenv(envName) == envValue
             } else {
@@ -42,5 +44,4 @@ class IgnoreWhenConfiguration(private val project: Project) {
         } else {
             false
         }
-    }
 }

@@ -3,9 +3,9 @@ package io.github.cdsap.talaiot.metrics
 import io.github.cdsap.talaiot.entities.ExecutionReport
 
 class DefaultBuildMetricsProvider(
-    private val report: ExecutionReport
-) : ValuesProvider, java.io.Serializable {
-
+    private val report: ExecutionReport,
+) : ValuesProvider,
+    java.io.Serializable {
     override fun get(): Map<String, Any> {
         val map = mutableMapOf<String, Any>()
 

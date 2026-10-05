@@ -11,7 +11,9 @@ import org.gradle.api.Project
  * Main configuration file for the [TalaiotPlugin]
  */
 @Suppress("PropertyName")
-open class TalaiotExtension(val project: Project) {
+open class TalaiotExtension(
+    val project: Project,
+) {
     /**
      * General Logger for the whole plugin
      */

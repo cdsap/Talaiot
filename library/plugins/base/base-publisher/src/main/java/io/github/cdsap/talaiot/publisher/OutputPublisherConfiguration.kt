@@ -5,7 +5,9 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
 /**
  * Configuration for the OutputPublisher
  */
-class OutputPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
+class OutputPublisherConfiguration :
+    PublisherConfiguration,
+    java.io.Serializable {
     override var name: String = "output"
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
@@ -25,5 +27,6 @@ class OutputPublisherConfiguration : PublisherConfiguration, java.io.Serializabl
  * Order enum to represent the order in a list of tasks
  */
 enum class Order {
-    ASC, DESC
+    ASC,
+    DESC,
 }

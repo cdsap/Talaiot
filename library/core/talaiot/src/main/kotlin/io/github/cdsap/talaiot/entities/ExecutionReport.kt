@@ -39,16 +39,17 @@ data class ExecutionReport(
     var success: Boolean = false,
     var scanLink: String? = null,
     var buildInvocationId: String? = null,
-    var configurationCacheHit: Boolean = false
+    var configurationCacheHit: Boolean = false,
 ) : java.io.Serializable {
-
     /**
      * Cache ratio of the tasks = tasks_from_cache / all_tasks
      */
     val cacheRatio: String?
-        get() = unfilteredTasks?.let {
-            it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
-        }?.toString()
+        get() =
+            unfilteredTasks
+                ?.let {
+                    it.count { taskLength -> taskLength.state == TaskMessageState.FROM_CACHE } / it.size.toDouble()
+                }?.toString()
 }
 
 data class Environment(
@@ -80,7 +81,7 @@ data class Environment(
     var kotlinProcessesAvailable: Int? = null,
     var multipleKotlinProcesses: Boolean? = null,
     var multipleKotlinJvmArgs: Map<String, Map<String, String>>? = null,
-    var processesStats: Processes = Processes()
+    var processesStats: Processes = Processes(),
 ) : java.io.Serializable
 
 data class Switches(
@@ -94,12 +95,12 @@ data class Switches(
     var rerunTasks: String? = null,
     var refreshDependencies: String? = null,
     var buildScan: String? = null,
-    var configurationCache: String? = null
+    var configurationCache: String? = null,
 ) : java.io.Serializable
 
 data class CustomProperties(
     var buildProperties: MutableMap<String, Any> = mutableMapOf(),
-    var taskProperties: MutableMap<String, Any> = mutableMapOf()
+    var taskProperties: MutableMap<String, Any> = mutableMapOf(),
 ) : java.io.Serializable
 
 /**
@@ -108,5 +109,5 @@ data class CustomProperties(
 data class Plugin(
     var id: String,
     var mainClass: String,
-    var version: String
+    var version: String,
 ) : java.io.Serializable

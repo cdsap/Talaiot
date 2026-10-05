@@ -16,9 +16,9 @@ class OutputPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
     private val TAG = "OutputPublisher"
 
     override fun publish(report: ExecutionReport) {
@@ -32,15 +32,17 @@ class OutputPublisher(
             report.tasks?.apply {
                 val orderedTiming = sort(this, outputPublisherConfiguration.order)
                 if (!orderedTiming.isEmpty()) {
-                    val max = when (outputPublisherConfiguration.order) {
-                        Order.ASC -> orderedTiming.last().ms
-                        Order.DESC -> orderedTiming.first().ms
-                    }
-                    val limit = when {
-                        outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
-                        outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
-                        else -> orderedTiming.size
-                    }
+                    val max =
+                        when (outputPublisherConfiguration.order) {
+                            Order.ASC -> orderedTiming.last().ms
+                            Order.DESC -> orderedTiming.first().ms
+                        }
+                    val limit =
+                        when {
+                            outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
+                            outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
+                            else -> orderedTiming.size
+                        }
 
                     for (i in 0 until limit) {
                         val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
@@ -61,7 +63,10 @@ class OutputPublisher(
      *
      * @return list of Task ordered
      */
-    private fun sort(items: List<TaskLength>, order: Order): List<TaskLength> {
+    private fun sort(
+        items: List<TaskLength>,
+        order: Order,
+    ): List<TaskLength> {
         if (items.count() < 2) {
             return items
         }

@@ -9,7 +9,7 @@ enum class TaskMetrics : Metrics {
     CacheEnabled,
     Custom {
         override val isCustom: Boolean = true
-    };
+    }, ;
 
     override fun toKey(): String = toString()
 

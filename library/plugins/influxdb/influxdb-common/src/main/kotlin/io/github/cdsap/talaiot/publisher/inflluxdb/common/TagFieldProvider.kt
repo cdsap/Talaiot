@@ -6,7 +6,7 @@ import io.github.cdsap.talaiot.metrics.ValuesProvider
 class TagFieldProvider(
     tagsConfiguration: List<Metrics>,
     valuesProvider: ValuesProvider,
-    private val customMetrics: Map<String, Any>
+    private val customMetrics: Map<String, Any>,
 ) {
 
     private val metrics: Map<String, Any> = valuesProvider.get()
@@ -14,10 +14,12 @@ class TagFieldProvider(
     private val tagMetricKeys = tagsConfiguration.mapTo(HashSet()) { it.toKey() }
     private val shouldIncludeCustom = tagsConfiguration.any { it.isCustom }
 
-    fun tags(): Map<String, String> = metrics
-        .filter {
-            customMetrics(it.key) || it.key in tagMetricKeys
-        }.mapValues { it.value.toString() }
+    fun tags(): Map<String, String> =
+        metrics
+            .filter {
+                customMetrics(it.key) || it.key in tagMetricKeys
+            }
+            .mapValues { it.value.toString() }
 
     fun fields(): Map<String, Any> {
         val tags = tags()

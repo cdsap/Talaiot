@@ -45,14 +45,16 @@ class ElasticsearchPluginTest : BehaviorSpec() {
                       }
                     }
                   }
-            """
+            """,
                 )
 
-                val result = GradleRunner.create()
-                    .withProjectDir(testProjectDir.getRoot())
-                    .withArguments("assemble")
-                    .withPluginClasspath()
-                    .build()
+                val result =
+                    GradleRunner
+                        .create()
+                        .withProjectDir(testProjectDir.getRoot())
+                        .withArguments("assemble")
+                        .withPluginClasspath()
+                        .build()
                 then("there are records in the ElasticSearch instance") {
                     assert(result.task(":assemble")?.outcome == TaskOutcome.SUCCESS)
                     Thread.sleep(10000)
@@ -66,8 +68,8 @@ class ElasticsearchPluginTest : BehaviorSpec() {
                         client.performRequest(
                             org.elasticsearch.client.Request(
                                 "GET",
-                                "/build/_search?"
-                            )
+                                "/build/_search?",
+                            ),
                         )
 
                     val contentBuild = EntityUtils.toString(responseBuild.entity)
