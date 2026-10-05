@@ -9,8 +9,7 @@ import java.net.InetSocketAddress
 /**
  * Custom TestContainer to support E2E tests for PushGateway
  */
-open class PushGatewayContainer :
-    GenericContainer<PushGatewayContainer>("$PUSHGATEWAY_DEFAULT_IMAGE:$PUSHGATEWAY_DEFAULT_VERSION") {
+open class PushGatewayContainer : GenericContainer<PushGatewayContainer>("$PUSHGATEWAY_DEFAULT_IMAGE:$PUSHGATEWAY_DEFAULT_VERSION") {
     init {
 
         logger().info("Starting an Pushgateway container using [{}]", dockerImageName)
@@ -18,25 +17,22 @@ open class PushGatewayContainer :
         withEnv("discovery.type", "single-node")
         addExposedPorts(
             PUSHGATEWAY_DEFAULT_PORT,
-            PUSHGATEWAY_DEFAULT_TCP_PORT
+            PUSHGATEWAY_DEFAULT_TCP_PORT,
         )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(
-                    Wait.forListeningPort()
-                )
+                    Wait.forListeningPort(),
+                ),
         )
     }
 
     val httpHostAddress: String
         get() = containerIpAddress + ":" + getMappedPort(PUSHGATEWAY_DEFAULT_PORT)
 
-    fun getTcpHost(): InetSocketAddress {
-        return InetSocketAddress(containerIpAddress, getMappedPort(PUSHGATEWAY_DEFAULT_TCP_PORT)!!)
-    }
+    fun getTcpHost(): InetSocketAddress = InetSocketAddress(containerIpAddress, getMappedPort(PUSHGATEWAY_DEFAULT_TCP_PORT)!!)
 
     companion object {
-
         /**
          * Pushgateway Default HTTP port
          */

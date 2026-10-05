@@ -39,10 +39,8 @@ data class TaskLength(
      * Timestamp of finish in millis
      */
     val stopMs: Long = 0L,
-
     /**
      * task type
      */
-    val type: String
-
+    val type: String,
 ) : java.io.Serializable

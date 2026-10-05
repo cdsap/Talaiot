@@ -16,8 +16,9 @@ import java.io.Serializable
  *    taskMetricName = "taskMetric"
  * }
  */
-class InfluxDb2PublisherConfiguration : PublisherConfiguration, Serializable {
-
+class InfluxDb2PublisherConfiguration :
+    PublisherConfiguration,
+    Serializable {
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
 

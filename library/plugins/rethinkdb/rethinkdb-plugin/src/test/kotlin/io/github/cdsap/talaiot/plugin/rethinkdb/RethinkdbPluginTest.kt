@@ -11,7 +11,6 @@ import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
 class RethinkdbPluginTest : BehaviorSpec() {
-
     val container = KRethinkDbContainer()
     val r = RethinkDB.r
 
@@ -48,10 +47,11 @@ class RethinkdbPluginTest : BehaviorSpec() {
                       }
                     }
                   }
-            """
+            """,
                 )
 
-                GradleRunner.create()
+                GradleRunner
+                    .create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()
@@ -62,10 +62,16 @@ class RethinkdbPluginTest : BehaviorSpec() {
                     Thread.sleep(2000)
                     val conn = getConnection("http://${container.httpHostAddress}")
                     val existsTableTasks =
-                        r.db("tracking").tableList().contains("tasks")
+                        r
+                            .db("tracking")
+                            .tableList()
+                            .contains("tasks")
                             .run<Boolean>(conn)
                     val existsTableBuilds =
-                        r.db("tracking").tableList().contains("builds")
+                        r
+                            .db("tracking")
+                            .tableList()
+                            .contains("builds")
                             .run<Boolean>(conn)
                     Assert.assertTrue(existsTableBuilds)
                     Assert.assertTrue(existsTableTasks)
@@ -77,6 +83,10 @@ class RethinkdbPluginTest : BehaviorSpec() {
 
     private fun getConnection(url: String): Connection {
         val url = URL(url)
-        return r.connection().hostname(url.host).port(url.port).connect()
+        return r
+            .connection()
+            .hostname(url.host)
+            .port(url.port)
+            .connect()
     }
 }

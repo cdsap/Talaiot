@@ -22,9 +22,9 @@ import io.github.cdsap.talaiot.metrics.KotlinProcessMetrics
 class TalaiotPublisherImpl(
     private val executionReport: ExecutionReport,
     private val taskFilterProcessor: TaskFilterProcessor,
-    private val buildFilterProcessor: BuildFilterProcessor
-) : TalaiotPublisher, java.io.Serializable {
-
+    private val buildFilterProcessor: BuildFilterProcessor,
+) : TalaiotPublisher,
+    java.io.Serializable {
     override fun publish(
         taskLengthList: MutableList<TaskLength>,
         start: Long,
@@ -44,7 +44,7 @@ class TalaiotPublisherImpl(
         processBuildId: Boolean,
         buildId: String,
         initMetricsWithProviders: Map<String, Any>,
-        endMetricsWithProviders: Map<String, Any>
+        endMetricsWithProviders: Map<String, Any>,
     ) {
         executionReport.tasks = taskLengthList.filter { taskFilterProcessor.taskLengthFilter(it) }
         executionReport.unfilteredTasks = taskLengthList
@@ -62,10 +62,11 @@ class TalaiotPublisherImpl(
             if (processProcessMetrics) {
                 val processesKotlin = ConsolidateProcesses().consolidate(kotlinStat, kotlinInfo, TypeProcess.Kotlin)
                 val processesGradle = ConsolidateProcesses().consolidate(gradleStat, gradleInfo, TypeProcess.Gradle)
-                executionReport.environment.processesStats = Processes(
-                    listKotlinProcesses = processesKotlin,
-                    listGradleProcesses = processesGradle
-                )
+                executionReport.environment.processesStats =
+                    Processes(
+                        listKotlinProcesses = processesKotlin,
+                        listGradleProcesses = processesGradle,
+                    )
                 GradleProcessMetrics(gradleInfo).get(Unit, executionReport)
                 KotlinProcessMetrics(kotlinInfo).get(Unit, executionReport)
             }

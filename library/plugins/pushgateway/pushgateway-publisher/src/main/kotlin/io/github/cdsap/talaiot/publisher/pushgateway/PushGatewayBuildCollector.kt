@@ -7,9 +7,8 @@ import io.prometheus.client.CollectorRegistry
 class PushGatewayBuildCollector(
     val report: ExecutionReport,
     private val registry: CollectorRegistry,
-    private val pushgatewayLabelProvider: PushGatewayLabelProvider
+    private val pushgatewayLabelProvider: PushGatewayLabelProvider,
 ) : PushGatewayCollector {
-
     override fun collect() {
         val defaultMetrics = DefaultBuildMetricsProvider(report).get()
 
@@ -23,7 +22,7 @@ class PushGatewayBuildCollector(
                 report.durationMs!!.toDouble(),
                 registry,
                 labelsNames,
-                labelsValues
+                labelsValues,
             )
         }
         if (report.configurationDurationMs != null) {
@@ -33,7 +32,7 @@ class PushGatewayBuildCollector(
                 report.configurationDurationMs!!.toDouble(),
                 registry,
                 labelsNames,
-                labelsValues
+                labelsValues,
             )
         }
         if (report.cacheRatio != null) {
@@ -43,7 +42,7 @@ class PushGatewayBuildCollector(
                 report.cacheRatio!!.toDouble(),
                 registry,
                 labelsNames,
-                labelsValues
+                labelsValues,
             )
         }
     }

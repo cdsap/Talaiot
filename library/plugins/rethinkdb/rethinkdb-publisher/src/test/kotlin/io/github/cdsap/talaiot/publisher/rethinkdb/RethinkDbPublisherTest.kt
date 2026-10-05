@@ -19,16 +19,21 @@ import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
 class RethinkDbPublisherTest : BehaviorSpec() {
-
     val container = KRethinkDbContainer()
     val r = RethinkDB.r
 
-    override fun beforeSpec(description: Description, spec: Spec) {
+    override fun beforeSpec(
+        description: Description,
+        spec: Spec,
+    ) {
         super.beforeSpec(description, spec)
         container.start()
     }
 
-    override fun afterSpec(description: Description, spec: Spec) {
+    override fun afterSpec(
+        description: Description,
+        spec: Spec,
+    ) {
         super.afterSpec(description, spec)
         container.stop()
     }
@@ -39,54 +44,69 @@ class RethinkDbPublisherTest : BehaviorSpec() {
 
             `when`("Publisher is sent ") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
-                val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration,
-                    logger
-                )
+                val rethinkDb =
+                    RethinkDbPublisher(
+                        rethinkDbConfiguration,
+                        logger,
+                    )
                 rethinkDb.publish(
-                    executionReportData()
+                    executionReportData(),
                 )
                 then("RethinkDb Instance contains information for build and tasks") {
 
                     val conn = getConnection(rethinkDbConfiguration.url)
                     val existsTableTasks =
-                        r.db(rethinkDbConfiguration.dbName).tableList().contains(rethinkDbConfiguration.taskTableName)
+                        r
+                            .db(rethinkDbConfiguration.dbName)
+                            .tableList()
+                            .contains(rethinkDbConfiguration.taskTableName)
                             .run<Boolean>(conn)
                     val existsTableBuilds =
-                        r.db(rethinkDbConfiguration.dbName).tableList().contains(rethinkDbConfiguration.buildTableName)
+                        r
+                            .db(rethinkDbConfiguration.dbName)
+                            .tableList()
+                            .contains(rethinkDbConfiguration.buildTableName)
                             .run<Boolean>(conn)
                     assertTrue(existsTableBuilds)
                     assertTrue(existsTableTasks)
                 }
             }
             `when`("Publisher doesn't include the minimum configuration ") {
-                val rethinkDbConfiguration = RethinkDbPublisherConfiguration().apply {
-                    dbName = "tracking"
-                }
-
-                val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration,
-                    logger
-                )
-                then("Error is thrown pointing the correct configuration") {
-                    val exception = shouldThrow<IllegalStateException> {
-                        rethinkDb.publish(
-                            executionReportData()
-                        )
+                val rethinkDbConfiguration =
+                    RethinkDbPublisherConfiguration().apply {
+                        dbName = "tracking"
                     }
 
-                    assertTrue(exception.localizedMessage.contains("RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName:"))
+                val rethinkDb =
+                    RethinkDbPublisher(
+                        rethinkDbConfiguration,
+                        logger,
+                    )
+                then("Error is thrown pointing the correct configuration") {
+                    val exception =
+                        shouldThrow<IllegalStateException> {
+                            rethinkDb.publish(
+                                executionReportData(),
+                            )
+                        }
+
+                    assertTrue(
+                        exception.localizedMessage.contains(
+                            "RethinkDbPublisher not executed. Configuration requires url, dbName, taskTableName and buildTableName:",
+                        ),
+                    )
                 }
             }
             `when`("Publisher includes custom metrics for Tasks and Build") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
-                val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration,
-                    logger
-                )
+                val rethinkDb =
+                    RethinkDbPublisher(
+                        rethinkDbConfiguration,
+                        logger,
+                    )
                 rethinkDb.publish(
-                    executionReportData()
+                    executionReportData(),
                 )
 
                 then("Metrics are stored for Build and Task Table") {
@@ -110,12 +130,13 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             `when`("Build info contains duration, requestedTasks and environment information") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
-                val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration,
-                    logger
-                )
+                val rethinkDb =
+                    RethinkDbPublisher(
+                        rethinkDbConfiguration,
+                        logger,
+                    )
                 rethinkDb.publish(
-                    executionReportData()
+                    executionReportData(),
                 )
 
                 then("Build Info is properly saved") {
@@ -137,12 +158,13 @@ class RethinkDbPublisherTest : BehaviorSpec() {
             `when`("Task info contains module and rootNode") {
                 val rethinkDbConfiguration = getBasicRethinkDbConf()
                 val conn = getConnection(rethinkDbConfiguration.url)
-                val rethinkDb = RethinkDbPublisher(
-                    rethinkDbConfiguration,
-                    logger
-                )
+                val rethinkDb =
+                    RethinkDbPublisher(
+                        rethinkDbConfiguration,
+                        logger,
+                    )
                 rethinkDb.publish(
-                    executionReportData()
+                    executionReportData(),
                 )
 
                 then("Task Info is properly saved") {
@@ -161,60 +183,69 @@ class RethinkDbPublisherTest : BehaviorSpec() {
         }
     }
 
-    private fun executionReportData(): ExecutionReport {
-        return ExecutionReport(
+    private fun executionReportData(): ExecutionReport =
+        ExecutionReport(
             durationMs = "100",
             requestedTasks = "assemble",
-            environment = Environment(
-                cpuCount = "12",
-                maxWorkers = "4"
-            ),
-            customProperties = CustomProperties(
-                taskProperties = mutableMapOf(
-                    "metric1" to "value1",
-                    "metric2" to "value2"
+            environment =
+                Environment(
+                    cpuCount = "12",
+                    maxWorkers = "4",
                 ),
-                buildProperties = mutableMapOf(
-                    "metric3" to "value3",
-                    "metric4" to "value4"
-                )
-            ),
-            tasks = listOf(
-                TaskLength(
-                    1,
-                    "clean",
-                    ":clean",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    0L,
-                    1L,
-                    "awesomeTask"
+            customProperties =
+                CustomProperties(
+                    taskProperties =
+                        mutableMapOf(
+                            "metric1" to "value1",
+                            "metric2" to "value2",
+                        ),
+                    buildProperties =
+                        mutableMapOf(
+                            "metric3" to "value3",
+                            "metric4" to "value4",
+                        ),
                 ),
-                TaskLength(
-                    100,
-                    "assemble",
-                    ":app:assemble",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    0L,
-                    1L,
-                    "awesomeTask"
-                )
-            )
+            tasks =
+                listOf(
+                    TaskLength(
+                        1,
+                        "clean",
+                        ":clean",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask",
+                    ),
+                    TaskLength(
+                        100,
+                        "assemble",
+                        ":app:assemble",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask",
+                    ),
+                ),
         )
-    }
 
     private fun getConnection(url: String): Connection {
         val url = URL(url)
-        return r.connection().hostname(url.host).port(url.port).connect()
+        return r
+            .connection()
+            .hostname(url.host)
+            .port(url.port)
+            .connect()
     }
 
-    private fun getBasicRethinkDbConf() = RethinkDbPublisherConfiguration().apply {
-        url = "http://" + container.httpHostAddress
-        taskTableName = "tasks"
-        buildTableName = "builds"
-        dbName = "tracking"
-    }
+    private fun getBasicRethinkDbConf() =
+        RethinkDbPublisherConfiguration().apply {
+            url = "http://" + container.httpHostAddress
+            taskTableName = "tasks"
+            buildTableName = "builds"
+            dbName = "tracking"
+        }
 }

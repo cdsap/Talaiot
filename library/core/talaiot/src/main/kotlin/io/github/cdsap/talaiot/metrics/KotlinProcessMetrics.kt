@@ -2,9 +2,11 @@ package io.github.cdsap.talaiot.metrics
 
 import io.github.cdsap.talaiot.metrics.process.JInfoProcess
 
-class KotlinProcessMetrics(val value: String) : SimpleMetric<String>(provider = {
-    value
-}, assigner = { report, value ->
+class KotlinProcessMetrics(
+    val value: String,
+) : SimpleMetric<String>(provider = {
+        value
+    }, assigner = { report, value ->
         val jInfoByProcess = JInfoProcess().parseJInfoData(value)
         if (jInfoByProcess.isNotEmpty()) {
             report.environment.kotlinProcessesAvailable = jInfoByProcess.size

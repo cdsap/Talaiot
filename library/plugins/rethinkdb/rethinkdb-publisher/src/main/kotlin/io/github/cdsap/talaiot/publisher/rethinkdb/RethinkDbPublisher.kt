@@ -20,10 +20,10 @@ class RethinkDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
-    private val TAG = "RethinkDbPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "RethinkDbPublisher"
 
     override fun publish(report: ExecutionReport) {
         if (rethinkDbPublisherConfiguration.url.isEmpty() ||
@@ -39,34 +39,37 @@ class RethinkDbPublisher(
                     "            buildTableName = \"build\"\n" +
                     "            taskTableName = \"task\"\n" +
                     "}\n" +
-                    "Please update your configuration"
+                    "Please update your configuration",
             )
         }
         val r = RethinkDB.r
 
-        logTracker.log(TAG, "================")
-        logTracker.log(TAG, "RethinkDbPublisher")
-        logTracker.log(TAG, "publishBuildMetrics: ${rethinkDbPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log(TAG, "publishTaskMetrics: ${rethinkDbPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log(TAG, "================")
+        logTracker.log(tag, "================")
+        logTracker.log(tag, "RethinkDbPublisher")
+        logTracker.log(tag, "publishBuildMetrics: ${rethinkDbPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(tag, "publishTaskMetrics: ${rethinkDbPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(tag, "================")
 
         try {
             val url = URL(rethinkDbPublisherConfiguration.url)
 
-            val conn: Connection = if (rethinkDbPublisherConfiguration.username.isBlank() &&
-                rethinkDbPublisherConfiguration.password.isBlank()
-            ) {
-                r.connection()
-                    .hostname(url.host)
-                    .port(url.port)
-                    .connect()
-            } else {
-                r.connection()
-                    .hostname(url.host)
-                    .port(url.port)
-                    .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
-                    .connect()
-            }
+            val conn: Connection =
+                if (rethinkDbPublisherConfiguration.username.isBlank() &&
+                    rethinkDbPublisherConfiguration.password.isBlank()
+                ) {
+                    r
+                        .connection()
+                        .hostname(url.host)
+                        .port(url.port)
+                        .connect()
+                } else {
+                    r
+                        .connection()
+                        .hostname(url.host)
+                        .port(url.port)
+                        .user(rethinkDbPublisherConfiguration.username, rethinkDbPublisherConfiguration.password)
+                        .connect()
+                }
 
             checkDb(conn, rethinkDbPublisherConfiguration.dbName, r)
             if (rethinkDbPublisherConfiguration.publishTaskMetrics) {
@@ -76,14 +79,14 @@ class RethinkDbPublisher(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.taskTableName,
-                        r
+                        r,
                     )
                     insertEntries(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.taskTableName,
                         entries,
-                        r
+                        r,
                     )
                 }
             }
@@ -95,14 +98,14 @@ class RethinkDbPublisher(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.buildTableName,
-                        r
+                        r,
                     )
                     insertEntries(
                         conn,
                         rethinkDbPublisherConfiguration.dbName,
                         rethinkDbPublisherConfiguration.buildTableName,
                         entries,
-                        r
+                        r,
                     )
                 }
             }
@@ -116,20 +119,38 @@ class RethinkDbPublisher(
         db: String,
         table: String,
         entries: Map<String, Any>?,
-        r: RethinkDB
+        r: RethinkDB,
     ) {
-        r.db(db).table(table).insert(entries).run<Any>(conn)
+        r
+            .db(db)
+            .table(table)
+            .insert(entries)
+            .run<Any>(conn)
     }
 
-    private fun checkDb(conn: Connection, db: String, r: RethinkDB) {
+    private fun checkDb(
+        conn: Connection,
+        db: String,
+        r: RethinkDB,
+    ) {
         val exist = r.dbList().contains(db).run<Boolean>(conn)
         if (!exist) {
             r.dbCreate(db).run<Any>(conn)
         }
     }
 
-    private fun checkTable(conn: Connection, db: String, table: String, r: RethinkDB) {
-        val exist = r.db(db).tableList().contains(table).run<Boolean>(conn)
+    private fun checkTable(
+        conn: Connection,
+        db: String,
+        table: String,
+        r: RethinkDB,
+    ) {
+        val exist =
+            r
+                .db(db)
+                .tableList()
+                .contains(table)
+                .run<Boolean>(conn)
 
         if (!exist) {
             try {

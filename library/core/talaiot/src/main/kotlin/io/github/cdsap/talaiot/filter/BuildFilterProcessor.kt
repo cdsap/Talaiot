@@ -6,9 +6,8 @@ import io.github.cdsap.talaiot.logger.LogTracker
 
 class BuildFilterProcessor(
     val logTracker: LogTracker,
-    val filter: BuildFilterConfiguration
+    val filter: BuildFilterConfiguration,
 ) : java.io.Serializable {
-
     fun shouldPublishBuild(report: ExecutionReport): Boolean {
         val successAllowsPublishing = report.success == filter.success || filter.success == null
         return if (successAllowsPublishing) {

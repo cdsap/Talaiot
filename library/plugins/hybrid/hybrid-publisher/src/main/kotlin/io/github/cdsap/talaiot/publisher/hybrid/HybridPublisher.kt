@@ -15,17 +15,17 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfigurati
 
 class HybridPublisher(
     private val hybridPublisherConfiguration: HybridPublisherConfiguration,
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
-    private val TAG = "HybridPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "HybridPublisher"
 
     override fun publish(report: ExecutionReport) {
-        logTracker.log(TAG, "================")
-        logTracker.log(TAG, "HybridPublisher")
-        logTracker.log(TAG, "publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log(TAG, "publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log(TAG, "================")
+        logTracker.log(tag, "================")
+        logTracker.log(tag, "HybridPublisher")
+        logTracker.log(tag, "publishBuildMetrics: ${hybridPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(tag, "publishTaskMetrics: ${hybridPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(tag, "================")
 
         if (validate()) {
             hybridPublisherConfiguration.buildPublisher?.let {
@@ -53,34 +53,34 @@ class HybridPublisher(
             is InfluxDbPublisherConfiguration -> {
                 InfluxDbPublisher(
                     publisherConfiguration,
-                    logTracker
+                    logTracker,
                 )
             }
             is PushGatewayPublisherConfiguration -> {
                 PushGatewayPublisher(
                     publisherConfiguration,
-                    logTracker
+                    logTracker,
                 )
             }
 
             is ElasticSearchPublisherConfiguration -> {
                 ElasticSearchPublisher(
                     publisherConfiguration,
-                    logTracker
+                    logTracker,
                 )
             }
 
             is RethinkDbPublisherConfiguration -> {
                 RethinkDbPublisher(
                     publisherConfiguration,
-                    logTracker
+                    logTracker,
                 )
             }
 
             else -> {
                 logTracker.error(
                     "HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: " +
-                        "InfluxDbPublisher, PushGatewayPublisher, ElasticSearchPublisher and RethinkDbPublisher"
+                        "InfluxDbPublisher, PushGatewayPublisher, ElasticSearchPublisher and RethinkDbPublisher",
                 )
                 null
             }

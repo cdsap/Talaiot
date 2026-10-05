@@ -39,7 +39,7 @@ import org.gradle.util.GradleVersion
  */
 class Talaiot<T : TalaiotExtension>(
     private val classExtension: Class<T>,
-    private val publisherConfigurationProvider: PublisherConfigurationProvider
+    private val publisherConfigurationProvider: PublisherConfigurationProvider,
 ) {
     /**
      * Initialization of the plugin.
@@ -52,13 +52,30 @@ class Talaiot<T : TalaiotExtension>(
         val executionReport = ExecutionReport()
         val startTime = System.currentTimeMillis()
         target.gradle.taskGraph.whenReady {
-            val dictionary = if (GradleVersion.current().isCompatibleWithIsolatedProjects() && target.serviceOf<BuildFeatures>().isolatedProjects.active.getOrElse(false)) emptyMap<String, String>() else it.allTasks.associate { it.path to it.javaClass.toString().replace("class ", "").replace("_Decorated", "") }
-
-            val parameters = target.gradle.startParameter.taskRequests.flatMap {
-                it.args.flatMap { task ->
-                    listOf(task.toString())
+            val dictionary =
+                if (GradleVersion.current().isCompatibleWithIsolatedProjects() &&
+                    target
+                        .serviceOf<BuildFeatures>()
+                        .isolatedProjects.active
+                        .getOrElse(false)
+                ) {
+                    emptyMap<String, String>()
+                } else {
+                    it.allTasks.associate {
+                        it.path to
+                            it.javaClass
+                                .toString()
+                                .replace("class ", "")
+                                .replace("_Decorated", "")
+                    }
                 }
-            }
+
+            val parameters =
+                target.gradle.startParameter.taskRequests.flatMap {
+                    it.args.flatMap { task ->
+                        listOf(task.toString())
+                    }
+                }
             populateMetrics(executionReport, target, extension.metrics)
             val talaiotPublisher = createTalaiotPublisher(extension, executionReport)
             val configurationProvider = target.providers.of(ConfigurationPhaseObserver::class.java) { }
@@ -69,16 +86,17 @@ class Talaiot<T : TalaiotExtension>(
             // https://github.com/cdsap/Talaiot/issues/408
             // To avoid this issue we need to create the provider that wouldn't be retrieved
             // until the publishing phase and if the metric is enabled
-            val gitBranch = target.providers.of(CommandLineWithOutputValue::class.java) {
-                it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
-            }
+            val gitBranch =
+                target.providers.of(CommandLineWithOutputValue::class.java) {
+                    it.parameters.commands.set("git rev-parse --abbrev-ref HEAD")
+                }
 
             val buildId = target.providers.of(BuildIdValueSource::class.java) {}
 
             val serviceProvider: Provider<TalaiotBuildService> =
                 target.gradle.sharedServices.registerIfAbsent(
                     "talaiotService",
-                    TalaiotBuildService::class.java
+                    TalaiotBuildService::class.java,
                 ) { spec ->
                     spec.parameters.publisher.set(talaiotPublisher)
                     spec.parameters.initTime.set(startTime)
@@ -103,13 +121,17 @@ class Talaiot<T : TalaiotExtension>(
         }
     }
 
-    private fun populateMetrics(executionReport: ExecutionReport, target: Project, metrics: MetricsConfiguration) {
+    private fun populateMetrics(
+        executionReport: ExecutionReport,
+        target: Project,
+        metrics: MetricsConfiguration,
+    ) {
         MetricsProvider(metrics.build(target), executionReport, target).get()
     }
 
     private fun createTalaiotPublisher(
         extension: T,
-        executionReport: ExecutionReport
+        executionReport: ExecutionReport,
     ): TalaiotPublisher {
         val logger = LogTrackerImpl(LogTracker.Mode.INFO)
         val taskFilterProcessor = TaskFilterProcessor(logger, extension.filter)

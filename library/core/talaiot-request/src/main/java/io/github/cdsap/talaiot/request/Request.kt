@@ -11,5 +11,8 @@ interface Request {
      */
     var logTracker: LogTracker
 
-    fun send(url: String, content: String)
+    fun send(
+        url: String,
+        content: String,
+    )
 }

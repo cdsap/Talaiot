@@ -9,13 +9,18 @@ import java.net.URL
  * Simple implementation of request.
  * Using KoHttp to create the request.
  */
-class SimpleRequest(mode: LogTracker) : Request {
+class SimpleRequest(
+    mode: LogTracker,
+) : Request {
     override var logTracker = mode
-    private val TAG = "SimpleRequest"
+    private val tag = "SimpleRequest"
 
-    override fun send(url: String, content: String) {
+    override fun send(
+        url: String,
+        content: String,
+    ) {
         val urlSpec = URL(url)
-        logTracker.log(TAG, "send request to $url")
+        logTracker.log(tag, "send request to $url")
         try {
             httpPost {
                 url(urlSpec)
@@ -30,15 +35,15 @@ class SimpleRequest(mode: LogTracker) : Request {
                     string(content)
                 }
             }.also {
-                logTracker.log(TAG, "Response code ${it.code()}")
+                logTracker.log(tag, "Response code ${it.code()}")
                 if (!it.isSuccessful) {
-                    logTracker.log(TAG, "Response code not Successful")
-                    logTracker.log(TAG, "Message Response ${it.message()}")
-                    logTracker.log(TAG, "Response Body ${it.body()?.string()}")
+                    logTracker.log(tag, "Response code not Successful")
+                    logTracker.log(tag, "Message Response ${it.message()}")
+                    logTracker.log(tag, "Response Body ${it.body()?.string()}")
                 }
             }
         } catch (e: Exception) {
-            logTracker.log(TAG, e.message ?: "error requesting $url")
+            logTracker.log(tag, e.message ?: "error requesting $url")
         }
     }
 }

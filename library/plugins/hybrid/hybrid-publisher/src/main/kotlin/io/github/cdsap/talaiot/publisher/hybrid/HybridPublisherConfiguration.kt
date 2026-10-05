@@ -18,8 +18,9 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
  *
  * }
  */
-class HybridPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
-
+class HybridPublisherConfiguration :
+    PublisherConfiguration,
+    java.io.Serializable {
     /**
      * name of the publisher
      */

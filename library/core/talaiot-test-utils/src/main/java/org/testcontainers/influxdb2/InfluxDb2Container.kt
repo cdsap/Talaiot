@@ -9,8 +9,7 @@ import java.net.InetSocketAddress
 /**
  * Custom TestContainer to support E2E tests for PushGateway
  */
-open class InfluxDb2Container :
-    GenericContainer<PushGatewayContainer>("$INFLUXDB2_DEFAULT_IMAGE:$INFLUXDB2_DEFAULT_VERSION") {
+open class InfluxDb2Container : GenericContainer<PushGatewayContainer>("$INFLUXDB2_DEFAULT_IMAGE:$INFLUXDB2_DEFAULT_VERSION") {
     init {
 
         logger().info("Starting an  container using [{}]", dockerImageName)
@@ -20,25 +19,22 @@ open class InfluxDb2Container :
         withEnv("org", "alo")
         addExposedPorts(
             INFLUXDB2_DEFAULT_PORT,
-            INFLUXDB2_DEFAULT_TCP_PORT
+            INFLUXDB2_DEFAULT_TCP_PORT,
         )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(
-                    Wait.forListeningPort()
-                )
+                    Wait.forListeningPort(),
+                ),
         )
     }
 
     val httpHostAddress: String
         get() = containerIpAddress + ":" + getMappedPort(INFLUXDB2_DEFAULT_PORT)
 
-    fun getTcpHost(): InetSocketAddress {
-        return InetSocketAddress(containerIpAddress, getMappedPort(INFLUXDB2_DEFAULT_TCP_PORT)!!)
-    }
+    fun getTcpHost(): InetSocketAddress = InetSocketAddress(containerIpAddress, getMappedPort(INFLUXDB2_DEFAULT_TCP_PORT)!!)
 
     companion object {
-
         /**
          * Pushgateway Default HTTP port
          */

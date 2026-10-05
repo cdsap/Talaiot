@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2Publisher
 import org.gradle.api.Project
 
 class Influxdb2ConfigurationProvider(
-    private val project: Project
+    private val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
@@ -18,8 +18,8 @@ class Influxdb2ConfigurationProvider(
                 publishers.add(
                     InfluxDb2Publisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger)
-                    )
+                        LogTrackerImpl(talaiotExtension.logger),
+                    ),
                 )
             }
             publishers.addAll(customPublishers)

@@ -25,11 +25,9 @@ abstract class TalaiotBuildService :
     BuildService<TalaiotBuildService.Params>,
     AutoCloseable,
     OperationCompletionListener {
-
     var start = 0L
 
     interface Params : BuildServiceParameters {
-
         /**
          * Publishes the data stored in the [TalaiotBuildService]
          */
@@ -70,7 +68,7 @@ abstract class TalaiotBuildService :
         initProviderMetrics.putAll(
             parameters.initProviderMetrics.get().map {
                 it.key to it.value.get()
-            }
+            },
         )
     }
 
@@ -88,11 +86,12 @@ abstract class TalaiotBuildService :
 
     private fun publish(end: Long) {
         val configurationPhaseExecuted = parameters.configurationPhaseExecuted.get().get()
-        val configurationTime = if (configurationPhaseExecuted) {
-            start - parameters.initTime.get()
-        } else {
-            0
-        }
+        val configurationTime =
+            if (configurationPhaseExecuted) {
+                start - parameters.initTime.get()
+            } else {
+                0
+            }
 
         val processProcessMetrics = parameters.processes.get()
         val processGitBranchMetric = parameters.processGitBranchMetric.get()
@@ -106,9 +105,10 @@ abstract class TalaiotBuildService :
             configuration = configurationTime,
             end = end,
             duration = end - start,
-            success = taskLengthList.none {
-                it.state == TaskMessageState.FAILED
-            },
+            success =
+                taskLengthList.none {
+                    it.state == TaskMessageState.FAILED
+                },
             publishers = parameters.customPublishers.get(),
             configurationCacheHit = !configurationPhaseExecuted,
             kotlinInfo = if (processProcessMetrics) parameters.jInfoKotlin.get() else "",
@@ -121,7 +121,7 @@ abstract class TalaiotBuildService :
             processBuildId = parameters.processBuildId.get(),
             buildId = buildId,
             initMetricsWithProviders = initProviderMetrics,
-            endMetricsWithProviders = parameters.endProviderMetrics.get().mapValues { it.value.get() }
+            endMetricsWithProviders = parameters.endProviderMetrics.get().mapValues { it.value.get() },
         )
     }
 
@@ -138,19 +138,20 @@ abstract class TalaiotBuildService :
                 ms = duration,
                 task = task,
                 path = taskPath,
-                state = when (state) {
-                    "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
-                    "FROM-CACHE" -> TaskMessageState.FROM_CACHE
-                    "NO-SOURCE" -> TaskMessageState.NO_SOURCE
-                    "skipped" -> TaskMessageState.SKIPPED
-                    "failed" -> TaskMessageState.FAILED
-                    else -> TaskMessageState.EXECUTED
-                },
+                state =
+                    when (state) {
+                        "UP-TO-DATE" -> TaskMessageState.UP_TO_DATE
+                        "FROM-CACHE" -> TaskMessageState.FROM_CACHE
+                        "NO-SOURCE" -> TaskMessageState.NO_SOURCE
+                        "skipped" -> TaskMessageState.SKIPPED
+                        "failed" -> TaskMessageState.FAILED
+                        else -> TaskMessageState.EXECUTED
+                    },
                 rootNode = startParameters.contains(task.split(":").last()),
                 startMs = start,
                 stopMs = end,
-                type = dictionary[taskPath].orEmpty()
-            )
+                type = dictionary[taskPath].orEmpty(),
+            ),
         )
     }
 }
@@ -163,18 +164,19 @@ private fun taskLength(
     rootNode: Boolean,
     startMs: Long,
     stopMs: Long,
-    type: String
-): TaskLength = TaskLength(
-    ms = ms,
-    taskName = task,
-    taskPath = path,
-    state = state,
-    rootNode = rootNode,
-    module = getModule(path),
-    startMs = startMs,
-    stopMs = stopMs,
-    type = type
-)
+    type: String,
+): TaskLength =
+    TaskLength(
+        ms = ms,
+        taskName = task,
+        taskPath = path,
+        state = state,
+        rootNode = rootNode,
+        module = getModule(path),
+        startMs = startMs,
+        stopMs = stopMs,
+        type = type,
+    )
 
 private fun getModule(path: String): String {
     val module = path.split(":")

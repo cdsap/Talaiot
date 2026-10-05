@@ -9,7 +9,6 @@ import io.github.cdsap.talaiot.publisher.inflluxdb.common.TagFieldProvider
 import io.kotlintest.specs.BehaviorSpec
 
 class TagFieldProviderTest : BehaviorSpec() {
-
     init {
         given("TagFieldProvider Instance") {
 
@@ -18,17 +17,20 @@ class TagFieldProviderTest : BehaviorSpec() {
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 
-                val executionReport = ExecutionReport(
-                    customProperties = customProperties,
-                    environment = Environment(
-                        cpuCount = "12"
+                val executionReport =
+                    ExecutionReport(
+                        customProperties = customProperties,
+                        environment =
+                            Environment(
+                                cpuCount = "12",
+                            ),
                     )
-                )
 
-                val tagFieldProvider = createBuildTagFieldProvider(
-                    executionReport,
-                    emptyList()
-                )
+                val tagFieldProvider =
+                    createBuildTagFieldProvider(
+                        executionReport,
+                        emptyList(),
+                    )
 
                 then("tags are empty and fields contain CpuCount build metrics + 2 custom properties") {
                     assert(tagFieldProvider.tags().isEmpty())
@@ -43,17 +45,20 @@ class TagFieldProviderTest : BehaviorSpec() {
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 
-                val executionReport = ExecutionReport(
-                    customProperties = customProperties,
-                    environment = Environment(
-                        cpuCount = "12"
+                val executionReport =
+                    ExecutionReport(
+                        customProperties = customProperties,
+                        environment =
+                            Environment(
+                                cpuCount = "12",
+                            ),
                     )
-                )
 
-                val tagFieldProvider = createBuildTagFieldProvider(
-                    executionReport,
-                    listOf(BuildMetrics.CpuCount)
-                )
+                val tagFieldProvider =
+                    createBuildTagFieldProvider(
+                        executionReport,
+                        listOf(BuildMetrics.CpuCount),
+                    )
 
                 then("tags includes CpuCount") {
                     assert(tagFieldProvider.tags().size == 1)
@@ -67,17 +72,20 @@ class TagFieldProviderTest : BehaviorSpec() {
                 val customProperties = CustomProperties()
                 customProperties.buildProperties = metrics
 
-                val executionReport = ExecutionReport(
-                    customProperties = customProperties,
-                    environment = Environment(
-                        cpuCount = "12"
+                val executionReport =
+                    ExecutionReport(
+                        customProperties = customProperties,
+                        environment =
+                            Environment(
+                                cpuCount = "12",
+                            ),
                     )
-                )
 
-                val tagFieldProvider = createBuildTagFieldProvider(
-                    executionReport,
-                    listOf(BuildMetrics.Custom)
-                )
+                val tagFieldProvider =
+                    createBuildTagFieldProvider(
+                        executionReport,
+                        listOf(BuildMetrics.Custom),
+                    )
 
                 then("tags includes CpuCount") {
                     assert(tagFieldProvider.tags().size == 2)
@@ -94,10 +102,10 @@ class TagFieldProviderTest : BehaviorSpec() {
 
     private fun createBuildTagFieldProvider(
         report: ExecutionReport,
-        configuration: List<BuildMetrics>
+        configuration: List<BuildMetrics>,
     ) = TagFieldProvider(
         configuration,
         DefaultBuildMetricsProvider(report),
-        report.customProperties.buildProperties
+        report.customProperties.buildProperties,
     )
 }

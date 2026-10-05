@@ -277,17 +277,15 @@ class MetricsConfiguration {
         return metrics.toList()
     }
 
-    private fun createSimpleBuildMetric(pair: Pair<String, Any>): SimpleMetric<Any> {
-        return SimpleMetric(
+    private fun createSimpleBuildMetric(pair: Pair<String, Any>): SimpleMetric<Any> =
+        SimpleMetric(
             provider = { pair.second },
-            assigner = { report, value -> report.customProperties.buildProperties[pair.first] = value }
+            assigner = { report, value -> report.customProperties.buildProperties[pair.first] = value },
         )
-    }
 
-    private fun createSimpleTaskMetric(pair: Pair<String, Any>): SimpleMetric<Any> {
-        return SimpleMetric(
+    private fun createSimpleTaskMetric(pair: Pair<String, Any>): SimpleMetric<Any> =
+        SimpleMetric(
             provider = { pair.second },
-            assigner = { report, value -> report.customProperties.taskProperties[pair.first] = value }
+            assigner = { report, value -> report.customProperties.taskProperties[pair.first] = value },
         )
-    }
 }

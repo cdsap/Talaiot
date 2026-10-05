@@ -5,8 +5,9 @@ import io.github.cdsap.talaiot.publisher.PublishersConfiguration
 import io.github.cdsap.talaiot.publisher.influxdb2.InfluxDb2PublisherConfiguration
 import org.gradle.api.Project
 
-class Influxdb2Configuration(project: Project) : PublishersConfiguration(project) {
-
+class Influxdb2Configuration(
+    project: Project,
+) : PublishersConfiguration(project) {
     var influxDb2Publisher: InfluxDb2PublisherConfiguration? = null
 
     /**

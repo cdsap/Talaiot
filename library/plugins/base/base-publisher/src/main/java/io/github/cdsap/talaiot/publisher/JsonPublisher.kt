@@ -7,16 +7,20 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 
-class JsonPublisher(private val path: File) : Publisher, java.io.Serializable {
+class JsonPublisher(
+    private val path: File,
+) : Publisher,
+    java.io.Serializable {
     override fun publish(report: ExecutionReport) {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
-        val file = File(path, "reports/talaiot/json/data.json")
-            .apply {
-                mkdirs()
-                delete()
-                createNewFile()
-            }
+        val file =
+            File(path, "reports/talaiot/json/data.json")
+                .apply {
+                    mkdirs()
+                    delete()
+                    createNewFile()
+                }
 
         BufferedWriter(FileWriter(file)).use {
             gson.toJson(report, it)

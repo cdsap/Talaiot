@@ -16,23 +16,22 @@ class TemporaryFolder {
         val file = File(getRoot(), fileName)
         if (!file.createNewFile()) {
             throw IOException(
-                "a file with the name \'$fileName\' already exists in the test folder"
+                "a file with the name \'$fileName\' already exists in the test folder",
             )
         }
         return file
     }
 
     fun newFileInPath(fileName: String): File {
-        val file = File(getRoot(), fileName).also { file ->
-            file.parentFile.mkdirs()
-        }
+        val file =
+            File(getRoot(), fileName).also { file ->
+                file.parentFile.mkdirs()
+            }
         return file
     }
 
     @Throws(IOException::class)
-    fun newFile(): File {
-        return File.createTempFile("junit", null, getRoot())
-    }
+    fun newFile(): File = File.createTempFile("junit", null, getRoot())
 
     @Throws(IOException::class)
     fun newFolder(folder: String): File {
@@ -42,7 +41,7 @@ class TemporaryFolder {
         file = File(file, folderName)
         if (!file.mkdir()) {
             throw IOException(
-                "a folder with the name \'$folderName\' already exists"
+                "a folder with the name \'$folderName\' already exists",
             )
         }
         return file
@@ -53,19 +52,19 @@ class TemporaryFolder {
         val tempFile = File(folderName)
         if (tempFile.parent != null) {
             val errorMsg =
-                "Folder name cannot consist of multiple path components separated by a file separator." + " Please use newFolder('MyParentFolder','MyFolder') to create hierarchies of folders"
+                "Folder name cannot consist of multiple path components separated by a file separator." +
+                    " Please use newFolder('MyParentFolder','MyFolder') to create hierarchies of folders"
             throw IOException(errorMsg)
         }
     }
 
-    private fun isLastElementInArray(index: Int, array: Array<String>): Boolean {
-        return index == array.size - 1
-    }
+    private fun isLastElementInArray(
+        index: Int,
+        array: Array<String>,
+    ): Boolean = index == array.size - 1
 
     @Throws(IOException::class)
-    fun newFolder(): File {
-        return createTemporaryFolderIn(getRoot())
-    }
+    fun newFolder(): File = createTemporaryFolderIn(getRoot())
 
     @Throws(IOException::class)
     private fun createTemporaryFolderIn(parentFolder: File?): File {
@@ -78,7 +77,7 @@ class TemporaryFolder {
     fun getRoot(): File {
         if (folder == null) {
             throw IllegalStateException(
-                "the temporary folder has not yet been created"
+                "the temporary folder has not yet been created",
             )
         }
         return folder!!

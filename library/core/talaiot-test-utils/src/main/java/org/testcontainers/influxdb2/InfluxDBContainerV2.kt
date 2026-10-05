@@ -14,7 +14,9 @@ import java.util.Optional
  * [ the official InfluxDB 2.x container repository](https://hub.docker.com/_/influxdb)
  * on docker hub for detailed documentation and newest tags.
  */
-open class InfluxDBContainerV2(imageName: DockerImageName) : GenericContainer<InfluxDBContainerV2?>(imageName) {
+open class InfluxDBContainerV2(
+    imageName: DockerImageName,
+) : GenericContainer<InfluxDBContainerV2?>(imageName) {
     private var username = "test-user"
 
     private var password = "test-password"
@@ -58,7 +60,7 @@ open class InfluxDBContainerV2(imageName: DockerImageName) : GenericContainer<In
         retention.ifPresent { ret: String? ->
             addEnv(
                 "DOCKER_INFLUXDB_INIT_RETENTION",
-                ret
+                ret,
             )
         }
         addEnv("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN", adminToken)
@@ -146,14 +148,14 @@ open class InfluxDBContainerV2(imageName: DockerImageName) : GenericContainer<In
 
     init {
         imageName.assertCompatibleWith(DEFAULT_IMAGE_NAME)
-        waitStrategy = WaitAllStrategy()
-            .withStrategy(
-                Wait
-                    .forHttp("/ping")
-                    .withBasicCredentials(username, password)
-                    .forStatusCode(NO_CONTENT_STATUS_CODE)
-            )
-            .withStrategy(Wait.forListeningPort())
+        waitStrategy =
+            WaitAllStrategy()
+                .withStrategy(
+                    Wait
+                        .forHttp("/ping")
+                        .withBasicCredentials(username, password)
+                        .forStatusCode(NO_CONTENT_STATUS_CODE),
+                ).withStrategy(Wait.forListeningPort())
         addExposedPort(INFLUXDB_PORT)
     }
 }

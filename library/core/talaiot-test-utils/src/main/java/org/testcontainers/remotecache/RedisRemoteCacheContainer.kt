@@ -9,8 +9,7 @@ import java.net.InetSocketAddress
 /**
  * Custom TestContainer to support E2E tests for Redis
  */
-open class RedisRemoteCacheContainer :
-    GenericContainer<RedisRemoteCacheContainer>("$REDIS_IMAGE:$REDIS_DEFAULT_VERSION") {
+open class RedisRemoteCacheContainer : GenericContainer<RedisRemoteCacheContainer>("$REDIS_IMAGE:$REDIS_DEFAULT_VERSION") {
     init {
 
         logger().info("Starting an Redis container using [{}]", dockerImageName)
@@ -18,25 +17,22 @@ open class RedisRemoteCacheContainer :
         withEnv("discovery.type", "single-node")
         addExposedPorts(
             REDIS_DEFAULT_PORT,
-            REDIS_DEFAULT_TCP_PORT
+            REDIS_DEFAULT_TCP_PORT,
         )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(
-                    Wait.forListeningPort()
-                )
+                    Wait.forListeningPort(),
+                ),
         )
     }
 
     val httpHostAddress: String
         get() = containerIpAddress + ":" + getMappedPort(REDIS_DEFAULT_PORT)
 
-    fun getTcpHost(): InetSocketAddress {
-        return InetSocketAddress(containerIpAddress, getMappedPort(REDIS_DEFAULT_TCP_PORT)!!)
-    }
+    fun getTcpHost(): InetSocketAddress = InetSocketAddress(containerIpAddress, getMappedPort(REDIS_DEFAULT_TCP_PORT)!!)
 
     companion object {
-
         /**
          * Redis Default HTTP port
          */

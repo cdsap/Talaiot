@@ -24,19 +24,20 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 }
             }
             `when`("task label values are retrieved") {
-                val taskLabelNames = labelProvider.taskLabelValues(
-                    TaskLength(
-                        1,
-                        "clean",
-                        ":clean",
-                        TaskMessageState.EXECUTED,
-                        false,
-                        "app",
-                        0L,
-                        1L,
-                        "awesomeTask"
+                val taskLabelNames =
+                    labelProvider.taskLabelValues(
+                        TaskLength(
+                            1,
+                            "clean",
+                            ":clean",
+                            TaskMessageState.EXECUTED,
+                            false,
+                            "app",
+                            0L,
+                            1L,
+                            "awesomeTask",
+                        ),
                     )
-                )
                 then(" Task metric values are present") {
                     assert(taskLabelNames.contains("app"))
                     assert(taskLabelNames.contains(TaskMessageState.EXECUTED.name))
@@ -50,19 +51,20 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
                 }
             }
             `when`("report includes custom task metrics and task values are retrieved") {
-                val taskLabelNames = labelProvider.taskLabelValues(
-                    TaskLength(
-                        1,
-                        "clean",
-                        ":clean",
-                        TaskMessageState.EXECUTED,
-                        false,
-                        "app",
-                        0L,
-                        1L,
-                        "awesomeTask"
+                val taskLabelNames =
+                    labelProvider.taskLabelValues(
+                        TaskLength(
+                            1,
+                            "clean",
+                            ":clean",
+                            TaskMessageState.EXECUTED,
+                            false,
+                            "app",
+                            0L,
+                            1L,
+                            "awesomeTask",
+                        ),
                     )
-                )
                 then("custom task label values metrics are present") {
                     assert(taskLabelNames.contains("value1"))
                     assert(taskLabelNames.contains("value2"))
@@ -100,49 +102,53 @@ class PushGatewayLabelProviderTest : BehaviorSpec() {
         }
     }
 
-    private fun executionReportData(): ExecutionReport {
-        return ExecutionReport(
+    private fun executionReportData(): ExecutionReport =
+        ExecutionReport(
             durationMs = "100",
             configurationDurationMs = "10",
             requestedTasks = "assemble",
-            environment = Environment(
-                cpuCount = "12",
-                maxWorkers = "4"
-            ),
-            customProperties = CustomProperties(
-                taskProperties = mutableMapOf(
-                    "metric1" to "value1",
-                    "metric2" to "value2"
+            environment =
+                Environment(
+                    cpuCount = "12",
+                    maxWorkers = "4",
                 ),
-                buildProperties = mutableMapOf(
-                    "metric3" to "value3",
-                    "metric4" to "value4"
-                )
-            ),
-            tasks = listOf(
-                TaskLength(
-                    1,
-                    "clean",
-                    ":clean",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    0L,
-                    1L,
-                    "awesomeTask"
+            customProperties =
+                CustomProperties(
+                    taskProperties =
+                        mutableMapOf(
+                            "metric1" to "value1",
+                            "metric2" to "value2",
+                        ),
+                    buildProperties =
+                        mutableMapOf(
+                            "metric3" to "value3",
+                            "metric4" to "value4",
+                        ),
                 ),
-                TaskLength(
-                    100,
-                    "assemble",
-                    ":app:assemble",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    0L,
-                    1L,
-                    "awesomeTask"
-                )
-            )
+            tasks =
+                listOf(
+                    TaskLength(
+                        1,
+                        "clean",
+                        ":clean",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask",
+                    ),
+                    TaskLength(
+                        100,
+                        "assemble",
+                        ":app:assemble",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask",
+                    ),
+                ),
         )
-    }
 }

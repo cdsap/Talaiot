@@ -16,8 +16,9 @@ import io.github.cdsap.talaiot.metrics.TaskMetrics
  *
  * }
  */
-class InfluxDbPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
-
+class InfluxDbPublisherConfiguration :
+    PublisherConfiguration,
+    java.io.Serializable {
     override var publishBuildMetrics: Boolean = true
     override var publishTaskMetrics: Boolean = true
 
@@ -97,5 +98,5 @@ data class RetentionPolicyConfiguration(
     var duration: String = "30d",
     var shardDuration: String = "30m",
     var replicationFactor: Int = 2,
-    var isDefault: Boolean = false
+    var isDefault: Boolean = false,
 ) : java.io.Serializable

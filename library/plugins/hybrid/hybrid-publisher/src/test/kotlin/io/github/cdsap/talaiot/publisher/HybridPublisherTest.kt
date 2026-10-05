@@ -23,7 +23,6 @@ import org.testcontainers.rethinkdb.KRethinkDbContainer
 import java.net.URL
 
 class HybridPublisherTest : BehaviorSpec() {
-
     private val database = "talaiot"
     private val container = KInfluxDBContainer().withAuthEnabled(false)
     private val containerRethink = KRethinkDbContainer()
@@ -31,7 +30,10 @@ class HybridPublisherTest : BehaviorSpec() {
 
     private val r = RethinkDB.r
 
-    override fun beforeSpec(description: Description, spec: Spec) {
+    override fun beforeSpec(
+        description: Description,
+        spec: Spec,
+    ) {
         super.beforeSpec(description, spec)
         container.start()
         containerRethink.start()
@@ -54,48 +56,54 @@ class HybridPublisherTest : BehaviorSpec() {
             val logger = TestLogTrackerRecorder
 
             `when`("Reporting task publisher is PushGateway and reporting build publisher is InfluxDb") {
-                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                    dbName = database
-                    url = container.url
-                    taskMetricName = "task"
-                    buildMetricName = "build"
-                }
-                val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url = "http://" + containerPushGateway.httpHostAddress
-                    taskJobName = "tracking"
-                }
+                val influxDbConfiguration =
+                    InfluxDbPublisherConfiguration().apply {
+                        dbName = database
+                        url = container.url
+                        taskMetricName = "task"
+                        buildMetricName = "build"
+                    }
+                val pushGatewayPublisherConfiguration =
+                    PushGatewayPublisherConfiguration().apply {
+                        url = "http://" + containerPushGateway.httpHostAddress
+                        taskJobName = "tracking"
+                    }
 
-                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
-                    buildPublisher = influxDbConfiguration
-                    taskPublisher = pushGatewayPublisherConfiguration
-                }
-                val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration,
-                    logger
-                )
+                val hybridPublisherConfiguration =
+                    HybridPublisherConfiguration().apply {
+                        buildPublisher = influxDbConfiguration
+                        taskPublisher = pushGatewayPublisherConfiguration
+                    }
+                val hybridPublisher =
+                    HybridPublisher(
+                        hybridPublisherConfiguration,
+                        logger,
+                    )
 
                 then("InfluxDbPublisher only reports builds") {
                     hybridPublisher.publish(
                         ExecutionReport(
                             durationMs = "10",
                             configurationDurationMs = "1",
-                            customProperties = CustomProperties(
-                                taskProperties = getMetricsTasks()
-                            ),
-                            tasks = listOf(
-                                TaskLength(
-                                    1,
-                                    "clean",
-                                    ":clean",
-                                    TaskMessageState.EXECUTED,
-                                    false,
-                                    "app",
-                                    0L,
-                                    1L,
-                                    "awesomeCleanTask"
-                                )
-                            )
-                        )
+                            customProperties =
+                                CustomProperties(
+                                    taskProperties = getMetricsTasks(),
+                                ),
+                            tasks =
+                                listOf(
+                                    TaskLength(
+                                        1,
+                                        "clean",
+                                        ":clean",
+                                        TaskMessageState.EXECUTED,
+                                        false,
+                                        "app",
+                                        0L,
+                                        1L,
+                                        "awesomeCleanTask",
+                                    ),
+                                ),
+                        ),
                     )
                     Thread.sleep(2000)
                     logger.containsLog("PushGatewayPublisher")
@@ -119,40 +127,44 @@ class HybridPublisherTest : BehaviorSpec() {
                 }
             }
             `when`("Reporting task publisher is PushGateway and reporting build publisher is incorrect") {
-                val pushGatewayPublisherConfiguration = PushGatewayPublisherConfiguration().apply {
-                    url = "http://" + containerPushGateway.httpHostAddress
-                    taskJobName = "tracking"
-                }
+                val pushGatewayPublisherConfiguration =
+                    PushGatewayPublisherConfiguration().apply {
+                        url = "http://" + containerPushGateway.httpHostAddress
+                        taskJobName = "tracking"
+                    }
 
                 val outputPublisherConfiguration = PublisherTestConfiguration()
 
-                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
-                    buildPublisher = outputPublisherConfiguration
-                    taskPublisher = pushGatewayPublisherConfiguration
-                }
-                val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration,
-                    logger
-                )
+                val hybridPublisherConfiguration =
+                    HybridPublisherConfiguration().apply {
+                        buildPublisher = outputPublisherConfiguration
+                        taskPublisher = pushGatewayPublisherConfiguration
+                    }
+                val hybridPublisher =
+                    HybridPublisher(
+                        hybridPublisherConfiguration,
+                        logger,
+                    )
 
                 then("Error is notified") {
                     hybridPublisher.publish(
                         ExecutionReport(
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
-                            tasks = listOf(
-                                TaskLength(
-                                    1,
-                                    "clean",
-                                    ":clean",
-                                    TaskMessageState.EXECUTED,
-                                    false,
-                                    "app",
-                                    0L,
-                                    1L,
-                                    "awesomeCleanTask"
-                                )
-                            )
-                        )
+                            tasks =
+                                listOf(
+                                    TaskLength(
+                                        1,
+                                        "clean",
+                                        ":clean",
+                                        TaskMessageState.EXECUTED,
+                                        false,
+                                        "app",
+                                        0L,
+                                        1L,
+                                        "awesomeCleanTask",
+                                    ),
+                                ),
+                        ),
                     )
                     Thread.sleep(2000)
                     logger.containsLog("HybridPublisher: Not supported Publisher. Current Publishers supported by HybridPublisher: ")
@@ -160,79 +172,87 @@ class HybridPublisherTest : BehaviorSpec() {
             }
             `when`("Reporting task publisher is null and reporting build publisher is null") {
 
-                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
-                    buildPublisher = null
-                    taskPublisher = null
-                }
-                val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration,
-                    logger
-                )
+                val hybridPublisherConfiguration =
+                    HybridPublisherConfiguration().apply {
+                        buildPublisher = null
+                        taskPublisher = null
+                    }
+                val hybridPublisher =
+                    HybridPublisher(
+                        hybridPublisherConfiguration,
+                        logger,
+                    )
 
                 then("Validation inform the error of null publishers") {
                     hybridPublisher.publish(
                         ExecutionReport(
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
-                            tasks = listOf(
-                                TaskLength(
-                                    1,
-                                    "clean",
-                                    ":clean",
-                                    TaskMessageState.EXECUTED,
-                                    false,
-                                    "app",
-                                    0L,
-                                    1L,
-                                    "awesomeCleanTask"
-                                )
-                            )
-                        )
+                            tasks =
+                                listOf(
+                                    TaskLength(
+                                        1,
+                                        "clean",
+                                        ":clean",
+                                        TaskMessageState.EXECUTED,
+                                        false,
+                                        "app",
+                                        0L,
+                                        1L,
+                                        "awesomeCleanTask",
+                                    ),
+                                ),
+                        ),
                     )
                     Thread.sleep(2000)
                     logger.containsLog("HybridPublisher-Error: BuildPublisher and TaskPublisher are null. Not publisher will be executed ")
                 }
             }
             `when`("Reporting task publisher is RethinkDbPublisher and reporting build publisher is InfluxDb") {
-                val influxDbConfiguration = InfluxDbPublisherConfiguration().apply {
-                    dbName = database
-                    url = container.url
-                    taskMetricName = "task"
-                    buildMetricName = "build"
-                }
-                val rethinkDbPublisherConfiguration = RethinkDbPublisherConfiguration().apply {
-                    url = "http://" + containerRethink.httpHostAddress
-                    dbName = "tracking"
-                    taskTableName = "tasks"
-                    buildTableName = "build"
-                }
+                val influxDbConfiguration =
+                    InfluxDbPublisherConfiguration().apply {
+                        dbName = database
+                        url = container.url
+                        taskMetricName = "task"
+                        buildMetricName = "build"
+                    }
+                val rethinkDbPublisherConfiguration =
+                    RethinkDbPublisherConfiguration().apply {
+                        url = "http://" + containerRethink.httpHostAddress
+                        dbName = "tracking"
+                        taskTableName = "tasks"
+                        buildTableName = "build"
+                    }
 
-                val hybridPublisherConfiguration = HybridPublisherConfiguration().apply {
-                    buildPublisher = influxDbConfiguration
-                    taskPublisher = rethinkDbPublisherConfiguration
-                }
-                val hybridPublisher = HybridPublisher(
-                    hybridPublisherConfiguration,
-                    logger
-                )
+                val hybridPublisherConfiguration =
+                    HybridPublisherConfiguration().apply {
+                        buildPublisher = influxDbConfiguration
+                        taskPublisher = rethinkDbPublisherConfiguration
+                    }
+                val hybridPublisher =
+                    HybridPublisher(
+                        hybridPublisherConfiguration,
+                        logger,
+                    )
 
                 then("RethinkDbPublisher only reports builds") {
                     hybridPublisher.publish(
                         ExecutionReport(
                             customProperties = CustomProperties(taskProperties = getMetricsTasks()),
-                            tasks = listOf(
-                                TaskLength(
-                                    1,
-                                    "clean",
-                                    ":clean",
-                                    TaskMessageState.EXECUTED,
-                                    false,
-                                    "app",
-                                    0L,
-                                    1L,
-                                    "awesomeCleanTask"
-                                )
-                            )
-                        )
+                            tasks =
+                                listOf(
+                                    TaskLength(
+                                        1,
+                                        "clean",
+                                        ":clean",
+                                        TaskMessageState.EXECUTED,
+                                        false,
+                                        "app",
+                                        0L,
+                                        1L,
+                                        "awesomeCleanTask",
+                                    ),
+                                ),
+                        ),
                     )
                     Thread.sleep(2000)
                     logger.containsLog("RethinkDbPublisher")
@@ -240,11 +260,15 @@ class HybridPublisherTest : BehaviorSpec() {
 
                     val conn = getConnection(rethinkDbPublisherConfiguration.url)
                     val existsTableTasks =
-                        r.db(rethinkDbPublisherConfiguration.dbName).tableList()
+                        r
+                            .db(rethinkDbPublisherConfiguration.dbName)
+                            .tableList()
                             .contains(rethinkDbPublisherConfiguration.taskTableName)
                             .run<Boolean>(conn)
                     val existsTableBuilds =
-                        r.db(rethinkDbPublisherConfiguration.dbName).tableList()
+                        r
+                            .db(rethinkDbPublisherConfiguration.dbName)
+                            .tableList()
                             .contains(rethinkDbPublisherConfiguration.buildTableName)
                             .run<Boolean>(conn)
                     assert(!existsTableBuilds)
@@ -254,16 +278,19 @@ class HybridPublisherTest : BehaviorSpec() {
         }
     }
 
-    fun getMetricsTasks(): MutableMap<String, Any> {
-        return mutableMapOf(
+    fun getMetricsTasks(): MutableMap<String, Any> =
+        mutableMapOf(
             "metric1" to "value1",
-            "metric2" to "value2"
+            "metric2" to "value2",
         )
-    }
 
     private fun getConnection(url: String): Connection {
         val url = URL(url)
-        return r.connection().hostname(url.host).port(url.port).connect()
+        return r
+            .connection()
+            .hostname(url.host)
+            .port(url.port)
+            .connect()
     }
 
     class PublisherTestConfiguration : PublisherConfiguration {
