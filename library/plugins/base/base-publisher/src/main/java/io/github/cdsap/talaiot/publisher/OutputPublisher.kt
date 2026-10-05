@@ -16,37 +16,39 @@ class OutputPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
-    private val TAG = "OutputPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "OutputPublisher"
 
     override fun publish(report: ExecutionReport) {
-        logTracker.log(TAG, "================")
-        logTracker.log(TAG, "OutputPublisher")
-        logTracker.log(TAG, "publishBuildMetrics: ${outputPublisherConfiguration.publishBuildMetrics}")
-        logTracker.log(TAG, "publishTaskMetrics: ${outputPublisherConfiguration.publishTaskMetrics}")
-        logTracker.log(TAG, "================")
+        logTracker.log(tag, "================")
+        logTracker.log(tag, "OutputPublisher")
+        logTracker.log(tag, "publishBuildMetrics: ${outputPublisherConfiguration.publishBuildMetrics}")
+        logTracker.log(tag, "publishTaskMetrics: ${outputPublisherConfiguration.publishTaskMetrics}")
+        logTracker.log(tag, "================")
 
         if (outputPublisherConfiguration.publishTaskMetrics) {
             report.tasks?.apply {
                 val orderedTiming = sort(this, outputPublisherConfiguration.order)
                 if (!orderedTiming.isEmpty()) {
-                    val max = when (outputPublisherConfiguration.order) {
-                        Order.ASC -> orderedTiming.last().ms
-                        Order.DESC -> orderedTiming.first().ms
-                    }
-                    val limit = when {
-                        outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
-                        outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
-                        else -> orderedTiming.size
-                    }
+                    val max =
+                        when (outputPublisherConfiguration.order) {
+                            Order.ASC -> orderedTiming.last().ms
+                            Order.DESC -> orderedTiming.first().ms
+                        }
+                    val limit =
+                        when {
+                            outputPublisherConfiguration.numberOfTasks < 0 -> orderedTiming.size
+                            outputPublisherConfiguration.numberOfTasks <= orderedTiming.size -> outputPublisherConfiguration.numberOfTasks
+                            else -> orderedTiming.size
+                        }
 
                     for (i in 0 until limit) {
                         val x = if (max == 0L) 0 else (orderedTiming[i].ms * MAX_UNIT.length) / max
                         val shrug = MAX_UNIT.substring(0, x.toInt())
                         val maskMs = maskMs(orderedTiming[i].ms)
-                        logTracker.log(TAG, "$shrug ${orderedTiming[i].taskName}: $maskMs : ${orderedTiming[i].state} ")
+                        logTracker.log(tag, "$shrug ${orderedTiming[i].taskName}: $maskMs : ${orderedTiming[i].state} ")
                     }
                 }
             }
@@ -61,7 +63,10 @@ class OutputPublisher(
      *
      * @return list of Task ordered
      */
-    private fun sort(items: List<TaskLength>, order: Order): List<TaskLength> {
+    private fun sort(
+        items: List<TaskLength>,
+        order: Order,
+    ): List<TaskLength> {
         if (items.count() < 2) {
             return items
         }

@@ -8,7 +8,6 @@ import org.influxdb.dto.Query
 import org.testcontainers.influxdb.KInfluxDBContainer
 
 class InfluxDbPluginTest : BehaviorSpec() {
-
     val container = KInfluxDBContainer().withAuthEnabled(false)
 
     override fun beforeSpec(spec: Spec) {
@@ -48,9 +47,10 @@ class InfluxDbPluginTest : BehaviorSpec() {
                       }
                     }
                   }
-            """
+            """,
                 )
-                GradleRunner.create()
+                GradleRunner
+                    .create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()

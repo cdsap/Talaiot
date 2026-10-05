@@ -6,8 +6,9 @@ import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisherConfiguration
 import org.gradle.api.Project
 
-class ElasticSearchConfiguration(project: Project) : PublishersConfiguration(project) {
-
+class ElasticSearchConfiguration(
+    project: Project,
+) : PublishersConfiguration(project) {
     var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
 
     /**

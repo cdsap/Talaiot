@@ -10,11 +10,12 @@ class ThresholdConfiguration : java.io.Serializable {
      */
     var minExecutionTime: Long = 0
         set(value) {
-            field = if (value < 0) {
-                0
-            } else {
-                value
-            }
+            field =
+                if (value < 0) {
+                    0
+                } else {
+                    value
+                }
         }
 
     /**
@@ -22,10 +23,11 @@ class ThresholdConfiguration : java.io.Serializable {
      */
     var maxExecutionTime: Long = Long.MAX_VALUE
         set(value) {
-            field = if (value < 0) {
-                Long.MAX_VALUE
-            } else {
-                value
-            }
+            field =
+                if (value < 0) {
+                    Long.MAX_VALUE
+                } else {
+                    value
+                }
         }
 }

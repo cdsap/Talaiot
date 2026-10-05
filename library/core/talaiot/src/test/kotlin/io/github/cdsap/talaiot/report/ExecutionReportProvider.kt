@@ -8,110 +8,112 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.entities.TaskMessageState
 
 object ExecutionReportProvider {
-
-    fun simpleExecutionReport(): ExecutionReport {
-        return ExecutionReport(
+    fun simpleExecutionReport(): ExecutionReport =
+        ExecutionReport(
             success = true,
             configurationDurationMs = "20",
-            durationMs = "10"
+            durationMs = "10",
         )
-    }
 
-    fun executionReport(): ExecutionReport {
-        return ExecutionReport(
+    fun executionReport(): ExecutionReport =
+        ExecutionReport(
             requestedTasks = "assemble",
             durationMs = "10",
             success = true,
-            environment = Environment(
-                cpuCount = "12",
-                maxWorkers = "4"
-            ),
-            customProperties = CustomProperties(
-                taskProperties = getMetricsTasks(),
-                buildProperties = getMetricsBuild()
-            ),
-
-            tasks = listOf(
-                TaskLength(
-                    1,
-                    "assemble",
-                    ":assemble",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    startMs = 0L,
-                    stopMs = 1L,
-                    type = "awesomeTask"
-                )
-            )
+            environment =
+                Environment(
+                    cpuCount = "12",
+                    maxWorkers = "4",
+                ),
+            customProperties =
+                CustomProperties(
+                    taskProperties = getMetricsTasks(),
+                    buildProperties = getMetricsBuild(),
+                ),
+            tasks =
+                listOf(
+                    TaskLength(
+                        1,
+                        "assemble",
+                        ":assemble",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        startMs = 0L,
+                        stopMs = 1L,
+                        type = "awesomeTask",
+                    ),
+                ),
         )
-    }
 
-    fun completeExecutionReport() = ExecutionReport(
-        beginMs = "1.590661991331E12",
-        endMs = "1243",
-        durationMs = "10",
-        buildId = "12",
-        rootProject = "app",
-        requestedTasks = "app:assembleDebug",
-        buildInvocationId = "123",
-        configurationDurationMs = "32",
-        configurationCacheHit = false,
-        environment = Environment(
-            cpuCount = "4",
-            osVersion = "Linux 1.4",
-            maxWorkers = "2",
-            javaRuntime = "1.2",
-            locale = "EN-us",
-            username = "user",
-            defaultChartset = "default",
-            ideVersion = "2.1",
-            gradleVersion = "6.2.2",
-            cacheUrl = "cacheUrl",
-            cacheStore = "10",
-            gitBranch = "git_branch",
-            gitUser = "git_user",
-            switches = Switches(
-                daemon = "true",
-                offline = "true"
-            ),
-            hostname = "localMachine"
-        ),
-        success = true,
-        customProperties = CustomProperties(
-            taskProperties = getMetricsTasks(),
-            buildProperties = getMetricsBuild()
-        ),
-        tasks = listOf(
-            TaskLength(
-                1,
-                "clean",
-                ":clean",
-                TaskMessageState.EXECUTED,
-                false,
-                "app",
-                startMs = 0L,
-                stopMs = 1L,
-                type = "awesomeTask"
-            )
+    fun completeExecutionReport() =
+        ExecutionReport(
+            beginMs = "1.590661991331E12",
+            endMs = "1243",
+            durationMs = "10",
+            buildId = "12",
+            rootProject = "app",
+            requestedTasks = "app:assembleDebug",
+            buildInvocationId = "123",
+            configurationDurationMs = "32",
+            configurationCacheHit = false,
+            environment =
+                Environment(
+                    cpuCount = "4",
+                    osVersion = "Linux 1.4",
+                    maxWorkers = "2",
+                    javaRuntime = "1.2",
+                    locale = "EN-us",
+                    username = "user",
+                    defaultChartset = "default",
+                    ideVersion = "2.1",
+                    gradleVersion = "6.2.2",
+                    cacheUrl = "cacheUrl",
+                    cacheStore = "10",
+                    gitBranch = "git_branch",
+                    gitUser = "git_user",
+                    switches =
+                        Switches(
+                            daemon = "true",
+                            offline = "true",
+                        ),
+                    hostname = "localMachine",
+                ),
+            success = true,
+            customProperties =
+                CustomProperties(
+                    taskProperties = getMetricsTasks(),
+                    buildProperties = getMetricsBuild(),
+                ),
+            tasks =
+                listOf(
+                    TaskLength(
+                        1,
+                        "clean",
+                        ":clean",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        startMs = 0L,
+                        stopMs = 1L,
+                        type = "awesomeTask",
+                    ),
+                ),
         )
-    )
 
-    fun getMetricsTasks(): MutableMap<String, Any> {
-        return mutableMapOf(
+    fun getMetricsTasks(): MutableMap<String, Any> =
+        mutableMapOf(
             "metric1" to "value1",
             "metric2" to "value2",
             "metric3" to 1,
-            "metric4" to 9L
+            "metric4" to 9L,
         )
-    }
 
-    fun getMetricsBuild(): MutableMap<String, Any> {
-        return mutableMapOf(
+    fun getMetricsBuild(): MutableMap<String, Any> =
+        mutableMapOf(
             "metric3" to "value3",
             "metric4" to "value4",
             "metric3" to 1,
-            "metric4" to 9L
+            "metric4" to 9L,
         )
-    }
 }

@@ -7,9 +7,8 @@ import io.github.cdsap.talaiot.logger.LogTracker
 
 class TaskFilterProcessor(
     val logTracker: LogTracker,
-    val filter: FilterConfiguration?
+    val filter: FilterConfiguration?,
 ) : java.io.Serializable {
-
     fun taskLengthFilter(taskLength: TaskLength): Boolean {
         var isTaskIncluded = true
         var isModuleIncluded = true
@@ -31,17 +30,18 @@ class TaskFilterProcessor(
 
     private fun executeFilterProcessor(
         filter: StringFilter,
-        argument: String
-    ): Boolean {
-        return with(StringFilterProcessor(filter, logTracker)) {
+        argument: String,
+    ): Boolean =
+        with(StringFilterProcessor(filter, logTracker)) {
             matches(argument)
         }
-    }
 
-    private fun threshold(thresholdConfiguration: ThresholdConfiguration?, task: TaskLength) =
-        if (thresholdConfiguration == null) {
-            true
-        } else {
-            task.ms in thresholdConfiguration.minExecutionTime..thresholdConfiguration.maxExecutionTime
-        }
+    private fun threshold(
+        thresholdConfiguration: ThresholdConfiguration?,
+        task: TaskLength,
+    ) = if (thresholdConfiguration == null) {
+        true
+    } else {
+        task.ms in thresholdConfiguration.minExecutionTime..thresholdConfiguration.maxExecutionTime
+    }
 }

@@ -17,9 +17,10 @@ class PushGatewayPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-    private val TAG = "PushGatewayPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "PushGatewayPublisher"
 
     override fun publish(report: ExecutionReport) {
         if (pushGatewayPublisherConfiguration.url.isEmpty() ||
@@ -31,7 +32,7 @@ class PushGatewayPublisher(
                     "            url = \"http://localhost:9093\"\n" +
                     "            taskJobName = \"tracking\"\n" +
                     "}\n" +
-                    "Please update your configuration"
+                    "Please update your configuration",
             )
         } else {
             val url = pushGatewayPublisherConfiguration.url
@@ -40,14 +41,14 @@ class PushGatewayPublisher(
             val urlNoProtocol = url.replace("https://", "").replace("http://", "")
             val pushgatewayLabelProvider = PushGatewayLabelProvider(report)
 
-            logTracker.log(TAG, "================")
-            logTracker.log(TAG, "publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
-            logTracker.log(TAG, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
-            logTracker.log(TAG, "================")
+            logTracker.log(tag, "================")
+            logTracker.log(tag, "publishBuildMetrics: ${pushGatewayPublisherConfiguration.publishBuildMetrics}")
+            logTracker.log(tag, "publishTaskMetrics: ${pushGatewayPublisherConfiguration.publishTaskMetrics}")
+            logTracker.log(tag, "================")
 
             if (pushGatewayPublisherConfiguration.publishTaskMetrics) {
-                logTracker.log(TAG, "Inserting PushGateway Task metrics")
-                logTracker.log(TAG, "url: $urlBuildMetrics")
+                logTracker.log(tag, "Inserting PushGateway Task metrics")
+                logTracker.log(tag, "url: $urlBuildMetrics")
                 val registry = CollectorRegistry()
                 PushGatewayTaskCollector(report, registry, pushgatewayLabelProvider)
                     .collect()
@@ -56,8 +57,8 @@ class PushGatewayPublisher(
             }
 
             if (pushGatewayPublisherConfiguration.publishBuildMetrics) {
-                logTracker.log(TAG, "Inserting PushGateway Build metrics")
-                logTracker.log(TAG, "url: $urlTaskMetrics")
+                logTracker.log(tag, "Inserting PushGateway Build metrics")
+                logTracker.log(tag, "url: $urlTaskMetrics")
                 val registry = CollectorRegistry()
                 PushGatewayBuildCollector(report, registry, pushgatewayLabelProvider)
                     .collect()

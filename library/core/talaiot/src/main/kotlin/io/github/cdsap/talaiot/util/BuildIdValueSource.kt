@@ -5,7 +5,5 @@ import org.gradle.api.provider.ValueSourceParameters
 import java.util.UUID
 
 abstract class BuildIdValueSource : ValueSource<String, ValueSourceParameters.None> {
-    override fun obtain(): String {
-        return UUID.randomUUID().toString()
-    }
+    override fun obtain(): String = UUID.randomUUID().toString()
 }

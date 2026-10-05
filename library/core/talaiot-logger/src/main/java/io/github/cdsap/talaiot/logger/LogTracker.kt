@@ -9,10 +9,13 @@ interface LogTracker : java.io.Serializable {
      */
     enum class Mode {
         SILENT,
-        INFO
+        INFO,
     }
 
-    fun log(tag: String, message: String)
+    fun log(
+        tag: String,
+        message: String,
+    )
 
     fun error(message: String)
 }

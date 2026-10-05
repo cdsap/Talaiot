@@ -6,8 +6,9 @@ import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisherConfiguration
 import org.gradle.api.Project
 
-class PushgatewayConfiguration(project: Project) : PublishersConfiguration(project) {
-
+class PushgatewayConfiguration(
+    project: Project,
+) : PublishersConfiguration(project) {
     var pushGatewayPublisher: PushGatewayPublisherConfiguration? = null
 
     /**

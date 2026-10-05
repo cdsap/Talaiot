@@ -12,19 +12,22 @@ import java.net.UnknownHostException
 import java.nio.charset.Charset
 import java.util.UUID
 
-open class SimpleMetric<T>(provider: (Unit) -> T, assigner: (ExecutionReport, T) -> Unit) :
-    Metric<T, Unit>(provider, assigner)
+open class SimpleMetric<T>(
+    provider: (Unit) -> T,
+    assigner: (ExecutionReport, T) -> Unit,
+) : Metric<T, Unit>(provider, assigner)
 
 class OsMetric :
     SimpleMetric<String>(
         provider = { "${OperatingSystem.current().name}-${OperatingSystem.current().version}" },
-        assigner = { report, value -> report.environment.osVersion = value }
+        assigner = { report, value -> report.environment.osVersion = value },
     )
 
-class BuildIdMetric : SimpleMetric<String>(
-    provider = { UUID.randomUUID().toString() },
-    assigner = { report, value -> report.buildId = value }
-)
+class BuildIdMetric :
+    SimpleMetric<String>(
+        provider = { UUID.randomUUID().toString() },
+        assigner = { report, value -> report.buildId = value },
+    )
 
 /**
  * As described in the source of gradle:
@@ -37,36 +40,41 @@ class BuildIdMetric : SimpleMetric<String>(
  *
  * This ID is, by definition, not persistent.
  */
-class GradleBuildInvocationIdMetric : GradleMetric<String>(
-    provider = { project: Project -> (project.gradle as GradleInternal).services[BuildScanScopeIds::class.java].buildInvocationId },
-    assigner = { report, value -> report.buildInvocationId = value }
-)
+class GradleBuildInvocationIdMetric :
+    GradleMetric<String>(
+        provider = { project: Project -> (project.gradle as GradleInternal).services[BuildScanScopeIds::class.java].buildInvocationId },
+        assigner = { report, value -> report.buildInvocationId = value },
+    )
 
-class ProcessorCountMetric : SimpleMetric<String>(
-    provider = { Runtime.getRuntime().availableProcessors().toString() },
-    assigner = { report, value -> report.environment.cpuCount = value }
-)
+class ProcessorCountMetric :
+    SimpleMetric<String>(
+        provider = { Runtime.getRuntime().availableProcessors().toString() },
+        assigner = { report, value -> report.environment.cpuCount = value },
+    )
 
-class JavaVmNameMetric : SimpleMetric<String>(
-    provider = { System.getProperty("java.runtime.version") },
-    assigner = { report, value -> report.environment.javaVmName = value }
-)
+class JavaVmNameMetric :
+    SimpleMetric<String>(
+        provider = { System.getProperty("java.runtime.version") },
+        assigner = { report, value -> report.environment.javaVmName = value },
+    )
 
-class HostnameMetric : SimpleMetric<String>(
-    provider = {
-        try {
-            InetAddress.getLocalHost().hostName
-        } catch (e: UnknownHostException) {
-            // Issue https://github.com/cdsap/Talaiot/issues/314
-            // InetAddress.getLocalHost() ignores the /etc/resolv.conf, but only looks at the /etc/hosts file
-            // https://stackoverflow.com/a/1881967
-            ""
-        }
-    },
-    assigner = { report, value -> report.environment.hostname = value }
-)
+class HostnameMetric :
+    SimpleMetric<String>(
+        provider = {
+            try {
+                InetAddress.getLocalHost().hostName
+            } catch (e: UnknownHostException) {
+                // Issue https://github.com/cdsap/Talaiot/issues/314
+                // InetAddress.getLocalHost() ignores the /etc/resolv.conf, but only looks at the /etc/hosts file
+                // https://stackoverflow.com/a/1881967
+                ""
+            }
+        },
+        assigner = { report, value -> report.environment.hostname = value },
+    )
 
-class DefaultCharsetMetric : SimpleMetric<String>(
-    provider = { Charset.defaultCharset().toString() },
-    assigner = { report, value -> report.environment.defaultChartset = value }
-)
+class DefaultCharsetMetric :
+    SimpleMetric<String>(
+        provider = { Charset.defaultCharset().toString() },
+        assigner = { report, value -> report.environment.defaultChartset = value },
+    )

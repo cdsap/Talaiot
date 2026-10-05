@@ -11,82 +11,84 @@ import io.kotlintest.specs.StringSpec
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
-class DefaultConfigurationSpec : StringSpec({
-    "given default config" {
-        forAll(
-            listOf(
-                "8.14.3",
-                "9.1.0",
-                "9.2.0"
-            )
-        ) { version: String ->
-            val testProjectDir = TemporaryFolder()
+class DefaultConfigurationSpec :
+    StringSpec({
+        "given default config" {
+            forAll(
+                listOf(
+                    "8.14.3",
+                    "9.1.0",
+                    "9.2.0",
+                ),
+            ) { version: String ->
+                val testProjectDir = TemporaryFolder()
 
-            testProjectDir.create()
-            val buildFile = testProjectDir.newFile("build.gradle.kts")
-            buildFile.appendText(
-                """
-                import io.github.cdsap.talaiot.publisher.JsonPublisher
-                plugins {
-                    id ("java")
-                    id ("io.github.cdsap.talaiot")
-                }
-
-                talaiot {
-                    logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                    publishers {
-                         jsonPublisher = true
-                         customPublishers.add(CustomPublisher())
+                testProjectDir.create()
+                val buildFile = testProjectDir.newFile("build.gradle.kts")
+                buildFile.appendText(
+                    """
+                    import io.github.cdsap.talaiot.publisher.JsonPublisher
+                    plugins {
+                        id ("java")
+                        id ("io.github.cdsap.talaiot")
                     }
 
-                }
-                class CustomPublisher : io.github.cdsap.talaiot.publisher.Publisher {
-
-                    override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
-                        println("[CustomPublisher] : Number of tasks = ")
+                    talaiot {
+                        logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                        publishers {
+                             jsonPublisher = true
+                             customPublishers.add(CustomPublisher())
+                        }
 
                     }
+                    class CustomPublisher : io.github.cdsap.talaiot.publisher.Publisher {
+
+                        override fun publish(report: io.github.cdsap.talaiot.entities.ExecutionReport) {
+                            println("[CustomPublisher] : Number of tasks = ")
+
+                        }
+                    }
+
+                    """.trimIndent(),
+                )
+                GradleRunner
+                    .create()
+                    .withProjectDir(testProjectDir.getRoot())
+                    .withArguments("assemble", "--info", "--stacktrace")
+                    .withPluginClasspath()
+                    .withGradleVersion(version)
+                    .build()
+                Thread.sleep(5000)
+                val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
+                val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
+
+                testProjectDir.delete()
+                report.environment.gradleVersion shouldBe version
+                report.beginMs shouldNotBe null
+                report.endMs shouldNotBe null
+                report.durationMs shouldNotBe null
+
+                report.configurationDurationMs shouldNotBe null
+
+                val tasks = report.tasks!!
+                tasks.size shouldBe 5
+                tasks.count { it.rootNode } shouldBe 1
+                tasks.first { it.taskName.contains("processResources") }.state shouldBe TaskMessageState.SKIPPED
+                tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
+
+                report.requestedTasks shouldBe "assemble"
+                report.rootProject shouldNotBe null
+                report.success shouldBe true
+
+                tasks.forEach {
+                    it.ms shouldNotBe null
+                    it.taskName shouldNotBe null
+                    it.taskPath shouldNotBe null
+                    it.state shouldNotBe null
+                    it.module shouldNotBe null
+                    it.startMs shouldNotBe null
+                    it.stopMs shouldNotBe null
                 }
-
-                """.trimIndent()
-            )
-            GradleRunner.create()
-                .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--stacktrace")
-                .withPluginClasspath()
-                .withGradleVersion(version)
-                .build()
-            Thread.sleep(5000)
-            val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
-            val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
-
-            testProjectDir.delete()
-            report.environment.gradleVersion shouldBe version
-            report.beginMs shouldNotBe null
-            report.endMs shouldNotBe null
-            report.durationMs shouldNotBe null
-
-            report.configurationDurationMs shouldNotBe null
-
-            val tasks = report.tasks!!
-            tasks.size shouldBe 5
-            tasks.count { it.rootNode } shouldBe 1
-            tasks.first { it.taskName.contains("processResources") }.state shouldBe TaskMessageState.SKIPPED
-            tasks.find { it.rootNode }!!.taskName shouldBe "assemble"
-
-            report.requestedTasks shouldBe "assemble"
-            report.rootProject shouldNotBe null
-            report.success shouldBe true
-
-            tasks.forEach {
-                it.ms shouldNotBe null
-                it.taskName shouldNotBe null
-                it.taskPath shouldNotBe null
-                it.state shouldNotBe null
-                it.module shouldNotBe null
-                it.startMs shouldNotBe null
-                it.stopMs shouldNotBe null
             }
         }
-    }
-})
+    })

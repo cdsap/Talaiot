@@ -9,8 +9,7 @@ import java.net.InetSocketAddress
 /**
  * Custom TestContainer to support E2E tests for RethinkDb
  */
-open class RethinkDbContainer :
-    GenericContainer<RethinkDbContainer>("$RETHINKDB_DEFAULT_IMAGE:$RETHINKDB_DEFAULT_VERSION") {
+open class RethinkDbContainer : GenericContainer<RethinkDbContainer>("$RETHINKDB_DEFAULT_IMAGE:$RETHINKDB_DEFAULT_VERSION") {
     init {
 
         logger().info("Starting an RethinkDb container using [{}]", dockerImageName)
@@ -18,25 +17,22 @@ open class RethinkDbContainer :
         withEnv("discovery.type", "single-node")
         addExposedPorts(
             RETHINKDB_DEFAULT_PORT,
-            RETHINKDB_DEFAULT_TCP_PORT
+            RETHINKDB_DEFAULT_TCP_PORT,
         )
         setWaitStrategy(
             WaitAllStrategy()
                 .withStrategy(
-                    Wait.forListeningPort()
-                )
+                    Wait.forListeningPort(),
+                ),
         )
     }
 
     val httpHostAddress: String
         get() = containerIpAddress + ":" + getMappedPort(RETHINKDB_DEFAULT_PORT)
 
-    fun getTcpHost(): InetSocketAddress {
-        return InetSocketAddress(containerIpAddress, getMappedPort(RETHINKDB_DEFAULT_TCP_PORT)!!)
-    }
+    fun getTcpHost(): InetSocketAddress = InetSocketAddress(containerIpAddress, getMappedPort(RETHINKDB_DEFAULT_TCP_PORT)!!)
 
     companion object {
-
         /**
          * RethinkDb Default HTTP port
          */

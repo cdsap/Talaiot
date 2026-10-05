@@ -6,9 +6,8 @@ import io.prometheus.client.CollectorRegistry
 class PushGatewayTaskCollector(
     val report: ExecutionReport,
     private val registry: CollectorRegistry,
-    private val pushGatewayLabelProvider: PushGatewayLabelProvider
+    private val pushGatewayLabelProvider: PushGatewayLabelProvider,
 ) : PushGatewayCollector {
-
     override fun collect() {
         report.tasks?.forEach {
             val labelValuesTask = pushGatewayLabelProvider.taskLabelValues(it).toTypedArray()
@@ -20,7 +19,7 @@ class PushGatewayTaskCollector(
                 (it.ms).toDouble(),
                 registry,
                 labelNamesTask,
-                labelValuesTask
+                labelValuesTask,
             )
         }
     }

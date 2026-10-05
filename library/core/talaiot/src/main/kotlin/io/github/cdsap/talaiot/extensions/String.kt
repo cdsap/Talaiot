@@ -9,12 +9,13 @@ fun String.toBytes(): String? {
     if (matcher.find()) {
         val number = matcher.group(1)
 
-        val pow = when (matcher.group(2).uppercase()) {
-            "G" -> 3
-            "M" -> 2
-            "K" -> 1
-            else -> return null
-        }
+        val pow =
+            when (matcher.group(2).uppercase()) {
+                "G" -> 3
+                "M" -> 2
+                "K" -> 1
+                else -> return null
+            }
 
         var bytes = BigDecimal(number)
         bytes = bytes.multiply(BigDecimal.valueOf(1024).pow(pow))

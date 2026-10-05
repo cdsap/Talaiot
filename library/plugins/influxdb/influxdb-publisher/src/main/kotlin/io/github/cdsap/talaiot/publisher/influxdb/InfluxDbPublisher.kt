@@ -28,10 +28,10 @@ class InfluxDbPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
-    private val TAG = "InfluxDbPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "InfluxDbPublisher"
 
     override fun publish(report: ExecutionReport) {
         if (influxDbPublisherConfiguration.url.isEmpty() ||
@@ -47,15 +47,17 @@ class InfluxDbPublisher(
                     "            buildMetricName = \"build\"\n" +
                     "            taskMetricName = \"task\"\n" +
                     "}\n" +
-                    "Please update your configuration"
+                    "Please update your configuration",
             )
             return
         }
 
         try {
-            val pointsBuilder = BatchPoints.builder()
-                // See https://github.com/influxdata/influxdb-java/issues/373
-                .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
+            val pointsBuilder =
+                BatchPoints
+                    .builder()
+                    // See https://github.com/influxdata/influxdb-java/issues/373
+                    .retentionPolicy(influxDbPublisherConfiguration.retentionPolicyConfiguration.name)
 
             if (influxDbPublisherConfiguration.publishTaskMetrics) {
                 val measurements = createTaskPoints(report)
@@ -69,65 +71,68 @@ class InfluxDbPublisher(
                 pointsBuilder.point(buildMeasurement)
             }
             //    executor.execute {
-            logTracker.log(TAG, "================")
-            logTracker.log(TAG, "InfluxDbPublisher")
+            logTracker.log(tag, "================")
+            logTracker.log(tag, "InfluxDbPublisher")
             logTracker.log(
-                TAG,
-                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+                tag,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}",
             )
             logTracker.log(
-                TAG,
-                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+                tag,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}",
             )
-            logTracker.log(TAG, "================")
+            logTracker.log(tag, "================")
 
             try {
-                val _db = createDb()
+                val db = createDb()
                 val points = pointsBuilder.build()
-                logTracker.log(TAG, "Sending points to InfluxDb server $points")
-                _db.write(points)
+                logTracker.log(tag, "Sending points to InfluxDb server $points")
+                db.write(points)
             } catch (e: Exception) {
-                logTracker.log(TAG, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
+                logTracker.log(tag, "InfluxDbPublisher-Error-Executor Runnable: ${e.message}")
             }
             //       }
         } catch (e: Exception) {
-            logTracker.log(TAG, "InfluxDbPublisher-Error ${e.stackTrace}")
+            logTracker.log(tag, "InfluxDbPublisher-Error ${e.stackTrace}")
             when (e) {
                 is InfluxDBIOException -> {
-                    logTracker.log(TAG, "InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
+                    logTracker.log(tag, "InfluxDbPublisher-Error-InfluxDBIOException: ${e.message}")
                 }
                 is InfluxDBException -> {
-                    logTracker.log(TAG, "InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
+                    logTracker.log(tag, "InfluxDbPublisher-Error-InfluxDBException: ${e.message}")
                 }
                 else -> {
-                    logTracker.log(TAG, "InfluxDbPublisher-Error-Exception: ${e.message}")
+                    logTracker.log(tag, "InfluxDbPublisher-Error-Exception: ${e.message}")
                 }
             }
         }
     }
 
-    private fun createTaskPoints(report: ExecutionReport): List<Point>? {
-        return report.tasks?.map { task ->
-            val tagFieldProvider = TagFieldProvider(
-                influxDbPublisherConfiguration.taskTags,
-                DefaultTaskDataProvider(task, report),
-                report.customProperties.taskProperties
-            )
-            Point.measurement(influxDbPublisherConfiguration.taskMetricName)
+    private fun createTaskPoints(report: ExecutionReport): List<Point>? =
+        report.tasks?.map { task ->
+            val tagFieldProvider =
+                TagFieldProvider(
+                    influxDbPublisherConfiguration.taskTags,
+                    DefaultTaskDataProvider(task, report),
+                    report.customProperties.taskProperties,
+                )
+            Point
+                .measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag(tagFieldProvider.tags())
                 .fields(tagFieldProvider.fields())
                 .build()
         }
-    }
 
     private fun createBuildPoint(report: ExecutionReport): Point {
-        val tagFieldProvider = TagFieldProvider(
-            influxDbPublisherConfiguration.buildTags,
-            DefaultBuildMetricsProvider(report),
-            report.customProperties.buildProperties
-        )
-        return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
+        val tagFieldProvider =
+            TagFieldProvider(
+                influxDbPublisherConfiguration.buildTags,
+                DefaultBuildMetricsProvider(report),
+                report.customProperties.buildProperties,
+            )
+        return Point
+            .measurement(influxDbPublisherConfiguration.buildMetricName)
             .time(report.endMs?.toLong() ?: System.currentTimeMillis(), TimeUnit.MILLISECONDS)
             .tag(tagFieldProvider.tags())
             .fields(tagFieldProvider.fields())
@@ -135,10 +140,12 @@ class InfluxDbPublisher(
     }
 
     private fun createDb(): InfluxDB {
-        val okHttpBuilder = OkHttpClient.Builder()
-            .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+        val okHttpBuilder =
+            OkHttpClient
+                .Builder()
+                .connectTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+                .readTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT_SEC, TimeUnit.SECONDS)
         val user = influxDbPublisherConfiguration.username
         val password = influxDbPublisherConfiguration.password
 
@@ -147,17 +154,18 @@ class InfluxDbPublisher(
         val retentionPolicyConfiguration =
             influxDbPublisherConfiguration.retentionPolicyConfiguration
 
-        val influxDb = if (user.isNotEmpty() && password.isNotEmpty()) {
-            InfluxDBFactory.connect(url, user, password, okHttpBuilder)
-        } else {
-            InfluxDBFactory.connect(url, okHttpBuilder)
-        }
+        val influxDb =
+            if (user.isNotEmpty() && password.isNotEmpty()) {
+                InfluxDBFactory.connect(url, user, password, okHttpBuilder)
+            } else {
+                InfluxDBFactory.connect(url, okHttpBuilder)
+            }
         influxDb.setLogLevel(InfluxDB.LogLevel.BASIC)
 
         val rpName = retentionPolicyConfiguration.name
 
         if (!influxDb.databaseExists(dbName)) {
-            logTracker.log(TAG, "Creating db $dbName")
+            logTracker.log(tag, "Creating db $dbName")
             try {
                 influxDb.createDatabase(dbName)
             } catch (e: Exception) {
@@ -175,7 +183,7 @@ class InfluxDbPublisher(
                 duration,
                 shardDuration,
                 replicationFactor,
-                isDefault
+                isDefault,
             )
         }
 

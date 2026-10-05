@@ -5,7 +5,9 @@ import io.github.cdsap.talaiot.entities.TaskLength
 import io.github.cdsap.talaiot.metrics.BuildMetrics
 import io.github.cdsap.talaiot.metrics.TaskMetrics
 
-class PushGatewayLabelProvider(val report: ExecutionReport) {
+class PushGatewayLabelProvider(
+    val report: ExecutionReport,
+) {
     private val customTaskLabelNames =
         report.customProperties.taskProperties.flatMap { listOf(it.key) }
     private val customTaskLabelValues =
@@ -16,19 +18,21 @@ class PushGatewayLabelProvider(val report: ExecutionReport) {
         report.customProperties.buildProperties.flatMap { listOf(it.value) }
 
     fun taskLabelValues(task: TaskLength): List<String> {
-        val labels = mutableListOf(
-            task.module,
-            task.state.name
-        )
+        val labels =
+            mutableListOf(
+                task.module,
+                task.state.name,
+            )
         labels.addAll(customTaskLabelValues.map { it.toString() })
         return labels
     }
 
     fun taskLabelNames(): List<String> {
-        val taskNameMetrics = mutableListOf(
-            TaskMetrics.Module.name,
-            TaskMetrics.State.name
-        )
+        val taskNameMetrics =
+            mutableListOf(
+                TaskMetrics.Module.name,
+                TaskMetrics.State.name,
+            )
         taskNameMetrics.addAll(customTaskLabelNames)
         return taskNameMetrics
     }

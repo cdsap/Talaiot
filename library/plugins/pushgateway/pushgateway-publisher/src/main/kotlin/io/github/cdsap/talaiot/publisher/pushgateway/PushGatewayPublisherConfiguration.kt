@@ -11,8 +11,9 @@ import io.github.cdsap.talaiot.configuration.PublisherConfiguration
  *    buildJobName = "build"
  * }
  */
-class PushGatewayPublisherConfiguration : PublisherConfiguration, java.io.Serializable {
-
+class PushGatewayPublisherConfiguration :
+    PublisherConfiguration,
+    java.io.Serializable {
     /**
      * name of the publisher
      */

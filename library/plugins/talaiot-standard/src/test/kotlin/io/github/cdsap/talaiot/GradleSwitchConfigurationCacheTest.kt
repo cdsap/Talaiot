@@ -6,7 +6,6 @@ import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
 class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
-
     init {
         given("Project with plugins Talaiot and Java") {
 
@@ -18,7 +17,8 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
 
             `when`("build executes assemble with JsonPublisher and configuration cache") {
 
-                GradleRunner.create()
+                GradleRunner
+                    .create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble", "--configuration-cache")
                     .withPluginClasspath()
@@ -31,7 +31,8 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
             }
             `when`("build executes assemble with JsonPublisher without Configuration cache") {
 
-                GradleRunner.create()
+                GradleRunner
+                    .create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments("assemble")
                     .withPluginClasspath()
@@ -49,18 +50,18 @@ class GradleSwitchConfigurationCacheTest : BehaviorSpec() {
     private fun buildGradle(buildFile: File) {
         buildFile.appendText(
             """
-                       plugins {
-                          id("java")
-                          id("io.github.cdsap.talaiot")
-                      }
+             plugins {
+                id("java")
+                id("io.github.cdsap.talaiot")
+            }
 
 
-                      talaiot {
-                        publishers {
-                          jsonPublisher = true
-                        }
-                      }
-            """.trimIndent()
+            talaiot {
+              publishers {
+                jsonPublisher = true
+              }
+            }
+            """.trimIndent(),
         )
     }
 }

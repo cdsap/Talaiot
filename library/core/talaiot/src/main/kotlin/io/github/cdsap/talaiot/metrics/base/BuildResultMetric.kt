@@ -8,5 +8,5 @@ import org.gradle.BuildResult
  */
 open class BuildResultMetric<T>(
     provider: (BuildResult) -> T,
-    assigner: (ExecutionReport, T) -> Unit
+    assigner: (ExecutionReport, T) -> Unit,
 ) : Metric<T, BuildResult>(provider, assigner)

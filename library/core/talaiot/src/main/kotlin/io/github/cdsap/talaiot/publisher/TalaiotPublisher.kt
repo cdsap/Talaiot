@@ -6,7 +6,6 @@ import io.github.cdsap.talaiot.entities.TaskLength
  * Represents the whole information required for the plugin to be executed combining the metrics and publishers
  */
 interface TalaiotPublisher : java.io.Serializable {
-
     fun publish(
         taskLengthList: MutableList<TaskLength>,
         start: Long,
@@ -26,6 +25,6 @@ interface TalaiotPublisher : java.io.Serializable {
         processBuildId: Boolean,
         buildId: String,
         initMetricsWithProviders: Map<String, Any>,
-        endMetricsWithProviders: Map<String, Any>
+        endMetricsWithProviders: Map<String, Any>,
     )
 }

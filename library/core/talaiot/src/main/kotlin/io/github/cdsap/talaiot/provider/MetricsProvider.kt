@@ -9,9 +9,9 @@ import org.gradle.api.Project
 class MetricsProvider(
     private val metrics: List<Metric<*, *>>,
     private val executionReport: ExecutionReport,
-    private val project: Project
-) : Provider<ExecutionReport>, java.io.Serializable {
-
+    private val project: Project,
+) : Provider<ExecutionReport>,
+    java.io.Serializable {
     override fun get(): ExecutionReport {
         metrics.forEach { metric ->
             when (metric) {

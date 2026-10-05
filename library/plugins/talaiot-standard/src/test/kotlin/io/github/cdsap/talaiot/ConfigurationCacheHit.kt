@@ -12,68 +12,71 @@ import io.kotlintest.specs.StringSpec
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
 
-class ConfigurationCacheHit : StringSpec({
-    "given default config" {
-        forAll(
-            listOf(
-                "8.14.3",
-                "9.1.0",
-                "9.2.0"
-            )
-        ) { version: String ->
-            val testProjectDir = TemporaryFolder()
+class ConfigurationCacheHit :
+    StringSpec({
+        "given default config" {
+            forAll(
+                listOf(
+                    "8.14.3",
+                    "9.1.0",
+                    "9.2.0",
+                ),
+            ) { version: String ->
+                val testProjectDir = TemporaryFolder()
 
-            testProjectDir.create()
-            val buildFile = testProjectDir.newFile("build.gradle.kts")
-            buildFile.appendText(
-                """
-                import io.github.cdsap.talaiot.publisher.JsonPublisher
-                plugins {
-                    id ("java")
-                    id ("io.github.cdsap.talaiot")
-                }
-
-                talaiot {
-                    logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
-                    publishers {
-                         jsonPublisher = true
+                testProjectDir.create()
+                val buildFile = testProjectDir.newFile("build.gradle.kts")
+                buildFile.appendText(
+                    """
+                    import io.github.cdsap.talaiot.publisher.JsonPublisher
+                    plugins {
+                        id ("java")
+                        id ("io.github.cdsap.talaiot")
                     }
-                    metrics {
-                      generateBuildId = true
+
+                    talaiot {
+                        logger = io.github.cdsap.talaiot.logger.LogTracker.Mode.INFO
+                        publishers {
+                             jsonPublisher = true
+                        }
+                        metrics {
+                          generateBuildId = true
+                        }
                     }
-                }
 
-                """.trimIndent()
-            )
-            GradleRunner.create()
-                .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--configuration-cache")
-                .withPluginClasspath()
-                .withGradleVersion(version)
-                .build()
+                    """.trimIndent(),
+                )
+                GradleRunner
+                    .create()
+                    .withProjectDir(testProjectDir.getRoot())
+                    .withArguments("assemble", "--info", "--configuration-cache")
+                    .withPluginClasspath()
+                    .withGradleVersion(version)
+                    .build()
 
-            Thread.sleep(5000)
-            val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
-            val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
-            val firstId = report.buildId
-            report.configurationCacheHit shouldBe false
-            report.configurationDurationMs shouldNotStartWith "0"
+                Thread.sleep(5000)
+                val reportFile = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
+                val report = Gson().fromJson(reportFile.readText(), ExecutionReport::class.java)
+                val firstId = report.buildId
+                report.configurationCacheHit shouldBe false
+                report.configurationDurationMs shouldNotStartWith "0"
 
-            GradleRunner.create()
-                .withProjectDir(testProjectDir.getRoot())
-                .withArguments("assemble", "--info", "--configuration-cache")
-                .withPluginClasspath()
-                .withGradleVersion(version)
-                .build()
-            Thread.sleep(5000)
-            val reportFileHit = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
-            val reportHit = Gson().fromJson(reportFileHit.readText(), ExecutionReport::class.java)
-            val secondId = reportHit.buildId
+                GradleRunner
+                    .create()
+                    .withProjectDir(testProjectDir.getRoot())
+                    .withArguments("assemble", "--info", "--configuration-cache")
+                    .withPluginClasspath()
+                    .withGradleVersion(version)
+                    .build()
+                Thread.sleep(5000)
+                val reportFileHit = File(testProjectDir.getRoot(), "build/reports/talaiot/json/data.json")
+                val reportHit = Gson().fromJson(reportFileHit.readText(), ExecutionReport::class.java)
+                val secondId = reportHit.buildId
 
-            testProjectDir.delete()
-            reportHit.configurationCacheHit shouldBe true
-            secondId shouldNotBe firstId
-            reportHit.configurationDurationMs shouldStartWith "0"
+                testProjectDir.delete()
+                reportHit.configurationCacheHit shouldBe true
+                secondId shouldNotBe firstId
+                reportHit.configurationDurationMs shouldStartWith "0"
+            }
         }
-    }
-})
+    })

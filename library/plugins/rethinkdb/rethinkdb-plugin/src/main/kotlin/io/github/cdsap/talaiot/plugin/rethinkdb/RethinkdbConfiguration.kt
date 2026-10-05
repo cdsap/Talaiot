@@ -6,8 +6,9 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfiguration
 import org.gradle.api.Project
 
-class RethinkdbConfiguration(project: Project) : PublishersConfiguration(project) {
-
+class RethinkdbConfiguration(
+    project: Project,
+) : PublishersConfiguration(project) {
     var rethinkDbPublisher: RethinkDbPublisherConfiguration? = null
 
     /**

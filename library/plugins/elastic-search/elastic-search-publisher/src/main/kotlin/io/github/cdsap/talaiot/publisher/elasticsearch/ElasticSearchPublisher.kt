@@ -20,33 +20,33 @@ class ElasticSearchPublisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, java.io.Serializable {
-
-    private val TAG = "ElasticSearchPublisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    java.io.Serializable {
+    private val tag = "ElasticSearchPublisher"
 
     override fun publish(report: ExecutionReport) {
         if (validate()) {
             val client = getClient()
-            logTracker.log(TAG, "================")
-            logTracker.log(TAG, "ElasticSearchPublisher")
+            logTracker.log(tag, "================")
+            logTracker.log(tag, "ElasticSearchPublisher")
             logTracker.log(
-                TAG,
-                "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}"
+                tag,
+                "publishBuildMetrics: ${elasticSearchPublisherConfiguration.publishBuildMetrics}",
             )
             logTracker.log(
-                TAG,
-                "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}"
+                tag,
+                "publishTaskMetrics: ${elasticSearchPublisherConfiguration.publishTaskMetrics}",
             )
-            logTracker.log(TAG, "================")
+            logTracker.log(tag, "================")
 
             try {
                 if (elasticSearchPublisherConfiguration.publishBuildMetrics) {
-                    logTracker.log(TAG, "Sending Build metrics")
+                    logTracker.log(tag, "Sending Build metrics")
                     sendBuildMetrics(report, client)
                 }
                 if (elasticSearchPublisherConfiguration.publishTaskMetrics) {
-                    logTracker.log(TAG, "Sending Task metrics")
+                    logTracker.log(tag, "Sending Task metrics")
                     sendTasksMetrics(report, client)
                 }
             } catch (e: Exception) {
@@ -67,44 +67,48 @@ class ElasticSearchPublisher(
                     "            buildIndexName = \"build\"\n" +
                     "            taskIndexName = \"task\"\n" +
                     "}\n" +
-                    "Please update your configuration"
+                    "Please update your configuration",
             )
             return false
         }
         return true
     }
 
-    private fun sendBuildMetrics(report: ExecutionReport, client: RestHighLevelClient) {
+    private fun sendBuildMetrics(
+        report: ExecutionReport,
+        client: RestHighLevelClient,
+    ) {
         val metrics = DefaultBuildMetricsProvider(report).get()
-        val response = client.index(
-            IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(metrics),
-            RequestOptions.DEFAULT
-
-        )
-        logTracker.log(TAG, "Result Build metrics $response")
+        val response =
+            client.index(
+                IndexRequest(elasticSearchPublisherConfiguration.buildIndexName).source(metrics),
+                RequestOptions.DEFAULT,
+            )
+        logTracker.log(tag, "Result Build metrics $response")
     }
 
     private fun sendTasksMetrics(
         report: ExecutionReport,
-        client: RestHighLevelClient
+        client: RestHighLevelClient,
     ) {
-        logTracker.log(TAG, "number of tasks report.tasks " + report.tasks?.size)
+        logTracker.log(tag, "number of tasks report.tasks " + report.tasks?.size)
         report.tasks?.forEach {
             try {
-                val response = client.index(
-                    IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
-                        .source(DefaultTaskDataProvider(it, report).get()),
-                    RequestOptions.DEFAULT
-                )
-                logTracker.log(TAG, "Result Task metrics $response")
+                val response =
+                    client.index(
+                        IndexRequest(elasticSearchPublisherConfiguration.taskIndexName)
+                            .source(DefaultTaskDataProvider(it, report).get()),
+                        RequestOptions.DEFAULT,
+                    )
+                logTracker.log(tag, "Result Task metrics $response")
             } catch (e: java.lang.Exception) {
                 logTracker.error(e.message.toString())
             }
         }
     }
 
-    private fun getClient(): RestHighLevelClient {
-        return if (elasticSearchPublisherConfiguration.url == "localhost") {
+    private fun getClient(): RestHighLevelClient =
+        if (elasticSearchPublisherConfiguration.url == "localhost") {
             RestHighLevelClient(RestClient.builder(HttpHost("localhost")))
         } else {
             val url = URL(elasticSearchPublisherConfiguration.url)
@@ -114,10 +118,9 @@ class ElasticSearchPublisher(
                     HttpHost(
                         url.host,
                         url.port,
-                        url.protocol
-                    )
+                        url.protocol,
+                    ),
                 )
             RestHighLevelClient(restClientBuilder)
         }
-    }
 }

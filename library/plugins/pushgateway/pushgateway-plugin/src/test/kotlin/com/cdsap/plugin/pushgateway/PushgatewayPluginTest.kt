@@ -10,8 +10,8 @@ import org.testcontainers.pushgateway.KPushGatewayContainer
 import java.net.URL
 
 class PushgatewayPluginTest : BehaviorSpec() {
-
     val container = KPushGatewayContainer()
+
     override fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         container.start()
@@ -42,10 +42,11 @@ class PushgatewayPluginTest : BehaviorSpec() {
                       }
                     }
                   }
-            """
+            """,
                 )
 
-                GradleRunner.create()
+                GradleRunner
+                    .create()
                     .withProjectDir(testProjectDir.getRoot())
                     .withArguments(":assemble")
                     .withPluginClasspath()
@@ -54,27 +55,28 @@ class PushgatewayPluginTest : BehaviorSpec() {
                     Thread.sleep(2000)
                     val urlSpec = URL("http://" + container.httpHostAddress + "/metrics")
 
-                    val a = httpGet {
-                        url(urlSpec)
-                        if (urlSpec.query != null) {
-                            val query = urlSpec.query.split("=")
-                            param {
-                                query[0] to query[1]
+                    val a =
+                        httpGet {
+                            url(urlSpec)
+                            if (urlSpec.query != null) {
+                                val query = urlSpec.query.split("=")
+                                param {
+                                    query[0] to query[1]
+                                }
                             }
                         }
-                    }
                     val content = a.body()?.string()
                     assert(
                         content?.contains("gradle_build_total_time{")
-                            ?: false
+                            ?: false,
                     )
                     assert(
                         content?.contains("requestedTasks=\":assemble\"")
-                            ?: false
+                            ?: false,
                     )
                     assert(
                         content?.contains("gradle_task_assemble{")
-                            ?: false
+                            ?: false,
                     )
                 }
                 testProjectDir.delete()

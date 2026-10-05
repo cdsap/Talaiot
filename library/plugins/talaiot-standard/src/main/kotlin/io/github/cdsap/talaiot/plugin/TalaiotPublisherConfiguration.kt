@@ -12,7 +12,7 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisherConfigurati
 import org.gradle.api.Project
 
 class TalaiotPublisherConfiguration(
-    project: Project
+    project: Project,
 ) : PublishersConfiguration(project) {
     internal var elasticSearchPublisher: ElasticSearchPublisherConfiguration? = null
     internal var hybridPublisher: HybridPublisherConfiguration? = null

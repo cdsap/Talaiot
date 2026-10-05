@@ -12,7 +12,6 @@ import io.kotlintest.specs.BehaviorSpec
 import org.testcontainers.influxdb2.KInfluxDb2Container
 
 class InfluxDb2PublisherTest : BehaviorSpec() {
-
     val container = KInfluxDb2Container()
 
     override fun beforeSpec(spec: Spec) {
@@ -30,18 +29,20 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
             val logger = TestLogTrackerRecorder
 
             `when`("Simple configuration is provided") {
-                val influxDbConfiguration = InfluxDb2PublisherConfiguration().apply {
-                    url = container.url
-                    bucket = "test-bucket"
-                    token = "test-token"
-                    org = "test-org"
-                    taskMetricName = "task"
-                    buildMetricName = "build"
-                }
-                val influxDbPublisher = InfluxDb2Publisher(
-                    influxDbConfiguration,
-                    logger
-                )
+                val influxDbConfiguration =
+                    InfluxDb2PublisherConfiguration().apply {
+                        url = container.url
+                        bucket = "test-bucket"
+                        token = "test-token"
+                        org = "test-org"
+                        taskMetricName = "task"
+                        buildMetricName = "build"
+                    }
+                val influxDbPublisher =
+                    InfluxDb2Publisher(
+                        influxDbConfiguration,
+                        logger,
+                    )
                 val influxDBClient = InfluxDBClientFactory.create(container.url, "test-token".toCharArray(), "test-org")
                 influxDbPublisher.publish(executionReport())
 
@@ -51,35 +52,50 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                         "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"build\")"
                     val tablesBuild = queryApi.query(fluxBuild)
 
-                    assert(tablesBuild.filter { it.records.filter { it.field == "cpuCount" && it.value.toString() == "12" }.size == 1 }.size == 1)
+                    assert(
+                        tablesBuild.filter { it.records.filter { it.field == "cpuCount" && it.value.toString() == "12" }.size == 1 }.size ==
+                            1,
+                    )
                     assert(tablesBuild.filter { it.records.filter { it.field == "metric3" && it.value == "value3" }.size == 1 }.size == 1)
                     assert(tablesBuild.filter { it.records.filter { it.field == "metric6" && it.value == 9L }.size == 1 }.size == 1)
-                    assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
+                    assert(
+                        tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size ==
+                            1,
+                    )
 
                     val fluxTask =
                         "from(bucket:\"test-bucket\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"task\")"
 
                     val tablesTask = queryApi.query(fluxTask)
                     assert(
-                        tablesTask[0].records.filter {
-                            it.values.filter {
-                                it.key == "task" && it.value == ":assemble"
-                            }.size == 1
-                        }.size == 1
+                        tablesTask[0]
+                            .records
+                            .filter {
+                                it.values
+                                    .filter {
+                                        it.key == "task" && it.value == ":assemble"
+                                    }.size == 1
+                            }.size == 1,
                     )
                     assert(
-                        tablesTask[0].records.filter {
-                            it.values.filter {
-                                it.key == "metric1" && it.value == "value1"
-                            }.size == 1
-                        }.size == 1
+                        tablesTask[0]
+                            .records
+                            .filter {
+                                it.values
+                                    .filter {
+                                        it.key == "metric1" && it.value == "value1"
+                                    }.size == 1
+                            }.size == 1,
                     )
                     assert(
-                        tablesTask[0].records.filter {
-                            it.values.filter {
-                                it.key == "metric5" && it.value == "1"
-                            }.size == 1
-                        }.size == 1
+                        tablesTask[0]
+                            .records
+                            .filter {
+                                it.values
+                                    .filter {
+                                        it.key == "metric5" && it.value == "1"
+                                    }.size == 1
+                            }.size == 1,
                     )
 
                     influxDBClient.close()
@@ -87,18 +103,20 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
             }
 
             `when`("bucket doesn't exist") {
-                val influxDbConfiguration = InfluxDb2PublisherConfiguration().apply {
-                    url = container.url
-                    bucket = "test-bucket3"
-                    token = "test-token"
-                    org = "test-org"
-                    taskMetricName = "task"
-                    buildMetricName = "build"
-                }
-                val influxDbPublisher = InfluxDb2Publisher(
-                    influxDbConfiguration,
-                    logger
-                )
+                val influxDbConfiguration =
+                    InfluxDb2PublisherConfiguration().apply {
+                        url = container.url
+                        bucket = "test-bucket3"
+                        token = "test-token"
+                        org = "test-org"
+                        taskMetricName = "task"
+                        buildMetricName = "build"
+                    }
+                val influxDbPublisher =
+                    InfluxDb2Publisher(
+                        influxDbConfiguration,
+                        logger,
+                    )
                 influxDbPublisher.publish(executionReport())
 
                 then("Talaiot creates the bucket") {
@@ -109,48 +127,54 @@ class InfluxDb2PublisherTest : BehaviorSpec() {
                         "from(bucket:\"test-bucket3\") |> range(start: 0) |> filter(fn: (r) => r._measurement == \"build\")"
                     val tablesBuild = queryApi.query(fluxBuild)
 
-                    assert(tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size == 1)
+                    assert(
+                        tablesBuild.filter { it.records.filter { it.field == "duration" && it.value.toString() == "10" }.size == 1 }.size ==
+                            1,
+                    )
                     influxDBClient.close()
                 }
             }
         }
     }
 
-    private fun executionReport(): ExecutionReport {
-        return ExecutionReport(
+    private fun executionReport(): ExecutionReport =
+        ExecutionReport(
             requestedTasks = "assemble",
             durationMs = "10",
             success = true,
-            environment = Environment(
-                cpuCount = "12",
-                maxWorkers = "4"
-            ),
-            customProperties = CustomProperties(
-                taskProperties = mutableMapOf(
-                    "metric1" to "value1",
-                    "metric2" to "value2",
-                    "metric5" to 1
+            environment =
+                Environment(
+                    cpuCount = "12",
+                    maxWorkers = "4",
                 ),
-                buildProperties = mutableMapOf(
-                    "metric3" to "value3",
-                    "metric4" to "value4",
-                    "metric6" to 9L
-                )
-            ),
-
-            tasks = listOf(
-                TaskLength(
-                    1,
-                    "assemble",
-                    ":assemble",
-                    TaskMessageState.EXECUTED,
-                    false,
-                    "app",
-                    0L,
-                    1L,
-                    "awesomeTask"
-                )
-            )
+            customProperties =
+                CustomProperties(
+                    taskProperties =
+                        mutableMapOf(
+                            "metric1" to "value1",
+                            "metric2" to "value2",
+                            "metric5" to 1,
+                        ),
+                    buildProperties =
+                        mutableMapOf(
+                            "metric3" to "value3",
+                            "metric4" to "value4",
+                            "metric6" to 9L,
+                        ),
+                ),
+            tasks =
+                listOf(
+                    TaskLength(
+                        1,
+                        "assemble",
+                        ":assemble",
+                        TaskMessageState.EXECUTED,
+                        false,
+                        "app",
+                        0L,
+                        1L,
+                        "awesomeTask",
+                    ),
+                ),
         )
-    }
 }

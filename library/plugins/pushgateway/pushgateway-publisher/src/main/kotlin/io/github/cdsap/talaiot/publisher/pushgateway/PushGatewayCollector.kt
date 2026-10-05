@@ -4,7 +4,6 @@ import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.Gauge
 
 interface PushGatewayCollector {
-
     fun collect()
 
     fun gaugeBuild(
@@ -13,8 +12,9 @@ interface PushGatewayCollector {
         value: Double,
         registry: CollectorRegistry,
         labelsNames: Array<String>,
-        labelsValues: Array<String>
-    ) = Gauge.build()
+        labelsValues: Array<String>,
+    ) = Gauge
+        .build()
         .name(name)
         .help(help)
         .labelNames(*labelsNames)

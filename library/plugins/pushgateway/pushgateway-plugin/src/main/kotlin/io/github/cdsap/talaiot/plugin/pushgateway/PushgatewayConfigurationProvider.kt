@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.publisher.pushgateway.PushGatewayPublisher
 import org.gradle.api.Project
 
 class PushgatewayConfigurationProvider(
-    val project: Project
+    val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
@@ -19,8 +19,8 @@ class PushgatewayConfigurationProvider(
                 publishers.add(
                     PushGatewayPublisher(
                         publisherConfig,
-                        logger
-                    )
+                        logger,
+                    ),
                 )
             }
             publishers.addAll(customPublishers)

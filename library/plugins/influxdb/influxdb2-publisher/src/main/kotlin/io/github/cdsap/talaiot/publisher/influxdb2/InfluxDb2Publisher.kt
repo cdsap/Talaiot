@@ -24,10 +24,10 @@ class InfluxDb2Publisher(
     /**
      * LogTracker to print in console depending on the Mode
      */
-    private val logTracker: LogTracker
-) : Publisher, Serializable {
-
-    private val TAG = "InfluxDb2Publisher"
+    private val logTracker: LogTracker,
+) : Publisher,
+    Serializable {
+    private val tag = "InfluxDb2Publisher"
 
     override fun publish(report: ExecutionReport) {
         if (influxDbPublisherConfiguration.url.isEmpty() ||
@@ -47,7 +47,7 @@ class InfluxDb2Publisher(
                     "            buildMetricName = \"build\"\n" +
                     "            taskMetricName = \"task\"\n" +
                     "}\n" +
-                    "Please update your configuration"
+                    "Please update your configuration",
             )
             return
         }
@@ -56,22 +56,22 @@ class InfluxDb2Publisher(
             val influxDBClient: InfluxDBClient =
                 InfluxDBClientFactory.create(
                     influxDbPublisherConfiguration.url,
-                    influxDbPublisherConfiguration.token.toCharArray()
+                    influxDbPublisherConfiguration.token.toCharArray(),
                 )
 
             checkBucket(influxDBClient)
 
-            logTracker.log(TAG, "================")
-            logTracker.log(TAG, "InfluxDb2Publisher")
+            logTracker.log(tag, "================")
+            logTracker.log(tag, "InfluxDb2Publisher")
             logTracker.log(
-                TAG,
-                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}"
+                tag,
+                "publishBuildMetrics: ${influxDbPublisherConfiguration.publishBuildMetrics}",
             )
             logTracker.log(
-                TAG,
-                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}"
+                tag,
+                "publishTaskMetrics: ${influxDbPublisherConfiguration.publishTaskMetrics}",
             )
-            logTracker.log(TAG, "================")
+            logTracker.log(tag, "================")
 
             try {
                 val writeApi: WriteApi = influxDBClient.makeWriteApi()
@@ -81,7 +81,7 @@ class InfluxDb2Publisher(
                         writeApi.writePoints(
                             influxDbPublisherConfiguration.bucket,
                             influxDbPublisherConfiguration.org,
-                            it
+                            it,
                         )
                     }
                 }
@@ -91,60 +91,66 @@ class InfluxDb2Publisher(
                     writeApi.writePoint(
                         influxDbPublisherConfiguration.bucket,
                         influxDbPublisherConfiguration.org,
-                        buildMeasurement
+                        buildMeasurement,
                     )
                 }
             } catch (e: Exception) {
-                logTracker.log(TAG, "InfluxDb2Publisher-Error-Executor Runnable: ${e.message}")
+                logTracker.log(tag, "InfluxDb2Publisher-Error-Executor Runnable: ${e.message}")
             }
             influxDBClient.close()
         } catch (e: Exception) {
-            logTracker.log(TAG, "InfluxDb2Publisher-Error ${e.stackTrace}")
+            logTracker.log(tag, "InfluxDb2Publisher-Error ${e.stackTrace}")
         }
     }
 
     private fun checkBucket(influxDBClient: InfluxDBClient) {
         val bucket = influxDBClient.bucketsApi.findBucketByName(influxDbPublisherConfiguration.bucket)
         if (bucket == null) {
-            val orgId = influxDBClient.organizationsApi.findOrganizations()
-                .firstOrNull { it.name == influxDbPublisherConfiguration.org }
+            val orgId =
+                influxDBClient.organizationsApi
+                    .findOrganizations()
+                    .firstOrNull { it.name == influxDbPublisherConfiguration.org }
             if (orgId != null) {
-                val newBucket = influxDBClient.bucketsApi.createBucket(
-                    influxDbPublisherConfiguration.bucket,
-                    orgId.id
-                )
+                val newBucket =
+                    influxDBClient.bucketsApi.createBucket(
+                        influxDbPublisherConfiguration.bucket,
+                        orgId.id,
+                    )
             } else {
                 logTracker.log(
-                    TAG,
+                    tag,
                     "InfluxDb2Publisher-Error: Bucket ${influxDbPublisherConfiguration.bucket} " +
                         "doesn't exist. It was not possible create the new bucket because the org  ${influxDbPublisherConfiguration.org}" +
-                        " was not found"
+                        " was not found",
                 )
             }
         }
     }
 
-    private fun createTaskPoints(report: ExecutionReport): List<Point>? {
-        return report.tasks?.map { task ->
-            val tagFieldProvider = TagFieldProvider(
-                influxDbPublisherConfiguration.taskTags,
-                DefaultTaskDataProvider(task, report),
-                report.customProperties.taskProperties
-            )
-            Point.measurement(influxDbPublisherConfiguration.taskMetricName)
+    private fun createTaskPoints(report: ExecutionReport): List<Point>? =
+        report.tasks?.map { task ->
+            val tagFieldProvider =
+                TagFieldProvider(
+                    influxDbPublisherConfiguration.taskTags,
+                    DefaultTaskDataProvider(task, report),
+                    report.customProperties.taskProperties,
+                )
+            Point
+                .measurement(influxDbPublisherConfiguration.taskMetricName)
                 .time(System.currentTimeMillis(), WritePrecision.MS)
                 .addTags(tagFieldProvider.tags())
                 .addFields(tagFieldProvider.fields())
         }
-    }
 
     private fun createBuildPoint(report: ExecutionReport): Point {
-        val tagFieldProvider = TagFieldProvider(
-            influxDbPublisherConfiguration.buildTags,
-            DefaultBuildMetricsProvider(report),
-            report.customProperties.buildProperties
-        )
-        return Point.measurement(influxDbPublisherConfiguration.buildMetricName)
+        val tagFieldProvider =
+            TagFieldProvider(
+                influxDbPublisherConfiguration.buildTags,
+                DefaultBuildMetricsProvider(report),
+                report.customProperties.buildProperties,
+            )
+        return Point
+            .measurement(influxDbPublisherConfiguration.buildMetricName)
             .time(report.endMs?.toLong() ?: System.currentTimeMillis(), WritePrecision.MS)
             .addTags(tagFieldProvider.tags())
             .addFields(tagFieldProvider.fields())

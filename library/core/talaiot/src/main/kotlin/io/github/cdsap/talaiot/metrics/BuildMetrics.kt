@@ -42,16 +42,15 @@ enum class BuildMetrics : Metrics {
     ConfigurationCacheHit,
     Custom {
         override val isCustom: Boolean = true
-    };
+    }, ;
 
     override fun toKey(): String = toString()
 
-    override fun toString(): String {
-        return if (super.toString().startsWith("Switch")) {
+    override fun toString(): String =
+        if (super.toString().startsWith("Switch")) {
             val temp = super.toString().split("Switch")
             "switch.${temp[1].decapitalize()}"
         } else {
             super.toString().decapitalize()
         }
-    }
 }

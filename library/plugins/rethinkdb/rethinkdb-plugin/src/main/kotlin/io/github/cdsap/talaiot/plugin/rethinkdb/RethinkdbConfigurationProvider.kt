@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.publisher.rethinkdb.RethinkDbPublisher
 import org.gradle.api.Project
 
 class RethinkdbConfigurationProvider(
-    val project: Project
+    val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
@@ -18,8 +18,8 @@ class RethinkdbConfigurationProvider(
                 publishers.add(
                     RethinkDbPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger)
-                    )
+                        LogTrackerImpl(talaiotExtension.logger),
+                    ),
                 )
             }
             publishers.addAll(customPublishers)

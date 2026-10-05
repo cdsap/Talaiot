@@ -7,7 +7,7 @@ import io.github.cdsap.talaiot.publisher.elasticsearch.ElasticSearchPublisher
 import org.gradle.api.Project
 
 class ElasticSearchConfigurationProvider(
-    val project: Project
+    val project: Project,
 ) : PublisherConfigurationProvider {
     override fun get(): List<Publisher> {
         val publishers = mutableListOf<Publisher>()
@@ -18,8 +18,8 @@ class ElasticSearchConfigurationProvider(
                 publishers.add(
                     ElasticSearchPublisher(
                         publisherConfig,
-                        LogTrackerImpl(talaiotExtension.logger)
-                    )
+                        LogTrackerImpl(talaiotExtension.logger),
+                    ),
                 )
             }
             publishers.addAll(customPublishers)

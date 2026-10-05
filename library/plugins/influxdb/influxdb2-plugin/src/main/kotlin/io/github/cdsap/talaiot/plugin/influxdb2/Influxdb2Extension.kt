@@ -4,7 +4,9 @@ import groovy.lang.Closure
 import io.github.cdsap.talaiot.TalaiotExtension
 import org.gradle.api.Project
 
-open class Influxdb2Extension(project: Project) : TalaiotExtension(project) {
+open class Influxdb2Extension(
+    project: Project,
+) : TalaiotExtension(project) {
     /**
      * General Publisher configuration included in the build
      */

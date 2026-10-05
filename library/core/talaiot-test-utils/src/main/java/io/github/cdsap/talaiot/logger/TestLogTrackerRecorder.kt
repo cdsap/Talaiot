@@ -1,9 +1,12 @@
 package io.github.cdsap.talaiot.logger
 
 object TestLogTrackerRecorder : LogTracker {
-
     private val logs = mutableListOf<String>()
-    override fun log(tag: String, message: String) {
+
+    override fun log(
+        tag: String,
+        message: String,
+    ) {
         logs.add(message)
     }
 
