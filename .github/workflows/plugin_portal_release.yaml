@@ -1,0 +1,94 @@
+name: Publish Gradle Plugins
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    publish_plugins:
+        timeout-minutes: 300
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - name: Checkout release tag
+              uses: actions/checkout@v7
+              with:
+                  ref: ${{ github.event.release.tag_name }}
+
+            - name: Set up JDK 21
+              uses: actions/setup-java@v6
+              with:
+                  java-version: "21"
+                  distribution: "zulu"
+
+            - name: Validate release and publication selection
+              env:
+                  GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
+                  GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
+                  RELEASE_TAG: ${{ github.event.release.tag_name }}
+              run: |
+                  set -euo pipefail
+
+                  : "${GRADLE_PUBLISH_KEY:?GRADLE_PUBLISH_KEY is required}"
+                  : "${GRADLE_PUBLISH_SECRET:?GRADLE_PUBLISH_SECRET is required}"
+
+                  plugin_projects=(
+                      ":library:plugins:base:base-plugin"
+                      ":library:plugins:elastic-search:elastic-search-plugin"
+                      ":library:plugins:influxdb:influxdb-plugin"
+                      ":library:plugins:influxdb:influxdb2-plugin"
+                      ":library:plugins:pushgateway:pushgateway-plugin"
+                      ":library:plugins:rethinkdb:rethinkdb-plugin"
+                      ":library:plugins:talaiot-standard"
+                  )
+
+                  if [[ "${#plugin_projects[@]}" -ne 7 ]]; then
+                      echo "The Plugin Portal project allowlist is ambiguous" >&2
+                      exit 1
+                  fi
+
+                  declare -A seen_projects=()
+                  for project in "${plugin_projects[@]}"; do
+                      if [[ -n "${seen_projects[$project]:-}" ]]; then
+                          echo "The Plugin Portal project allowlist contains a duplicate: $project" >&2
+                          exit 1
+                      fi
+                      seen_projects[$project]=1
+                      if [[ "$project" == *publisher* ]]; then
+                          echo "Publisher-library project selected: $project" >&2
+                          exit 1
+                      fi
+                      if ! grep -Fq "include(\"$project\")" settings.gradle.kts; then
+                          echo "Selected project is not included in settings.gradle.kts: $project" >&2
+                          exit 1
+                      fi
+                  done
+
+                  project_version="$(./gradlew -q :library:plugins:talaiot-standard:properties --no-daemon | awk '$1 == "version:" { print $2; exit }')"
+                  ./scripts/validate_plugin_portal_release.sh \
+                      "$RELEASE_TAG" \
+                      "$project_version"
+
+                  validation_tasks=()
+                  for project in "${plugin_projects[@]}"; do
+                      validation_tasks+=("${project}:validatePlugins")
+                  done
+                  ./gradlew "${validation_tasks[@]}" --no-daemon
+
+            - name: Publish intended plugins to Gradle Plugin Portal
+              env:
+                  GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
+                  GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
+              run: |
+                  set -euo pipefail
+                  publish_tasks=(
+                      ":library:plugins:base:base-plugin:publishPlugins"
+                      ":library:plugins:elastic-search:elastic-search-plugin:publishPlugins"
+                      ":library:plugins:influxdb:influxdb-plugin:publishPlugins"
+                      ":library:plugins:influxdb:influxdb2-plugin:publishPlugins"
+                      ":library:plugins:pushgateway:pushgateway-plugin:publishPlugins"
+                      ":library:plugins:rethinkdb:rethinkdb-plugin:publishPlugins"
+                      ":library:plugins:talaiot-standard:publishPlugins"
+                  )
+                  ./gradlew "${publish_tasks[@]}" --no-daemon
