@@ -148,6 +148,22 @@ apply plugin: "io.github.cdsap.talaiot.plugin.base"
 
 
 
+## Gradle Plugin Portal releases  <a name="plugin-portal-releases"></a>
+
+Published releases expose these Gradle Plugin Portal IDs:
+
+| Module | Plugin ID |
+| --- | --- |
+| `library/plugins/talaiot-standard` | `io.github.cdsap.talaiot` |
+| `library/plugins/base/base-plugin` | `io.github.cdsap.talaiot.plugin.base` |
+| `library/plugins/elastic-search/elastic-search-plugin` | `io.github.cdsap.talaiot.plugin.elasticsearch` |
+| `library/plugins/influxdb/influxdb-plugin` | `io.github.cdsap.talaiot.plugin.influxdb` |
+| `library/plugins/influxdb/influxdb2-plugin` | `io.github.cdsap.talaiot.plugin.influxdb2` |
+| `library/plugins/pushgateway/pushgateway-plugin` | `io.github.cdsap.talaiot.plugin.pushgateway` |
+| `library/plugins/rethinkdb/rethinkdb-plugin` | `io.github.cdsap.talaiot.plugin.rethinkdb` |
+
+The release workflow publishes only these modules. Publisher libraries and Maven Central publication remain separate.
+
 ## Snapshots  <a name="snapshots"></a>
 
 ````
