@@ -11,6 +11,6 @@ talaiotLib {
 dependencies {
     implementation(project(":library:core:talaiot"))
     implementation("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.29")
-    implementation("com.google.code.gson:gson:2.14.0")
+    implementation("com.google.code.gson:gson:2.15.0")
     testImplementation(project(":library:core:talaiot-test-utils"))
 }
